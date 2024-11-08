@@ -21,6 +21,10 @@ end
 
 GM:IncludeServer("sv_database.lua")
 
+hook.Add("InitPostEntity", "combinecontrol", function()
+	hook.Run("LoadDatabase")
+end)
+
 hook.Add("LuapadCanRunCL", "combinecontrol", function(ply)
 	return ply:IsDeveloper()
 end)
