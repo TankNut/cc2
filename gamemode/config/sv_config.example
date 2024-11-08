@@ -2,7 +2,7 @@ GM.MySQLType 	= "mysqloo"
 
 GM.MySQLHost 	= "localhost"
 GM.MySQLPort 	= 3306
-GM.MySQLDB 		= "trp"
+GM.MySQLDB 		= "combinecontrol-tnb"
 
 GM.MySQLUser 	= "root"
 GM.MySQLPass 	= ""
