@@ -74,6 +74,8 @@ include( "ctp/cl_ctp.lua");
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 IncludeFolder(GM.FolderName .. "/gamemode/logtypes")
 
+include("core/_core.lua")
+
 function GM:Initialize()
 	RunConsoleCommand("cl_showhints", "0")
 end

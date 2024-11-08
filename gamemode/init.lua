@@ -134,6 +134,9 @@ AddCSLuaFile( "ctp/cl_ctp.lua" );
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 IncludeFolder(GM.FolderName .. "/gamemode/logtypes")
 
+AddCSLuaFile("core/_core.lua")
+include("core/_core.lua")
+
 function GM:Initialize()
 	game.ConsoleCommand("net_maxfilesize 64\n")
 	game.ConsoleCommand("sv_kickerrornum 0\n")
