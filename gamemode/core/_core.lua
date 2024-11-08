@@ -18,3 +18,11 @@ function GM:IncludeServer(path)
 		include(path)
 	end
 end
+
+hook.Add("LuapadCanRunCL", "combinecontrol", function(ply)
+	return ply:IsDeveloper()
+end)
+
+hook.Add("LuapadCanRunSV", "combinecontrol", function(ply)
+	return ply:IsDeveloper()
+end)
