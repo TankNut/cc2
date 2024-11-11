@@ -6,6 +6,8 @@ Fields = Fields or {}
 local meta = FindMetaTable("Player")
 
 function Add(name, data)
+	local databaseType = data.DataType or Database.BLOB()
+
 	data = {
 		Name = name,
 		Index = "p_" .. name,
@@ -15,7 +17,8 @@ function Add(name, data)
 		-- Database persistence
 		Persist = tobool(data.Persist),
 		Field = data.Field or name,
-		DataType = data.DataType or "BLOB"
+		DataType = databaseType.DataType,
+		Validate = data.Validate or databaseType.Validate
 	}
 
 	Vars[name] = data
@@ -25,6 +28,8 @@ function Add(name, data)
 	local private = data.Private
 	local serverOnly = data.ServerOnly
 	local persist = data.Persist
+	local dataType = data.DataType
+	local validate = data.Validate
 
 	local hookName = "Player" .. name .. "Changed"
 
@@ -43,6 +48,10 @@ function Add(name, data)
 	end
 
 	meta["Set" .. name] = function(ply, val, loading)
+		if validate and not validate(val) then
+			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
+		end
+
 		local old = ply[index]
 
 		ply[index] = val
@@ -120,10 +129,10 @@ Add("Test", {
 
 Add("NumberTest", {
 	Persist = true,
-	DataType = "INT"
+	DataType = Database.INT()
 })
 
 Add("StringTest", {
 	Persist = true,
-	DataType = "VARCHAR(64)"
+	DataType = Database.VARCHAR(64)
 })
