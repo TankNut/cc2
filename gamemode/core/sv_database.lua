@@ -14,6 +14,8 @@ function CreateTables(db)
 	query = db:Create("rp_characters")
 		query:Create("id", "INT NOT NULL AUTO_INCREMENT", true)
 		query:Create("SteamID", "VARCHAR(32) NOT NULL", true)
+		query:Create("Created_At", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+		query:Create("Deleted_At", "TIMESTAMP")
 	query:Execute()
 
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
