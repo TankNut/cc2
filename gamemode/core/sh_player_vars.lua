@@ -2,6 +2,7 @@ module("PlayerVars", package.seeall)
 
 Vars = Vars or {}
 Fields = Fields or {}
+Store = Store or {}
 
 local meta = FindMetaTable("Player")
 
@@ -21,6 +22,7 @@ function Add(name, data)
 		Validate = data.Validate or databaseType.Validate
 	}
 
+	Store[name] = Store[name] or {}
 	Vars[name] = data
 
 	local index = data.Index
@@ -30,6 +32,8 @@ function Add(name, data)
 	local persist = data.Persist
 	local dataType = data.DataType
 	local validate = data.Validate
+
+	local cache = Store[name]
 
 	local hookName = "Player" .. name .. "Changed"
 
@@ -42,7 +46,7 @@ function Add(name, data)
 	end
 
 	meta[name] = function(ply)
-		local var = ply[index]
+		local var = cache[ply]
 
 		return var == nil and default or var
 	end
@@ -52,9 +56,9 @@ function Add(name, data)
 			error(string.format("Set value '%s' doesn't match database type %s", val, dataType), 2)
 		end
 
-		local old = ply[index]
+		local old = cache[ply]
 
-		ply[index] = val
+		cache[ply] = val
 
 		hook.Run(hookName, ply, old, val, loading)
 
@@ -71,12 +75,22 @@ function Add(name, data)
 
 	if CLIENT then
 		netstream.Hook(index, function(ply, val)
-			ply[index] = val
+			cache[ply] = val
 
 			hook.Run(hookName, ply, old, val)
 		end)
 	end
 end
+
+hook.Add("EntityRemoved", "PlayerVars", function(ply, fullupdate)
+	if not ply:IsPlayer() or fullupdate then
+		return
+	end
+
+	for _, players in pairs(Store) do
+		players[ply] = nil
+	end
+end)
 
 if SERVER then
 	function Save(steamid, var, val)
