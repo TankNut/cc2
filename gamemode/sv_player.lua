@@ -338,7 +338,6 @@ function GM:PlayerLoadout(ply)
 	if ply:IsAdmin() then
 		ply:Give("trp_gbombs")
 		ply:Give("trp_zonemarker")
-		ply:Give("termai_controller")
 	end
 
 	if ply:HasPlayerFlag("1") then
