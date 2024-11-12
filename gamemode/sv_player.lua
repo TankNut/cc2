@@ -765,7 +765,7 @@ function GM:PlayerShouldTakeDamage(ply, attacker)
 	return true
 end
 
-function GM:EntityRemoved(ent)
+function GM:LegacyEntityRemoved(ent)
 	if ent:GetClass() == "prop_ragdoll" then
 
 		for _, v in pairs(player.GetAll()) do

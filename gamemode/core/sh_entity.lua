@@ -12,3 +12,13 @@ function GM:InitPostEntity()
 
 	hook.Run("LoadDatabase")
 end
+
+function GM:EntityRemoved(ent, fullUpdate)
+	if SERVER then
+		self:LegacyEntityRemoved(ent)
+	end
+
+	if ent:IsPlayer() and not fullUpdate then
+		PlayerVar.Clear(ent)
+	end
+end

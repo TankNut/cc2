@@ -81,15 +81,11 @@ function Add(name, data)
 	end
 end
 
-hook.Add("EntityRemoved", "PlayerVar", function(ply, fullupdate)
-	if not ply:IsPlayer() or fullupdate then
-		return
-	end
-
+function Clear(ply)
 	for _, players in pairs(Store) do
 		players[ply] = nil
 	end
-end)
+end
 
 if SERVER then
 	function Save(steamid, var, val)
