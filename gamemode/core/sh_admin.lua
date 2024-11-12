@@ -1,6 +1,6 @@
 local meta = FindMetaTable("Player")
 
-PlayerVars.Add("UserGroup", {
+PlayerVar.Add("UserGroup", {
 	Default = "user",
 	ServerOnly = true,
 	Persist = true,

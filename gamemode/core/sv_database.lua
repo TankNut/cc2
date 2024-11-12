@@ -16,7 +16,7 @@ function CreateTables(db)
 		query:Create("SteamID", "VARCHAR(32) NOT NULL", true)
 	query:Execute()
 
-	PopulateFromVars(db, "rp_players", PlayerVars.Vars)
+	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
 end
 
 function PopulateFromVars(db, tableName, vars)

@@ -1,4 +1,4 @@
-module("PlayerVars", package.seeall)
+module("PlayerVar", package.seeall)
 
 Vars = Vars or {}
 Fields = Fields or {}
@@ -34,7 +34,6 @@ function Add(name, data)
 	local validate = data.Validate
 
 	local cache = Store[name]
-
 	local hookName = "Player" .. name .. "Changed"
 
 	if persist then
@@ -82,7 +81,7 @@ function Add(name, data)
 	end
 end
 
-hook.Add("EntityRemoved", "PlayerVars", function(ply, fullupdate)
+hook.Add("EntityRemoved", "PlayerVar", function(ply, fullupdate)
 	if not ply:IsPlayer() or fullupdate then
 		return
 	end
