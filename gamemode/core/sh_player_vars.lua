@@ -93,7 +93,7 @@ if SERVER then
 			local query = GAMEMODE.Database:Update("rp_players")
 
 			if val == nil then
-				query:Null(var.Field)
+				query:UpdateRaw(var.Field, "NULL")
 			else
 				val = var.DataType == "BLOB" and sfs.encode(val) or val
 
