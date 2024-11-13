@@ -1,6 +1,7 @@
 PlayerVar.Add("CharID", {Default = 0})
 PlayerVar.Add("CharacterList", {Default = {}, Private = true})
 
+PlayerVar.Add("VisibleRPName", {Default = "Unconnected"})
 local meta = FindMetaTable("Player")
 
 function meta:HasCharacter()
