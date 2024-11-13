@@ -19,10 +19,12 @@ function meta:IsDeveloper()
 	return self:UserGroup() == "developer"
 end
 
+function meta:IsUserGroup(group)
+	return self:UserGroup() == group
+end
+
+meta.GetUserGroup = meta.UserGroup
+
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
-
-	function GM:PlayerUserGroupChanged(ply, old, new, loading)
-		ply:SetNWString("UserGroup", new)
-	end
 end
