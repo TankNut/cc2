@@ -20,16 +20,6 @@ GM.MySQLAliases = {
 	logplayers 		= "cc_logs_players"
 }
 
-GM.EnablePrometheus 	= false
-GM.PrometheusServerID 	= 3
-
-GM.PrometheusSQLHost 	= "localhost"
-GM.PrometheusSQLPort 	= 3306
-GM.PrometheusSQLDB 		= "donate"
-
-GM.PrometheusSQLUser 	= "root"
-GM.PrometheusSQLPass 	= ""
-
 GM.DatabaseConfig = {
 	Host = "localhost",
 	Username = "root",

@@ -61,7 +61,6 @@ include("sv_sql.lua")
 include("sv_think.lua")
 include("sv_items.lua")
 include("sv_weapon.lua")
-include("sv_prometheus.lua")
 include("sv_donations.lua")
 include("sv_worldents.lua")
 
@@ -161,10 +160,6 @@ function GM:Initialize()
 	end
 
 	self:InitSQL()
-
-	if self.EnablePrometheus then
-		self:InitPrometheus()
-	end
 
 	self:SetupDataDirectories()
 	self:LoadBans()
