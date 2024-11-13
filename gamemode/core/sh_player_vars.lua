@@ -119,7 +119,7 @@ else
 				query:Update(var.Field, val)
 			end
 
-			query:WhereEquals("SteamID", steamid)
+			query:WhereEqual("SteamID", steamid)
 			query:Execute()
 		end)
 	end

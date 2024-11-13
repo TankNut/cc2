@@ -118,7 +118,7 @@ else
 				query:Update(var.Field, val)
 			end
 
-			query:WhereEquals("id", id)
+			query:WhereEqual("id", id)
 			query:Execute()
 		end)
 	end
