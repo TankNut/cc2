@@ -1,6 +1,6 @@
 GM.ItemQueue = {}
 
-hook.Add("CC.SH.Think", "CL.Items.Think", function()
+hook.Add("Think", "CL.Items.Think", function()
 	for index, item in pairs(GAMEMODE.ItemQueue) do
 		local ent = Entity(index)
 

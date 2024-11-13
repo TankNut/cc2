@@ -7,8 +7,6 @@ function GM:Think()
 	self:SpawnerThink()
 	self:CombineCameraThink()
 	self:LootThink()
-
-	hook.Run("CC.SH.Think")
 end
 
 GM.LootData = GM.LootData or {

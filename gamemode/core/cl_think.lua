@@ -18,8 +18,6 @@ function GM:Think()
 	for _, v in pairs(player.GetAll()) do
 		hook.Run("PlayerThink", v)
 	end
-
-	hook.Run("CC.SH.Think")
 	-- Legacy code ends
 
 	if #self.VarSyncCache > 0 then
