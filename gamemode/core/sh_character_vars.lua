@@ -83,7 +83,25 @@ function Clear(ply)
 	end
 end
 
-if SERVER then
+if CLIENT then
+	netstream.Hook("BulkCharacterVars", function(ply, data)
+		for name, val in pairs(data) do
+			ply["SetCharacter" .. name](ply, val, true)
+		end
+	end)
+else
+	function Sync(ply, requester)
+		local data = {}
+
+		for var, players in pairs(Store) do
+			data[var] = players[ply]
+		end
+
+		if #data > 0 then
+			netstream.Send(requester, "BulkCharacterVars", ply, data)
+		end
+	end
+
 	function Save(id, var, val)
 		async.Start(function()
 			local query = GAMEMODE.Database:Update("rp_characters")

@@ -1,6 +1,9 @@
+GM.VarSyncCache = GM.VarSyncCache or {}
+
 function GM:Think()
 	self.BaseClass:Think()
 
+	-- Legacy code
 	self:MusicThink()
 	self:CreateParticleEmitters()
 	self:ToggleHolsterThink()
@@ -17,4 +20,11 @@ function GM:Think()
 	end
 
 	hook.Run("CC.SH.Think")
+	-- Legacy code ends
+
+	if #self.VarSyncCache > 0 then
+		netstream.Send("RequestEntityVars", self.VarSyncCache)
+
+		table.Empty(self.VarSyncCache)
+	end
 end

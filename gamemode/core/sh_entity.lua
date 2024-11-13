@@ -13,6 +13,12 @@ function GM:InitPostEntity()
 	hook.Run("LoadDatabase")
 end
 
+function GM:OnEntityCreated(ent)
+	if CLIENT and ent:EntIndex() > 0 then
+		table.insert(self.VarSyncCache, ent)
+	end
+end
+
 function GM:EntityRemoved(ent, fullUpdate)
 	if SERVER then
 		self:LegacyEntityRemoved(ent)
