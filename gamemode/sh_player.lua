@@ -484,111 +484,9 @@ function meta:HasBadge(b)
 	return false
 end
 
-sound.Add({
-	name = "T600.FootstepLeft",
-	channel = CHAN_STATIC,
-	volume = 0.4,
-	level = 80,
-	pitch = {95, 105},
-	sound = {
-		"npc/dog/dog_footstep_walk01.wav",
-		"npc/dog/dog_footstep_walk02.wav",
-		"npc/dog/dog_footstep_walk03.wav",
-		"npc/dog/dog_footstep_walk04.wav",
-		"npc/dog/dog_footstep_walk05.wav"
-	}
-})
-
-sound.Add({
-	name = "T600.FootstepRight",
-	channel = CHAN_STATIC,
-	volume = 0.4,
-	level = 80,
-	pitch = {95, 105},
-	sound = {
-		"npc/dog/dog_footstep_walk06.wav",
-		"npc/dog/dog_footstep_walk07.wav",
-		"npc/dog/dog_footstep_walk08.wav",
-		"npc/dog/dog_footstep_walk09.wav",
-		"npc/dog/dog_footstep_walk10.wav"
-	}
-})
-
-
-sound.Add({
-	name = "T100.FootstepLeft",
-	channel = CHAN_STATIC,
-	volume = 0.6,
-	level = 80,
-	pitch = {95, 105},
-	sound = {
-		"npc/dog/dog_footstep_run01.wav",
-		"npc/dog/dog_footstep_run02.wav",
-		"npc/dog/dog_footstep_run03.wav",
-		"npc/dog/dog_footstep_run04.wav",
-		"npc/dog/dog_footstep_run05.wav"
-	}
-})
-
-sound.Add({
-	name = "T100.FootstepRight",
-	channel = CHAN_STATIC,
-	volume = 0.6,
-	level = 80,
-	pitch = {95, 105},
-	sound = {
-		"npc/dog/dog_footstep_run06.wav",
-		"npc/dog/dog_footstep_run07.wav",
-		"npc/dog/dog_footstep_run08.wav",
-		"npc/dog/dog_footstep_run09.wav",
-		"npc/dog/dog_footstep_run10.wav"
-	}
-})
-
-sound.Add({
-	name = "T400.Step",
-	channel = CHAN_STATIC,
-	volume = 0.4,
-	level = 80,
-	pitch = {95, 105},
-	sound = {
-		"npc/dog/dog_footstep_run1.wav",
-		"npc/dog/dog_footstep_run2.wav",
-		"npc/dog/dog_footstep_run3.wav",
-		"npc/dog/dog_footstep_run5.wav",
-		"npc/dog/dog_footstep_run6.wav",
-		"npc/dog/dog_footstep_run8.wav"
-	}
-})
-
 GM.WalkSounds = {}
 
-GM.WalkSounds["models/tnb/player/trp/t400.mdl"] 			= "T400.Step"
-GM.WalkSounds["models/tnb/player/trp/t100.mdl"] 			= {"T100.FootstepLeft",  "T100.FootstepRight"}
-GM.WalkSounds["models/tnb/player/trp/t200.mdl"] 			= {"T100.FootstepLeft",  "T100.FootstepRight"}
-GM.WalkSounds["models/tnb/player/trp/t300_new.mdl"] 		= GM.WalkSounds["models/tnb/player/trp/t400.mdl"]
-GM.WalkSounds["models/tnb/player/trp/t70_scorpion.mdl"] 	= {"T100.FootstepLeft",  "T100.FootstepRight"}
-GM.WalkSounds["models/tnb/player/trp/t70_widow.mdl"] 		= GM.WalkSounds["models/tnb/player/trp/t400.mdl"]
-
-GM.WalkSounds["models/tnb/player/trp/t600.mdl"] 			= {"T600.FootstepLeft",  "T600.FootstepRight"}
-GM.WalkSounds["models/tnb/player/trp/t600_skinjob.mdl"] 	= GM.WalkSounds["models/tnb/player/trp/t600.mdl"]
-GM.WalkSounds["models/tnb/player/trp/t600_skinjob2.mdl"] 	= GM.WalkSounds["models/tnb/player/trp/t600.mdl"]
-GM.WalkSounds["models/tnb/player/trp/t700.mdl"] 			= GM.WalkSounds["models/tnb/player/trp/t600.mdl"]
-GM.WalkSounds["models/tnb/player/trp/t800.mdl"] 			= GM.WalkSounds["models/tnb/player/trp/t600.mdl"]
-GM.WalkSounds["models/tnb/player/trp/t831.mdl"] 			= GM.WalkSounds["models/tnb/player/trp/t600.mdl"]
-
 GM.RunSounds = {}
-
-GM.RunSounds["models/tnb/player/trp/t100.mdl"] 				= {"T100.FootstepLeft",  "T100.FootstepRight"}
-GM.RunSounds["models/tnb/player/trp/t200.mdl"] 				= {"T100.FootstepLeft",  "T100.FootstepRight"}
-GM.RunSounds["models/tnb/player/trp/t400.mdl"] 				= "T400.Step"
-
-GM.RunSounds["models/tnb/player/trp/t600.mdl"] 				= {"T600.FootstepLeft",  "T600.FootstepRight"}
-GM.RunSounds["models/tnb/player/trp/t600_skinjob.mdl"] 		= GM.RunSounds["models/tnb/skynet/t600.mdl"]
-GM.RunSounds["models/tnb/player/trp/t600_skinjob2.mdl"] 	= GM.RunSounds["models/tnb/skynet/t600.mdl"]
-GM.RunSounds["models/tnb/player/trp/t700.mdl"] 				= GM.RunSounds["models/tnb/skynet/t600.mdl"]
-GM.RunSounds["models/tnb/player/trp/t800.mdl"] 				= GM.RunSounds["models/tnb/skynet/t600.mdl"]
-GM.RunSounds["models/tnb/player/trp/t831.mdl"] 				= GM.RunSounds["models/tnb/skynet/t600.mdl"]
 
 function GM:PlayerFootstep(ply, pos, foot, s, vol, rf)
 	if SERVER or ply:GetCharFlagValue("QuietSteps", false) then return end
@@ -636,18 +534,6 @@ function player.GetByCharID(id)
 			return v
 		end
 	end
-end
-
-function meta:HasTerminatorTeam()
-	local team = self:Team()
-
-	if team == TEAM_SKYNET or team == TEAM_REPROG then
-
-		return true
-
-	end
-
-	return false
 end
 
 function meta:HasFaceCovered()
