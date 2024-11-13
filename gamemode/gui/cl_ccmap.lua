@@ -97,7 +97,7 @@ function PANEL:DrawZones()
 	end
 
 	if self.SkyNET then
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v == LocalPlayer() or (v:GetNoDraw() and not v:InVehicle()) then
 				continue
 			end
@@ -141,7 +141,7 @@ function PANEL:DrawPoints()
 	end
 
 	if self.Admin then
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:Team() == TEAM_UNASSIGNED then
 				continue
 			end
@@ -165,7 +165,7 @@ function PANEL:DrawPoints()
 	end
 
 	if self.SkyNET then
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v == LocalPlayer() or (v:GetNoDraw() and not v:InVehicle()) then
 				continue
 			end

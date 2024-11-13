@@ -343,7 +343,7 @@ function GM:AdminCreateToolsMenu()
 			local totalEntities = 0
 			local activeEntities = 0
 
-			for _, v in pairs(ents.GetAll()) do
+			for _, v in ents.Iterator() do
 				if v:IsPlayer() then
 					if v:IsDormant() then
 						continue
@@ -542,7 +542,7 @@ function GM:AdminCreatePlayersMenu()
 	CCP.AdminMenu.PlayerList:AddColumn("Character Name")
 	CCP.AdminMenu.PlayerList:AddColumn("Player")
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 
 		local line = CCP.AdminMenu.PlayerList:AddLine(v:VisibleRPName(), v:Nick())
 		line.Player = v
@@ -1378,7 +1378,7 @@ function GM:AdminCreateRoleplayMenu()
 
 		end
 
-		for k, v in pairs(player.GetAll()) do
+		for k, v in player.Iterator() do
 
 			CCP.MusicTargets.AllPlayers:AddLine(v:VisibleRPName()).Player = v
 
@@ -1463,7 +1463,7 @@ function GM:AdminCreateRoleplayMenu()
 			CCP.MusicTargets.AllPlayers:Clear()
 			CCP.MusicTargets.Targets:Clear()
 
-			for _, v in pairs(player.GetAll()) do
+			for _, v in player.Iterator() do
 
 				if LocalPlayer():CanSee(v) then
 
@@ -1533,7 +1533,7 @@ function GM:AdminCreateRoleplayMenu()
 				CCP.MusicTargets.AllPlayers:Clear()
 				CCP.MusicTargets.Targets:Clear()
 
-				for _, v in pairs(player.GetAll()) do
+				for _, v in player.Iterator() do
 
 					if math.ceil(LocalPlayer():EyePos():Distance(v:EyePos()) * 0.01905) <= val then
 

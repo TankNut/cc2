@@ -29,7 +29,7 @@ if CLIENT then
 		CCP.DevUI.TargetSelect:SetPos(10, 470)
 		CCP.DevUI.TargetSelect:SetSize(180, 20)
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:CharID() != -1 then
 				CCP.DevUI.TargetSelect:AddChoice(string.format("%s (%s)", v:VisibleRPName(), v:Nick()), v)
 			end

@@ -529,7 +529,7 @@ function GM:UpdateCharacterFieldOffline(id, field, value, nolog)
 		end
 	end)
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		for _, char in pairs(v.SQLCharData) do
 			if char.id == id then
 				char[field] = value

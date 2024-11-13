@@ -176,7 +176,7 @@ function meta:SyncAllData(ply)
 end
 
 function meta:SyncAllOtherData()
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 
 		if v != self then
 
@@ -410,7 +410,7 @@ function GM:StartCommand(bot, cmd)
 		local dist = 400
 		local closest = nil
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v != bot and v:Alive() and not v:InVehicle() and not v:GetNoDraw() and bot:CanSee(v) then
 				local d = v:GetPos():Distance(bot:GetPos())
 
@@ -528,7 +528,7 @@ function GM:PlayerStepSoundTime(ply, stepType, walking)
 end
 
 function player.GetByCharID(id)
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 
 		if v:CharID() == id then
 			return v
@@ -600,7 +600,7 @@ function meta:CanIgnoreTravelRestrictions(chardata)
 end
 
 function GM:GetPlayerByCharID(id)
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:CharID() == id then
 			return v
 		end

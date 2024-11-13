@@ -1,5 +1,5 @@
 function GM:Think()
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		hook.Run("CC.SV.PlayerThink", v)
 		hook.Run("PlayerThink", v)
 	end

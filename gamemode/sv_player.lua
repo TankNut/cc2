@@ -519,7 +519,7 @@ function ccASay(ply, cmd, args, text)
 
 	local rf = {}
 
-	for k, v in pairs(player.GetAll()) do
+	for k, v in player.Iterator() do
 
 		if v:IsAdmin() then
 
@@ -765,7 +765,7 @@ end
 function GM:LegacyEntityRemoved(ent)
 	if ent:GetClass() == "prop_ragdoll" then
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 
 			if v:RagdollIndex() == ent:EntIndex() then
 
@@ -827,7 +827,7 @@ end
 function GM:ShutDown()
 	GAMEMODE.IsShuttingDown = true
 
-	for _, ply in pairs(player.GetAll()) do
+	for _, ply in player.Iterator() do
 		for _, v in pairs(game.GetDoors()) do
 			if table.HasValue(v:DoorOwners(), ply:CharID()) then
 				if table.Count(v:DoorOwners()) == 1 then

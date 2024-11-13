@@ -13,7 +13,7 @@ function GM:Think()
 
 	self:CharCreateThink()
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		hook.Run("PlayerThink", v)
 	end
 	-- Legacy code ends

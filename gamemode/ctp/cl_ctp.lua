@@ -65,7 +65,7 @@ end
 local function FindPlayerByName(str)
 	if str == "" or not str then return LocalPlayer() end
 
-	for key, ply in pairs(player.GetAll()) do
+	for key, ply in player.Iterator() do
 		if ply:Nick():lower():find(str:lower()) then
 			return ply
 		end

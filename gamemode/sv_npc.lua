@@ -169,7 +169,7 @@ function GM:RefreshNPCRelationship(ent)
 		ent = ent:NPCDriver()
 	end
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		local hated = false
 
 		if hated then
@@ -482,7 +482,7 @@ local function SendDispatch(v)
 
 	local rem = {}
 
-	for _, ply in pairs(player.GetAll()) do
+	for _, ply in player.Iterator() do
 		if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:GetCharFlagAttribute("UseCombineRadio") then
 			table.insert(rem, ply)
 		end
@@ -554,7 +554,7 @@ function GM:CombineCameraThink()
 			if target.LastCamSpotted < CurTime() + 10 or target.LastCamSpotted == 0 then
 				local rem = {}
 
-				for _, ply in pairs(player.GetAll()) do
+				for _, ply in player.Iterator() do
 					if GAMEMODE:LookupCombineFlag(ply:ActiveFlag()) or ply:GetCharFlagAttribute("UseCombineRadio") then
 						table.insert(rem, ply)
 					end

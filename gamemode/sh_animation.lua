@@ -295,7 +295,7 @@ function meta:PlayVCD(seq, sendtoself)
 
 		local rf = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 
 			if v != self or sendtoself then
 

@@ -36,7 +36,7 @@ function ENT:Explode(tr)
 			return
 		end
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if self:GetPos():DistToSqr(v:GetPos()) > self.Range^2 then
 				continue
 			end

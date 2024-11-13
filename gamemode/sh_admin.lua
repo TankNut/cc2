@@ -727,7 +727,7 @@ concommand.AddAdmin("rpa_playoverwatch", function(ply, line)
 end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_playoverwatchradio", function(ply, sentence)
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		EmitSentence(sentence, v:GetPos(), v:EntIndex(), 0, 0.5, 100, 0, 100)
 	end
 end, true, {TYPE_STRING})
@@ -1188,7 +1188,7 @@ concommand.AddAdmin("rpa_wipecharflags", function(ply, id)
 
 	local offline = true
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:CharID() == id then
 			v:SetCharFlags("")
 			v:UpdateCharacterField("CharFlags", "")
@@ -1534,7 +1534,7 @@ concommand.AddAdmin("rpa_deadmin", function(ply)
 
 	local tab = {}
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:IsAdmin() then
 			table.insert(tab, v)
 		end
@@ -1546,7 +1546,7 @@ end, false)
 concommand.AddAdmin("rpa_givetempadmin", function(ply, targ)
 	local tab = {}
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:IsAdmin() then
 			table.insert(tab, v)
 		end
@@ -1562,7 +1562,7 @@ concommand.AddAdmin("rpa_taketempadmin", function(ply, targ)
 
 	local tab = {}
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:IsAdmin() then
 			table.insert(tab, v)
 		end

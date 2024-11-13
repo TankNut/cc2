@@ -585,7 +585,7 @@ function GM:CanTool(ply, tr, tool)
 	if ply:ToolTrust() < 2 and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
 		local tab = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:SteamID() == ent:PropSteamID() then
 				tab = v:PropProtection()
 			end
@@ -640,7 +640,7 @@ function GM:OnPhysgunFreeze(wep, phys, ent, ply)
 	if ply:ToolTrust() < 2 and ent:PropSteamID() and ent:PropSteamID() != ply:SteamID() then
 		local tab = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:SteamID() == ent:PropSteamID() then
 				tab = v:PropProtection()
 			end
@@ -683,7 +683,7 @@ function GM:OnPhysgunReload(physgun, ply)
 		if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 			local tab = {}
 
-			for _, v in pairs(player.GetAll()) do
+			for _, v in player.Iterator() do
 				if v:SteamID() == ent:PropSteamID() then
 					tab = v:PropProtection()
 				end
@@ -747,7 +747,7 @@ function GM:PhysgunPickup(ply, ent)
 	if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 		local tab = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:SteamID() == ent:PropSteamID() then
 				tab = v:PropProtection()
 			end
@@ -804,7 +804,7 @@ function GM:CanPlayerUnfreeze(ply, ent, phys)
 	if ply:ToolTrust() < 2 and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
 		local tab = {}
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:SteamID() == ent:PropSteamID() then
 				tab = v:PropProtection()
 			end
@@ -957,7 +957,7 @@ end
 function GM:SaveSavedProps()
 	local data = {}
 
-	for _, ent in ipairs(ents.GetAll()) do
+	for _, ent in ients.Iterator() do
 		if ent:PropSaved() == 0 or not classes[ent:GetClass()] then continue end
 
 		save(data, ent)
@@ -1037,7 +1037,7 @@ function GM:PostCleanupMap()
 	if SERVER then
 		self:InitPostEntity()
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			self:PlayerLoadout(v)
 			self:PlayerCheckInventory(v)
 		end
@@ -1133,7 +1133,7 @@ if CLIENT then
 			CCP.PropProtectionEdit.Allowed:AddLine(ply:VisibleRPName()).Player = ply
 		end
 
-		for k, v in pairs(player.GetAll()) do
+		for k, v in player.Iterator() do
 			if not table.HasValue(LocalPlayer():PropProtection(), v) and v != LocalPlayer() then
 				CCP.PropProtectionEdit.AllPlayers:AddLine(v:VisibleRPName()).Player = v
 			end

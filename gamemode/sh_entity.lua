@@ -3,7 +3,7 @@ local meta = FindMetaTable("Entity")
 function game.GetDoors()
 	local tab = {}
 
-	for _, v in pairs(ents.GetAll()) do
+	for _, v in ents.Iterator() do
 
 		if v.IsDoor and v:IsDoor() then
 

@@ -11,7 +11,7 @@ hook.Add("PrePlayerDraw", "noclip", function(ply, flags)
 end)
 
 hook.Add("PostDrawTranslucentRenderables", "flag", function(depth, skybox)
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:IsDormant() or v:GetNoDraw() then
 			continue
 		end

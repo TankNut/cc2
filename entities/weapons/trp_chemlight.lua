@@ -151,7 +151,7 @@ end
 
 if CLIENT then
 	hook.Add("Think", "chemlight", function()
-		for _, ply in pairs(player.GetAll()) do
+		for _, ply in player.Iterator() do
 			if ply:IsDormant() then
 				continue
 			end

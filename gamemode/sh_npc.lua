@@ -84,7 +84,7 @@ function ents.GetNPCs()
 		["monster_generic"] = true
 	}
 
-	for _, v in pairs(ents.GetAll()) do
+	for _, v in ents.Iterator() do
 		if not v.GetClass or not IsValid(v) then
 			continue
 		end

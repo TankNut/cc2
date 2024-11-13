@@ -1188,7 +1188,7 @@ function SWEP:RenderScreenspaceEffects()
 		DrawSharpen(0.7, 5)
 
 		cam.Start3D(EyePos(), EyeAngles())
-			for _, ply in pairs(player.GetAll()) do
+			for _, ply in player.Iterator() do
 
 				if ply:Alive() and (ply:InVehicle() or ply:GetMoveType() != MOVETYPE_NOCLIP) then
 					drawThermal(IsValid(ply:Ragdoll()) and ply:Ragdoll() or ply)

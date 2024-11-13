@@ -213,7 +213,7 @@ function GM:GetCCOptions(ent, dist)
 
 	if ent and ent:IsValid() and ent:GetClass() == "prop_ragdoll" then
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 
 			if v:Ragdoll() and v:Ragdoll():IsValid() and v:Ragdoll() == ent then
 
@@ -405,7 +405,7 @@ function GM:GetCCOptions(ent, dist)
 			if not hasPermission then
 				local pp = {}
 
-				for _, v in pairs(player.GetAll()) do
+				for _, v in player.Iterator() do
 					if v:SteamID() == ent:PropSteamID() then
 						pp = v:PropProtection()
 					end
@@ -585,7 +585,7 @@ function GM:CCCreateDoorOwnersEdit()
 
 	end
 
-	for k, v in pairs(player.GetAll()) do
+	for k, v in player.Iterator() do
 
 		if not table.HasValue(CCSelectedEnt:DoorOwners(), v:CharID()) and not table.HasValue(CCSelectedEnt:DoorAssignedOwners(), v:CharID()) then
 

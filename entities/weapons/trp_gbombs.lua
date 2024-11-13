@@ -183,7 +183,7 @@ if CLIENT then
 
 			render.ClearStencil()
 			render.SetStencilEnable(true)
-				for _, v in pairs(player.GetAll()) do
+				for _, v in player.Iterator() do
 					local ent = GAMEMODE:ShouldDrawStencilEnt(v)
 
 					if not ent then

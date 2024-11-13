@@ -351,7 +351,7 @@ function GM:DrawCombineCamera()
 
 	draw.DrawText(text, "CombineControl.CombineCamera", 10, 10, Color(255, 0, 0, 255), 0)
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 
 		local poss = (v:EyePos() + Vector(0, 0, 10)):ToScreen()
 
@@ -531,7 +531,7 @@ function GM:DrawEntities()
 		if IsValid(weapon) and weapon.InScope and weapon:InScope() then
 			PlayerCache = {}
 
-			for _, v in pairs(player.GetAll()) do
+			for _, v in player.Iterator() do
 				v.HUDAlpha = 0
 				v.TitleAlpha = 0
 			end
@@ -629,7 +629,7 @@ function GM:DrawEntities()
 		end
 	else
 		-- Legacy HUD
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if not IsValid(v) then continue end
 
 			if v != LocalPlayer() or LocalPlayer():GetViewEntity() != LocalPlayer() then
@@ -890,7 +890,7 @@ function GM:DrawDoors()
 				for _, owner in pairs(tab) do
 					local ply = nil
 
-					for _, l in pairs(player.GetAll()) do
+					for _, l in player.Iterator() do
 						if l:CharID() == owner then
 							ply = l
 						end
@@ -1249,7 +1249,7 @@ function GM:RenderNPCTargets()
 end
 
 function GM:PostDrawOpaqueRenderables()
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		local wep = v:GetActiveWeapon()
 
 		if IsValid(wep) and wep.PostDrawOpaqueRenderables then
@@ -1267,7 +1267,7 @@ function GM:PostDrawOpaqueRenderables()
 end
 
 function GM:PostDrawTranslucentRenderables()
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		local wep = v:GetActiveWeapon()
 
 		if IsValid(wep) and wep.PostDrawTranslucentRenderables then
@@ -1821,7 +1821,7 @@ hook.Add("PreDrawOutlines", "CL.Hud.Outlines", function()
 		target = nil
 	end
 
-	for _, v in pairs(ents.GetAll()) do
+	for _, v in ents.Iterator() do
 		if not IsValid(v) then
 			continue
 		end

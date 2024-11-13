@@ -230,7 +230,7 @@ GM:AddChatCommand({
 
 		local range, muffled = class.Range, class.MuffledRange or class.Range
 
-		for _, v in pairs(player.GetAll()) do
+		for _, v in player.Iterator() do
 			if v:IsAdmin() and v:AdminRadio() then
 				table.insert(rem, v)
 				seen[v] = true
@@ -268,7 +268,7 @@ GM:AddChatCommand({
 				continue
 			end
 
-			for _, targ in pairs(player.GetAll()) do
+			for _, targ in player.Iterator() do
 				if seen[targ] then
 					continue
 				end

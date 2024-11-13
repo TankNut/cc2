@@ -2,7 +2,7 @@ ENT.Type = "point"
 ENT.Base = "base_point"
 
 function ENT:Think()
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:GetCharFlagAttribute("IgnoreTravelRestriction") then continue end
 		if v:IsTravelBanned() then continue end
 

@@ -197,7 +197,7 @@ concommand.Add("rp_playdispatch", function(ply, cmd, args)
 		data[1] = preProcessSoundTable(ply, data[1]) -- Preprocessing is done here to keep consistency when randomly selecting things
 	end
 
-	for _, unit in pairs(player.GetAll()) do
+	for _, unit in player.Iterator() do
 		-- No synths (ask Xari)
 		if false and not unit:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
 			emitSoundData(unit, data[1], 70)

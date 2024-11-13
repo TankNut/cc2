@@ -113,7 +113,7 @@ function GM:FindPlayer(name, caller)
 		return
 	end
 
-	for k, v in pairs(player.GetAll()) do
+	for k, v in player.Iterator() do
 		if string.find(string.lower(v:VisibleRPName()), name, nil, true) then
 			return v
 		end

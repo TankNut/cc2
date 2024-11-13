@@ -56,7 +56,7 @@ function GM:DeleteArmory(name)
 	self.ArmoryData[name] = nil
 	self.ArmorItems[name] = nil
 
-	for _, v in pairs(player.GetAll()) do
+	for _, v in player.Iterator() do
 		if v:ArmoryAccess() == name then
 			v:SetArmoryAccess("")
 			v:UpdateCharacterField("ArmoryAccess", "")
