@@ -1,13 +1,13 @@
 function INT()
 	return {
-		DataType = "INT",
+		DataType = "INT(11)",
 		Validate = function(val) return isnumber(val) and val % 1 == 0 end
 	}
 end
 
 function TINYINT()
 	return {
-		DataType = "TINYINT",
+		DataType = "TINYINT(4)",
 		Validate = function(val) return isnumber(val) and val % 1 == 0 and val <= 255 end
 	}
 end

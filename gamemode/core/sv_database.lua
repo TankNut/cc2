@@ -25,14 +25,16 @@ end
 function PopulateFromVars(db, tableName, vars)
 	local columns = {}
 
-	for _, col in pairs(db:Query(string.format("SHOW COLUMNS FROM `%s`", tableName))) do
-		columns[col.Field] = true
+	for _, column in pairs(db:Query(string.format("SHOW COLUMNS FROM `%s`", tableName))) do
+		columns[column.Field] = string.upper(column.Type)
 	end
 
 	local query
 
 	for name, data in pairs(vars) do
-		if not data.Persist or columns[data.Field] then
+		local column = columns[data.Field]
+
+		if not data.Persist or column == data.DataType then
 			continue
 		end
 
@@ -40,7 +42,11 @@ function PopulateFromVars(db, tableName, vars)
 			query = db:Alter(tableName)
 		end
 
-		query:Add(data.Field, data.DataType)
+		if column == nil then
+			query:Add(data.Field, data.DataType)
+		else
+			query:Modify(data.Field, data.DataType)
+		end
 	end
 
 	if query then
