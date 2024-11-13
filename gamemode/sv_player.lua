@@ -41,41 +41,49 @@ hook.Add("CC.SV.InitialSpawn", "SV.Player.InitialSpawn", function(ply)
 	ply.SpawnPos = ply:GetPos()
 end)
 
-local function updatespeed(ply)
-	local walk, run, jump, crouch = ply:GetSpeeds()
+local function updatespeed(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	if ply:GetRunSpeed() != run then
-		ply:SetRunSpeed(run)
+		local walk, run, jump, crouch = ply:GetSpeeds()
+
+		if ply:GetRunSpeed() != run then
+			ply:SetRunSpeed(run)
+		end
+
+		if ply:GetWalkSpeed() != walk then
+			ply:SetWalkSpeed(walk)
+		end
+
+		if ply:GetJumpPower() != jump then
+			ply:SetJumpPower(jump)
+		end
+
+		local cwalk = crouch / walk
+
+		if ply:GetCrouchedWalkSpeed() != cwalk then
+			ply:SetCrouchedWalkSpeed(cwalk)
+		end
 	end
 
-	if ply:GetWalkSpeed() != walk then
-		ply:SetWalkSpeed(walk)
-	end
-
-	if ply:GetJumpPower() != jump then
-		ply:SetJumpPower(jump)
-	end
-
-	local cwalk = crouch / walk
-
-	if ply:GetCrouchedWalkSpeed() != cwalk then
-		ply:SetCrouchedWalkSpeed(cwalk)
-	end
-
-	hook.Run("CC.SV.SpeedThink", ply)
+	hook.Run("CC.SV.SpeedThink", plys)
 end
 
 hook.Add("CC.SV.PlayerThink", "SV.Player.SpeedThink", updatespeed)
 hook.Add("CC.SV.PlayerSpawn", "SV.Player.SpeedSpawn", updatespeed)
 
-hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(ply)
-	ply.NextHealthRegen = ply.NextHealthRegen or 0
+hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	if ply.NextHealthRegen <= CurTime() and ply:Health() < ply:GetMaxHealth() and ply:Alive() then
-		local rate = 2
+		ply.NextHealthRegen = ply.NextHealthRegen or 0
 
-		ply.NextHealthRegen = CurTime() + rate
-		ply:SetHealth(ply:Health() + 1)
+		if ply.NextHealthRegen <= CurTime() and ply:Health() < ply:GetMaxHealth() and ply:Alive() then
+			local rate = 2
+
+			ply.NextHealthRegen = CurTime() + rate
+			ply:SetHealth(ply:Health() + 1)
+		end
 	end
 end)
 
@@ -283,8 +291,12 @@ function GM:PlayerUpdateName(ply)
 	ply:SetVisibleRPName(name)
 end
 
-hook.Add("CC.SV.PlayerThink", "physgun", function(ply)
-	ply:SetPhysgunColor()
+hook.Add("CC.SV.PlayerThink", "physgun", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
+
+		ply:SetPhysgunColor()
+	end
 end)
 
 function meta:SetPhysgunColor()
@@ -917,65 +929,69 @@ function GM:PlayerLeaveVehicle(ply, vehicle)
 	vehicle.PlayerPos = nil
 end
 
-hook.Add("CC.SV.PlayerThink", "SV.Player.DrownThink", function(ply)
-	if not ply:Alive() then return end
+hook.Add("CC.SV.PlayerThink", "SV.Player.DrownThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	local waterlevel = 3
-	local targ = ply
+		if not ply:Alive() then continue end
 
-	if ply:PassedOut() then
-		waterlevel = 1
-		targ = ply:Ragdoll()
-	end
+		local waterlevel = 3
+		local targ = ply
 
-	if targ:WaterLevel() < waterlevel then
-		ply.AirFinished = CurTime() + 7
-
-		if ply.DrownDamage and ply.DrownDamage > 0 then
-			if not ply.PainFinished then
-				ply.PainFinished = 0
-			end
-
-			if ply.PainFinished < CurTime() then
-				ply.PainFinished = CurTime() + 1
-
-				local dmg = DamageInfo()
-				dmg:SetAttacker(game.GetWorld())
-				dmg:SetDamage(10)
-				dmg:SetDamageForce(Vector())
-				dmg:SetDamagePosition(ply:GetPos())
-				dmg:SetInflictor(game.GetWorld())
-				dmg:SetDamageType(DMG_DROWN)
-
-				GAMEMODE:EntityTakeDamage(ply, dmg)
-
-				ply:SetHealth(ply:Health() + dmg:GetDamage())
-				ply.DrownDamage = ply.DrownDamage - 10
-			end
+		if ply:PassedOut() then
+			waterlevel = 1
+			targ = ply:Ragdoll()
 		end
-	else
-		if not ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) and ply.AirFinished < CurTime() then
-			if not ply.PainFinished then
-				ply.PainFinished = 0
-			end
 
-			if ply.PainFinished < CurTime() then
-				ply.PainFinished = CurTime() + 1
+		if targ:WaterLevel() < waterlevel then
+			ply.AirFinished = CurTime() + 7
 
-				local dmg = DamageInfo()
-				dmg:SetAttacker(game.GetWorld())
-				dmg:SetDamage(10)
-				dmg:SetDamageForce(Vector())
-				dmg:SetDamagePosition(ply:GetPos())
-				dmg:SetInflictor(game.GetWorld())
-				dmg:SetDamageType(DMG_DROWN)
-
-				if not ply.DrownDamage then
-					ply.DrownDamage = 0
+			if ply.DrownDamage and ply.DrownDamage > 0 then
+				if not ply.PainFinished then
+					ply.PainFinished = 0
 				end
 
-				ply.DrownDamage = math.min(ply.DrownDamage + 10, 50)
-				ply:TakeDamageInfo(dmg)
+				if ply.PainFinished < CurTime() then
+					ply.PainFinished = CurTime() + 1
+
+					local dmg = DamageInfo()
+					dmg:SetAttacker(game.GetWorld())
+					dmg:SetDamage(10)
+					dmg:SetDamageForce(Vector())
+					dmg:SetDamagePosition(ply:GetPos())
+					dmg:SetInflictor(game.GetWorld())
+					dmg:SetDamageType(DMG_DROWN)
+
+					GAMEMODE:EntityTakeDamage(ply, dmg)
+
+					ply:SetHealth(ply:Health() + dmg:GetDamage())
+					ply.DrownDamage = ply.DrownDamage - 10
+				end
+			end
+		else
+			if not ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) and ply.AirFinished < CurTime() then
+				if not ply.PainFinished then
+					ply.PainFinished = 0
+				end
+
+				if ply.PainFinished < CurTime() then
+					ply.PainFinished = CurTime() + 1
+
+					local dmg = DamageInfo()
+					dmg:SetAttacker(game.GetWorld())
+					dmg:SetDamage(10)
+					dmg:SetDamageForce(Vector())
+					dmg:SetDamagePosition(ply:GetPos())
+					dmg:SetInflictor(game.GetWorld())
+					dmg:SetDamageType(DMG_DROWN)
+
+					if not ply.DrownDamage then
+						ply.DrownDamage = 0
+					end
+
+					ply.DrownDamage = math.min(ply.DrownDamage + 10, 50)
+					ply:TakeDamageInfo(dmg)
+				end
 			end
 		end
 	end
@@ -988,29 +1004,33 @@ function meta:HealOverTime(amount, rate, interval)
 	self.NextHeal = CurTime()
 end
 
-hook.Add("CC.SV.PlayerThink", "SV.Player.HealThink", function(ply)
-	if not ply.HealRemaining or ply.HealRemaining <= 0 then
-		return
+hook.Add("CC.SV.PlayerThink", "SV.Player.HealThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
+
+		if not ply.HealRemaining or ply.HealRemaining <= 0 then
+			continue
+		end
+
+		if ply:Health() >= ply:GetMaxHealth() or not ply:Alive() then
+			ply.HealRemaining = 0
+
+			continue
+		end
+
+		if not ply.NextHeal or ply.NextHeal > CurTime() then
+			continue
+		end
+
+		local rate = ply.HealRate or 10 -- Amount of heals applied per tick
+		local interval = ply.HealInterval or 1 -- Amount of seconds between each tick
+		local amt = math.min(ply.HealRemaining, rate)
+
+		ply.HealRemaining = ply.HealRemaining - amt
+		ply.NextHeal = CurTime() + interval
+
+		ply:SetHealth(math.min(ply:Health() + amt, ply:GetMaxHealth()))
 	end
-
-	if ply:Health() >= ply:GetMaxHealth() or not ply:Alive() then
-		ply.HealRemaining = 0
-
-		return
-	end
-
-	if not ply.NextHeal or ply.NextHeal > CurTime() then
-		return
-	end
-
-	local rate = ply.HealRate or 10 -- Amount of heals applied per tick
-	local interval = ply.HealInterval or 1 -- Amount of seconds between each tick
-	local amt = math.min(ply.HealRemaining, rate)
-
-	ply.HealRemaining = ply.HealRemaining - amt
-	ply.NextHeal = CurTime() + interval
-
-	ply:SetHealth(math.min(ply:Health() + amt, ply:GetMaxHealth()))
 end)
 
 net.Receive("nSetTyping", function(len, ply)
@@ -1024,10 +1044,14 @@ function GM:PlayerButtonDown(ply, button)
 	self.BaseClass:PlayerButtonDown(ply, button)
 end
 
-hook.Add("CC.SV.PlayerThink", "SV.Player.AFKThink", function(ply)
-	if GAMEMODE.AFKKickerEnabled and CurTime() - (ply.AFKTime or 0) > GAMEMODE.AFKTime and (#player.GetAll() / game.MaxPlayers()) > GAMEMODE.AFKPercentage and not ply:IsAdmin() and not ply:IsEventCoordinator() then
+hook.Add("CC.SV.PlayerThink", "SV.Player.AFKThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-		ply:Kick("Auto-kicked for being AFK")
+		if GAMEMODE.AFKKickerEnabled and CurTime() - (ply.AFKTime or 0) > GAMEMODE.AFKTime and (#player.GetAll() / game.MaxPlayers()) > GAMEMODE.AFKPercentage and not ply:IsAdmin() and not ply:IsEventCoordinator() then
+
+			ply:Kick("Auto-kicked for being AFK")
+		end
 	end
 end)
 

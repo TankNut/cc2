@@ -1,8 +1,7 @@
 function GM:Think()
-	for _, v in player.Iterator() do
-		hook.Run("CC.SV.PlayerThink", v)
-		hook.Run("PlayerThink", v)
-	end
+	local plys = player.GetAll()
+	hook.Run("CC.SV.PlayerThink", plys)
+	hook.Run("PlayerThink", plys)
 
 	self:SpawnerThink()
 	self:CombineCameraThink()

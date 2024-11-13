@@ -154,94 +154,98 @@ function ENT:GetZOrder()
 	return self:GetEntityID()
 end
 
-hook.Add("PlayerThink", "zones.PlayerThink", function(ply)
-	if ply.LastZonePos and ply.LastZonePos:DistToSqr(ply:GetPos()) <= 400 and not ply.ForceZoneUpdate then -- 20^2
-		return
-	end
+hook.Add("PlayerThink", "zones.PlayerThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	ply.ForceZoneUpdate = false
-	ply.LastZonePos = ply:GetPos()
-
-	ply.ZoneStack = ply.ZoneStack or {}
-	ply.ActiveZone = ply.ActiveZone or {}
-
-	local entering = {}
-	local exiting = {}
-
-	local pos = ply:WorldSpaceCenter()
-
-	for _, v in ipairs(ents.FindByClass("cc_zone*")) do
-		if not v.IsReady or not v:IsReady() then
+		if ply.LastZonePos and ply.LastZonePos:DistToSqr(ply:GetPos()) <= 400 and not ply.ForceZoneUpdate then -- 20^2
 			continue
 		end
 
-		local classname = v:GetClass()
-		local inside = v:PlayerInside(ply)
+		ply.ForceZoneUpdate = false
+		ply.LastZonePos = ply:GetPos()
 
-		if pos:WithinAABox(v:GetZoneMins(), v:GetZoneMaxs()) and v:AffectsPlayer(ply) then
-			if not inside then
-				entering[classname] = entering[classname] or {}
+		ply.ZoneStack = ply.ZoneStack or {}
+		ply.ActiveZone = ply.ActiveZone or {}
 
-				table.insert(entering[classname], v)
+		local entering = {}
+		local exiting = {}
 
-				v.Players[ply] = true
+		local pos = ply:WorldSpaceCenter()
+
+		for _, v in ipairs(ents.FindByClass("cc_zone*")) do
+			if not v.IsReady or not v:IsReady() then
+				continue
 			end
-		else
-			if inside then
-				exiting[classname] = exiting[classname] or {}
-				exiting[classname][v] = true
 
-				v.Players[ply] = nil
+			local classname = v:GetClass()
+			local inside = v:PlayerInside(ply)
+
+			if pos:WithinAABox(v:GetZoneMins(), v:GetZoneMaxs()) and v:AffectsPlayer(ply) then
+				if not inside then
+					entering[classname] = entering[classname] or {}
+
+					table.insert(entering[classname], v)
+
+					v.Players[ply] = true
+				end
+			else
+				if inside then
+					exiting[classname] = exiting[classname] or {}
+					exiting[classname][v] = true
+
+					v.Players[ply] = nil
+				end
 			end
 		end
-	end
 
-	for classname, tab in pairs(entering) do
-		ply.ZoneStack[classname] = ply.ZoneStack[classname] or {}
+		for classname, tab in pairs(entering) do
+			ply.ZoneStack[classname] = ply.ZoneStack[classname] or {}
 
-		table.sort(tab, function(a, b)
-			return a:GetZOrder() < b:GetZOrder()
-		end)
+			table.sort(tab, function(a, b)
+				return a:GetZOrder() < b:GetZOrder()
+			end)
 
-		for _, v in pairs(tab) do
-			table.insert(ply.ZoneStack[classname], v)
-		end
-	end
-
-	for classname, tab in pairs(ply.ZoneStack) do
-		if #tab < 1 then
-			continue
+			for _, v in pairs(tab) do
+				table.insert(ply.ZoneStack[classname], v)
+			end
 		end
 
-		local exit = exiting[classname]
-
-		table.Filter(tab, function(key, val)
-			if not IsValid(val) then
-				return false
+		for classname, tab in pairs(ply.ZoneStack) do
+			if #tab < 1 then
+				continue
 			end
 
-			if exit and exit[val] then
-				return false
+			local exit = exiting[classname]
+
+			table.Filter(tab, function(key, val)
+				if not IsValid(val) then
+					return false
+				end
+
+				if exit and exit[val] then
+					return false
+				end
+
+				return true
+			end)
+
+			local active = ply.ActiveZone[classname]
+			local target = tab[#tab]
+
+			if active != target then
+				if IsValid(active) then
+					active.Active[ply] = nil
+					active:Exit(ply, target != nil)
+				end
+
+				if IsValid(target) then
+					target.Active[ply] = true
+					target:Enter(ply, active != nil)
+				end
+
+				ply.ActiveZone[classname] = target
 			end
-
-			return true
-		end)
-
-		local active = ply.ActiveZone[classname]
-		local target = tab[#tab]
-
-		if active != target then
-			if IsValid(active) then
-				active.Active[ply] = nil
-				active:Exit(ply, target != nil)
-			end
-
-			if IsValid(target) then
-				target.Active[ply] = true
-				target:Enter(ply, active != nil)
-			end
-
-			ply.ActiveZone[classname] = target
 		end
 	end
 end)

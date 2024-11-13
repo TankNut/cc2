@@ -136,23 +136,27 @@ function meta:TakeCDamage(amt)
 	end
 end
 
-hook.Add("CC.SV.PlayerThink", "SH.Consciousness.PlayerThink", function(ply)
-	if not ply.ConsciousUpdate then
-		ply.ConsciousUpdate = CurTime()
-	end
+hook.Add("CC.SV.PlayerThink", "SH.Consciousness.PlayerThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	if CurTime() >= ply.ConsciousUpdate then
-
-		if IsValid(ply:Ragdoll()) then
-			ply:SetPos(ply:Ragdoll():GetPos())
-
-			if ply:Ragdoll():GetVelocity():Length() > 15 then
-				return
-			end
+		if not ply.ConsciousUpdate then
+			ply.ConsciousUpdate = CurTime()
 		end
 
-		ply.ConsciousUpdate = CurTime() + GAMEMODE.ConsciousnessRate
+		if CurTime() >= ply.ConsciousUpdate then
 
-		ply:TakeCDamage(-1)
+			if IsValid(ply:Ragdoll()) then
+				ply:SetPos(ply:Ragdoll():GetPos())
+
+				if ply:Ragdoll():GetVelocity():Length() > 15 then
+					continue
+				end
+			end
+
+			ply.ConsciousUpdate = CurTime() + GAMEMODE.ConsciousnessRate
+
+			ply:TakeCDamage(-1)
+		end
 	end
 end)

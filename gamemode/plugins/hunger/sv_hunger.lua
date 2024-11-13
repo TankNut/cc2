@@ -1,32 +1,40 @@
-hook.Add("CC.SV.SpeedThink", "SV.Hunger.SpeedThink", function(ply)
+hook.Add("CC.SV.SpeedThink", "SV.Hunger.SpeedThink", function(plys)
 	if not GAMEMODE.UseHunger then
 		return
 	end
 
-	local r = ply:GetRunSpeed()
-	local j = ply:GetJumpPower()
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	r = r * (1 - (ply:Hunger() / 100) / 4)
-	j = j * (1 - (ply:Hunger() / 100) / 4)
+		local r = ply:GetRunSpeed()
+		local j = ply:GetJumpPower()
 
-	ply:SetRunSpeed(r)
-	ply:SetJumpPower(j)
+		r = r * (1 - (ply:Hunger() / 100) / 4)
+		j = j * (1 - (ply:Hunger() / 100) / 4)
+
+		ply:SetRunSpeed(r)
+		ply:SetJumpPower(j)
+	end
 end)
 
-hook.Add("CC.SV.PlayerThink", "SV.Hunger.PlayerThink", function(ply)
+hook.Add("CC.SV.PlayerThink", "SV.Hunger.PlayerThink", function(plys)
 	if not GAMEMODE.UseHunger then
 		return
 	end
 
-	if not ply.HungerUpdate then
-		ply.HungerUpdate = CurTime()
-	end
+	for i = 1, #plys do
+		local ply = plys[i]
 
-	if CurTime() >= ply.HungerUpdate and ply:CharID() != -1 and ply:GetVelocity():Length2D() > 5 and not ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
-		ply.HungerUpdate = CurTime() + 720
+		if not ply.HungerUpdate then
+			ply.HungerUpdate = CurTime()
+		end
 
-		ply:SetHunger(math.Clamp(ply:Hunger() + 1, 0, 100))
-		ply:UpdateCharacterField("Hunger", ply:Hunger())
+		if CurTime() >= ply.HungerUpdate and ply:CharID() != -1 and ply:GetVelocity():Length2D() > 5 and not ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
+			ply.HungerUpdate = CurTime() + 720
+
+			ply:SetHunger(math.Clamp(ply:Hunger() + 1, 0, 100))
+			ply:UpdateCharacterField("Hunger", ply:Hunger())
+		end
 	end
 end)
 

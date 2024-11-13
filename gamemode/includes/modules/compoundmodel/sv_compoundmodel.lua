@@ -82,22 +82,26 @@ function meta:RecalculatePlayerModel(weapon)
 	self:UpdateHull()
 end
 
-hook.Add("CC.SV.PlayerThink", "SV.CompoundModel.PlayerThink", function(ply)
-	if not ply:Alive() and not ply.CompoundHiddenState then
-		local ragdoll = ply:GetRagdollEntity()
+hook.Add("CC.SV.PlayerThink", "SV.CompoundModel.PlayerThink", function(plys)
+	for i = 1, #plys do
+		local ply = plys[i]
 
-		if IsValid(ragdoll) and not ragdoll.CompoundSetup then
-			compound.CopyCompoundModel(ply, ragdoll)
-			ragdoll.CompoundSetup = true
+		if not ply:Alive() and not ply.CompoundHiddenState then
+			local ragdoll = ply:GetRagdollEntity()
+
+			if IsValid(ragdoll) and not ragdoll.CompoundSetup then
+				compound.CopyCompoundModel(ply, ragdoll)
+				ragdoll.CompoundSetup = true
+			end
 		end
-	end
 
-	local flag = ply:GetCharFlag()
+		local flag = ply:GetCharFlag()
 
-	if flag and flag.ModelFunc then
-		compound.HideCompoundModel(ply, true)
-	else
-		compound.HideCompoundModel(ply, ply:GetNoDraw() or not ply:Alive())
+		if flag and flag.ModelFunc then
+			compound.HideCompoundModel(ply, true)
+		else
+			compound.HideCompoundModel(ply, ply:GetNoDraw() or not ply:Alive())
+		end
 	end
 end)
 

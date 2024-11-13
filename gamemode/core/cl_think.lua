@@ -13,9 +13,7 @@ function GM:Think()
 
 	self:CharCreateThink()
 
-	for _, v in player.Iterator() do
-		hook.Run("PlayerThink", v)
-	end
+	hook.Run("PlayerThink", player.GetAll())
 	-- Legacy code ends
 
 	if wheelSpeed:GetFloat() > 20 then

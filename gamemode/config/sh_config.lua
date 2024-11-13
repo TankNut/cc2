@@ -84,7 +84,7 @@ GM.HullData = {
 }
 
 -- General Gameplay
-GM.UseHunger				= false
+GM.UseHunger				= true
 GM.FistsHaveEffectOnPlayers	= true
 GM.DoorRammingEnabled		= true
 GM.UntieOnDeath				= true
