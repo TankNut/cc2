@@ -103,6 +103,10 @@ else
 	end
 
 	function Save(id, var, val)
+		if id <= 0 then
+			return
+		end
+
 		async.Start(function()
 			local query = GAMEMODE.Database:Update("rp_characters")
 
