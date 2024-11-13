@@ -133,7 +133,7 @@ local aiColor = Color(255, 191, 0)
 
 function PANEL:DrawPoints()
 	if self.SkyNET or self.Admin then
-		for _, v in pairs(ents.FindByClass("term_ai*")) do
+		for _, v in ipairs(ents.FindByClass("term_ai*")) do
 			local x, y = self:TranslatePos(v:GetPos())
 
 			self:DrawPoint(x, y, aiColor)

@@ -94,7 +94,7 @@ if CLIENT then
 			return
 		end
 
-		for _, v in pairs(ents.FindByClass("cc_zone*")) do
+		for _, v in ipairs(ents.FindByClass("cc_zone*")) do
 			if not v:IsReady() then
 				continue
 			end
@@ -170,7 +170,7 @@ hook.Add("PlayerThink", "zones.PlayerThink", function(ply)
 
 	local pos = ply:WorldSpaceCenter()
 
-	for _, v in pairs(ents.FindByClass("cc_zone*")) do
+	for _, v in ipairs(ents.FindByClass("cc_zone*")) do
 		if not v.IsReady or not v:IsReady() then
 			continue
 		end

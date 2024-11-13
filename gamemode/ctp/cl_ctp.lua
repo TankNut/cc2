@@ -1205,7 +1205,7 @@ do -- CalcView
 		local positions = Vector(0, 0, 0)
 		local count = 0
 
-		for key, entity in pairs(ents.FindInSphere(self:GetPlayerPos(), self:GetTargetRadius())) do
+		for key, entity in ipairs(ents.FindInSphere(self:GetPlayerPos(), self:GetTargetRadius())) do
 			if
 				entity != self:GetPlayer() and
 				entity != self:GetPlayer():GetVehicle() and

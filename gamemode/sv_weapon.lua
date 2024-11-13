@@ -2,7 +2,7 @@ hook.Add("OnNPCKilled", "SV.Weapons.OnNPCKilled", function(npc)
 	local mins, maxs = npc:WorldSpaceAABB()
 
 	timer.Simple(0.1, function()
-		for _, v in pairs(ents.FindInBox(mins, maxs)) do
+		for _, v in ipairs(ents.FindInBox(mins, maxs)) do
 			if not v:IsWeapon() and not string.find(v:GetClass(), "item_*") then
 				continue
 			end

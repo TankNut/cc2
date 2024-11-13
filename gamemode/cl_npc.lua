@@ -540,7 +540,7 @@ function GM:CreateNPCCreatorMenu()
 	function node:DoClick()
 
 		RunConsoleCommand("rpa_spawnmortar")
-		
+
 	end
 
 	local node = CCP.NCM.Tree:AddNode("Explosion")
@@ -613,7 +613,7 @@ function GM:CreateNPCModifierMenu()
 	CCP.NMM.Tree:SetSize(280, ScrH() - 34 - 10)
 	CCP.NMM.Tree:SetShowIcons(false)
 
-	for _, v in pairs(ents.GetNPCs()) do
+	for _, v in ipairs(ents.GetNPCs()) do
 
 		local node = CCP.NMM.Tree:AddNode("#" .. v:GetClass())
 		node:SetExpanded(true)

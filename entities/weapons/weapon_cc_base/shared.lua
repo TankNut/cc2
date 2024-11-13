@@ -1195,7 +1195,7 @@ function SWEP:RenderScreenspaceEffects()
 				end
 			end
 
-			for _, npc in pairs(ents.FindByClass("npc_*")) do
+			for _, npc in ipairs(ents.FindByClass("npc_*")) do
 
 				if npc:Health() > 0 then
 					drawThermal(npc)

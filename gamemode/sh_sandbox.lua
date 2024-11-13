@@ -848,7 +848,7 @@ end
 function GM:SaveLootPoints()
 	local text = ""
 
-	for _, v in pairs(ents.FindByClass("cc_loot")) do
+	for _, v in ipairs(ents.FindByClass("cc_loot")) do
 		text = text .. util.TableToJSON({
 			Pos = v:GetPos(),
 			Ang = v:GetAngles(),

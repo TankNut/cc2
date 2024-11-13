@@ -300,7 +300,7 @@ GM.ChairModels = {
 }
 
 function GM:MultiplyMicrophone(name, n)
-	for _, v in pairs(ents.FindByName(name)) do
+	for _, v in ipairs(ents.FindByName(name)) do
 
 		for i = 1, n do
 

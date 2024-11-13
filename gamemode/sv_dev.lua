@@ -138,7 +138,7 @@ if GM.PrivateMode then
 
 		if not ply:IsAdmin() then return end
 
-		for _, v in pairs(ents.FindByClass("prop_vehicle_prisoner_pod")) do
+		for _, v in ipairs(ents.FindByClass("prop_vehicle_prisoner_pod")) do
 
 			if not v.Static then
 

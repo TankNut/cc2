@@ -47,7 +47,7 @@ function ENT:GetItems()
 	local items = {}
 	local mins, maxs = self:GetRotatedAABB(self:OBBMins(), self:OBBMaxs() + Vector(0, 0, 10))
 
-	for _, v in pairs(ents.FindInBox(self:GetPos() + mins, self:GetPos() + maxs)) do
+	for _, v in ipairs(ents.FindInBox(self:GetPos() + mins, self:GetPos() + maxs)) do
 		if v:GetClass() == "cc_item" and not v.Item:IsTempItem() then
 			table.insert(items, v.Item)
 		end

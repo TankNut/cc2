@@ -74,7 +74,7 @@ function ENT:GetContextOptions(ply)
 			end
 		})
 
-		for _, v in pairs(ents.FindByClass("cc_zone_teleport")) do
+		for _, v in ipairs(ents.FindByClass("cc_zone_teleport")) do
 			local group = v:GetGroup()
 
 			if group != 0 and v != self and not done[group] then

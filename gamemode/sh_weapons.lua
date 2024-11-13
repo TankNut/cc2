@@ -19,7 +19,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	if ply:TiedUp() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 	if ply:MountedGun() and ply:MountedGun():IsValid() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 
-	for _, v in pairs(ents.GetNPCs()) do
+	for _, v in ipairs(ents.GetNPCs()) do
 
 		if not v:IsValid() then return end
 		if v:NPCHatesWeapons() == 1 then

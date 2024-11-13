@@ -1211,7 +1211,7 @@ GM.MastermindMat = Material("vgui/white")
 
 function GM:RenderNPCTargets()
 	if self.Mastermind then
-		for _, v in pairs(ents.GetNPCs()) do
+		for _, v in ipairs(ents.GetNPCs()) do
 			if v:NPCTargetPos() != Vector() then
 				local col = v:NPCMastermindColor()
 
@@ -1286,7 +1286,7 @@ function GM:GetCursorNPC(max)
 	local dist = max
 	local ent = nil
 
-	for _, v in pairs(ents.GetNPCs()) do
+	for _, v in ipairs(ents.GetNPCs()) do
 		local pos = v:GetPos():ToScreen()
 		local x, y = gui.MousePos()
 
@@ -1331,7 +1331,7 @@ function GM:PreDrawHalos()
 
 		local tab = {}
 
-		for _, v in pairs(ents.GetNPCs()) do
+		for _, v in ipairs(ents.GetNPCs()) do
 			if v != hEnt then
 				if not tab[v:NPCMastermindColor()] then
 					tab[v:NPCMastermindColor()] = {}
@@ -1345,7 +1345,7 @@ function GM:PreDrawHalos()
 			end
 		end
 
-		for _, v in pairs(ents.FindByClass("prop_vehicle_apc")) do
+		for _, v in ipairs(ents.FindByClass("prop_vehicle_apc")) do
 			if v != hEnt then
 				if not tab[v:NPCMastermindColor()] then
 					tab[v:NPCMastermindColor()] = {}

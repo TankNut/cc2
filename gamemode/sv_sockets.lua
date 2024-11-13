@@ -48,7 +48,7 @@ net.Receive("nServerOfferAccept", function(len, ply)
 		return
 	end
 
-	for _, v in pairs(ents.FindByClass("cc_server")) do
+	for _, v in ipairs(ents.FindByClass("cc_server")) do
 
 		if v.Location == loc and v:GetPos():Distance(ply:GetPos()) <= 256 then good = true end
 

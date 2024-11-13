@@ -159,7 +159,7 @@ ai.GetTaskID = function(taskName)
 end
 
 function GM:RefreshNPCRelationships()
-	for _, v in pairs(ents.GetNPCs()) do
+	for _, v in ipairs(ents.GetNPCs()) do
 		self:RefreshNPCRelationship(v)
 	end
 end
@@ -179,7 +179,7 @@ function GM:RefreshNPCRelationship(ent)
 		end
 	end
 
-	for _, v in pairs(ents.GetNPCs()) do
+	for _, v in ipairs(ents.GetNPCs()) do
 		-- Hate people who hate us
 		if v:Disposition(ent) == D_HT then
 			ent:AddEntityRelationship(v, D_HT, 99)
@@ -456,7 +456,7 @@ function GM:SpawnerThink()
 			if not tr.Hit then
 				if GAMEMODE.CurrentLocation == LOCATION_COAST then
 					v[3] = CurTime() + 1 + (0.05 * _)
-					for o,p in pairs(ents.FindInSphere(v[1], 512)) do
+					for o,p in ipairs(ents.FindInSphere(v[1], 512)) do
 						if (p:IsPlayer() and p:OnGround() and p:GetMoveType() != MOVETYPE_NOCLIP) or (p:IsNPC() and p:GetClass() != "npc_antlion" and p:GetClass() != "npc_antlionguard") then
 							local ant = self:SpawnAntlion(v[1])
 							table.insert(v[4], ant)
@@ -506,7 +506,7 @@ function GM:CombineCameraThink()
 	if CurTime() < NextThink then return end
 	NextThink = CurTime() + 2
 
-	for _, v in pairs(ents.FindByClass("npc_combine_camera")) do
+	for _, v in ipairs(ents.FindByClass("npc_combine_camera")) do
 		if v.IsDead then continue end
 		local id = v:GetNWString("camname")
 

@@ -807,13 +807,13 @@ function GM:PlayerDisconnected(ply)
 				return
 			end
 
-			for _, v in pairs(ents.FindByClass("prop_physics")) do
+			for _, v in ipairs(ents.FindByClass("prop_physics")) do
 				if v:PropSaved() == 0 and v:PropSteamID() == steamid then
 					SafeRemoveEntity(v)
 				end
 			end
 
-			for _, v in pairs(ents.FindByClass("prop_effect")) do
+			for _, v in ipairs(ents.FindByClass("prop_effect")) do
 				if v:PropSaved() == 0 and v:PropSteamID() == steamid then
 					SafeRemoveEntity(v)
 				end

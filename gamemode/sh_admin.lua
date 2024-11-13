@@ -1466,7 +1466,7 @@ concommand.AddAdmin("rpa_restorespawns", function(ply)
 end)
 
 concommand.AddAdmin("rpa_setlight", function(ply, group, style)
-	for _, v in pairs(ents.FindByClass("cc_light*")) do
+	for _, v in ipairs(ents.FindByClass("cc_light*")) do
 		if v:GetLightGroup() == group then
 			local old = v:GetStyle()
 

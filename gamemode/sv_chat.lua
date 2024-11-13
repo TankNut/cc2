@@ -7,7 +7,7 @@ end
 
 function meta:GetRF(maxd, muffled, noself)
 	local ply, ent = {}, {}
-	for k, v in pairs(ents.FindInSphere(self:GetPos(), maxd)) do
+	for k, v in ipairs(ents.FindInSphere(self:GetPos(), maxd)) do
 		if v:IsPlayer() then
 			if v != self or not noself then
 				local dist = maxd
@@ -263,7 +263,7 @@ GM:AddChatCommand({
 			end
 		end
 
-		for _, v in pairs(ents.FindByClass("cc_radio")) do
+		for _, v in ipairs(ents.FindByClass("cc_radio")) do
 			if v:GetChannel() != freq then
 				continue
 			end

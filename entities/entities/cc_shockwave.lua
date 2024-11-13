@@ -29,7 +29,7 @@ function ENT:Think()
 		self:Remove()
 	end
 
-	for _, v in pairs(ents.FindInSphere(self:GetPos(), self.CurrentRange)) do
+	for _, v in ipairs(ents.FindInSphere(self:GetPos(), self.CurrentRange)) do
 		if not IsValid(v) then
 			continue
 		end

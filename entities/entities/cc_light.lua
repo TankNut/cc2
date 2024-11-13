@@ -92,7 +92,7 @@ function ENT:GetContextOptions(ply)
 			end
 		})
 
-		for _, v in pairs(ents.FindByClass("cc_light*")) do
+		for _, v in ipairs(ents.FindByClass("cc_light*")) do
 			local group = v:GetLightGroup()
 
 			if group != 0 and v != self and not done[group] then
