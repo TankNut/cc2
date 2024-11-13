@@ -26,10 +26,7 @@ GM.WorkshopAddons = {}
 
 GM.WorkshopMaps = {} -- Should not be needed, maps are automatically made available for download if mounted from the workshop collection
 
-GM.MapRedirect = {
-	["rp_tnb_futurewar_edit_day"] = "rp_tnb_futurewar_edit_night",
-	["rp_tnb_riverside_day"] = "rp_tnb_riverside"
-}
+GM.MapRedirect = {}
 
 --FastDL
 GM.FastDLFolders = {}
@@ -83,20 +80,6 @@ GM.HullData = {
 		Crouching = {Vector(-10, -10, 0), Vector(10, 10, 37)},
 		ViewOffset = Vector(0, 0, 66),
 		DuckedViewOffset = Vector(0, 0, 40)
-	},
-	["models/tnb/player/trp/t100.mdl"] = {
-		Standing = {Vector(-70, -70, 0), Vector(70, 70, 125)},
-		ViewOffset = Vector(0, 0, 105)
-	},
-	["models/tnb/player/trp/t200.mdl"] = {
-		Standing = {Vector(-70, -70, 0), Vector(70, 70, 125)},
-		ViewOffset = Vector(0, 0, 105)
-	},
-	["models/tnb/player/trp/t400.mdl"] = {
-		Standing = {Vector(-15, -15, 0), Vector(15, 15, 65)},
-		Crouching = {Vector(-15, -15, 0), Vector(15, 15, 50)},
-		ViewOffset = Vector(0, 0, 60),
-		DuckedViewOffset = Vector(0, 0, 30)
 	}
 }
 
