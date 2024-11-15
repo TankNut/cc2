@@ -56,7 +56,6 @@ GM:Include("sh_character.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sv_character.lua")
 GM:Include("sv_database.lua")
-GM:Include("sv_entity.lua")
 GM:Include("sv_player.lua")
 
 GM:LoadFolder("core/plugins")
