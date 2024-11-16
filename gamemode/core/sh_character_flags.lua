@@ -37,15 +37,16 @@ function Load()
 	end
 end
 
+-- To be renamed GetCharFlag when switched over
 function meta:GetCharacterFlag()
 	return List[meta.CharacterFlag(self)]
 end
 
-function meta:GetCharacterFlagAttribute(name, ...)
-	return hook.Run("GetCharacterFlagAttribute", self, name, ...)
+function meta:RunCharFlag(name, ...)
+	return hook.Run("RunCharFlag", self, name, ...)
 end
 
-function GM:GetCharacterFlagAttribute(ply, name, ...)
+function GM:RunCharFlag(ply, name, ...)
 	local flag = List[meta.CharacterFlag(ply)]
 
 	return isfunction(flag[name]) and flag[name](flag, ply, ...) or flag[name]
