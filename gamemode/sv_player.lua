@@ -93,8 +93,6 @@ function meta:GetSpeeds()
 	local j = 200
 	local c = 60
 
-	r = r * self:DrugSpeedMod()
-
 	local func = self:GetCharFlagAttribute("SpeedOverride")
 
 	if func then
@@ -417,7 +415,6 @@ function meta:LoadCharacter(data)
 	self:Freeze(false)
 
 	self:StripWeapons()
-	self:ClearDrug()
 
 	self:SetTeam(TEAM_CITIZEN)
 	self:SetActiveFlag("")

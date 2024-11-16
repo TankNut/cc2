@@ -143,8 +143,6 @@ util.AddNetworkString("nResetCombineCamera")
 
 util.AddNetworkString("nSetCharCreate")
 
-util.AddNetworkString("nResetDrugFX")
-
 util.AddNetworkString("nSendItem")
 util.AddNetworkString("nUnloadItem")
 

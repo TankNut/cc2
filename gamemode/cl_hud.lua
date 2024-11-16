@@ -1158,7 +1158,6 @@ function GM:HUDPaint()
 
 		if cookie.GetNumber("cc_hud", 1) == 1 and not self.Mastermind then
 			self:DrawDamage()
-			self:DrawDrugs()
 			self:DrawConsciousness()
 			self:DrawPassedOut()
 			self:DrawDoors()
@@ -1262,8 +1261,6 @@ function GM:PostDrawOpaqueRenderables()
 	if self.MapPostDrawOpaqueRenderables then
 		self:MapPostDrawOpaqueRenderables()
 	end
-
-	self:DrugPostDrawOpaqueRenderables()
 end
 
 function GM:PostDrawTranslucentRenderables()
@@ -1469,8 +1466,6 @@ function GM:RenderScreenspaceEffects()
 	if IsValid(weapon) and weapon.RenderScreenspaceEffects then
 		weapon:RenderScreenspaceEffects()
 	end
-
-	self:RenderScreenspaceDrugs()
 end
 
 function GM:PlayerStartVoice(ply)

@@ -9,7 +9,6 @@ function GM:Think()
 	self:MusicThink()
 	self:CreateParticleEmitters()
 	self:ToggleHolsterThink()
-	self:DrugThink()
 
 	self:CharCreateThink()
 
