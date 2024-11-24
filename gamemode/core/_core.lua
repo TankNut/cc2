@@ -45,6 +45,10 @@ function GM:LoadFolder(path)
 	end
 end
 
+function GM:LoadContent()
+	CharacterFlag.Load()
+end
+
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
@@ -61,4 +65,4 @@ GM:Include("sv_player.lua")
 
 GM:LoadFolder("core/plugins")
 
-CharacterFlag.Load()
+hook.Call("LoadContent", GM)
