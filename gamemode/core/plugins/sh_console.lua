@@ -1,59 +1,168 @@
 function console.PrintMessage(ply, str, ...)
-	str = console.FormatMessage(str, ...)
+	console.Feedback(ply, "WARNING", str, ...)
+end
+
+function console.PrintError(ply, str, ...)
+	console.Feedback(ply, "ERROR", str, ...)
+end
+
+function console.Feedback(ply, messageType, str, ...)
+	local class = assert(GAMEMODE.MessageTypes[messageType], "Invalid message type")
 
 	if not IsValid(ply) then
-		print(str)
+		MsgC(class.TextColor, console.FormatMessage(str, ...))
 
 		return
 	end
 
 	if CLIENT then
 		-- Maybe we should add a backport of eternity/afterglow chat to the list, this is horrid
-		local message = table.Merge(table.Copy(GAMEMODE.MessageTypes.WARNING), {
-			Class = GAMEMODE.MessageTypes.WARNING,
-			Text = str,
+		local message = table.Merge(table.Copy(class), {
+			Class		= class,
+			Text		= text
 		})
 
 		message.Name = nil
 
-		if hook.Run("OnChatReceived", message) then
-			return
-		end
-
 		GAMEMODE:AddChatMessage(message)
 	else
-		ply:SendChat(nil, "WARNING", str)
-	end
-end
-
-function console.PrintError(ply, str, ...)
-	str = console.FormatMessage(str, ...)
-
-	if not IsValid(ply) then
-		MsgC(console.ErrorColor, "ERROR: ", str, "\n")
-
-		return
-	end
-
-	if CLIENT then
-		local message = table.Merge(table.Copy(GAMEMODE.MessageTypes.ERROR), {
-			Class = GAMEMODE.MessageTypes.ERROR,
-			Text = str,
-		})
-
-		if hook.Run("OnChatReceived", message) then
-			return
-		end
-
-		GAMEMODE:AddChatMessage(message)
-	else
-		ply:SendChat(nil, "ERROR", str)
+		ply:SendChat(nil, messageType, str)
 	end
 end
 
 function console.IsAdmin(ply) return ply:IsAdmin() end
 function console.IsSuperAdmin(ply) return ply:IsSuperAdmin() end
 function console.IsDeveloper(ply) return ply:IsDeveloper() end
+
+function console.FindPlayer(ply, str, options)
+	if not str or #str < 1 then
+		return false, "No target found"
+	end
+
+	local isConsole = IsValid(ply)
+
+	str = string.lower(str)
+
+	local targets = {}
+	local multi = false
+
+	if str == "^" then -- Target self
+		if isConsole then
+			return false, "The server console cannot target itself"
+		end
+
+		if options.NoSelfTarget then
+			return false, "You cannot target yourself"
+		end
+
+		table.insert(targets, ply)
+	elseif str == "-" then -- Target look-at
+		if isConsole then
+			return false, "The server console cannot target by look-at"
+		end
+
+		local ent = ply:GetEyeTrace().Entity
+
+		if IsValid(ent) and ent:IsPlayer() then
+			table.insert(targets, ent)
+		end
+	elseif str[1] == "$" then -- Target by radius
+		if isConsole then
+			return false, "The server console cannot target by radius"
+		end
+
+		multi = true
+
+		local radius, targetSelf = string.match(str, "^%$([%d]+)(%+?)$")
+
+		radius = tonumber(radius)
+		targetSelf = targetSelf == "+"
+
+		if not radius then
+			return false, "Invalid radius"
+		end
+
+		local eye = ply:EyePos()
+
+		for _, target in player.Iterator() do
+			if (target != ply or targetSelf) and ply:EyePos():Distance(eye) <= radius then
+				table.insert(targets, target)
+			end
+		end
+	-- Disabled, infrastructure for searching teams by name isn't ready atm
+	-- elseif str[1] == "#" then -- Target by team
+	elseif str == "@@" then -- Target everyone
+		multi = true
+		targets = player.GetAll()
+	else -- Target by name
+		multi = str[1] == "@"
+
+		if multi then
+			str = string.sub(str, 2)
+		end
+
+		for _, target in player.Iterator() do
+			if target:HasCharacter() and string.find(string.lower(target:VisibleRPName()), str, 1, not multi) then
+				table.insert(targets, target)
+
+				continue
+			end
+
+			if (isConsole or ply:IsAdmin()) and string.find(string.lower(target:Nick()), str, 1, not multi) then
+				table.insert(targets, target)
+
+				continue
+			end
+		end
+	end
+
+	if options.CheckImmunity and not isConsole then
+		targets = table.Filter(targets, function(_, target)
+			return ply:CanTarget(target)
+		end)
+	end
+
+	if options.NoAdmins then
+		targets = table.Filter(targets, function(_, target)
+			return not target:IsAdmin()
+		end)
+	end
+
+	if options.NoSelfTarget and not isConsole then
+		targets = table.Filter(targets, function(_, target)
+			return target != ply
+		end)
+	end
+
+	if table.IsEmpty(targets) then
+		return false, "No targets found"
+	elseif (not multi or options.SingleTarget) and #targets > 1 then
+		return false, "Multiple matches found"
+	end
+
+	if options.SingleTarget then
+		return true, targets[1]
+	end
+
+	return true, targets
+end
+
+console.AddParser("Player", function(ply, args, last, options)
+	return console.FindPlayer(ply, console.ReadArg(args, last), options)
+end)
+
+console.AddParser("SteamID", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if util.IsValidSteamID(val) and not options.Online then
+		return val
+	end
+
+	options = table.Copy(options)
+	options.SingleTarget = true
+
+	return console.FindPlayer(ply, val, options):SteamID()
+end)
 
 hook.Add("LoadContent", "console", function()
 	local path = string.format("%s/gamemode/content/commands/", engine.ActiveGamemode())
