@@ -51,6 +51,10 @@ function console.PrintError(ply, str, ...)
 	end
 end
 
+function console.IsAdmin(ply) return ply:IsAdmin() end
+function console.IsSuperAdmin(ply) return ply:IsSuperAdmin() end
+function console.IsDeveloper(ply) return ply:IsDeveloper() end
+
 hook.Add("LoadContent", "console", function()
 	local path = string.format("%s/gamemode/content/commands/", engine.ActiveGamemode())
 	local files = file.Find(path .. "*.lua", "LUA")
