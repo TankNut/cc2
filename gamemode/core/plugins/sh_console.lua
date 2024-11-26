@@ -19,14 +19,14 @@ function console.Feedback(ply, messageType, str, ...)
 		-- Maybe we should add a backport of eternity/afterglow chat to the list, this is horrid
 		local message = table.Merge(table.Copy(class), {
 			Class		= class,
-			Text		= text
+			Text		= console.FormatMessage(str, ...)
 		})
 
 		message.Name = nil
 
 		GAMEMODE:AddChatMessage(message)
 	else
-		ply:SendChat(nil, messageType, str)
+		ply:SendChat(nil, messageType, console.FormatMessage(str, ...))
 	end
 end
 
