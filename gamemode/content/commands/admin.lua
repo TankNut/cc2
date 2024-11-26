@@ -1,0 +1,11 @@
+local restart = console.AddCommand("rpa_restart", function(ply)
+	GAMEMODE:WriteLog("admin_restart", {Admin = GAMEMODE:LogPlayer(ply)})
+	console.PrintError(player.GetAll(), "%s is restarting the server in 5 seconds", ply)
+
+	timer.Simple(5, function()
+		game.ConsoleCommand("changelevel " .. game.GetMap() .. "\n")
+	end)
+end)
+restart:SetAccess(console.IsAdmin)
+restart:SetExecutionContext(console.Server)
+restart:SetDescription("Restarts the server on the current map")

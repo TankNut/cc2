@@ -10,7 +10,7 @@ function console.Feedback(ply, messageType, str, ...)
 	local class = assert(GAMEMODE.MessageTypes[messageType], "Invalid message type")
 
 	if not IsValid(ply) then
-		MsgC(class.TextColor, console.FormatMessage(str, ...))
+		MsgC(class.TextColor, console.FormatMessage(str, ...), "\n")
 
 		return
 	end
@@ -25,6 +25,12 @@ function console.Feedback(ply, messageType, str, ...)
 		message.Name = nil
 
 		GAMEMODE:AddChatMessage(message)
+	elseif istable(ply) then
+		local formattedMessage = console.FormatMessage(str, ...)
+
+		for _, v in ipairs(ply) do
+			v:SendChat(nil, messageType, formattedMessage)
+		end
 	else
 		ply:SendChat(nil, messageType, console.FormatMessage(str, ...))
 	end
@@ -39,7 +45,7 @@ function console.FindPlayer(ply, str, options)
 		return false, "No target found"
 	end
 
-	local isConsole = IsValid(ply)
+	local isConsole = not IsValid(ply)
 
 	str = string.lower(str)
 
@@ -147,11 +153,11 @@ function console.FindPlayer(ply, str, options)
 	return true, targets
 end
 
-console.AddParser("Player", function(ply, args, last, options)
+console.Parser("Player", function(ply, args, last, options)
 	return console.FindPlayer(ply, console.ReadArg(args, last), options)
 end)
 
-console.AddParser("SteamID", function(ply, args, last, options)
+console.Parser("SteamID", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
 	if util.IsValidSteamID(val) and not options.Online then

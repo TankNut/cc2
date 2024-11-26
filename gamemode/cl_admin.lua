@@ -5,12 +5,6 @@ net.Receive("nAUpdateAdminVariable", function(len)
 	GAMEMODE:AddNotification(ply:Nick() .. " set " .. friendlyvar .. " to " .. tostring(val))
 end)
 
-net.Receive("nARestart", function(len)
-	local ply = net.ReadEntity()
-
-	GAMEMODE:AddChat(ply:Nick() .. " is restarting the server in five seconds.", Color(200, 0, 0, 255), "CombineControl.ChatHuge")
-end)
-
 net.Receive("nMapList", function(len)
 	local tab = net.ReadTable()
 

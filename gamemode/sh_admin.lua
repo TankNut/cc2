@@ -128,16 +128,6 @@ function concommand.AddAdmin(cmd, func, sa, typeList)
 	end
 end
 
-concommand.AddAdmin("rpa_restart", function(ply)
-	net.Start("nARestart")
-		net.WriteEntity(ply)
-	net.Broadcast()
-
-	GAMEMODE:WriteLog("admin_restart", {Admin = GAMEMODE:LogPlayer(ply)})
-
-	timer.Simple(5, function() game.ConsoleCommand("changelevel " .. game.GetMap() .. "\n") end)
-end, false)
-
 concommand.AddAdmin("rpa_stopsound", function(ply)
 	net.Start("nAStopSound")
 	net.Broadcast()

@@ -13,7 +13,6 @@ util.AddNetworkString("nChangeTitle")
 util.AddNetworkString("nAAdminPanel")
 
 util.AddNetworkString("nAUpdateAdminVariable")
-util.AddNetworkString("nARestart")
 util.AddNetworkString("nMapList")
 util.AddNetworkString("nARemove")
 util.AddNetworkString("nASeeAll")
