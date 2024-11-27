@@ -99,7 +99,7 @@ function GM:HandleChat(ply, cmd, class, text, lang, custom)
 	local t = table.Merge(table.Copy(class), {
 		Entity		= ply,
 		Name		= ply:VisibleRPName(),
-		RealName	= ply:RPName(),
+		RealName	= ply:CharacterName(),
 		Nick		= ply:Nick(),
 		Language	= lang,
 		Command		= cmd,

@@ -276,15 +276,7 @@ function GM:PlayerSpawn(ply)
 end
 
 function GM:PlayerUpdateName(ply)
-	local name = ply:RPName()
-
-	local func = ply:RunCharFlag("VisibleRPName")
-
-	if func then
-		name = func(ply)
-	end
-
-	ply:SetVisibleRPName(name)
+	ply:SetVisibleRPName(ply:RunCharFlag("VisibleRPName"))
 end
 
 hook.Add("CC.SV.PlayerThink", "physgun", function(plys)
@@ -412,7 +404,7 @@ function meta:LoadCharacter(data)
 
 	self:SetCharID(tonumber(data.id))
 
-	self:SetRPName(data.RPName)
+	self:SetCharacterName(data.RPName)
 	self:SetRPModel(data.Model)
 	self:SetDescription(data.Title)
 

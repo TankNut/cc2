@@ -92,7 +92,6 @@ GM.SQLTables = {}
 
 GM.SQLTables.chars = {
 	["SteamID"] 			= {Type = "VARCHAR(30)"},
-	["RPName"] 				= {Type = "VARCHAR(64)"},
 	["Model"] 				= {Type = "VARCHAR(64)"},
 	["Skin"] 				= {Type = "TINYINT(11)", 	Default = "0"},
 	["Title"] 				= {Type = "VARCHAR(2048)", 	Default = ""},
@@ -515,7 +514,7 @@ function meta:UpdateCharacterField(field, value, nolog)
 
 	GAMEMODE.SQL:Update("$chars", {[field] = value}, "id = ?", self:CharID(), function(res)
 		if not nolog then
-			GAMEMODE:LogSQL("Player " .. self:Nick() .. " (" .. self:RPName() .. ") updated character field " .. field .. " to " .. tostring(value) .. ".")
+			GAMEMODE:LogSQL("Player " .. self:Nick() .. " (" .. self:CharacterName() .. ") updated character field " .. field .. " to " .. tostring(value) .. ".")
 		end
 
 		self.SQLCharData[self:GetCharIndexFromID(self:CharID())][field] = tostring(value)
@@ -552,7 +551,7 @@ end
 
 function meta:UpdatePlayerField(field, value)
 	GAMEMODE.SQL:Update("$players", {[field] = value}, "SteamID = ?", self:SteamID(), function(res)
-		GAMEMODE:LogSQL("Player " .. self:Nick() .. " (" .. self:RPName() .. ") updated player field " .. field .. " to " .. tostring(value) .. ".")
+		GAMEMODE:LogSQL("Player " .. self:Nick() .. " (" .. self:CharacterName() .. ") updated player field " .. field .. " to " .. tostring(value) .. ".")
 		self.SQLPlayerData[field] = tostring(value)
 	end)
 end
@@ -589,23 +588,23 @@ function GM:GetCharacterList(steamID, requester)
 		]], steamID, cb)
 end
 
-function GM:GetCharacterData(charid, requester)
-	local fields = {
-		"SteamID", "RPName", "Model", "Money"
-	}
+-- function GM:GetCharacterData(charid, requester)
+-- 	local fields = {
+-- 		"SteamID", "RPName", "Model", "Money"
+-- 	}
 
-	local function cb(res)
-		net.Start("nACharacterData")
-			net.WriteInt(charid, 32)
-			net.WriteTable(res)
-		net.Send(requester)
-	end
+-- 	local function cb(res)
+-- 		net.Start("nACharacterData")
+-- 			net.WriteInt(charid, 32)
+-- 			net.WriteTable(res)
+-- 		net.Send(requester)
+-- 	end
 
-	self.SQL:Query([[
-		SELECT ]] .. table.concat(fields, ", ") .. [[ FROM $chars
-			WHERE id = ? AND Deleted = 0
-		]], charid, cb)
-end
+-- 	self.SQL:Query([[
+-- 		SELECT ]] .. table.concat(fields, ", ") .. [[ FROM $chars
+-- 			WHERE id = ? AND Deleted = 0
+-- 		]], charid, cb)
+-- end
 
 function GM:GetCharacterInventory(charid, requester)
 	local function cb(res)

@@ -74,7 +74,7 @@ function GM:LogCharacter(ply)
 		_meta = META_CHAR,
 		CharID = ply:CharID(),
 		CharName = ply:VisibleRPName(),
-		TrueName = ply:RPName()
+		TrueName = ply:CharacterName()
 	}
 end
 

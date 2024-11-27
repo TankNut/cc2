@@ -135,7 +135,7 @@ function GM:ParseChat(str)
 	local t = table.Merge(table.Copy(class), {
 		Entity		= LocalPlayer(),
 		Name		= LocalPlayer():VisibleRPName(),
-		RealName	= LocalPlayer():RPName(),
+		RealName	= LocalPlayer():CharacterName(),
 		Nick		= LocalPlayer():Nick(),
 		Language	= lang,
 		Command		= cmd,
@@ -176,7 +176,7 @@ net.Receive("nChat", function(len)
 		Language	= lang.Alias != "eng" and lang,
 		Nick		= idx > 0 and ent:IsValid() and ent:Nick() or "*INVALID*",
 		Name		= idx > 0 and ent:IsValid() and ent:VisibleRPName() or "*INVALID*",
-		RealName	= idx > 0 and ent:IsValid() and ent:RPName() or "*INVALID*",
+		RealName	= idx > 0 and ent:IsValid() and ent:CharacterName() or "*INVALID*",
 		Text		= text,
 		Custom 		= custom
 	})

@@ -12,10 +12,10 @@ hook.Add("OnGamemodeLoaded", "sh.armory", function()
 		target:UpdateCharacterField("ArmoryAccess", name)
 
 		if name == "" then
-			ply:SendChat(nil, "WARNING", "You removed " .. target:RPName() .. "'s armory access")
+			ply:SendChat(nil, "WARNING", "You removed " .. target:CharacterName() .. "'s armory access")
 			target:SendChat(nil, "WARNING", ply:Nick() .. " removed your armory access")
 		else
-			ply:SendChat(nil, "WARNING", "You gave " .. target:RPName() .. " access to the " .. name .. " armory")
+			ply:SendChat(nil, "WARNING", "You gave " .. target:CharacterName() .. " access to the " .. name .. " armory")
 			target:SendChat(nil, "WARNING", ply:Nick() .. " gave you access to the " .. flag .. " armory")
 		end
 

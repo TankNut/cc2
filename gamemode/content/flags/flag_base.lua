@@ -7,5 +7,9 @@ FLAG.BloodColor = BLOOD_COLOR_RED
 
 FLAG.Loadout = {}
 
+function FLAG:VisibleRPName(ply)
+	return ply:CharacterName()
+end
+
 function FLAG:OnSpawn(ply)
 end

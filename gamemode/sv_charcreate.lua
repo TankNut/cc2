@@ -51,17 +51,12 @@ net.Receive("nChangeRPName", function(len, ply)
 
 	name = string.Trim(name)
 
-	if #name <= GAMEMODE.MaxNameLength and #name >= GAMEMODE.MinNameLength then
+	if #name <= GAMEMODE.MaxNameLength and #name >= GAMEMODE.MinNameLength and GAMEMODE:CheckNameValidity(name) then
+		GAMEMODE:WriteLog("character_setname", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Name = name})
 
-		if GAMEMODE:CheckNameValidity(name) then
-			GAMEMODE:WriteLog("character_setname", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Name = name})
+		ply:SetCharacterName(name)
 
-			ply:SetRPName(name)
-			ply:UpdateCharacterField("RPName", name)
-
-			GAMEMODE:PlayerUpdateName(ply)
-		end
-
+		GAMEMODE:PlayerUpdateName(ply)
 	end
 end)
 
