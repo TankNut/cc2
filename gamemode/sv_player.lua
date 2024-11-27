@@ -478,38 +478,6 @@ function GM:PlayerSay(ply, text, t)
 	return ""
 end
 
-function ccCSay(ply, cmd, args, text)
-	if ply:EntIndex() != 0 then return end
-
-	text = string.Trim(text)
-
-	GAMEMODE:SendChat(nil, player.GetAll(), "WARNING", text)
-end
-concommand.Add("csay", ccCSay)
-
-function ccASay(ply, cmd, args, text)
-	if ply:EntIndex() != 0 then return end
-
-	text = string.Trim(text)
-
-	if #text == 0 then return end
-
-	local rf = {}
-
-	for k, v in player.Iterator() do
-
-		if v:IsAdmin() then
-
-			table.insert(rf, v)
-
-		end
-
-	end
-
-	GAMEMODE:SendChat(nil, rf, "ADMIN", text)
-end
-concommand.Add("asay", ccASay)
-
 function GM:PlayerDeathSound()
 	return true
 end

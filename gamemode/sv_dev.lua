@@ -153,3 +153,35 @@ if GM.PrivateMode then
 	end
 	concommand.Add("rp_dev_getseatpositions", ccGetSeatPos)
 end
+
+function ccCSay(ply, cmd, args, text)
+	if ply:EntIndex() != 0 then return end
+
+	text = string.Trim(text)
+
+	GAMEMODE:SendChat(nil, player.GetAll(), "WARNING", text)
+end
+concommand.Add("csay", ccCSay)
+
+function ccASay(ply, cmd, args, text)
+	if ply:EntIndex() != 0 then return end
+
+	text = string.Trim(text)
+
+	if #text == 0 then return end
+
+	local rf = {}
+
+	for k, v in player.Iterator() do
+
+		if v:IsAdmin() then
+
+			table.insert(rf, v)
+
+		end
+
+	end
+
+	GAMEMODE:SendChat(nil, rf, "ADMIN", text)
+end
+concommand.Add("asay", ccASay)
