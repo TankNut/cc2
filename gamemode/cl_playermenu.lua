@@ -1220,16 +1220,6 @@ function GM:PMCreateSettings()
 			end
 	end
 
-	local donationBtn = vgui.Create("DButton", CCP.PlayerMenu.ContentPane)
-			donationBtn:SetFont("CombineControl.LabelSmall")
-			donationBtn:SetText("Donation Panel")
-			donationBtn:SetPos(270, 386)
-			donationBtn:SetSize(120, 30)
-			function donationBtn:DoClick()
-				CCP.PlayerMenu:Close()
-				GAMEMODE:CreateDonationsMenu()
-			end
-
 	if GAMEMODE.IntroCamData then
 		local introBtn = vgui.Create("DButton", CCP.PlayerMenu.ContentPane)
 			introBtn:SetFont("CombineControl.LabelSmall")

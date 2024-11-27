@@ -124,10 +124,7 @@ GM.SQLTables.players = {
 	["LastNotesUpdate"] 	= {Type = "INT", 			Default = "0"},
 	["IsOOCMuted"] 			= {Type = "INT", 			Default = "0"},
 	["IsTravelBanned"] 		= {Type = "INT", 			Default = "0"},
-	["Donations"] 			= {Type = "TEXT"},
-	["PhysgunMode"] 		= {Type = "INT", 			Default = "0"},
 	["DonatorActive"] 		= {Type = "INT", 			Default = "0"},
-	["CustomModelAuths"] 	= {Type = "INT", 			Default = "0"},
 }
 
 GM.SQLTables.bans = {

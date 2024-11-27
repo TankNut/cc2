@@ -36,7 +36,6 @@ include("sh_pon.lua")
 include("sh_utils.lua")
 include("sh_weapons.lua")
 include("sh_items.lua")
-include("sh_donations.lua")
 include("sh_sound.lua")
 include("sh_dev.lua")
 
@@ -63,7 +62,6 @@ include("cl_weaponselect.lua")
 include("cl_items.lua")
 include("cl_fonts.lua")
 include("cl_weapon.lua")
-include("cl_donations.lua")
 
 include( "ctp/cl_ctp.lua");
 

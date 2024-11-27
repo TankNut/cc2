@@ -91,7 +91,6 @@ GM.DeveloperMat = Material("icon16/tag.png")
 GM.UnreadNotesMat = Material("icon16/comment_add.png")
 GM.OOCMutedMat = Material("icon16/keyboard_mute.png")
 GM.TravelBannedMat = Material("icon16/delete.png")
-GM.CustomModelMat = Material("icon16/user_gray.png")
 GM.EventMat = Material("icon16/calendar.png")
 GM.CarMat = Material("icon16/car.png")
 GM.AirMat = Material("icon16/weather_clouds.png")
@@ -156,10 +155,6 @@ function GM:ScoreboardAdd(ply, y, n)
 
 		if ply:DonatorActive() and not ply:HideAdmin() then
 			table.insert(badges, GAMEMODE.GoldMat)
-		end
-
-		if LocalPlayer():IsAdmin() and ply:CustomModelAuths() then
-			table.insert(badges, GAMEMODE.CustomModelMat)
 		end
 
 		for k, v in pairs(GAMEMODE.ScoreboardBadges) do
@@ -357,10 +352,6 @@ function GM:CCCreatePlayerData(ply)
 
 	if ply:DonatorActive() and not ply:HideAdmin() then
 		y = CreateBadge(CCP.PlayerData, self.GoldMat, "Donator", y)
-	end
-
-	if LocalPlayer():IsAdmin() and ply:CustomModelAuths() then
-		y = CreateBadge(CCP.PlayerData, self.CustomModelMat, "Can use custom models", y)
 	end
 
 	for k, v in pairs(self.ScoreboardBadges) do

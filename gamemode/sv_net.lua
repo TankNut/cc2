@@ -172,8 +172,6 @@ util.AddNetworkString("nSetRadioChannelPrimary")
 
 util.AddNetworkString("nPlaySoundRange")
 
-util.AddNetworkString("nRedeemDonation")
-
 util.AddNetworkString("nSaveCustomItemData")
 util.AddNetworkString("nImportCustomItemData")
 util.AddNetworkString("nRefreshEditUI")

@@ -33,7 +33,6 @@ include("sh_sandbox.lua")
 include("sh_pon.lua")
 include("sh_weapons.lua")
 include("sh_items.lua")
-include("sh_donations.lua")
 include("sh_sound.lua")
 include("sh_dev.lua")
 
@@ -58,7 +57,6 @@ include("sv_sql.lua")
 include("sv_think.lua")
 include("sv_items.lua")
 include("sv_weapon.lua")
-include("sv_donations.lua")
 include("sv_worldents.lua")
 
 AddCSLuaFile("cl_init.lua")
@@ -90,7 +88,6 @@ AddCSLuaFile("sh_sandbox.lua")
 AddCSLuaFile("sh_pon.lua")
 AddCSLuaFile("sh_weapons.lua")
 AddCSLuaFile("sh_items.lua")
-AddCSLuaFile("sh_donations.lua")
 AddCSLuaFile("sh_sound.lua")
 AddCSLuaFile("sh_dev.lua")
 
@@ -117,7 +114,6 @@ AddCSLuaFile("cl_weaponselect.lua")
 AddCSLuaFile("cl_items.lua")
 AddCSLuaFile("cl_fonts.lua")
 AddCSLuaFile("cl_weapon.lua")
-AddCSLuaFile("cl_donations.lua")
 
 --ctp
 include( "ctp/sv_ctp.lua");
