@@ -33,8 +33,6 @@ hook.Add("CC.SV.InitialSpawn", "SV.Player.InitialSpawn", function(ply)
 	ply:LoadPlayerInfo()
 	ply:LoadPlayerNotes()
 
-	ply:SyncAllGlobalData()
-
 	ply:SetNotSolid(true)
 	ply:SetMoveType(MOVETYPE_NOCLIP)
 
