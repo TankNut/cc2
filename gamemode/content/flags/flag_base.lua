@@ -1,5 +1,5 @@
 FLAG.Name = "Unnamed Character Flag"
-FLAG.Team = TEAM_UNCONNECTED
+FLAG.Team = TEAM_UNASSIGNED
 
 FLAG.Health = 100
 
