@@ -17,7 +17,6 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 
 	if ply:PassedOut() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 	if ply:TiedUp() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
-	if ply:MountedGun() and ply:MountedGun():IsValid() and not table.HasValue(self.HandsWeapons, new:GetClass()) then return true end
 
 	for _, v in ipairs(ents.GetNPCs()) do
 
@@ -71,7 +70,6 @@ if SERVER then
 	function nToggleHolster(len, ply)
 		if ply:PassedOut() then return end
 		if ply:TiedUp() then return end
-		if ply:MountedGun() and ply:MountedGun():IsValid() then return end
 
 		local weapon = ply:GetActiveWeapon()
 

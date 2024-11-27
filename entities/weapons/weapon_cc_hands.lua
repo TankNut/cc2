@@ -239,7 +239,6 @@ function SWEP:Reload()
 
 	if self.Owner:PassedOut() then return end
 	if self.Owner:TiedUp() then return end
-	if self.Owner:MountedGun() and self.Owner:MountedGun():IsValid() then return end
 	if self.Owner:Crouching() then return end
 	if not self.Owner:OnGround() then return end
 	if self.Owner:GetVelocity():Length() > 50 then return end

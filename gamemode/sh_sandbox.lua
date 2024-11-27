@@ -304,7 +304,6 @@ function GM:PlayerSpawnEffect(ply, model)
 
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
-	if ply:MountedGun() and ply:MountedGun():IsValid() then return false end
 
 	if ply:PropTrust() == 0 then return false end
 
@@ -359,7 +358,6 @@ function GM:PlayerSpawnProp(ply, model)
 
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
-	if ply:MountedGun() and ply:MountedGun():IsValid() then return false end
 
 	if ply:PropTrust() == 0 then return false end
 
@@ -413,7 +411,6 @@ function GM:PlayerSpawnRagdoll(ply, model)
 
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
-	if ply:MountedGun() and ply:MountedGun():IsValid() then return false end
 
 	if ply:DonatorActive() or self:LimitReachedProcess(ply, "ragdolls") then
 		if SERVER then
@@ -561,7 +558,6 @@ function GM:CanTool(ply, tr, tool)
 
 	if ply:PassedOut() then return false end
 	if ply:TiedUp() then return false end
-	if IsValid(ply:MountedGun()) then return false end
 
 	if ply:ToolTrust() == 0 then return false end
 

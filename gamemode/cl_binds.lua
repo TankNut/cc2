@@ -135,7 +135,6 @@ function GM:PlayerBindPress(ply, bind, down)
 	if down and string.find(bind, "rp_toggleholster") then
 		if LocalPlayer():PassedOut() then return end
 		if LocalPlayer():TiedUp() then return end
-		if LocalPlayer():MountedGun() and LocalPlayer():MountedGun():IsValid() then return end
 
 		net.Start("nToggleHolster")
 		net.SendToServer()
@@ -261,22 +260,6 @@ function GM:PlayerBindPress(ply, bind, down)
 
 	end
 
-	if ply:MountedGun() and ply:MountedGun():IsValid() then
-
-		if down and string.find(bind, "+jump") then
-
-			return true
-
-		end
-
-		if down and string.find(bind, "+duck") then
-
-			return true
-
-		end
-
-	end
-
 	if down and string.find(bind, "+attack") and LocalPlayer():TiedUp() then
 
 		return true
@@ -302,7 +285,6 @@ function GM:ToggleHolsterThink()
 
 		if LocalPlayer():PassedOut() then return end
 		if LocalPlayer():TiedUp() then return end
-		if LocalPlayer():MountedGun() and LocalPlayer():MountedGun():IsValid() then return end
 
 		net.Start("nToggleHolster")
 		net.SendToServer()

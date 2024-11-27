@@ -477,7 +477,6 @@ end
 function GM:FindUseEntity(ply, ent)
 	if ply:PassedOut() then return end
 	if ply:TiedUp() and not (ent and ent:IsValid() and ent:IsVehicle()) then return end
-	if ply:MountedGun() and ply:MountedGun():IsValid() then return ply:MountedGun() end
 
 	return self.BaseClass:FindUseEntity(ply, ent)
 end
@@ -731,7 +730,6 @@ function GM:CanPlayerSuicide(ply)
 	if ply:CharID() == 0 then return false end
 	if ply:TiedUp() then return false end
 	if ply:PassedOut() then return false end
-	if ply:MountedGun() and ply:MountedGun():IsValid() then return false end
 
 	return true
 end

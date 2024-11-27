@@ -23,7 +23,6 @@ GM.PlayerAccessors = {
 	{"InAttack2",			false,	"Bit",		false},
 	{"BusinessLicenses",	false,	"Float",	0},
 	{"Typing",				false,	"Float",	0},
-	{"MountedGun",			false,	"Entity",	NULL},
 	{"ScoreboardTitle",		false,	"String",	""},
 	{"ScoreboardTitleC",	false,	"Vector",	Vector(200, 200, 200)},
 	{"ScoreboardBadges",	false,	"Float",	0},
@@ -244,14 +243,6 @@ function GM:Move(ply, move)
 
 	end
 
-	if IsValid(ply:MountedGun()) then
-
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-
-	end
-
 	local func = ply:RunCharFlag("Move")
 
 	if func then
@@ -269,12 +260,6 @@ function GM:SetupMove(ply, move)
 	end
 
 	if ply:PassedOut() then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-	end
-
-	if IsValid(ply:MountedGun()) then
 		move:SetMaxSpeed(0)
 		move:SetMaxClientSpeed(0)
 		move:SetVelocity(Vector())
