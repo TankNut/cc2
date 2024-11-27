@@ -58,11 +58,10 @@ function Add(name, data)
 		end
 
 		local old = cache[ply]
-		local hookVal = val == nil and default or val
 
 		cache[ply] = val
 
-		hook.Run(hookName, ply, old, hookVal, loading)
+		hook.Run(hookName, ply, old, val == nil and default or val, loading)
 
 		if SERVER then
 			if persist and not loading then
