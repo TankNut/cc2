@@ -439,7 +439,7 @@ function meta:LoadCharacter(data)
 end
 
 function meta:PostLoadCharacter()
-	GAMEMODE:PlayerUpdateName(self)
+-- 	ply:UpdateVisibleName()
 
 	GAMEMODE:WriteLog("character_loaded", {Ply = GAMEMODE:LogPlayer(self), Char = GAMEMODE:LogCharacter(self)})
 

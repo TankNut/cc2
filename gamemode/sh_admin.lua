@@ -399,8 +399,7 @@ concommand.AddAdmin("rpa_setcharname", function(ply, targ, name)
 	local old = targ:CharacterName()
 
 	targ:SetCharacterName(name)
-
-	GAMEMODE:PlayerUpdateName(targ)
+	targ:UpdateVisibleName()
 
 	ply:SendChat(nil, "WARNING", "You set " .. old .. "'s name to " .. targ:CharacterName())
 	targ:SendChat(nil, "WARNING", ply:Nick() .. " set your name to " .. targ:CharacterName())

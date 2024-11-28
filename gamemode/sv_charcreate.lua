@@ -55,8 +55,7 @@ net.Receive("nChangeRPName", function(len, ply)
 		GAMEMODE:WriteLog("character_setname", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Name = name})
 
 		ply:SetCharacterName(name)
-
-		GAMEMODE:PlayerUpdateName(ply)
+		ply:UpdateVisibleName()
 	end
 end)
 
