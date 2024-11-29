@@ -15,6 +15,7 @@ function Add(name, data)
 		Private = tobool(data.Private),
 		ServerOnly = tobool(data.ServerOnly),
 		-- Database persistence
+		Persist = true,
 		Field = data.Field or name,
 		DataType = databaseType.DataType,
 		Validate = data.Validate or databaseType.Validate
