@@ -52,5 +52,10 @@ end
 function GM:RunCharFlag(ply, name, ...)
 	local flag = List[meta.CharacterFlag(ply)]
 
-	return isfunction(flag[name]) and flag[name](flag, ply, ...) or flag[name]
+	if isfunction(flag[name]) then
+		return flag[name](flag, ply, ...)
+	else
+		return flag[name]
+	end
+end
 end
