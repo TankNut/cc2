@@ -59,8 +59,8 @@ function GM:RunCharFlag(ply, name, ...)
 	end
 end
 
-function GM:CharacterFlagChanged(ply, old, new, loading)
-	if not loading then
+function GM:CharacterFlagChanged(ply, old, new, loaded)
+	if not loaded then
 		hook.Run("PlayerApplyFlag", ply)
 	end
 end
