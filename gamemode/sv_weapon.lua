@@ -30,23 +30,3 @@ hook.Add("CreateEntityRagdoll", "SV.Weapons.CreateEntityRagdoll", function(owner
 	ragdoll:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	ragdoll:Fire("FadeAndRemove", "", 30)
 end)
-
-hook.Add("PostPlayerDeath", "SV.Weapons.PostPlayerDeath", function(ply)
-	if not ply:GetRagdollEntity() then
-		ply:CreateRagdoll()
-	end
-
-	local ragdoll = ply:GetRagdollEntity()
-
-	if ply:PlayerScale() != 1 then
-		ragdoll:Remove()
-
-		return
-	end
-
-	if ply.DoDissolve then
-		ragdoll:Dissolve()
-
-		ply.DoDissolve = false
-	end
-end)

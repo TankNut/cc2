@@ -4,6 +4,8 @@ FLAG.Team = TEAM_UNASSIGNED
 FLAG.Health = 100
 FLAG.Armor = 0
 
+FLAG.Scale = 1
+
 FLAG.Loadout = {}
 
 FLAG.BloodColor = BLOOD_COLOR_RED
@@ -21,6 +23,10 @@ end
 
 function FLAG:VisibleRPName(ply)
 	return ply:CharacterName()
+end
+
+function FLAG:PlayerScale(ply)
+	return self.Scale, self.Scale * ply:CharacterScale()
 end
 
 function FLAG:OnSpawn(ply)

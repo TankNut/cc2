@@ -188,8 +188,10 @@ function GM:CalcMainActivity(ply, vel)
 end
 
 function GM:UpdateAnimation(ply, vel, max)
-	if CLIENT then
-		max = max * ply:PlayerScale()
+	local scale = ply:GetPlayerScale()
+
+	if CLIENT and scale != -1 then
+		max = max * scale
 	end
 
 	self.BaseClass:UpdateAnimation(ply, vel, max)
@@ -200,19 +202,20 @@ function GM:UpdateAnimation(ply, vel, max)
 		else
 			ply:SetIK(true)
 		end
-
-		local moveang = Vector(vel.x, vel.y, 0):Angle()
-		local eyeang = Vector(ply:GetAimVector().x, ply:GetAimVector().y, 0):Angle()
-
-		local diff = moveang.y - eyeang.y
-
-		if diff > 180 then diff = diff - 360 end
-		if diff < -180 then diff = diff + 360 end
-
-		ply:SetPoseParameter("move_yaw", diff)
 	end
 
+	local moveang = Vector(vel.x, vel.y, 0):Angle()
+	local eyeang = Vector(ply:GetAimVector().x, ply:GetAimVector().y, 0):Angle()
+
+	local diff = moveang.y - eyeang.y
+
+	if diff > 180 then diff = diff - 360 end
+	if diff < -180 then diff = diff + 360 end
+
+	ply:SetPoseParameter("move_yaw", diff)
+
 	if CLIENT then
+		ply:InvalidateBoneCache()
 		self:FistAnimation(ply)
 		self:RadioAnimation(ply)
 	end

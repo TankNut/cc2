@@ -27,6 +27,7 @@ function GM:EntityRemoved(ent, fullUpdate)
 	if ent:IsPlayer() and not fullUpdate then
 		PlayerVar.Clear(ent)
 		CharacterVar.Clear(ent)
+		Hull.Clear(ent)
 	end
 end
 

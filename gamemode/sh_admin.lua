@@ -1260,7 +1260,7 @@ concommand.AddAdmin("rpa_setplayerscale", function(ply, targ, val, persist)
 		return
 	end
 
-	targ:SetPlayerScale(val, true)
+	targ:SetScale(val, true)
 
 	if persist then
 		local flag = targ:RunCharFlag("Scale")

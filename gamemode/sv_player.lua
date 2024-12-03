@@ -17,19 +17,6 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.HealthThink", function(plys)
 	end
 end)
 
-function GM:GetPlayerScale(ply)
-	local flag = ply:RunCharFlag("Scale")
-
-	if flag then
-		return flag
-	end
-
-	return ply:CharacterScale()
-end
-
-function GM:OnCharFlagsChanged(ply, flags)
-end
-
 function GM:IsSpawnpointSuitable(ply, spawn, force)
 	if ply:Team() == TEAM_SPECTATOR then return true end
 

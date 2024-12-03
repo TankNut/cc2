@@ -30,6 +30,11 @@ function BLOB()
 	return {DataType = "BLOB"}
 end
 
+-- Shh, they don't have to know
+function FLOAT()
+	return {DataType = "DOUBLE"}
+end
+
 if CLIENT then
 	netstream.Hook("SelectWeapon", function(class)
 		input.SelectWeapon(lp:GetWeapon(class))
