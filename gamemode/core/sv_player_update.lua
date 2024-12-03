@@ -32,13 +32,11 @@ function meta:UpdateMovementSpeed()
 end
 
 function meta:UpdateLoadout()
-	local loadout = hook.Run("GetPlayerLoadout", self)
-	local flag = self:RunCharFlag("Loadout")
+	local loadout = self:RunCharFlag("Loadout")
+
+	table.Add(loadout, hook.Run("GetPlayerLoadout", self))
 
 	-- Inventory weapons
-
-	-- Add last so we can make sure our flag weapons are selected on spawn
-	table.Add(loadout, flag)
 
 	local lookup = table.Lookup(loadout)
 

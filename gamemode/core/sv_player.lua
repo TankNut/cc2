@@ -94,6 +94,15 @@ function GM:PlayerSelectSpawn(ply)
 end
 
 function GM:GetPlayerLoadout(ply)
-	-- Needs to take into account tooltrust/phystrust
-	return {"weapon_physgun", "gmod_tool"}
+	local tab = {}
+
+	if ply:ToolTrust() > 0 or ply:IsAdmin() then
+		table.insert(tab, "gmod_tool")
+	end
+
+	if ply:PhysTrust() > 0 or ply:IsAdmin() then
+		table.insert(tab, "weapon_physgun")
+	end
+
+	return tab
 end
