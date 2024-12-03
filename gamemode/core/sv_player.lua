@@ -60,6 +60,8 @@ function GM:PlayerInitialSpawn(ply)
 end
 
 function GM:PlayerSpawn(ply)
+	ply.SpawnPos = ply:GetPos()
+
 	-- Might want to update the bird workflow at some point
 	if not ply.FirstSpawn then
 		ply.FirstSpawn = true
@@ -70,8 +72,6 @@ function GM:PlayerSpawn(ply)
 
 		ply:SetNotSolid(true)
 		ply:SetMoveType(MOVETYPE_NOCLIP)
-
-		ply.SpawnPos = ply:GetPos()
 
 		return
 	end
@@ -85,23 +85,12 @@ function GM:PlayerSpawn(ply)
 
 	ply:UpdateLoadout()
 
-	local ent = ply:RunCharFlag("UseCombineSpawns") and "cc_spawnpoint_skynet" or "cc_spawnpoint"
-	local spawn = table.Random(ents.FindByClass(ent))
-
-	if IsValid(spawn) then
-		ply:SetPos(spawn:GetPos())
-		ply:SetEyeAngles(spawn:GetAngles())
-	end
-
-	local offset = ply:RunCharFlag("SpawnOffset")
-
-	if offset then
-		ply:SetPos(ply:GetPos() + offset)
-	end
-
-	ply.SpawnPos = ply:GetPos()
-
 	self:RefreshNPCRelationships()
+end
+
+-- Todo: Expand on this
+function GM:PlayerSelectSpawn(ply)
+	return table.Random(ents.FindByClass("cc_spawnpoint")) or self.BaseClass.PlayerSelectSpawn(self, ply)
 end
 
 function GM:GetPlayerLoadout(ply)
