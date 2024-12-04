@@ -76,6 +76,10 @@ function Load()
 end
 
 function Instance(class, id, data)
+	if All[id] then
+		return All[id]
+	end
+
 	class = assert(List[class], "Attempt to instance unknown item type: " .. class)
 
 	local instance = setmetatable({
