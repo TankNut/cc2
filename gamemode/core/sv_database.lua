@@ -72,5 +72,7 @@ function GM:LoadDatabase()
 		self.Database = database.New(config.Host, config.Username, config.Password, config.Database, config.Port)
 
 		Load(self.Database)
+
+		Item.LoadWorld()
 	end)
 end

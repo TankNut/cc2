@@ -245,12 +245,6 @@ function GM:SetupMove(ply, move)
 		move:SetVelocity(Vector())
 	end
 
-	local item = ply:GetEquipment(EQUIPMENT_EXO)
-
-	if item and item.SetupMove then
-		item:SetupMove(ply, move)
-	end
-
 	return self.BaseClass:SetupMove(ply, move)
 end
 

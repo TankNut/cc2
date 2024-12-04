@@ -50,12 +50,6 @@ function GM:LoadContent()
 	Item.Load()
 end
 
-function GM:PostGamemodeLoaded()
-	if SERVER then
-		async.Start(Item.LoadWorld)
-	end
-end
-
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
 GM:Include("enums.lua")
 GM:Include("sh_helpers.lua")
