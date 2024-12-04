@@ -760,10 +760,6 @@ function GM:DrawEntities()
 			continue
 		end
 
-		if not v.Item then
-			continue
-		end
-
 		local distance = EyePos():DistToSqr(v:WorldSpaceCenter())
 
 		if distance > sightsqr * 0.5 and not (self.SeeAll and tobool(cookie.GetNumber("cc_seeallitems", 1))) then
@@ -779,10 +775,10 @@ function GM:DrawEntities()
 		end
 
 		if v.HUDAlpha > 0 then
-			draw.DrawTextShadow(v.Item:GetName(), "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
+			draw.DrawTextShadow(v:GetItemName(), "CombineControl.PlayerFont", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 			pos.y = pos.y + 20
 
-			draw.DrawTextShadow("Weight - " .. tostring(v.Item:GetWeight()), "CombineControl.LabelSmall", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
+			draw.DrawTextShadow("Weight - " .. tostring(v:GetItemWeight()), "CombineControl.LabelSmall", pos.x, pos.y, Color(200, 200, 200, v.HUDAlpha * 255), Color(0, 0, 0, v.HUDAlpha * 255), 1)
 			pos.y = pos.y + 16
 
 		end

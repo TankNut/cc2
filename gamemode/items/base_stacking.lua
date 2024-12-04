@@ -76,7 +76,7 @@ function ITEM:CanPickup(ply, silent)
 		return true
 	end
 
-	if (ply:InventoryWeight() + weight) > ply:InventoryMaxWeight() then
+	if (ply:InventoryWeight() + weight) > ply:MaxInventoryWeight() then
 		if not silent then
 			ply:SendChat(nil, "ERROR", "That's too heavy for you to carry.")
 		end
@@ -113,7 +113,7 @@ else
 		local weight = BaseClass.GetWeight(self)
 
 		if weight > 0 then
-			local space = ply:InventoryMaxWeight() - ply:InventoryWeight()
+			local space = ply:MaxInventoryWeight() - ply:InventoryWeight()
 
 			amt = math.min(amt, math.floor(space / weight))
 		end

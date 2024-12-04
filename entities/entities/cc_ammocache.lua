@@ -108,7 +108,7 @@ if SERVER then
 		local weight = GAMEMODE:GetDefaultItemKey(ammo, "Weight")
 
 		if weight > 0 then
-			local space = ply:InventoryMaxWeight() - ply:InventoryWeight()
+			local space = ply:MaxInventoryWeight() - ply:InventoryWeight()
 
 			amt = math.min(amt, math.floor(space / weight), 0)
 		end

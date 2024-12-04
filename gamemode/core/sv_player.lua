@@ -31,6 +31,8 @@ function GM:PlayerInitialSpawn(ply)
 		return
 	end
 
+	Inventory.Init(ply)
+
 	ply:SetTeam(TEAM_UNASSIGNED)
 
 	-- Holdover from TRP, do we want to keep this?

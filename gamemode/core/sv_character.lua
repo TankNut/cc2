@@ -66,6 +66,8 @@ function meta:LoadCharacter(id)
 		self["SetCharacter" .. var.Name](self, val, true)
 	end
 
+	Inventory.Load(self)
+
 	netstream.Send(self, "PostLoadCharacter")
 	hook.Run("PostLoadCharacter", self)
 end

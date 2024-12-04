@@ -149,7 +149,7 @@ function GM:CanBuyItem(classname, ply, amount)
 		return false, "Not enough money!"
 	end
 
-	if ply:InventoryWeight() + (item.Weight * amount) > ply:InventoryMaxWeight() then
+	if ply:InventoryWeight() + (item.Weight * amount) > ply:MaxInventoryWeight() then
 		return false, "Too heavy!"
 	end
 

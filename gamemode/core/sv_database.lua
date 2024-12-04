@@ -19,6 +19,16 @@ function CreateTables(db)
 		query:Index("SteamID")
 	query:Execute()
 
+	query = db:Create("rp_items")
+		query:Create("id", "INT NOT NULL AUTO_INCREMENT", true)
+		query:Create("Class", "VARCHAR(64) NOT NULL")
+		query:Create("StoreType", "INT")
+		query:Create("StoreID", "VARCHAR(64)")
+		query:Create("MapData", "BLOB")
+		query:Create("CustomData", "BLOB")
+		query:Index("StoreType", "StoreID")
+	query:Execute()
+
 	PopulateFromVars(db, "rp_players", PlayerVar.Vars)
 	PopulateFromVars(db, "rp_characters", CharacterVar.Vars)
 end

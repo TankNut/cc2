@@ -79,37 +79,6 @@ function meta:GetEquipment(slot)
 	end
 end
 
-function meta:InventoryWeight()
-	local weight = 0
-
-	for _, v in pairs(self.Inventory) do
-		weight = weight + v:GetWeight()
-	end
-
-	return weight
-end
-
-function meta:InventoryMaxWeight()
-	local weight = 30
-
-	if self.Inventory then
-		local tab = {}
-
-		for _, v in pairs(self.Inventory) do
-			local add = v:GetCarryAdd()
-			local added = tab[v:GetClass()] or 0
-
-			if add > added then
-				weight = weight + (add - added)
-
-				tab[v:GetClass()] = add
-			end
-		end
-	end
-
-	return math.Round(weight)
-end
-
 -- TODO: Phase out
 function meta:CanTakeItem(item)
 	local weight = item:GetWeight()
@@ -118,5 +87,5 @@ function meta:CanTakeItem(item)
 		return true
 	end
 
-	return self:InventoryWeight() + weight <= self:InventoryMaxWeight()
+	return self:InventoryWeight() + weight <= self:MaxInventoryWeight()
 end

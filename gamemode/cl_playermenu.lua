@@ -684,8 +684,11 @@ function GM:PMUpdateInventory()
 		end
 	end
 
-	ui.InvWeightBar:SetProgress(LocalPlayer():InventoryWeight() / LocalPlayer():InventoryMaxWeight())
-	ui.InvWeightBar:SetProgressText("Weight: " .. LocalPlayer():InventoryWeight() .. "/" .. LocalPlayer():InventoryMaxWeight())
+	local weight = lp:InventoryWeight()
+	local maxWeight = lp:MaxInventoryWeight()
+
+	ui.InvWeightBar:SetProgress(weight / maxWeight)
+	ui.InvWeightBar:SetProgressText("Weight: " .. weight .. "/" .. maxWeight)
 end
 
 function GM:PMPopulateBusiness(filter)

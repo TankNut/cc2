@@ -52,3 +52,7 @@ function meta:UpdateLoadout()
 		end
 	end
 end
+
+function meta:UpdateMaxWeight()
+	self:SetMaxInventoryWeight(30)
+end

@@ -17,7 +17,7 @@ function ITEM:CanPickup(ply, silent)
 		return true
 	end
 
-	if (ply:InventoryWeight() + weight) > ply:InventoryMaxWeight() then
+	if (ply:InventoryWeight() + weight) > ply:MaxInventoryWeight() then
 		if not silent then
 			ply:SendChat(nil, "ERROR", "That's too heavy for you to carry.")
 		end

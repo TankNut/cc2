@@ -8,14 +8,13 @@ function ENT:Initialize()
 	if CLIENT then return end
 
 	self:PhysicsInit(SOLID_VPHYSICS)
-	self:SetUseType(SIMPLE_USE)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+	self:SetUseType(SIMPLE_USE)
+end
 
-	local phys = self:GetPhysicsObject()
-
-	if IsValid(phys) then
-		phys:Wake()
-	end
+function ENT:SetupDataTables()
+	self:NetworkVar("String", "ItemName")
+	self:NetworkVar("Float", "ItemWeight")
 end
 
 function ENT:Think()
@@ -25,8 +24,7 @@ function ENT:Think()
 
 	if self.Item and self:HasMoved() then
 		self:SaveMoved()
-
-		self.Item:SaveLocation()
+		async.Start(self.Item.SaveLocation, self.Item)
 	end
 
 	self:NextThink(CurTime() + 30)
@@ -69,7 +67,7 @@ function ENT:OnRemove()
 
 	-- self.Item gets nulled out first if the item is being removed by other means, e.g. unloading or being picked up
 	if item and not GAMEMODE.IsShuttingDown then
-		GAMEMODE:DeleteItem(item)
+		Item.Delete(item.ID)
 	end
 end
 

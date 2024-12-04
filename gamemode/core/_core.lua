@@ -47,14 +47,23 @@ end
 
 function GM:LoadContent()
 	CharacterFlag.Load()
+	Item.Load()
+end
+
+function GM:PostGamemodeLoaded()
+	if SERVER then
+		async.Start(Item.LoadWorld)
+	end
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
+GM:Include("enums.lua")
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
 GM:Include("sh_character_vars.lua")
 GM:Include("sh_global_vars.lua")
 
+GM:Include("cl_inventory.lua")
 GM:Include("cl_think.lua")
 GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
@@ -63,10 +72,13 @@ GM:Include("sh_character.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sh_global.lua")
 GM:Include("sh_hull.lua")
+GM:Include("sh_item.lua")
 GM:Include("sh_player.lua")
 GM:Include("sh_sandbox.lua")
 GM:Include("sv_character.lua")
 GM:Include("sv_database.lua")
+GM:Include("sv_inventory.lua")
+GM:Include("sv_item.lua")
 GM:Include("sv_player_update.lua")
 GM:Include("sv_player.lua")
 
