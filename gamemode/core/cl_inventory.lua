@@ -1,15 +1,9 @@
 Inventory = Inventory or {}
 
 netstream.Hook("AddItem", function(class, id, data)
-	local item = Inventory[id] or Item.Instance(class, id, data)
+	assert(not Inventory[id], "LocalPlayer inventory already contains item id: " .. id)
 
-	if Inventory[id] then
-		for k, v in pairs(data) do
-			item:SetData(k, v)
-		end
-	else
-		Inventory[id] = item
-	end
+	Inventory[id] = Item.Instance(class, id, data)
 end)
 
 netstream.Hook("RemoveItem", function(id)
