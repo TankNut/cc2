@@ -1,0 +1,36 @@
+function ITEM:GetData(key, fallback)
+	if self.Data[key] != nil then
+		return self.Data[key]
+	end
+
+	return fallback
+end
+
+function ITEM:SetData(key, val)
+	local old = self.Data[key]
+	local hookName = "On" .. key .. "Changed"
+
+	self.Data[key] = val
+
+	if self[hookName] then
+		self[hookName](self, old, val)
+	end
+
+	if SERVER then
+		async.Start(self.SaveData, self)
+
+		local inventory = self.Inventory
+
+		if inventory and inventory.StoreType == INV_PLAYER then
+			netstream.Send(inventory.Entity, "UpdateItemData", self.ID, key, val)
+		end
+	end
+end
+
+function ITEM:GetName() return self:GetData("Name", self.Name) end
+function ITEM:GetDescription() return self:GetData("Description", self.Description) end
+
+function ITEM:GetModel() return self:GetData("Model", self.Model) end
+function ITEM:GetSkin() return self:GetData("Skin", self.Skin) end
+
+function ITEM:GetWeight() return self:GetData("Weight", self.Weight) end
