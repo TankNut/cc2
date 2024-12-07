@@ -18,7 +18,7 @@ function meta:HasCharacter()
 	return self:CharID() != 0
 end
 
-function meta:HasTemporaryCharacter()
+function meta:IsTemporaryCharacter()
 	return self:CharID() < 0
 end
 
