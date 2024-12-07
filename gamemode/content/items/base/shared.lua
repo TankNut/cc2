@@ -1,4 +1,5 @@
 ITEM.Name = "Unnamed item"
+ITEM.Description = "Whoever made this item forgot to add a description!"
 
 ITEM.Model = Model("models/props_lab/cactus.mdl")
 ITEM.Skin = 0
