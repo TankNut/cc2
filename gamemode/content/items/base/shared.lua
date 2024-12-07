@@ -18,7 +18,6 @@ function ITEM:IsTemporaryItem()
 end
 
 function ITEM:SetItemAppearance(ent)
-	ent:SetModel(self:GetModel())
 	ent:SetSkin(self:GetSkin())
 
 	local scale = self:GetData("Scale", self.Scale)

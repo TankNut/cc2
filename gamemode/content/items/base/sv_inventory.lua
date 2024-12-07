@@ -44,6 +44,7 @@ function ITEM:Drop(pos, ang, frozen, loaded)
 	ent:SetAngles(ang)
 
 	if not IsValid(self.Entity) then
+		ent:SetModel(self:GetModel())
 		self:SetItemAppearance(ent)
 
 		ent.Item = self
