@@ -10,6 +10,8 @@ ITEM.Weight = 1
 
 ITEM.Actions = {}
 
+GM:Include("cl_ui.lua")
+
 GM:Include("sh_actions.lua")
 GM:Include("sh_equipment.lua")
 GM:Include("sh_data.lua")

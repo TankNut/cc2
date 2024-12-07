@@ -451,27 +451,22 @@ function GM:PMCreateInventory()
 
 	CCP.PlayerMenu.InvButtons = {}
 
-	CCP.PlayerMenu.InvModel = vgui.Create("DModelPanel", CCP.PlayerMenu.ContentPane)
-	CCP.PlayerMenu.InvModel:SetPos(420, 10)
-	CCP.PlayerMenu.InvModel:SetModel("")
-	CCP.PlayerMenu.InvModel:SetSize(CCP.PlayerMenu.ContentPane:GetWide() - 430, 200)
-	CCP.PlayerMenu.InvModel:SetFOV(20)
-	CCP.PlayerMenu.InvModel:SetCamPos(Vector(50, 50, 50))
-	CCP.PlayerMenu.InvModel:SetLookAt(Vector(0, 0, 0))
+	CCP.PlayerMenu.InvBackground = vgui.Create("DPanel", CCP.PlayerMenu.ContentPane)
+	CCP.PlayerMenu.InvBackground:SetPos(420, 10)
+	CCP.PlayerMenu.InvBackground:SetSize(CCP.PlayerMenu.ContentPane:GetWide() - 430, 200)
 
-	local p = CCP.PlayerMenu.InvModel.Paint
-
-	function CCP.PlayerMenu.InvModel:Paint(w, h)
-
+	function CCP.PlayerMenu.InvBackground:Paint(w, h)
 		surface.SetDrawColor(0, 0, 0, 70)
 		surface.DrawRect(0, 0, w, h)
 
 		surface.SetDrawColor(0, 0, 0, 100)
 		surface.DrawOutlinedRect(0, 0, w, h)
-
-		p(self, w, h)
-
 	end
+
+	CCP.PlayerMenu.InvModel = vgui.Create("DModelPanel", CCP.PlayerMenu.ContentPane)
+	CCP.PlayerMenu.InvModel:SetPos(505, 10)
+	CCP.PlayerMenu.InvModel:SetModel("")
+	CCP.PlayerMenu.InvModel:SetSize(200, 200)
 
 	function CCP.PlayerMenu.InvModel:LayoutEntity(ent) end
 
@@ -501,7 +496,7 @@ function GM:PMCreateInventory()
 		self:SetBGColor(Color(0, 0, 0, 0))
 	end
 
-	if table.Count(LocalPlayer().Inventory) == 0 then
+	if table.Count(lp:GetItems()) == 0 then
 		CCP.PlayerMenu.InvDesc:SetText("You don't have any items!")
 	end
 
@@ -541,7 +536,7 @@ function GM:PMResetText()
 	if CCP.PlayerMenu.InvDesc then
 		CCP.PlayerMenu.InvDesc:SetText("No item selected.")
 
-		if table.Count(LocalPlayer().Inventory) == 0 then
+		if table.Count(lp:GetItems()) == 0 then
 			CCP.PlayerMenu.InvDesc:SetText("You don't have any items!")
 		end
 	end
@@ -565,10 +560,10 @@ function GM:PMUpdateInventory()
 
 	local icons = {}
 
-	for _, i in SortedPairs(LocalPlayer().Inventory) do
-		local icon = i:CreateInventoryIcon(INVTYPE_SELF)
+	for _, item in SortedPairs(lp:GetItems()) do
+		local icon = item:CreateInventoryIcon(INVTYPE_SELF)
 
-		icons[icon.ID] = icon
+		icons[item.ID] = icon
 
 		ui.InvScroll:AddItem(icon)
 
@@ -582,25 +577,13 @@ function GM:PMUpdateInventory()
 		end
 
 		function icon:DoClick()
-			ui.SelectedItem = self.ID
-
-			local item = GAMEMODE:GetItem(self.ID)
-			local itemIcon = self
-
-			if not item then
-				GAMEMODE:PMResetText()
-
-				return
-			end
+			ui.SelectedItem = item.ID
 
 			item:ConfigureModelPanel(ui.InvModel)
-			ui.InvModel:SetFOV(ui.InvModel:GetFOV() * 1.8)
 
 			ui.InvTitle:SetText(item:GetName())
 			ui.InvWeight:SetText("Weight: " .. item:GetWeight())
 			ui.InvDesc:SetText(item:GetDescription())
-
-			item:GetAuxDescription(ui.InvDesc)
 
 			local y2 = 0
 
@@ -613,7 +596,16 @@ function GM:PMUpdateInventory()
 			ui.ButDestroy:SetText("Destroy")
 			ui.ButDestroy:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
 			ui.ButDestroy:SetSize(100, 20)
-			ui.ButDestroy:SetDisabled(not item:CanDestroy(LocalPlayer()))
+
+			local ok, err = item:CanRunAction(lp, "Destroy")
+
+			if not ok then
+				ui.ButDestroy:SetDisabled(true)
+				ui.ButDestroy:SetTooltip(err)
+			else
+				ui.ButDestroy:SetDisabled(false)
+				ui.ButDestroy:SetTooltip(nil)
+			end
 
 			table.insert(ui.InvButtons, ui.ButDestroy)
 
@@ -622,9 +614,7 @@ function GM:PMUpdateInventory()
 					self.DestroyConfirm = true
 					self:SetTextColor(Color(200, 0, 0, 255))
 				else
-					net.Start("nDestroyItem")
-						net.WriteInt(item.ID, 32)
-					net.SendToServer()
+					item:RunAction(lp, "Destroy")
 				end
 			end
 
@@ -639,33 +629,40 @@ function GM:PMUpdateInventory()
 			ui.ButDrop:SetText("Drop")
 			ui.ButDrop:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
 			ui.ButDrop:SetSize(100, 20)
-			ui.ButDrop:SetDisabled(not item:CanDrop(LocalPlayer()))
+
+			ok, err = item:CanRunAction(lp, "Drop")
+
+			if not ok then
+				ui.ButDrop:SetDisabled(true)
+				ui.ButDrop:SetTooltip(err)
+			else
+				ui.ButDrop:SetDisabled(false)
+				ui.ButDrop:SetTooltip(nil)
+			end
 
 			table.insert(ui.InvButtons, ui.ButDrop)
 
 			function ui.ButDrop:DoClick()
-				net.Start("nDropItem")
-					net.WriteInt(item.ID, 32)
-				net.SendToServer()
+				item:RunAction(lp, "Drop")
 			end
 
-			y2 = y2 - 30
+			-- y2 = y2 - 30
 
-			if IsValid(ui.ButOptions) then
-				ui.ButOptions:Remove()
-			end
+			-- if IsValid(ui.ButOptions) then
+			-- 	ui.ButOptions:Remove()
+			-- end
 
-			ui.ButOptions = vgui.Create("DButton", ui.ContentPane)
+			-- ui.ButOptions = vgui.Create("DButton", ui.ContentPane)
 
-			ui.ButOptions:SetFont("CombineControl.LabelSmall")
-			ui.ButOptions:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
-			ui.ButOptions:SetSize(100, 20)
-			ui.ButOptions:SetText("Actions")
-			ui.ButOptions:SetDisabled(#item:GetInventoryOptions(LocalPlayer()) < 1)
+			-- ui.ButOptions:SetFont("CombineControl.LabelSmall")
+			-- ui.ButOptions:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
+			-- ui.ButOptions:SetSize(100, 20)
+			-- ui.ButOptions:SetText("Actions")
+			-- ui.ButOptions:SetDisabled(#item:GetInventoryOptions(LocalPlayer()) < 1)
 
-			function ui.ButOptions:DoClick()
-				itemIcon:DoRightClick()
-			end
+			-- function ui.ButOptions:DoClick()
+			-- 	itemIcon:DoRightClick()
+			-- end
 		end
 	end
 
@@ -673,9 +670,7 @@ function GM:PMUpdateInventory()
 		local reset = true
 		local id = ui.SelectedItem
 
-		if LocalPlayer().Inventory[id] then
-			reset = false
-
+		if icons[id] then
 			icons[id]:DoClick()
 		end
 

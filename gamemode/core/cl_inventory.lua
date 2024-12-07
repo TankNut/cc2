@@ -9,6 +9,7 @@ end)
 netstream.Hook("RemoveItem", function(id)
 	Inventory[id] = nil
 
+	GAMEMODE:PMUpdateInventory()
 	-- Do ui updates
 end)
 

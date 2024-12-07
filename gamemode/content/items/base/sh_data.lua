@@ -16,7 +16,9 @@ function ITEM:SetData(key, val)
 		self[hookName](self, old, val)
 	end
 
-	if SERVER then
+	if CLIENT then
+		self.ReloadTooltip = true
+	else
 		async.Start(self.SaveData, self)
 
 		local inventory = self.Inventory
