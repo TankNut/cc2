@@ -33,7 +33,7 @@ function ITEM:SetInventory(inventory, loaded)
 	end
 end
 
-function ITEM:SetDropped(pos, ang, frozen, loaded)
+function ITEM:SetWorldItem(pos, ang, frozen, loaded)
 	local old = self:RemoveFromCurrent(true)
 
 	self:OnMove(old, nil)

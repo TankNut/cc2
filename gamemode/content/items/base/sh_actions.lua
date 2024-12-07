@@ -13,7 +13,7 @@ ITEM.Actions.Drop = {
 		return hook.Run("CanDropItem", ply, self)
 	end,
 	Callback = function(self, ply)
-		self:SetDropped(ply:EyePos(), ply:EyeAngles(), false)
+		self:SetWorldItem(ply:EyePos(), ply:EyeAngles(), false)
 	end
 }
 
