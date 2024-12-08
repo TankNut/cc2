@@ -8,8 +8,6 @@ All = All or setmetatable({}, {
 -- Deliberate, we want to clear this every autorefresh
 ActionCache = {}
 
-local meta = FindMetaTable("Player")
-
 PlayerVar.Add("InventoryWeight", {Default = 0})
 PlayerVar.Add("MaxInventoryWeight", {Default = 0})
 
@@ -99,16 +97,6 @@ end
 
 function Get(id)
 	return All[id]
-end
-
-function meta:GetItems()
-	if CLIENT and self == lp then
-		return Inventory
-	elseif SERVER then
-		return Inventory.List[self].Main.Items
-	end
-
-	return {}
 end
 
 function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)

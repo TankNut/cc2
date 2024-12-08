@@ -1,5 +1,11 @@
 Inventory = Inventory or {}
 
+local meta = FindMetaTable("Player")
+
+function meta:GetItems()
+	return self == lp and Inventory or {}
+end
+
 netstream.Hook("AddItem", function(class, id, data)
 	assert(not Inventory[id], "LocalPlayer inventory already contains item id: " .. id)
 

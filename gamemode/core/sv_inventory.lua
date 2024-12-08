@@ -50,6 +50,10 @@ function pmeta:GetStash()
 	return List[self].Stash
 end
 
+function pmeta:GetItems()
+	return Inventory.List[self].Main.Items
+end
+
 function meta:LoadItems()
 	local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", self.StoreType)
