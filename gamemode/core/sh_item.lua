@@ -1,6 +1,8 @@
 module("Item", package.seeall)
 
 List = List or {}
+Spawnable = Spawnable or {}
+
 All = All or setmetatable({}, {
 	__mode = "v"
 })
@@ -15,6 +17,8 @@ function Register(name, item)
 	item.ClassName = name
 	item.ThisClass = "item_" .. name
 
+	local internal = item.Internal; item.Internal = nil
+
 	if name != "base" then
 		setmetatable(item, {
 			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
@@ -24,6 +28,10 @@ function Register(name, item)
 	baseclass.Set(item.ThisClass, item)
 
 	List[name] = baseclass.Get(item.ThisClass)
+
+	if not internal then
+		Spawnable[name] = baseclass.Get(item.ThisClass)
+	end
 end
 
 function RegisterFile(path)
