@@ -78,4 +78,6 @@ GM:Include("sv_player.lua")
 
 GM:LoadFolder("core/plugins")
 
+GM:Include(engine.ActiveGamemode() .. "/gamemode/content/sh_defines.lua")
+
 hook.Call("LoadContent", GM)

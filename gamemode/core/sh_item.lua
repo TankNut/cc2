@@ -138,3 +138,48 @@ function GM:CanDestroyItem(ply, item)
 
 	return true
 end
+
+function GM:CanEquipItem(ply, item, slot)
+	if not item:IsOwner(ply) then
+		return false, "You don't own this item!"
+	end
+
+	if item:IsEquipped() then
+		return false, "This item is already equipped!"
+	end
+
+	if slot then
+		if not table.HasValue(ply:RunCharFlag("EquipmentSlots"), slot) then
+			return false, "You don't have this equipment slot!"
+		end
+	else
+		local ok = false
+		local slots = ply:RunCharFlag("EquipmentSlots")
+
+		for _, itemSlot in pairs(item.EquipmentSlots) do
+			if table.HasValue(slots, itemSlot) then
+				ok = true
+
+				break
+			end
+		end
+
+		if not ok then
+			return false, "You don't have any equipment slots to put this in!"
+		end
+	end
+
+	return item:CanEquip(ply, slot)
+end
+
+function GM:CanUnequipItem(ply, item)
+	if not item:IsOwner(ply) then
+		return false, "You don't own this item!"
+	end
+
+	if not item:IsEquipped() then
+		return false, "This item isn't equipped!"
+	end
+
+	return item:CanUnequip(ply)
+end

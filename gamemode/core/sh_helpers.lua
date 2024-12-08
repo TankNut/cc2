@@ -37,6 +37,10 @@ function FLOAT()
 	}
 end
 
+function EquipmentSlot(slot)
+	return GAMEMODE.EquipmentNames[slot]
+end
+
 if CLIENT then
 	-- Maybe we should add a backport of eternity/afterglow chat to the list, this is horrid
 	function SendLocalChat(messageType, str)

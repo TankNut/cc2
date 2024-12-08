@@ -36,3 +36,5 @@ function ITEM:GetModel() return self:GetData("Model", self.Model) end
 function ITEM:GetSkin() return self:GetData("Skin", self.Skin) end
 
 function ITEM:GetWeight() return self:GetData("Weight", self.Weight) end
+
+function ITEM:GetArmor() return self:GetData("Armor", self.Armor) end

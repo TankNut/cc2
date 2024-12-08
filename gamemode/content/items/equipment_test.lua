@@ -1,0 +1,19 @@
+ITEM.Name = "Equipment"
+
+ITEM.EquipmentSlots = {
+	"test"
+}
+
+ITEM.Armor = 50
+
+function ITEM:GetModelData(ply)
+	if not self:IsEquipped() then
+		return
+	end
+
+	return {
+		head = {
+			Model = Model("models/nova/w_headcrab.mdl")
+		}
+	}
+end

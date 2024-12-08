@@ -1,6 +1,7 @@
 module("Inventory", package.seeall)
 
 List = List or {}
+Equipment = Equipment or {}
 
 local meta = CustomMetaTable("Inventory")
 local pmeta = FindMetaTable("Player")
@@ -21,6 +22,7 @@ end
 
 function Init(ply)
 	List[ply] = {}
+	Equipment[ply] = {}
 end
 
 function Clear(ply)
@@ -29,12 +31,15 @@ function Clear(ply)
 	end
 
 	List[ply] = nil
+	Equipment[ply] = nil
 end
 
 function Load(ply)
 	for _, inv in pairs(List[ply]) do
 		inv:Cleanup()
 	end
+
+	table.Empty(Equipment[ply])
 
 	List[ply] = {
 		Main = Create(INV_PLAYER, ply:CharID(), ply),
@@ -52,6 +57,14 @@ end
 
 function pmeta:GetItems()
 	return Inventory.List[self].Main.Items
+end
+
+function pmeta:GetEquipment(slot)
+	if slot then
+		return Equipment[self][slot]
+	else
+		return Equipment[self]
+	end
 end
 
 function meta:LoadItems()

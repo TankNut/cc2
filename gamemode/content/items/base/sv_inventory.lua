@@ -20,20 +20,24 @@ function ITEM:RemoveFromCurrent(keepEntity)
 	return inventory
 end
 
-function ITEM:SetInventory(inventory, loaded)
+function ITEM:SetInventory(inventory, loading)
+	self:PreItemMove(loading)
+
 	local old = self:RemoveFromCurrent()
 
-	inventory:ItemAdded(self, loaded)
+	inventory:ItemAdded(self, loading)
 
 	self.Inventory = inventory
-	self:OnMove(old, inventory, loaded)
+	self:OnMove(old, inventory, loading)
 
-	if not loaded then
+	if not loading then
 		async.Start(self.SaveLocation, self)
 	end
 end
 
-function ITEM:SetWorldItem(pos, ang, frozen, loaded)
+function ITEM:SetWorldItem(pos, ang, frozen, loading)
+	self:PreItemMove(loading)
+
 	local old = self:RemoveFromCurrent(true)
 
 	self:OnMove(old, nil)
@@ -63,12 +67,18 @@ function ITEM:SetWorldItem(pos, ang, frozen, loaded)
 
 	ent:SaveMoved()
 
-	if not loaded then
+	if not loading then
 		async.Start(self.SaveLocation, self)
 	end
 end
 
 function ITEM:Cleanup()
+end
+
+function ITEM:PreItemMove(loaded)
+	if self:IsEquipped() and not loaded then
+		self:SetEquipped(nil)
+	end
 end
 
 function ITEM:OnMove(old, new, loaded)

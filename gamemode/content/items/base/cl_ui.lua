@@ -2,6 +2,9 @@ function ITEM:DrawUIHighlight(x, y, w, h)
 	if self:IsTemporaryItem() then
 		draw.RoundedBox(8, x, y, w, h, Color(0, 127, 31, 25))
 	end
+
+	if self:IsEquipped() then
+		draw.RoundedBox(8, x, y, w, h, Color(100, 160, 210, 25))
 	end
 end
 

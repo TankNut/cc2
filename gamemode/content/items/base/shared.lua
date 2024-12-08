@@ -8,13 +8,16 @@ ITEM.Scale = 1
 
 ITEM.Weight = 1
 
+ITEM.EquipmentSlots = {}
 ITEM.Actions = {}
+
+ITEM.Armor = 0
 
 GM:Include("cl_ui.lua")
 
 GM:Include("sh_actions.lua")
-GM:Include("sh_equipment.lua")
 GM:Include("sh_data.lua")
+GM:Include("sh_equipment.lua")
 
 GM:Include("sv_database.lua")
 GM:Include("sv_inventory.lua")

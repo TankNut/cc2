@@ -9,6 +9,9 @@ FLAG.Scale = 0
 -- Last weapon on the list is selected on spawn
 FLAG.Loadout = {}
 
+FLAG.EquipmentSlots = {}
+FLAG.EquipmentConflicts = {}
+
 FLAG.BloodColor = BLOOD_COLOR_RED
 
 -- Min speed can be changed to <= 90 after my footstep plugin is ported over from helix

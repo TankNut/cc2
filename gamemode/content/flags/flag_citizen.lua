@@ -3,6 +3,12 @@ FLAG.Team = TEAM_CITIZEN
 
 FLAG.Loadout = {"weapon_cc_hands"}
 
+FLAG.EquipmentSlots = {
+	"test"
+}
+
+FLAG.EquipmentConflicts = {}
+
 function FLAG:GetModelData(ply)
 	local mdl = ply:CharacterModel()
 

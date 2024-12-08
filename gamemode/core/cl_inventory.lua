@@ -1,9 +1,18 @@
 Inventory = Inventory or {}
+Equipment = Equipment or {}
 
 local meta = FindMetaTable("Player")
 
 function meta:GetItems()
 	return self == lp and Inventory or {}
+end
+
+function meta:GetEquipment(slot)
+	if not slot then
+		return self == lp and Equipment or {}
+	else
+		return self == lp and Equipment[slot] or nil
+	end
 end
 
 netstream.Hook("AddItem", function(class, id, data)
