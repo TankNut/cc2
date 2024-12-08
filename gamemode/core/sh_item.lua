@@ -13,15 +13,17 @@ PlayerVar.Add("MaxInventoryWeight", {Default = 0})
 
 function Register(name, item)
 	item.ClassName = name
-	item.__index = item
+	item.ThisClass = "item_" .. name
 
 	if name != "base" then
-		setmetatable(item, baseclass.Get(item.Base and "item_" .. item.Base or "item_base"))
+		setmetatable(item, {
+			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
+		})
 	end
 
-	baseclass.Set("item_" .. name, item)
+	baseclass.Set(item.ThisClass, item)
 
-	List[name] = baseclass.Get("item_" .. name)
+	List[name] = baseclass.Get(item.ThisClass)
 end
 
 function RegisterFile(path)
@@ -83,7 +85,9 @@ function Instance(class, id, data)
 	local instance = setmetatable({
 		ID = id,
 		Data = data or {}
-	}, class)
+	}, {
+		__index = class
+	})
 
 	All[id] = instance
 
