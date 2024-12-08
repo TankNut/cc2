@@ -55,9 +55,14 @@ function ITEM:CreateInventoryIcon()
 		dmenu:SetPos(gui.MousePos())
 
 		for _, action in ipairs(actions) do
-			if action.SubOptions then
+			local options = action.SubOptions
+
+			if isfunction(options) then
+				options = action.SubOptions(item, lp)
+			end
+
+			if options and #options > 0 then
 				local parent = dmenu:AddSubMenu(action.Name)
-				local options = isfunction(action.SubOptions) and action.SubOptions(item, lp) or action.SubOptions
 
 				for _, v in ipairs(options) do
 					parent:AddOption(v.Name, function()
