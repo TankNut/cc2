@@ -99,8 +99,8 @@ function ITEM:GetAvailableActions(ply, category)
 end
 
 function ITEM:IsActionAvailable(ply, action)
-	if action.IsAvailable and not action.IsAvailable(self, ply) then
-		return false
+	if action.IsAvailable then
+		return action.IsAvailable(self, ply)
 	end
 
 	return true
