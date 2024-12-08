@@ -1,6 +1,7 @@
-function ITEM:GetUIHighlight()
+function ITEM:DrawUIHighlight(x, y, w, h)
 	if self:IsTemporaryItem() then
-		return Color(0, 127, 31, 25)
+		draw.RoundedBox(8, x, y, w, h, Color(0, 127, 31, 25))
+	end
 	end
 end
 
@@ -22,7 +23,6 @@ function ITEM:CreateInventoryIcon()
 	local item = self
 	local icon = vgui.Create("DModelPanel")
 	icon.Item = item
-	icon.Highlight = self:GetUIHighlight()
 
 	icon:SetSize(48, 48)
 
@@ -31,9 +31,7 @@ function ITEM:CreateInventoryIcon()
 	local p = icon.Paint
 
 	function icon:Paint(w, h)
-		if self.Highlight then
-			draw.RoundedBox(8, 2, 2, w - 4, h - 4, self.Highlight)
-		end
+		item:DrawUIHighlight(2, 2, w - 4, h - 4)
 
 		p(self, w, h)
 	end
