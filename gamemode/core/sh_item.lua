@@ -94,6 +94,14 @@ function Get(id)
 	return All[id]
 end
 
+function GetDropPosition(ply)
+	local tr = util.TraceLine({
+		start = ply:GetShootPos(),
+		endpos = ply:GetShootPos() + ply:GetAimVector() * 50,
+		filter = ply
+	})
+
+	return tr.HitPos + tr.HitNormal * 10
 end
 
 function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)

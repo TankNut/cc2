@@ -17,7 +17,7 @@ ITEM.Actions.Drop = {
 		return hook.Run("CanDropItem", ply, self)
 	end,
 	Callback = function(self, ply)
-		self:SetWorldItem(ply:EyePos(), ply:EyeAngles(), false)
+		self:SetWorldItem(Item.GetDropPosition(ply), Angle(0, ply:EyeAngles().y, 0), false)
 	end
 }
 
