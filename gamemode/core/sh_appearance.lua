@@ -28,12 +28,29 @@ end
 if SERVER then
 	function meta:UpdateAppearance()
 		local appearance = self:RunCharFlag("GetModelData")
+		local items = self:GetItems()
 
-		-- Item GetModelData
+		for _, item in pairs(items) do
+			if not item.GetModelData then
+				continue
+			end
+
+			local data = item:GetModelData(self)
+
+			if data then
+				table.Merge(appearance, data)
+			end
+		end
 
 		self:RunCharFlag("PostModelData", appearance)
 
-		-- Item PostModelData
+		for _, item in pairs(items) do
+			if not item.PostModelData then
+				continue
+			end
+
+			item:PostModelData(self, appearance)
+		end
 
 		local base = assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
 
