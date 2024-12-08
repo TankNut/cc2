@@ -54,15 +54,12 @@ function ITEM:CreateInventoryIcon()
 		for _, action in ipairs(actions) do
 			if action.SubOptions then
 				local parent = dmenu:AddSubMenu(action.Name)
+				local options = isfunction(action.SubOptions) and action.SubOptions(item, lp) or action.SubOptions
 
-				if isfunction(action.SubOptions) then
-					action.SubOptions(item, lp, parent)
-				else
-					for _, v in ipairs(action.SubOptions) do
-						parent:AddOption(v.Name, function()
-							item:RunAction(lp, action.Name, v.Value)
-						end)
-					end
+				for _, v in ipairs(options) do
+					parent:AddOption(v.Name, function()
+						item:RunAction(lp, action.Name, v.Value)
+					end)
 				end
 			else
 				dmenu:AddOption(action.Name, function()
