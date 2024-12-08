@@ -646,23 +646,25 @@ function GM:PMUpdateInventory()
 				item:RunAction(lp, "Drop")
 			end
 
-			-- y2 = y2 - 30
+			y2 = y2 - 30
 
-			-- if IsValid(ui.ButOptions) then
-			-- 	ui.ButOptions:Remove()
-			-- end
+			if IsValid(ui.ButOptions) then
+				ui.ButOptions:Remove()
+			end
 
-			-- ui.ButOptions = vgui.Create("DButton", ui.ContentPane)
+			ui.ButOptions = vgui.Create("DButton", ui.ContentPane)
 
-			-- ui.ButOptions:SetFont("CombineControl.LabelSmall")
-			-- ui.ButOptions:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
-			-- ui.ButOptions:SetSize(100, 20)
-			-- ui.ButOptions:SetText("Actions")
-			-- ui.ButOptions:SetDisabled(#item:GetInventoryOptions(LocalPlayer()) < 1)
+			ui.ButOptions:SetFont("CombineControl.LabelSmall")
+			ui.ButOptions:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
+			ui.ButOptions:SetSize(100, 20)
+			ui.ButOptions:SetText("Actions")
+			ui.ButOptions:SetDisabled(#item:GetAvailableActions(lp, "InventoryButton") < 1)
 
-			-- function ui.ButOptions:DoClick()
-			-- 	itemIcon:DoRightClick()
-			-- end
+			function ui.ButOptions:DoClick()
+				itemIcon:DoRightClick("InventoryButton")
+			end
+
+			table.insert(ui.InvButtons, ui.ButOptions)
 		end
 	end
 

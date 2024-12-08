@@ -72,5 +72,9 @@ netstream.Hook("ItemAction", function(ply, id, name, ...)
 		return
 	end
 
+	if not item:IsActionAvailable(ply, action) then
+		return
+	end
+
 	item:HandleServerAction(ply, name, action, ...)
 end)

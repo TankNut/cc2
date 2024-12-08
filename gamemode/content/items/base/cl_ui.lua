@@ -41,8 +41,39 @@ function ITEM:CreateInventoryIcon()
 	function icon:LayoutEntity()
 	end
 
-	function icon:DoRightClick()
+	function icon:DoRightClick(category)
 		self:DoClick()
+
+		local actions = item:GetAvailableActions(lp, category or "Rightclick")
+
+		if #actions < 1 then
+			return
+		end
+
+		local dmenu = DermaMenu()
+		dmenu:SetPos(gui.MousePos())
+
+		for _, action in ipairs(actions) do
+			if action.SubOptions then
+				local parent = dmenu:AddSubMenu(action.Name)
+
+				if isfunction(action.SubOptions) then
+					action.SubOptions(item, lp, parent)
+				else
+					for _, v in ipairs(action.SubOptions) do
+						parent:AddOption(v.Name, function()
+							item:RunAction(lp, action.Name, v.Value)
+						end)
+					end
+				end
+			else
+				dmenu:AddOption(action.Name, function()
+					item:RunAction(lp, action.Name)
+				end)
+			end
+		end
+
+		dmenu:Open()
 	end
 
 	function icon:OnCursorEntered()
