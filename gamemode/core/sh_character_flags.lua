@@ -11,18 +11,15 @@ CharacterVar.Add("Flag", {
 
 function Register(name, flag)
 	flag.ClassName = name
-
-	if not List[name] then
-		List[name] = flag
-	end
+	flag.__index = flag
 
 	if name != "base" then
-		setmetatable(flag, {
-			__index = baseclass.Get(flag.Base or "flag_base")
-		})
+		setmetatable(flag, baseclass.Get(flag.Base or "flag_base"))
 	end
 
 	baseclass.Set("flag_" .. name, flag)
+
+	List[name] = baseclass.Get("flag_" .. name)
 end
 
 function RegisterFile(path)

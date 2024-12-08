@@ -13,18 +13,15 @@ PlayerVar.Add("MaxInventoryWeight", {Default = 0})
 
 function Register(name, item)
 	item.ClassName = name
-
-	if not List[name] then
-		List[name] = item
-	end
+	item.__index = item
 
 	if name != "base" then
-		setmetatable(item, {
-			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
-		})
+		setmetatable(item, baseclass.Get(item.Base and "item_" .. item.Base or "item_base"))
 	end
 
 	baseclass.Set("item_" .. name, item)
+
+	List[name] = baseclass.Get("item_" .. name)
 end
 
 function RegisterFile(path)
@@ -86,9 +83,7 @@ function Instance(class, id, data)
 	local instance = setmetatable({
 		ID = id,
 		Data = data or {}
-	}, {
-		__index = class
-	})
+	}, class)
 
 	All[id] = instance
 
@@ -97,6 +92,8 @@ end
 
 function Get(id)
 	return All[id]
+end
+
 end
 
 function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
