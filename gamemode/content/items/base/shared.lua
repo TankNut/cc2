@@ -9,6 +9,7 @@ ITEM.Skin = 0
 ITEM.Scale = 1
 
 ITEM.Weight = 1
+ITEM.WeightMultiplier = 0.2
 
 ITEM.EquipmentSlots = {}
 ITEM.Actions = {}
