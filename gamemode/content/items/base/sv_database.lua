@@ -29,6 +29,8 @@ function ITEM:SaveLocation()
 			Frozen = not ent:GetPhysicsObject():IsMotionEnabled()
 		}))
 
+		query:WhereEqual("id", self.ID)
+
 		query:Execute()
 	elseif inventory then
 		local query = GAMEMODE.Database:Update("rp_items")
@@ -36,6 +38,7 @@ function ITEM:SaveLocation()
 		query:Update("StoreType", inventory.StoreType)
 		query:Update("StoreID", inventory.StoreID)
 		query:UpdateRaw("MapData", "NULL")
+		query:WhereEqual("id", self.ID)
 
 		query:Execute()
 	end
