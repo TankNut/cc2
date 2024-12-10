@@ -20,20 +20,14 @@ GM:Include("cl_ui.lua")
 GM:Include("sh_actions.lua")
 GM:Include("sh_data.lua")
 GM:Include("sh_equipment.lua")
+GM:Include("sh_helpers.lua")
+GM:Include("sh_permissions.lua")
 
 GM:Include("sv_database.lua")
 GM:Include("sv_inventory.lua")
 
-function ITEM:IsTemporaryItem()
-	return self.ID < 0
-end
-
-function ITEM:IsOwner(ply)
-	if CLIENT then
-		return tobool(ply:GetItems()[self.ID])
-	else
-		return self.Inventory == ply:GetInventory()
-	end
+function ITEM:Initialize()
+	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)
 end
 
 function ITEM:SetItemAppearance(ent)

@@ -1,7 +1,7 @@
 ITEM.Actions.Pickup = {
 	ServerOnly = true,
 
-	Validate = function(self, ply)
+	CanRun = function(self, ply)
 		return hook.Run("CanPickupItem", ply, self)
 	end,
 	Callback = function(self, ply)
@@ -13,7 +13,7 @@ ITEM.Actions.Drop = {
 	Categories = {Rightclick = true},
 	Priority = 1,
 
-	Validate = function(self, ply)
+	CanRun = function(self, ply)
 		return hook.Run("CanDropItem", ply, self)
 	end,
 	Callback = function(self, ply)
@@ -24,7 +24,7 @@ ITEM.Actions.Drop = {
 ITEM.Actions.Destroy = {
 	Categories = {Rightclick = true},
 
-	Validate = function(self, ply)
+	CanRun = function(self, ply)
 		return hook.Run("CanDestroyItem", ply, self)
 	end,
 	Callback = function(self, ply)
@@ -69,56 +69,47 @@ function ITEM:GetActions()
 	return actions
 end
 
-function ITEM:GetAvailableActions(ply, category)
-	local actions = {}
+if CLIENT then
+	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
+	function ITEM:GetAvailableActions(category)
+		local actions = {}
 
-	for name, action in pairs(self:GetActions()) do
-		if not action.Categories or not action.Categories[category] then
-			continue
+		for name, action in pairs(self:GetActions()) do
+			if not action.Categories or not action.Categories[category] then
+				continue
+			end
+
+			if action.CanRun and not action.CanRun(self, lp) then
+				continue
+			end
+
+			table.insert(actions, action)
 		end
 
-		if not self:IsActionAvailable(ply, action) then
-			continue
-		end
+		table.sort(actions, function(a, b)
+			local aPriority = a.Priority or 0
+			local bPriority = b.Priority or 0
 
-		table.insert(actions, action)
+			if aPriority != bPriority then
+				return aPriority > bPriority
+			end
+
+			return a.Name < b.Name
+		end)
+
+		return actions
 	end
-
-	table.sort(actions, function(a, b)
-		local aPriority = a.Priority or 0
-		local bPriority = b.Priority or 0
-
-		if aPriority != bPriority then
-			return aPriority > bPriority
-		end
-
-		return a.Name < b.Name
-	end)
-
-	return actions
 end
 
-function ITEM:IsActionAvailable(ply, action)
-	if action.IsAvailable then
-		return action.IsAvailable(self, ply)
-	end
-
-	return true
-end
-
-function ITEM:CanRunAction(ply, name, ...)
+function ITEM:CanRunAction(ply, name)
 	local action = self:GetActions()[name]
 
 	if not action then
 		return false, string.format("No action with name '%s' exists!", name)
 	end
 
-	return self:ValidateAction(ply, action, ...)
-end
-
-function ITEM:ValidateAction(ply, action, ...)
-	if action.Validate then
-		return action.Validate(self, ply, ...)
+	if action.CanRun then
+		return action.CanRun(self, ply)
 	end
 
 	return true
@@ -131,10 +122,6 @@ function ITEM:RunAction(ply, name, ...)
 		return
 	end
 
-	if not self:IsActionAvailable(ply, action) then
-		return
-	end
-
 	local func = CLIENT and self.HandleClientAction or self.HandleServerAction
 
 	async.Start(func, self, ply, name, action, ...)
@@ -144,37 +131,37 @@ if CLIENT then
 	function ITEM:HandleClientAction(ply, name, action, ...)
 		assert(not action.ServerOnly, "Attempt to run SERVER only action on CLIENT")
 
-		local ok, err = self:ValidateAction(ply, action, ...)
+		if action.ClientOnly then
+			local ok, err = action.Client(self, ply, ...)
 
-		if not ok then
-			if err then
+			if not ok and err then
 				SendLocalChat("ERROR", err)
 			end
-
-			return
-		end
-
-		if action.ClientOnly then
-			action.Client(self, ply, ...)
 		else
-			netstream.Send("ItemAction", self.ID, name, action.Client and action.Client(self, ply, ...) or ...)
+			if action.Client then
+				local args = {action.Client(self, ply, ...)}
+
+				if not table.remove(args, 1) and args[1] then
+					SendLocalChat("ERROR", args[1])
+
+					return
+				end
+
+				netstream.Send("ItemAction", self.ID, name, unpack(args))
+			else
+				netstream.Send("ItemAction", self.ID, name, ...)
+			end
 		end
 	end
 else
 	function ITEM:HandleServerAction(ply, name, action, ...)
 		assert(not action.ClientOnly, "Attempt to run CLIENT only action on SERVER")
 
-		local ok, err = self:ValidateAction(ply, action, ...)
+		local ok, err = action.Callback(self, ply, ...)
 
-		if not ok then
-			if err then
-				ply:SendChat(nil, "ERROR", err)
-			end
-
-			return
+		if not ok and err then
+			ply:SendChat(nil, "ERROR", err)
 		end
-
-		action.Callback(self, ply, ...)
 	end
 
 	function ITEM:OnWorldUse(ply)

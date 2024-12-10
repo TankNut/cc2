@@ -10,7 +10,6 @@ FLAG.Scale = 0
 FLAG.Loadout = {}
 
 FLAG.EquipmentSlots = {}
-FLAG.EquipmentConflicts = {}
 
 FLAG.BloodColor = BLOOD_COLOR_RED
 

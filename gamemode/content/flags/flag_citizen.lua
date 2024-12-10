@@ -7,8 +7,6 @@ FLAG.EquipmentSlots = {
 	"test"
 }
 
-FLAG.EquipmentConflicts = {}
-
 function FLAG:GetModelData(ply)
 	local mdl = ply:CharacterModel()
 

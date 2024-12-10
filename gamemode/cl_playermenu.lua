@@ -658,7 +658,7 @@ function GM:PMUpdateInventory()
 			ui.ButOptions:SetPos(ui.ContentPane:GetWide() - 110, ui.ContentPane:GetTall() - 30 + y2)
 			ui.ButOptions:SetSize(100, 20)
 			ui.ButOptions:SetText("Actions")
-			ui.ButOptions:SetDisabled(#item:GetAvailableActions(lp, "InventoryButton") < 1)
+			ui.ButOptions:SetDisabled(#item:GetAvailableActions("InventoryButton") < 1)
 
 			function ui.ButOptions:DoClick()
 				icon:DoRightClick("InventoryButton")

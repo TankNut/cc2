@@ -1,7 +1,3 @@
-function ITEM:IsDropped()
-	return IsValid(self.Entity)
-end
-
 function ITEM:RemoveFromCurrent(keepEntity)
 	if not keepEntity and IsValid(self.Entity) then
 		self.Entity.Item = nil
@@ -17,6 +13,9 @@ function ITEM:RemoveFromCurrent(keepEntity)
 
 	self.Inventory = nil
 
+	self.StoreType = INV_NULL
+	self.StoreRef = nil
+
 	return inventory
 end
 
@@ -28,7 +27,10 @@ function ITEM:SetInventory(inventory, loading)
 	inventory:ItemAdded(self, loading)
 
 	self.Inventory = inventory
+
 	self:OnMove(old, inventory, loading)
+	self.StoreType = inventory.StoreType
+	self.StoreRef = inventory.Ref
 
 	if not loading then
 		async.Start(self.SaveLocation, self)
@@ -43,6 +45,9 @@ function ITEM:SetWorldItem(pos, ang, frozen, loading)
 	self:OnMove(old, nil)
 
 	local ent = IsValid(self.Entity) and self.Entity or ents.Create("cc_item")
+
+	self.StoreType = INV_WORLD
+	self.StoreRef = ent
 
 	ent:SetPos(pos)
 	ent:SetAngles(ang)

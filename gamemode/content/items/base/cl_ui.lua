@@ -45,7 +45,7 @@ function ITEM:CreateInventoryIcon()
 	function icon:DoRightClick(category)
 		self:DoClick()
 
-		local actions = item:GetAvailableActions(lp, category or "Rightclick")
+		local actions = item:GetAvailableActions(category or "Rightclick")
 
 		if #actions < 1 then
 			return

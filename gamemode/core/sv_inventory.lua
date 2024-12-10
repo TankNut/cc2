@@ -6,13 +6,13 @@ Equipment = Equipment or {}
 local meta = CustomMetaTable("Inventory")
 local pmeta = FindMetaTable("Player")
 
-function Create(storeType, storeID, ent)
+function Create(storeType, storeID, ref)
 	local instance = setmetatable({
 		Items = {},
 		StoreType = storeType,
 		StoreID = storeID,
 		Weight = 0,
-		Entity = ent
+		Ref = ref
 	}, meta)
 
 	instance:LoadItems()
@@ -93,7 +93,7 @@ function meta:ItemRemoved(item)
 	self.Items[item.ID] = nil
 
 	if self.StoreType == INV_PLAYER then
-		netstream.Send(self.Entity, "RemoveItem", item.ID)
+		netstream.Send(self.Ref, "RemoveItem", item.ID)
 	end
 
 	self:RecalculateWeight()
@@ -103,7 +103,7 @@ function meta:ItemAdded(item, loaded)
 	self.Items[item.ID] = item
 
 	if self.StoreType == INV_PLAYER then
-		netstream.Send(self.Entity, "AddItem", item.ClassName, item.ID, item.Data)
+		netstream.Send(self.Ref, "AddItem", item.ClassName, item.ID, item.Data)
 	end
 
 	self:RecalculateWeight()
@@ -119,6 +119,6 @@ function meta:RecalculateWeight()
 	self.Weight = weight
 
 	if self.StoreType == INV_PLAYER then
-		self.Entity:SetInventoryWeight(weight)
+		self.Ref:SetInventoryWeight(weight)
 	end
 end

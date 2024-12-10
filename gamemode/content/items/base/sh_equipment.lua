@@ -2,10 +2,25 @@ ITEM.Actions.Equip = {
 	Categories = {Rightclick = true, InventoryButton = true},
 	Priority = 10,
 
+	CanRun = function(self, ply)
+		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
+	end,
+	Callback = function(self, ply)
+		self:SetEquipmentSlot(ply, self:GetEquipmentSlots()[1])
+	end
+}
+
+ITEM.Actions.EquipSlot = {
+	Categories = {Rightclick = true, InventoryButton = true},
+	Priority = 10,
+
+	CanRun = function(self, ply)
+		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() > 1
+	end,
 	SubOptions = function(self, ply)
 		local options = {}
 
-		for _, slot in ipairs(self:GetAvailableEquipmentSlots(ply)) do
+		for _, slot in ipairs(self:GetEquipmentSlots()) do
 			table.insert(options, {
 				Name = "Equip as: " .. EquipmentSlot(slot),
 				Value = slot
@@ -14,17 +29,17 @@ ITEM.Actions.Equip = {
 
 		return options
 	end,
-	IsAvailable = function(self, ply)
-		return hook.Run("CanEquipItem", ply, self)
-	end,
-	Validate = function(self, ply, slot)
+	Callback = function(self, ply, slot)
 		if not slot then
 			return false, "You need to specify an equipment slot!"
 		end
 
-		return hook.Run("CanEquipItem", ply, self, slot)
-	end,
-	Callback = function(self, ply, slot)
+		local ok, err = hook.Run("CanUseEquipmentSlot", ply, self, slot)
+
+		if not ok then
+			return false, err
+		end
+
 		self:SetEquipmentSlot(ply, slot)
 	end
 }
@@ -33,10 +48,7 @@ ITEM.Actions.Unequip = {
 	Categories = {Rightclick = true, InventoryButton = true},
 	Priority = 10,
 
-	IsAvailable = function(self, ply)
-		return hook.Run("CanUnequipItem", ply, self)
-	end,
-	Validate = function(self, ply)
+	CanRun = function(self, ply)
 		return hook.Run("CanUnequipItem", ply, self)
 	end,
 	Callback = function(self, ply)
@@ -44,12 +56,12 @@ ITEM.Actions.Unequip = {
 	end
 }
 
-function ITEM:GetAvailableEquipmentSlots(ply)
+function ITEM:GetEquipmentSlots()
 	local slots = {}
-	local flagSlots = ply:RunCharFlag("EquipmentSlots")
+	local flagSlots = self:GetOwner():RunCharFlag("EquipmentSlots")
 
 	for _, slot in ipairs(flagSlots) do
-		if table.HasValue(self.EquipmentSlots, slot) then
+		if self.EquipmentLookup[slot] then
 			table.insert(slots, slot)
 		end
 	end
@@ -59,40 +71,6 @@ end
 
 function ITEM:GetEquipmentSlot()
 	return self:GetData("EquipmentSlot", false)
-end
-
-function ITEM:SetEquipmentSlot(ply, slot)
-	if slot then
-		local conflicts = ply:RunCharFlag("EquipmentConflicts")
-
-		if conflicts[slot] then
-			for _, v in pairs(conflicts[slot]) do
-				local item = ply:GetEquipment(v)
-
-				if item then
-					item:SetEquipmentSlot(ply, nil)
-				end
-			end
-		end
-
-		local item = ply:GetEquipment(slot)
-
-		if item then
-			item:SetEquipmentSlot(ply, nil)
-		end
-	end
-
-	self:SetData("EquipmentSlot", slot)
-
-	if slot then
-		self:OnEquipped(ply, slot)
-	else
-		self:OnUnequipped(ply)
-	end
-end
-
-function ITEM:IsEquipped()
-	return tobool(self:GetEquipmentSlot())
 end
 
 function ITEM:OnEquipped(ply, slot)
@@ -119,24 +97,35 @@ function ITEM:OnUnequipped(ply)
 	end
 end
 
-function ITEM:CanEquip(ply, slot)
-	return true
+function ITEM:OnEquipmentSlotChanged(old, new)
+	local ply = self:GetOwner()
+
+	if new then
+		self:OnEquipped(ply, new)
+	else
+		self:OnUnequipped(ply)
+	end
+
+	if CLIENT then
+		if old then Equipment[old] = nil end
+		if new then Equipment[new] = self end
+	else
+		if old then Inventory.Equipment[ply][old] = nil end
+		if new then Inventory.Equipment[ply][new] = self end
+	end
 end
 
-function ITEM:CanUnequip(ply)
-	return true
-end
 
-if CLIENT then
-	function ITEM:OnEquipmentSlotChanged(old, new)
-		if not self:IsOwner(lp) then
-			return
+if SERVER then
+	function ITEM:SetEquipmentSlot(ply, slot)
+		if slot then
+			local item = ply:GetEquipment(slot)
+
+			if item then
+				item:SetEquipmentSlot(ply, nil)
+			end
 		end
 
-		if new then
-			self:OnEquipped(lp, new)
-		else
-			self:OnUnequipped(lp)
-		end
+		self:SetData("EquipmentSlot", slot)
 	end
 end

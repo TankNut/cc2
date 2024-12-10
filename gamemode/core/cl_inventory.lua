@@ -18,7 +18,12 @@ end
 netstream.Hook("AddItem", function(class, id, data)
 	assert(not Inventory[id], "LocalPlayer inventory already contains item id: " .. id)
 
-	Inventory[id] = Item.Instance(class, id, data)
+	local item = Item.Instance(class, id, data)
+
+	item.StoreType = INV_PLAYER
+	item.StoreRef = lp
+
+	Inventory[id] = item
 end)
 
 netstream.Hook("RemoveItem", function(id)

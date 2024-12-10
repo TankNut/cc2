@@ -70,13 +70,13 @@ netstream.Hook("ItemAction", function(ply, id, name, ...)
 		return
 	end
 
-	local action = item:GetActions()[name]
-
-	if action.ServerOnly then
+	if not item:CanRunAction(ply, name) then
 		return
 	end
 
-	if not item:IsActionAvailable(ply, action) then
+	local action = item:GetActions()[name]
+
+	if action.ServerOnly then
 		return
 	end
 

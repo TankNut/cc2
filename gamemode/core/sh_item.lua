@@ -10,6 +10,8 @@ All = All or setmetatable({}, {
 -- Deliberate, we want to clear this every autorefresh
 ActionCache = {}
 
+local meta = FindMetaTable("Player")
+
 PlayerVar.Add("InventoryWeight", {Default = 0})
 PlayerVar.Add("MaxInventoryWeight", {Default = 0})
 
@@ -99,6 +101,8 @@ function Instance(class, id, data)
 
 	All[id] = instance
 
+	instance:Initialize()
+
 	return instance
 end
 
@@ -116,6 +120,10 @@ function GetDropPosition(ply)
 	return tr.HitPos + tr.HitNormal * 10
 end
 
+function meta:HasEquipmentSlot(slot)
+	return table.HasValue(self:RunCharFlag("EquipmentSlots"), slot)
+end
+
 function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
 		self:PMUpdateInventory()
@@ -126,6 +134,18 @@ function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
 		self:PMUpdateInventory()
 	end
+end
+
+function GM:CanInteractWithItem(ply, item)
+	if not item:IsOwner(ply) then
+		return false, "You don't own this item!"
+	end
+
+	if item.StoreType != INV_PLAYER then
+		return false, "You cannot interact with items outside of your inventory!"
+	end
+
+	return true
 end
 
 function GM:CanPickupItem(ply, item)
@@ -141,46 +161,62 @@ function GM:CanPickupItem(ply, item)
 end
 
 function GM:CanDropItem(ply, item)
-	if not item:IsOwner(ply) then
-		return false, "You don't own this item!"
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
 	end
 
-	return true
+	return item:CanDrop(ply)
 end
 
 function GM:CanDestroyItem(ply, item)
-	if not item:IsOwner(ply) then
-		return false, "You don't own this item!"
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
+	end
+
+	return item:CanDestroy(ply)
+end
+
+function GM:CanUseEquipmentSlot(ply, slot)
+	if not ply:HasEquipmentSlot(slot) then
+		return false, "Your character doesn't support that equipment slot!"
+	end
+
+	local item = ply:GetEquipment(slot)
+
+	if item and not hook.Run("CanUnequipItem", ply, item) then
+		return false, "You cannot equip this because of your " .. item:GetName()
 	end
 
 	return true
 end
 
-function GM:CanEquipItem(ply, item, slot)
-	if not item:IsOwner(ply) then
-		return false, "You don't own this item!"
+function GM:CanEquipItem(ply, item)
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
 	end
 
 	if item:IsEquipped() then
 		return false, "This item is already equipped!"
 	end
 
-	if slot then
-		if not table.HasValue(item:GetAvailableEquipmentSlots(ply), slot) then
-			return false, "This item doesn't fit in that equipment slot!"
-		end
-	else
-		if #item:GetAvailableEquipmentSlots(ply) < 1 then
-			return false, "You don't have any equipment slots to put this in!"
-		end
+	if #item:GetEquipmentSlots() < 1 then
+		return false, "You don't have any equipment slots to put this in!"
 	end
 
 	return item:CanEquip(ply, slot)
 end
 
 function GM:CanUnequipItem(ply, item)
-	if not item:IsOwner(ply) then
-		return false, "You don't own this item!"
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
 	end
 
 	if not item:IsEquipped() then
