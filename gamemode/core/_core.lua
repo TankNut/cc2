@@ -1,7 +1,7 @@
 -- Starting off fresh
 
 function GM:Include(path)
-	local realm = path:Left(3)
+	local realm = string.Left(string.FileName(path), 3)
 
 	if realm == "cl_" then
 		return self:IncludeClient(path)
