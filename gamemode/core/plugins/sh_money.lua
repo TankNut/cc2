@@ -1,7 +1,7 @@
 local meta = FindMetaTable("Player")
 
 CharacterVar.Add("Money", {
-	Default = "",
+	Default = 0,
 	Private = true,
 	DataType = INT()
 })
