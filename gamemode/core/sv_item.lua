@@ -63,6 +63,12 @@ function meta:GiveItem(class, data)
 	item:SetInventory(self:GetInventory())
 end
 
+function meta:GiveTempItem(class, data)
+	local item = CreateTemp(class, data)
+
+	item:SetInventory(self:GetInventory())
+end
+
 netstream.Hook("ItemAction", function(ply, id, name, ...)
 	local item = Get(id)
 
