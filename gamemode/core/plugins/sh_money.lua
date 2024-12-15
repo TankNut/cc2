@@ -6,6 +6,10 @@ CharacterVar.Add("Money", {
 	DataType = INT()
 })
 
+function meta:GetMoney()
+	return self:CharacterMoney()
+end
+
 function meta:HasMoney(amt)
 	return self:CharacterMoney() >= amt
 end
