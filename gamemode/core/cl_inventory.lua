@@ -1,6 +1,8 @@
 Inventory = Inventory or {}
 Equipment = Equipment or {}
 
+InventoryPanels = InventoryPanels or {}
+
 local meta = FindMetaTable("Player")
 
 function meta:GetItems()
@@ -24,6 +26,10 @@ netstream.Hook("AddItem", function(class, id, data)
 	item.StoreRef = lp
 
 	Inventory[id] = item
+
+	for panel in pairs(InventoryPanels) do
+		panel:PopulateLocal()
+	end
 end)
 
 netstream.Hook("RemoveItem", function(id)
@@ -42,4 +48,24 @@ netstream.Hook("UpdateItemData", function(id, key, val)
 	end
 
 	Inventory[id]:SetData(key, val)
+end)
+
+netstream.Hook("InventoryPopup", function(storeType, storeRef, items)
+	for k, v in pairs(items) do
+		local item = Item.Instance(unpack(v))
+
+		item.StoreType = storeType
+		item.StoreRef = storeRef
+
+		items[k] = item
+	end
+
+	local existing = GUI.Get("InventoryPopup")
+
+	if IsValid(existing) then
+		existing:Setup(storeType, storeRef, items)
+		existing:MoveToFront()
+	else
+		GUI.Open("InventoryPopup", storeType, storeRef, items)
+	end
 end)

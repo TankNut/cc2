@@ -136,13 +136,17 @@ end
 
 function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
-		self:PMUpdateInventory()
+		for panel in pairs(InventoryPanels) do
+			panel:PopulateLocal()
+		end
 	end
 end
 
 function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
-		self:PMUpdateInventory()
+		for panel in pairs(InventoryPanels) do
+			panel:PopulateLocal()
+		end
 	end
 end
 

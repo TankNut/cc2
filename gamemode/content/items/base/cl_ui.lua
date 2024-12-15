@@ -1,11 +1,22 @@
-function ITEM:DrawUIHighlight(x, y, w, h)
-	if self:IsTemporaryItem() then
-		draw.RoundedBox(8, x, y, w, h, Color(0, 127, 31, 25))
+local temp = Color(0, 127, 31, 25)
+local equip = Color(100, 160, 210, 25)
+
+function ITEM:GetHighlightColor()
+	if self:IsEquipped() then
+		return equip
 	end
 
-	if self:IsEquipped() then
-		draw.RoundedBox(8, x, y, w, h, Color(100, 160, 210, 25))
+	if self:IsTemporaryItem() then
+		return temp
 	end
+end
+
+function ITEM:RemovePanels()
+	for panel in pairs(self.Panels) do
+		panel:Remove()
+	end
+
+	table.Empty(self.Panels)
 end
 
 function ITEM:IsSelected()
@@ -26,75 +37,39 @@ function ITEM:ConfigureModelPanel(icon)
 	icon:SetLookAng(tab.angles)
 end
 
-function ITEM:CreateInventoryIcon()
-	local item = self
-	local icon = vgui.Create("DModelPanel")
-	icon.Item = item
+function ITEM:OpenActionMenu(category)
+	local actions = self:GetAvailableActions(category or "Rightclick")
 
-	icon:SetSize(48, 48)
-
-	self.Icon = icon
-	self:ConfigureModelPanel(icon)
-
-	local p = icon.Paint
-
-	function icon:Paint(w, h)
-		item:DrawUIHighlight(2, 2, w - 4, h - 4)
-
-		p(self, w, h)
+	if #actions < 1 then
+		return
 	end
 
-	function icon:LayoutEntity()
-	end
+	local dmenu = DermaMenu()
+	dmenu:SetPos(gui.MousePos())
 
-	function icon:DoRightClick(category)
-		self:DoClick()
+	for _, action in ipairs(actions) do
+		local options = action.SubOptions
 
-		local actions = item:GetAvailableActions(category or "Rightclick")
-
-		if #actions < 1 then
-			return
+		if isfunction(options) then
+			options = action.SubOptions(self, lp)
 		end
 
-		local dmenu = DermaMenu()
-		dmenu:SetPos(gui.MousePos())
+		if options and #options > 0 then
+			local parent = dmenu:AddSubMenu(action.Name)
 
-		for _, action in ipairs(actions) do
-			local options = action.SubOptions
-
-			if isfunction(options) then
-				options = action.SubOptions(item, lp)
-			end
-
-			if options and #options > 0 then
-				local parent = dmenu:AddSubMenu(action.Name)
-
-				for _, v in ipairs(options) do
-					parent:AddOption(v.Name, function()
-						item:RunAction(lp, action.Name, v.Value)
-					end)
-				end
-			else
-				dmenu:AddOption(action.Name, function()
-					item:RunAction(lp, action.Name)
+			for _, v in ipairs(options) do
+				parent:AddOption(v.Name, function()
+					self:RunAction(lp, action.Name, v.Value)
 				end)
 			end
-		end
-
-		dmenu:Open()
-	end
-
-	function icon:OnCursorEntered()
-		GAMEMODE.CursorItem = item
-	end
-
-	function icon:OnCursorExited()
-		if GAMEMODE.CursorItem and GAMEMODE.CursorItem == item then
-			GAMEMODE.CursorItem = nil
+		else
+			dmenu:AddOption(action.Name, function()
+				self:RunAction(lp, action.Name)
+			end)
 		end
 	end
 
-	return icon
+	dmenu:Open()
 end
 
 local template = [[

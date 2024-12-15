@@ -157,6 +157,14 @@ function SKIN:PaintFrame(panel, w, h)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
+function SKIN:PaintItemList(panel, w, h)
+	surface.SetDrawColor(0, 0, 0, 70)
+	surface.DrawRect(0, 0, w, h)
+
+	surface.SetDrawColor(0, 0, 0, 100)
+	surface.DrawOutlinedRect(0, 0, w, h)
+end
+
 function SKIN:PaintButton(panel, w, h)
 	if (not panel.m_bBackground) then return end
 

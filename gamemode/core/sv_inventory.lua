@@ -109,6 +109,16 @@ function meta:ItemAdded(item, loaded)
 	self:RecalculateWeight()
 end
 
+function meta:SendToPlayer(ply)
+	local items = {}
+
+	for _, item in pairs(self.Items) do
+		table.insert(items, {item.ClassName, item.ID, item.Data})
+	end
+
+	netstream.Send(ply, "InventoryPopup", self.StoreType, self.Ref, items)
+end
+
 function meta:RecalculateWeight()
 	local weight = 0
 
