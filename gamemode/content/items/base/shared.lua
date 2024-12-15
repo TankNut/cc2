@@ -31,6 +31,10 @@ GM:Include("sv_inventory.lua")
 
 function ITEM:Initialize()
 	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)
+
+	if CLIENT then
+		self.Panels = {}
+	end
 end
 
 function ITEM:SetItemAppearance(ent)
@@ -40,5 +44,11 @@ function ITEM:SetItemAppearance(ent)
 
 	if scale != 1 then
 		ent:SetModelScale(scale, 0.0001)
+	end
+end
+
+function ITEM:OnRemove()
+	if CLIENT then
+		self:RemovePanels()
 	end
 end

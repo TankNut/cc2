@@ -77,9 +77,6 @@ function ITEM:SetWorldItem(pos, ang, frozen, loading)
 	end
 end
 
-function ITEM:Cleanup()
-end
-
 function ITEM:PreItemMove(loaded)
 	if self:IsEquipped() and not loaded then
 		self:SetEquipmentSlot(ply, nil)

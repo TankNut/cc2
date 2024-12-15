@@ -27,9 +27,13 @@ netstream.Hook("AddItem", function(class, id, data)
 end)
 
 netstream.Hook("RemoveItem", function(id)
-	Inventory[id] = nil
+	local item = Item.Get(id)
 
-	GAMEMODE:PMUpdateInventory()
+	if item then
+		item:OnRemove()
+	end
+
+	Inventory[id] = nil
 end)
 
 netstream.Hook("UpdateItemData", function(id, key, val)

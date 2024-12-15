@@ -27,7 +27,7 @@ end
 
 function Clear(ply)
 	for _, inv in pairs(List[ply]) do
-		inv:Cleanup()
+		inv:OnRemove()
 	end
 
 	List[ply] = nil
@@ -36,7 +36,7 @@ end
 
 function Load(ply)
 	for _, inv in pairs(List[ply]) do
-		inv:Cleanup()
+		inv:OnRemove()
 	end
 
 	table.Empty(Equipment[ply])
@@ -83,9 +83,9 @@ function meta:LoadItems()
 	end
 end
 
-function meta:Cleanup()
+function meta:OnRemove()
 	for _, item in pairs(self.Items) do
-		item:Cleanup()
+		item:OnRemove()
 	end
 end
 
