@@ -2,56 +2,41 @@ local PANEL = {}
 DEFINE_BASECLASS("EditablePanel")
 
 AccessorFunc(PANEL, "ToggleKey", "ToggleKey")
-AccessorFunc(PANEL, "DrawTopbar", "DrawTopbar")
 AccessorFunc(PANEL, "Draggable", "Draggable")
 
 function PANEL:Init()
-	self:SetSkin("Afterglow")
-
-	self.DrawTopBar = false
-
+	self:SetSkin("CombineControlNew")
 	self:DockPadding(1, 1, 1, 1)
-	self.Armed = false
 end
 
-function PANEL:SetDrawTopBar(bool)
-	if bool == self.DrawTopbar then
+function PANEL:SetTopBar(title)
+	if self.m_bTopBar then
+		self.Title:SetText(title)
+
 		return
 	end
 
+	self.m_bTopBar = true
+
 	local padding = self:GetDockPadding()
 
-	if bool then
-		self:SetTall(self:GetTall() + 24)
-		self:DockPadding(padding, padding + 24, padding, padding)
+	self:SetTall(self:GetTall() + 24)
+	self:DockPadding(padding, padding + 24, padding, padding)
 
-		if self.AutoClose then
-			self.ButtonClose = self:Add("DButton")
-			self.ButtonClose:SetSize(24, 24)
-			self.ButtonClose:SetFont("marlett")
-			self.ButtonClose:SetText("r")
-			self.ButtonClose:PerformLayout()
-			self.ButtonClose.Paint = function() end
-			self.ButtonClose.DoClick = function(pnl)
-				pnl:GetParent():Remove()
-			end
-		end
-
-		self.Title = self:Add("DLabel")
-	else
-		self:SetTall(self:GetTall() - 24)
-		self:DockPadding(padding, padding, padding, padding)
-
-		if IsValid(self.ButtonClose) then
-			self.ButtonClose:Remove()
-		end
-
-		if IsValid(self.Title) then
-			self.Title:Remove()
+	if self.m_bCloseOnPause then
+		self.ButtonClose = self:Add("DButton")
+		self.ButtonClose:SetSize(24, 24)
+		self.ButtonClose:SetFont("marlett")
+		self.ButtonClose:SetText("r")
+		self.ButtonClose:PerformLayout()
+		self.ButtonClose.Paint = function() end
+		self.ButtonClose.DoClick = function(pnl)
+			pnl:GetParent():Remove()
 		end
 	end
 
-	self.bDrawTopbar = bool
+	self.Title = self:Add("DLabel")
+	self.Title:SetText(title)
 
 	self:PerformLayout()
 end
@@ -65,12 +50,6 @@ function PANEL:Think()
 		local y = math.Clamp(mousey - self.Dragging[2], 0, ScrH() - self:GetTall())
 
 		self:SetPos(x, y)
-	end
-end
-
-function PANEL:SetTitle(title)
-	if IsValid(self.Title) then
-		self.Title:SetText(title)
 	end
 end
 

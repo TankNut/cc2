@@ -3,7 +3,7 @@
 function GM:Include(path)
 	local realm = string.Left(string.FileName(path), 3)
 
-	if realm == "cl_" then
+	if realm == "cl_" or realm == "cc_" then
 		return self:IncludeClient(path)
 	elseif realm == "sv_" then
 		return self:IncludeServer(path)
