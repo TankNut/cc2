@@ -25,10 +25,10 @@ function ITEM:SetData(key, val)
 	else
 		async.Start(self.SaveData, self)
 
-		local inventory = self.Inventory
+		local inventory = self:GetInventory()
 
-		if inventory and inventory.StoreType == INV_PLAYER then
-			netstream.Send(inventory.Entity, "SetItemData", self.ID, key, val)
+		if inventory and table.Count(inventory.Receivers) > 0 then
+			netstream.Send(table.GetKeys(inventory.Receivers), "SetItemData", self.ID, key, val)
 		end
 	end
 end
