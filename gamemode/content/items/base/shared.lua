@@ -26,6 +26,9 @@ GM:Include("sh_equipment.lua")
 GM:Include("sh_helpers.lua")
 GM:Include("sh_permissions.lua")
 
+GM:Include("actions/actions_base.lua")
+GM:Include("actions/actions_equipment.lua")
+
 GM:Include("sv_database.lua")
 GM:Include("sv_inventory.lua")
 
