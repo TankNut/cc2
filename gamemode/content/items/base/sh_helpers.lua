@@ -2,12 +2,24 @@ function ITEM:IsTemporaryItem()
 	return self.ID < 0
 end
 
-function ITEM:IsOwner(ply)
-	return self:GetOwner() == ply
+function ITEM:GetStoreType()
+	if IsValid(self.Entity) then
+		return INV_WORLD
+	end
+
+	return self:GetInventory().StoreType
 end
 
 function ITEM:GetOwner()
-	return self.StoreRef
+	if self:IsDropped() then
+		return self.Entity
+	end
+
+	return self:GetInventory():GetParent()
+end
+
+function ITEM:IsOwner(ply)
+	return self:GetOwner() == ply
 end
 
 function ITEM:IsEquipped()
@@ -15,9 +27,9 @@ function ITEM:IsEquipped()
 end
 
 function ITEM:IsStashed()
-	return self.StoreType == INV_STASH
+	return self:GetStoreType() == INV_STASH
 end
 
 function ITEM:IsDropped()
-	return self.StoreType == INV_WORLD
+	return IsValid(self.Entity)
 end

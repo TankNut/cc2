@@ -3,9 +3,7 @@ module("Item", package.seeall)
 List = List or {}
 Spawnable = Spawnable or {}
 
-All = All or setmetatable({}, {
-	__mode = "v"
-})
+All = All or {}
 
 -- Deliberate, we want to clear this every autorefresh
 ActionCache = {}
@@ -22,12 +20,10 @@ Rarities = {
 
 local meta = FindMetaTable("Player")
 
-PlayerVar.Add("InventoryWeight", {Default = 0})
-PlayerVar.Add("MaxInventoryWeight", {Default = 0})
-
 function Register(name, item)
 	item.ClassName = name
 	item.ThisClass = "item_" .. name
+	item.Name = item.Name or name
 
 	local internal = item.Internal; item.Internal = nil
 
@@ -96,10 +92,7 @@ function Load()
 end
 
 function Instance(class, id, data)
-	if All[id] then
-		return All[id]
-	end
-
+	assert(not All[id], "Attempt to instance an already loaded item ID: " .. id)
 	class = assert(List[class], "Attempt to instance unknown item type: " .. class)
 
 	local instance = setmetatable({
@@ -120,6 +113,16 @@ function Get(id)
 	return All[id]
 end
 
+function Remove(id, unloading)
+	local item = All[id]
+
+	if item then
+		item:OnRemove(unloading)
+	end
+
+	All[id] = nil
+end
+
 function GetDropPosition(ply)
 	local tr = util.TraceLine({
 		start = ply:GetShootPos(),
@@ -134,28 +137,12 @@ function meta:HasEquipmentSlot(slot)
 	return table.HasValue(self:RunCharFlag("EquipmentSlots"), slot)
 end
 
-function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
-	if CLIENT then
-		for panel in pairs(InventoryPanels) do
-			panel:PopulateLocal()
-		end
-	end
-end
-
-function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
-	if CLIENT then
-		for panel in pairs(InventoryPanels) do
-			panel:PopulateLocal()
-		end
-	end
-end
-
 function GM:CanInteractWithItem(ply, item)
 	if not item:IsOwner(ply) then
 		return false, "You don't own this item!"
 	end
 
-	if item.StoreType != INV_PLAYER then
+	if item:GetStoreType() != INV_PLAYER then
 		return false, "You cannot interact with items outside of your inventory!"
 	end
 

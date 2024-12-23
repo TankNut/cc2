@@ -24,13 +24,13 @@ GM:Include("sh_actions.lua")
 GM:Include("sh_data.lua")
 GM:Include("sh_equipment.lua")
 GM:Include("sh_helpers.lua")
+GM:Include("sh_inventory.lua")
 GM:Include("sh_permissions.lua")
 
 GM:Include("actions/actions_base.lua")
 GM:Include("actions/actions_equipment.lua")
 
 GM:Include("sv_database.lua")
-GM:Include("sv_inventory.lua")
 
 function ITEM:Initialize()
 	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)
@@ -50,8 +50,30 @@ function ITEM:SetItemAppearance(ent)
 	end
 end
 
-function ITEM:OnRemove()
+function ITEM:OnRemove(unloading)
+	local inventory = self:GetInventory()
+
+	if not unloading then
+		local slot = self:GetEquipmentSlot()
+
+		if slot then
+			local ply = self:GetOwner()
+
+			if rawget(Inventory.Equipment, ply) then
+				Inventory.Equipment[ply][slot] = nil
+			end
+		end
+
+		if SERVER then
+			self:UpdateNetworking(inventory, nil)
+		end
+	end
+
 	if CLIENT then
 		self:RemovePanels()
 	end
+end
+
+function ITEM:Remove(unloading)
+	Item.Remove(self.ID, unloading)
 end

@@ -1,0 +1,114 @@
+module("Inventory", package.seeall)
+
+All = All or {}
+Equipment = Equipment or setmetatable({}, {
+	__index = function(self, key)
+		local tab = {}
+
+		self[key] = tab
+
+		return tab
+	end
+})
+
+PlayerVar.Add("InventoryWeight", {Default = 0})
+PlayerVar.Add("MaxInventoryWeight", {Default = 0})
+
+PlayerVar.Add("InventoryID", {Default = 0})
+PlayerVar.Add("StashID", {Default = 0})
+
+local meta = CustomMetaTable("Inventory")
+local pmeta = FindMetaTable("Player")
+
+function Create(id, storeType, storeID, parent)
+	if not id then
+		id = #All + 1
+	end
+
+	assert(not All[id], "Attempt to instance an already loaded inventory ID: " .. id)
+
+	local instance = setmetatable({
+		ID = id,
+		StoreType = storeType,
+		StoreID = storeID,
+		Parent = parent
+	}, meta)
+
+	All[id] = instance
+
+	instance:Initialize()
+
+	return instance
+end
+
+function Get(id)
+	return All[id]
+end
+
+function Remove(id)
+	All[id]:OnRemove()
+	All[id] = nil
+end
+
+function Clear(ply, removed)
+	if SERVER then
+		for _, id in ipairs({ply:InventoryID(), ply:StashID()}) do
+			if Get(id) then
+				Remove(id)
+			end
+		end
+	end
+
+	if removed then
+		Inventory[ply] = nil
+	end
+end
+
+if SERVER then
+	function Load(ply)
+		Clear(ply)
+
+		ply:SetInventoryID(Create(nil, INV_PLAYER, ply:CharID(), ply:EntIndex()).ID)
+		ply:SetStashID(Create(nil, INV_STASH, ply:CharID(), ply:EntIndex()).ID)
+	end
+end
+
+function pmeta:GetInventory()
+	return Get(self:InventoryID())
+end
+
+function pmeta:GetStash()
+	return Get(self:StashID())
+end
+
+function pmeta:GetItems()
+	return self:GetInventory().Items
+end
+
+function pmeta:GetEquipment(slot)
+	if slot then
+		return Equipment[self][slot]
+	else
+		return Equipment[self]
+	end
+end
+
+function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
+	if CLIENT then
+		local inventory = ply:GetInventory()
+
+		if inventory then
+			inventory:CallPanels("UpdateWeight")
+		end
+	end
+end
+
+function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
+	if CLIENT then
+		local inventory = ply:GetInventory()
+
+		if inventory then
+			inventory:CallPanels("UpdateWeight")
+		end
+	end
+end

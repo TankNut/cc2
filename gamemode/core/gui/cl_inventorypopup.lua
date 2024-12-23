@@ -6,6 +6,7 @@ function PANEL:Init()
 	self:SetSize(800, 500)
 	self:DockPadding(10, 10, 10, 10)
 
+	self:SetDraggable(true)
 	self:SetCloseOnPause(true)
 
 	self:MakePopup()
@@ -15,7 +16,7 @@ function PANEL:Init()
 	self.OurInventory:Dock(LEFT)
 	self.OurInventory:SetWide(inventoryWidth)
 
-	self.OurInventory:PopulateLocal()
+	self.OurInventory:Populate(lp:GetInventory())
 
 	self.TheirInventory = self:Add("CCItemList")
 	self.TheirInventory:Dock(RIGHT)
@@ -28,35 +29,31 @@ function PANEL:Init()
 end
 
 function PANEL:GetInventoryName()
-	if self.StoreType == INV_PLAYER then
-		return string.format("%s (%s credits)", self.StoreRef:CharacterName(), self.StoreRef:GetMoney())
+	local storeType = self.Inventory.StoreType
+	local parent = self.Inventory:GetParent()
+
+	if storeType == INV_PLAYER then
+		return string.format("%s (%s credits)", parent:CharacterName(), parent:GetMoney())
+	elseif self.StoreType == INV_ITEM then
+		return parent:GetName()
 	end
 
 	return "Unknown"
 end
 
-function PANEL:Setup(storeType, storeRef, items)
-	self.StoreType = storeType
-	self.StoreRef = storeRef
-
-	local weight = 0
-	local max = 0
-
-	if storeType == INV_PLAYER then
-		weight = storeRef:InventoryWeight()
-		max = storeRef:MaxInventoryWeight()
-	end
-
-	self.TheirInventory:Populate(items, weight, max)
+function PANEL:Setup(inventory)
+	self.Inventory = inventory
+	self.TheirInventory:Populate(inventory)
 	self:SetTopBar("Inventory - " .. self:GetInventoryName())
 end
 
 derma.DefineControl("GUI_InventoryPopup", "", PANEL, "CCFrame")
 
-GUI.Register("InventoryPopup", function(storeType, storeRef, items)
+GUI.Register("InventoryPopup", function(id)
 	local panel = vgui.Create("GUI_InventoryPopup")
+	local inventory = Inventory.Get(id)
 
-	panel:Setup(storeType, storeRef, items)
+	panel:Setup(inventory)
 
 	return panel
 end, true)

@@ -28,7 +28,7 @@ function ITEM:SetData(key, val)
 		local inventory = self.Inventory
 
 		if inventory and inventory.StoreType == INV_PLAYER then
-			netstream.Send(inventory.Entity, "UpdateItemData", self.ID, key, val)
+			netstream.Send(inventory.Entity, "SetItemData", self.ID, key, val)
 		end
 	end
 end

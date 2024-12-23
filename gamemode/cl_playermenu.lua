@@ -442,7 +442,7 @@ function GM:PMCreateInventory()
 	CCP.PlayerMenu.InventoryPanel = CCP.PlayerMenu.ContentPane:Add("CCItemList")
 	CCP.PlayerMenu.InventoryPanel:DockMargin(10, 10, 10, 10)
 	CCP.PlayerMenu.InventoryPanel:Dock(FILL)
-	CCP.PlayerMenu.InventoryPanel:PopulateLocal()
+	CCP.PlayerMenu.InventoryPanel:Populate(lp:GetInventory())
 end
 
 function GM:PMPopulateBusiness(filter)

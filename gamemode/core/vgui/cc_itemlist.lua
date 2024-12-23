@@ -18,20 +18,17 @@ function PANEL:Init()
 	self.Layout:SetSpaceY(3)
 end
 
-function PANEL:PopulateLocal()
-	InventoryPanels[self] = true
-
-	self:Populate(lp:GetItems(), lp:InventoryWeight(), lp:MaxInventoryWeight())
-end
-
 function PANEL:PerformLayout(w, h)
 	self.Weight:SetPos(0, h - 20)
 end
 
-function PANEL:Populate(items, weight, max)
+function PANEL:Populate(inventory)
+	inventory.Panels[self] = true
+
+	self.Inventory = inventory
 	self.Layout:Clear()
 
-	for _, item in pairs(items) do
+	for _, item in pairs(inventory.Items) do
 		local icon = vgui.Create("CCItemIcon")
 		icon:SetItem(item)
 
@@ -39,16 +36,24 @@ function PANEL:Populate(items, weight, max)
 	end
 
 	self:Sort()
-	self:SetWeight(weight, max)
+	self:UpdateWeight()
 end
 
-function PANEL:SetWeight(value, max)
-	self.Weight:SetProgress(value / max)
-	self.Weight:SetProgressText(string.format("Weight: %s/%s", value, max))
+function PANEL:UpdateWeight()
+	local weight = self.Inventory.Weight
+	local max = self.Inventory:GetMaxWeight()
+
+	if max == 0 then
+		self.Weight:SetProgress(1)
+		self.Weight:SetProgressText("Weight: " .. weight)
+	else
+		self.Weight:SetProgress(weight / max)
+		self.Weight:SetProgressText(string.format("Weight: %s/%s", weight, max))
+	end
 end
 
 function PANEL:OnRemove()
-	InventoryPanels[self] = nil
+	self.Inventory.Panels[self] = nil
 end
 
 function PANEL:Sort()

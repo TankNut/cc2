@@ -15,7 +15,7 @@ function ITEM:SaveLocation()
 	end
 
 	local ent = self.Entity
-	local inventory = self.Inventory
+	local inventory = self:GetInventory()
 
 	if IsValid(ent) then
 		local query = GAMEMODE.Database:Update("rp_items")

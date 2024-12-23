@@ -37,8 +37,8 @@ function ITEM:ConfigureModelPanel(icon)
 	icon:SetLookAng(tab.angles)
 end
 
-function ITEM:OpenActionMenu(category)
-	local actions = self:GetAvailableActions(category or "Rightclick")
+function ITEM:OpenActionMenu()
+	local actions = self:GetAvailableActions()
 
 	if #actions < 1 then
 		return

@@ -37,11 +37,11 @@ end
 
 if CLIENT then
 	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
-	function ITEM:GetAvailableActions(category)
+	function ITEM:GetAvailableActions()
 		local actions = {}
 
 		for name, action in pairs(self:GetActions()) do
-			if not action.Categories or not action.Categories[category] then
+			if action.ServerOnly then
 				continue
 			end
 

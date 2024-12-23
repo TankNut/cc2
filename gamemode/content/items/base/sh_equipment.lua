@@ -1,61 +1,3 @@
-ITEM.Actions.Equip = {
-	Categories = {Rightclick = true, InventoryButton = true},
-	Priority = 10,
-
-	CanRun = function(self, ply)
-		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
-	end,
-	Callback = function(self, ply)
-		self:SetEquipmentSlot(ply, self:GetEquipmentSlots()[1])
-	end
-}
-
-ITEM.Actions.EquipSlot = {
-	Categories = {Rightclick = true, InventoryButton = true},
-	Priority = 10,
-
-	CanRun = function(self, ply)
-		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() > 1
-	end,
-	SubOptions = function(self, ply)
-		local options = {}
-
-		for _, slot in ipairs(self:GetEquipmentSlots()) do
-			table.insert(options, {
-				Name = "Equip as: " .. EquipmentSlot(slot),
-				Value = slot
-			})
-		end
-
-		return options
-	end,
-	Callback = function(self, ply, slot)
-		if not slot then
-			return false, "You need to specify an equipment slot!"
-		end
-
-		local ok, err = hook.Run("CanUseEquipmentSlot", ply, self, slot)
-
-		if not ok then
-			return false, err
-		end
-
-		self:SetEquipmentSlot(ply, slot)
-	end
-}
-
-ITEM.Actions.Unequip = {
-	Categories = {Rightclick = true, InventoryButton = true},
-	Priority = 10,
-
-	CanRun = function(self, ply)
-		return hook.Run("CanUnequipItem", ply, self)
-	end,
-	Callback = function(self, ply)
-		self:SetEquipmentSlot(ply, nil)
-	end
-}
-
 function ITEM:GetEquipmentSlots()
 	local slots = {}
 	local flagSlots = self:GetOwner():RunCharFlag("EquipmentSlots")
@@ -110,26 +52,20 @@ function ITEM:OnEquipmentSlotChanged(old, new)
 		self:OnUnequipped(ply)
 	end
 
-	if CLIENT then
-		if old then Equipment[old] = nil end
-		if new then Equipment[new] = self end
-	else
-		if old then Inventory.Equipment[ply][old] = nil end
-		if new then Inventory.Equipment[ply][new] = self end
-	end
+	if old then Inventory.Equipment[ply][old] = nil end
+	if new then Inventory.Equipment[ply][new] = self end
 end
 
+function ITEM:SetEquipmentSlot(slot)
+	local ply = self:GetOwner()
 
-if SERVER then
-	function ITEM:SetEquipmentSlot(ply, slot)
-		if slot then
-			local item = ply:GetEquipment(slot)
+	if slot then
+		local item = ply:GetEquipment(slot)
 
-			if item then
-				item:SetEquipmentSlot(ply, nil)
-			end
+		if item then
+			item:SetEquipmentSlot(ply, nil)
 		end
-
-		self:SetData("EquipmentSlot", slot)
 	end
+
+	self:SetData("EquipmentSlot", slot)
 end

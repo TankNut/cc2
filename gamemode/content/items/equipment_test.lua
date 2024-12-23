@@ -1,5 +1,7 @@
 ITEM.Name = "Equipment"
 
+ITEM.Weight = 1
+
 ITEM.EquipmentSlots = {
 	"test"
 }
