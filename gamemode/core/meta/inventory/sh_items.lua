@@ -13,6 +13,10 @@ function meta:AddItem(item, loading)
 end
 
 function meta:RemoveItem(item, unloading)
+	if item:IsEquipped() then
+		item:SetEquipmentSlot(nil)
+	end
+
 	self.Items[item.ID] = nil
 
 	if not unloading then

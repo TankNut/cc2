@@ -15,10 +15,6 @@ function ITEM:SetInventory(inventory, loading)
 	local old = self:GetInventory()
 
 	if old then
-		if self:IsEquipped() then
-			self:SetEquipmentSlot(nil)
-		end
-
 		old:RemoveItem(self)
 	end
 
@@ -41,10 +37,6 @@ function ITEM:SetWorldItem(pos, ang, frozen, loading)
 	local old = self:GetInventory()
 
 	if old then
-		if self:IsEquipped() then
-			self:SetEquipmentSlot(nil)
-		end
-
 		old:RemoveItem(self)
 	end
 

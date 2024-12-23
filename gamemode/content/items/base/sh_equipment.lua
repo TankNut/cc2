@@ -24,9 +24,9 @@ function ITEM:OnEquipped(ply, slot)
 		if self.Armor > 0 then
 			ply:UpdateArmor()
 		end
-
-		self:GetInventory():RecalculateWeight()
 	end
+
+	self:GetInventory():RecalculateWeight()
 end
 
 function ITEM:OnUnequipped(ply)
@@ -38,9 +38,9 @@ function ITEM:OnUnequipped(ply)
 		if self.Armor > 0 then
 			ply:UpdateArmor()
 		end
-
-		self:GetInventory():RecalculateWeight()
 	end
+
+	self:GetInventory():RecalculateWeight()
 end
 
 function ITEM:OnEquipmentSlotChanged(old, new)
