@@ -5,7 +5,7 @@ ITEM.Actions.Equip = {
 		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
 	end,
 	Callback = function(self, ply)
-		self:SetEquipmentSlot(ply, self:GetEquipmentSlots()[1])
+		self:SetEquipmentSlot(self:GetEquipmentSlots()[1])
 	end
 }
 
@@ -38,7 +38,7 @@ ITEM.Actions.EquipSlot = {
 			return false, err
 		end
 
-		self:SetEquipmentSlot(ply, slot)
+		self:SetEquipmentSlot(slot)
 	end
 }
 
@@ -50,6 +50,6 @@ ITEM.Actions.Unequip = {
 		return hook.Run("CanUnequipItem", ply, self)
 	end,
 	Callback = function(self, ply)
-		self:SetEquipmentSlot(ply, nil)
+		self:SetEquipmentSlot(nil)
 	end
 }

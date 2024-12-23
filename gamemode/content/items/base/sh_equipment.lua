@@ -25,7 +25,7 @@ function ITEM:OnEquipped(ply, slot)
 			ply:UpdateArmor()
 		end
 
-		self.Inventory:RecalculateWeight()
+		self:GetInventory():RecalculateWeight()
 	end
 end
 
@@ -39,7 +39,7 @@ function ITEM:OnUnequipped(ply)
 			ply:UpdateArmor()
 		end
 
-		self.Inventory:RecalculateWeight()
+		self:GetInventory():RecalculateWeight()
 	end
 end
 
