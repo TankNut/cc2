@@ -24,7 +24,7 @@ function ITEM:SetData(key, val)
 		local inventory = self:GetInventory()
 
 		if inventory and table.Count(inventory.Receivers) > 0 then
-			netstream.Send(table.GetKeys(inventory.Receivers), "SetItemData", self.ID, key, val)
+			netstream.Send(table.GetKeys(inventory.Receivers), "ItemData", self.ID, key, val)
 		end
 	end
 end
