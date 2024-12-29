@@ -208,3 +208,13 @@ function GM:CanUnequipItem(ply, item)
 
 	return item:CanUnequip(ply)
 end
+
+function GM:CanOpenItemContainer(ply, item)
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
+	end
+
+	return item:CanSearchContents(ply)
+end
