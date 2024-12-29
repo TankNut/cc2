@@ -29,7 +29,3 @@ function ITEM:CanStore(ply, inventory)
 
 	return true
 end
-
-function ITEM:CanRetrieve(ply)
-	return true
-end

@@ -220,7 +220,13 @@ function GM:CanOpenItemContainer(ply, item)
 end
 
 function GM:CanTakeItem(ply, item)
-	return item:CanRetrieve(ply)
+	local storeType = item:GetStoreType()
+
+	if storeType == INV_ITEM then
+		return hook.Run("CanInteractWithItem", ply, item:GetItem())
+	end
+
+	return false, "You cannot take this item!"
 end
 
 function GM:CanStoreItem(ply, item, inventory)
