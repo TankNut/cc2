@@ -36,7 +36,13 @@ function ITEM:GetModel() return self:GetData("Model", self.Model) end
 function ITEM:GetSkin() return self:GetData("Skin", self.Skin) end
 
 function ITEM:GetWeight()
-	return self:GetData("Weight", self.Weight)
+	local weight = self:GetData("Weight", self.Weight)
+
+	if self:IsEquipped() then
+		weight = weight * self:GetData("WeightMultiplier", self.WeightMultiplier)
+	end
+
+	return weight
 end
 
 function ITEM:GetArmor() return self:GetData("Armor", self.Armor) end
