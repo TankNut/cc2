@@ -11,6 +11,7 @@ function ITEM:ClearInventory()
 		self:InventoryRemoved(inventory)
 
 		inventory:RemoveItem(self)
+		inventory:ItemsChanged()
 	end
 end
 
@@ -33,6 +34,8 @@ function ITEM:SetInventory(inventory)
 		inventory:AddItem(self)
 
 		self:InventoryAdded(inventory)
+
+		inventory:ItemsChanged()
 	end
 
 	if SERVER then
