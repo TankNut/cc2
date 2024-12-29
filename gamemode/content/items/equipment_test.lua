@@ -1,4 +1,4 @@
-ITEM.Model = Model("models/props_junk/cardboard_box004a.mdl")
+ITEM.Model = Model("models/nova/w_headcrab.mdl")
 
 ITEM.Weight = 1
 ITEM.EquipmentSlots = {

@@ -10,6 +10,10 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self:SetUseType(SIMPLE_USE)
+
+	if not IsValid(self:GetPhysicsObject()) then
+		self:PhysicsInitBox(self:GetModelBounds())
+	end
 end
 
 function ENT:SetupDataTables()

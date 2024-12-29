@@ -1,4 +1,3 @@
-ITEM.Name = "Unnamed item"
 ITEM.Description = "Whoever made this item forgot to add a description!"
 
 ITEM.Rarity = RARITY_COMMON
