@@ -26,20 +26,6 @@ function CreateTemp(class, data)
 	return Item.Instance(class, TempIndex, data)
 end
 
-function Delete(id)
-	local item = All[id]
-
-	if item then
-		item:SetInventory(nil)
-	end
-
-	async.Start(function()
-		local query = GAMEMODE.Database:Delete("rp_items")
-			query:WhereEqual("id", id)
-		query:Execute()
-	end)
-end
-
 function LoadWorld()
 	local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", INV_WORLD)

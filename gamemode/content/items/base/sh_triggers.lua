@@ -14,6 +14,10 @@ function ITEM:OnRemove()
 	end
 end
 
+if SERVER then
+	function ITEM:OnDelete()
+	end
+end
 -- Removed from an inventory, called before it actually happens
 function ITEM:InventoryRemoved(inventory)
 	if SERVER and self:IsEquipped() then
