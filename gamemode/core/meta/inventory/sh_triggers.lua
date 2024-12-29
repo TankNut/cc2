@@ -17,3 +17,15 @@ function meta:ItemsChanged()
 		self:CallPanels("Populate", self)
 	end
 end
+
+function meta:WeightChanged()
+	if self.StoreType == INV_PLAYER then
+		self:GetPlayer():SetInventoryWeight(self.Weight)
+	elseif self.StoreType == INV_ITEM then
+		local item = self:GetItem()
+
+		if item:GetData("Weight", 0) != self.Weight then
+			item:SetData("Weight", self.Weight)
+		end
+	end
+end

@@ -19,7 +19,10 @@ function meta:RecalculateWeight()
 		weight = weight + item:GetWeight()
 	end
 
-	self.Weight = weight
+	if weight != self.Weight then
+		self.Weight = weight
+		self:WeightChanged()
+	end
 end
 
 if CLIENT then
