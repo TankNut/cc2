@@ -10,9 +10,9 @@ function meta:GetReceivers()
 	table.Merge(receivers, self.Listeners)
 
 	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
-		receivers[self:GetParent()] = true
+		receivers[self:GetPlayer()] = true
 	elseif self.StoreType == INV_ITEM then
-		local inventory = self:GetParent():GetInventory()
+		local inventory = self:GetItem():GetInventory()
 
 		if inventory then
 			table.Merge(receivers, inventory.Receivers)

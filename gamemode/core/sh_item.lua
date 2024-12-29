@@ -130,19 +130,17 @@ function meta:HasEquipmentSlot(slot)
 end
 
 function GM:CanInteractWithItem(ply, item)
-	return item:CanInteract(ply)
-end
+	local storeType = item:GetStoreType()
 
-function GM:CanPickupItem(ply, item)
-	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
-		return false, "You can't pick up normal items as a temporary character!"
+	if storeType == INV_WORLD then
+		return false, "You cannot interact with dropped items!"
+	elseif storeType == INV_PLAYER then
+		return item:GetPlayer() == ply, "You cannot interact with other player's inventories!"
+	elseif storeType == INV_ITEM then
+		return false, "You cannot interact with items inside of your bag!"
 	end
 
-	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
-		return false, "That's too heavy for you to carry!"
-	end
-
-	return true
+	return false
 end
 
 function GM:CanDropItem(ply, item)
@@ -173,7 +171,7 @@ function GM:CanUseEquipmentSlot(ply, slot)
 	local item = ply:GetEquipment(slot)
 
 	if item and not hook.Run("CanUnequipItem", ply, item) then
-		return false, "You cannot equip this because of your " .. item:GetName()
+		return false, "You cannot equip this because of your " .. item:GetName() .. "!"
 	end
 
 	return true

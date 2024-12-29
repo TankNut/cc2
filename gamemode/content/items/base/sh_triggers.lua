@@ -6,7 +6,7 @@ end
 
 function ITEM:OnRemove()
 	if self:IsEquipped() then
-		Inventory.Equipment[self:GetOwner()][self:GetEquipmentSlot()] = nil
+		Inventory.Equipment[self:GetPlayer()][self:GetEquipmentSlot()] = nil
 	end
 
 	if CLIENT then
@@ -65,7 +65,7 @@ function ITEM:OnUnequipped(ply)
 end
 
 function ITEM:OnEquipmentSlotChanged(old, new)
-	local ply = self:GetOwner()
+	local ply = self:GetPlayer()
 
 	if new then
 		self:OnEquipped(ply, new)

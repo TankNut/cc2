@@ -4,7 +4,7 @@ end
 
 function ITEM:GetEquipmentSlots()
 	local slots = {}
-	local flagSlots = self:GetOwner():RunCharFlag("EquipmentSlots")
+	local flagSlots = self:GetPlayer():RunCharFlag("EquipmentSlots")
 
 	for _, slot in ipairs(flagSlots) do
 		if self.EquipmentLookup[slot] then
@@ -28,12 +28,12 @@ function ITEM:CheckEquipment()
 		return
 	end
 
-	Inventory.Equipment[self:GetOwner()][slot] = self
+	Inventory.Equipment[self:GetPlayer()][slot] = self
 end
 
 if SERVER then
 	function ITEM:SetEquipmentSlot(slot)
-		local ply = self:GetOwner()
+		local ply = self:GetPlayer()
 
 		if slot then
 			local item = ply:GetEquipment(slot)

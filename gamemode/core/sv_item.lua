@@ -55,3 +55,19 @@ function meta:GiveTempItem(class, data)
 
 	item:SetInventory(self:GetInventory())
 end
+
+function GM:CanPickupItem(ply, item)
+	if not item:IsDropped() then
+		return false, "You cannot pick up items that aren't on the ground!"
+	end
+
+	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
+		return false, "You can't pick up normal items as a temporary character!"
+	end
+
+	if ply:InventoryWeight() + item:GetWeight() > ply:MaxInventoryWeight() then
+		return false, "That's too heavy for you to carry!"
+	end
+
+	return true
+end

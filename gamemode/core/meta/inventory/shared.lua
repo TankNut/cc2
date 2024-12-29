@@ -22,29 +22,32 @@ function meta:Initialize()
 	end
 end
 
--- Todo: Do we want to separate this into separate functions for the different storage types so we don't get an entity when trying to get a player?
-function meta:GetParent()
-	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH or self.StoreType == INV_CONTAINER then
+function meta:GetPlayer()
+	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
 		return Entity(self.Parent)
-	elseif self.StoreType == INV_ITEM then
+	end
+end
+
+function meta:GetItem()
+	if self.StoreType == INV_ITEM then
 		return Item.Get(self.Parent)
+	end
+end
+
+function meta:GetEntity()
+	if self.StoreType == INV_CONTAINER then
+		return Entity(self.Parent)
 	end
 end
 
 function meta:GetMaxWeight()
 	if self.StoreType == INV_PLAYER then
-		return self:GetParent():MaxInventoryWeight()
+		return self:GetPlayer():MaxInventoryWeight()
+	elseif self.StoreType == INV_ITEM then
+		return self:GetItem():GetMaxWeight()
 	end
 
 	return 0
-end
-
-function meta:CanInteract(ply)
-	if self.StoreType == INV_PLAYER then
-		return self:GetParent() == ply, "You cannot interact with other people's inventories!"
-	end
-
-	return false
 end
 
 function meta:Remove()
