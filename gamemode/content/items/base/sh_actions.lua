@@ -149,7 +149,13 @@ else
 			return
 		end
 
-		if not item:CanRunAction(ply, name) then
+		local ok, err = item:CanRunAction(ply, name)
+
+		if not ok then
+			if err then
+				ply:SendChat(nil, "ERROR", err)
+			end
+
 			return
 		end
 
