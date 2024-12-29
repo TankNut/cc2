@@ -218,3 +218,15 @@ function GM:CanOpenItemContainer(ply, item)
 
 	return item:CanSearchContents(ply)
 end
+
+function GM:CanTakeItem(ply, item)
+	return item:CanRetrieve(ply)
+end
+
+function GM:CanStoreItem(ply, item, inventory)
+	if inventory.StoreType == INV_ITEM and inventory:GetItem() == item then
+		return false, "You cannot store an item inside of itself!"
+	end
+
+	return item:CanStore(ply, inventory)
+end

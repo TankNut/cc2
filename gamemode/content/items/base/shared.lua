@@ -33,6 +33,7 @@ GM:Include("sv_networking.lua")
 
 GM:Include("actions/actions_base.lua")
 GM:Include("actions/actions_equipment.lua")
+GM:Include("actions/actions_store.lua")
 
 function ITEM:Initialize()
 	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)

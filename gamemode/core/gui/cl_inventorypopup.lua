@@ -1,6 +1,6 @@
 local PANEL = {}
 
-local inventoryWidth = 350
+local inventoryWidth = 310
 
 function PANEL:Init()
 	self:SetSize(800, 500)
@@ -16,26 +16,46 @@ function PANEL:Init()
 	self.OurInventory:Dock(LEFT)
 	self.OurInventory:SetWide(inventoryWidth)
 
+	self.OurInventory:Receiver("TakeItem", function(_, icons, dropped)
+		if not dropped then
+			return
+		end
+
+		icons[1]:GetItem():RunAction(lp, "Take")
+	end)
+
+	self.OurInventory.OnIconAdded = function(_, icon)
+		icon:Droppable("StoreItem")
+	end
+
 	self.OurInventory:Populate(lp:GetInventory())
 
 	self.TheirInventory = self:Add("CCItemList")
 	self.TheirInventory:Dock(RIGHT)
 	self.TheirInventory:SetWide(inventoryWidth)
 
-	self.Buttons = self:Add("DPanel")
-	self.Buttons:Dock(FILL)
-	self.Buttons:DockMargin(10, 0, 10, 0)
-	self.Buttons:SetPaintBackground(false)
+	self.TheirInventory:Receiver("StoreItem", function(pnl, icons, dropped)
+		if not dropped then
+			return
+		end
+
+		icons[1]:GetItem():RunAction(lp, "Store", pnl.Inventory.ID)
+	end)
+
+	self.TheirInventory.OnIconAdded = function(_, icon)
+		icon:Droppable("TakeItem")
+	end
 end
 
 function PANEL:GetInventoryName()
 	local storeType = self.Inventory.StoreType
-	local parent = self.Inventory:GetParent()
 
 	if storeType == INV_PLAYER then
-		return string.format("%s (%s credits)", parent:CharacterName(), parent:GetMoney())
+		local ply = self.Inventory:GetPlayer()
+
+		return string.format("%s (%s credits)", ply:CharacterName(), ply:GetMoney())
 	elseif self.StoreType == INV_ITEM then
-		return parent:GetName()
+		return self.Inventory:GetItem():GetName()
 	end
 
 	return "Unknown"
