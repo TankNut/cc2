@@ -72,3 +72,19 @@ function ITEM:OnEquipmentSlotChanged(old, new)
 	if old then Inventory.Equipment[ply][old] = nil end
 	if new then Inventory.Equipment[ply][new] = self end
 end
+
+function ITEM:OnWeightChanged(old, new)
+	local inventory = self:GetInventory()
+
+	if inventory then
+		inventory:RecalculateWeight()
+	end
+end
+
+function ITEM:OnWeightMultiplierChanged(old, new)
+	local inventory = self:GetInventory()
+
+	if inventory and self:IsEquipped() then
+		inventory:RecalculateWeight()
+	end
+end
