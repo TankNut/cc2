@@ -11,7 +11,6 @@ function PANEL:Init()
 	self.Scroll:Dock(FILL)
 
 	self.Layout = self.Scroll:Add("DTileLayout")
-	self.Layout:Dock(FILL)
 	self.Layout:SetBaseSize(48)
 	self.Layout:SetBorder(3)
 	self.Layout:SetSpaceX(3)
@@ -20,6 +19,7 @@ end
 
 function PANEL:PerformLayout(w, h)
 	self.Weight:SetPos(0, h - 20)
+	self.Layout:SetSize(w, h - 30)
 end
 
 function PANEL:Populate(inventory)
