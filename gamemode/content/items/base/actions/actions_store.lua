@@ -1,38 +1,16 @@
 ITEM.Actions.Store = {
 	Hidden = true,
 
-	Client = function(self, ply, id)
+	Validate = function(self, ply, id)
 		local inventory = Inventory.Get(id)
 
 		if not inventory then
 			return false, "This inventory doesn't exist!"
 		end
 
-		local ok, err = hook.Run("CanStoreItem", ply, self, inventory)
-
-		if not ok then
-			return false, err
-		end
-
-		return true, id
+		return hook.Run("CanStoreItem", ply, self, inventory)
 	end,
 	Callback = function(self, ply, id)
-		local inventory = Inventory.Get(id)
-
-		if not inventory then
-			return false, "This inventory doesn't exist!"
-		end
-
-		local ok, err = hook.Run("CanStoreItem", ply, self, inventory)
-
-		if not ok then
-			if err then
-				ply:SendChat(nil, "ERROR", err)
-			end
-
-			return
-		end
-
 		self:SetInventory(Inventory.Get(id))
 	end
 }

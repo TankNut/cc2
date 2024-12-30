@@ -75,30 +75,47 @@ if CLIENT then
 	end
 end
 
-function ITEM:CanRunAction(ply, name)
+function ITEM:RunAction(ply, name, ...)
+	local feedback = function(err, ...)
+		if not err then
+			return
+		end
+
+		err = string.format(err, ...)
+
+		if CLIENT then
+			SendLocalChat("ERROR", err)
+		else
+			ply:SendChat(nil, "ERROR", err)
+		end
+	end
+
 	local action = self:GetActions()[name]
 
 	if not action then
-		return false, string.format("No action with name '%s' exists!", name)
+		feedback("No action with id '%s' exists!", name) return
 	end
 
 	if action.CanRun then
-		return action.CanRun(self, ply)
+		local ok, err = action.CanRun(self, ply)
+
+		if not ok then
+			feedback(err) return
+		end
 	end
 
-	return true
-end
+	-- We only validate on the client if we're never running server code, or there aren't any chances to modify the networked args
+	local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
 
-function ITEM:RunAction(ply, name, ...)
-	local action = self:GetActions()[name]
+	if action.Validate and shouldValidate then
+		local ok, err = action.Validate(self, ply, ...)
 
-	if not action then
-		return
+		if not ok then
+			feedback(err) return
+		end
 	end
 
-	local func = CLIENT and self.HandleClientAction or self.HandleServerAction
-
-	async.Start(func, self, ply, name, action, ...)
+	async.Start(CLIENT and self.HandleClientAction or self.HandleServerAction, self, ply, name, action, ...)
 end
 
 if CLIENT then
@@ -149,22 +166,14 @@ else
 			return
 		end
 
-		local ok, err = item:CanRunAction(ply, name)
-
-		if not ok then
-			if err then
-				ply:SendChat(nil, "ERROR", err)
-			end
-
-			return
-		end
-
 		local action = item:GetActions()[name]
 
-		if action.ServerOnly then
+		if action and action.ServerOnly then
+			ply:SendChat(nil, "ERROR", "You cannot run this command from your client!")
+
 			return
 		end
 
-		item:HandleServerAction(ply, name, action, ...)
+		item:RunAction(ply, name, ...)
 	end)
 end

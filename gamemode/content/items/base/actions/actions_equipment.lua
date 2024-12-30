@@ -27,17 +27,14 @@ ITEM.Actions.EquipSlot = {
 
 		return options
 	end,
-	Callback = function(self, ply, slot)
+	Validate = function(self, ply, slot)
 		if not slot then
 			return false, "You need to specify an equipment slot!"
 		end
 
-		local ok, err = hook.Run("CanUseEquipmentSlot", ply, self, slot)
-
-		if not ok then
-			return false, err
-		end
-
+		return hook.Run("CanUseEquipmentSlot", ply, self, slot)
+	end,
+	Callback = function(self, ply, slot)
 		self:SetEquipmentSlot(slot)
 	end
 }
