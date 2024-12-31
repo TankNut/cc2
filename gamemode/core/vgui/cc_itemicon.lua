@@ -33,7 +33,8 @@ function PANEL:OnRemove()
 	end
 end
 
-function PANEL:LayoutEntity()
+function PANEL:LayoutEntity(ent)
+	self.colColor = ent:GetColor()
 end
 
 function PANEL:OnCursorEntered()
