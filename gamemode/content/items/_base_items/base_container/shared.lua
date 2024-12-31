@@ -1,5 +1,7 @@
 DEFINE_BASECLASS("item_base")
 
+ITEM.Internal = true
+
 ITEM.BaseWeight = 0
 ITEM.MaxWeight = 10
 
@@ -32,7 +34,8 @@ end
 function ITEM:GetWeight()
 	local weight = self:GetData("BaseWeight", self.BaseWeight) + self:GetData("Weight", self.Weight)
 
-	if self:IsEquipped() then
+	-- Weight saving applies when worn for equipment, otherwise it always applies
+	if #self.EquipmentSlots == 0 or self:IsEquipped() then
 		weight = weight * self:GetData("WeightMultiplier", self.WeightMultiplier)
 	end
 

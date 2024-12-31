@@ -32,8 +32,8 @@ end
 function ITEM:GetName() return self:GetData("Name", self.Name) end
 function ITEM:GetDescription() return self:GetData("Description", self.Description) end
 
-function ITEM:GetModel() return self:GetData("Model", self.Model) end
-function ITEM:GetSkin() return self:GetData("Skin", self.Skin) end
+function ITEM:GetRarity() return self:GetData("Rarity", self.Rarity) end
+function ITEM:GetRarityData() return Item.Rarities[self:GetRarity()] or Item.Rarities[RARITY_COMMON] end
 
 function ITEM:GetWeight()
 	local weight = self:GetData("Weight", self.Weight)
@@ -43,16 +43,6 @@ function ITEM:GetWeight()
 	end
 
 	return weight
-end
-
-function ITEM:GetArmor() return self:GetData("Armor", self.Armor) end
-
-function ITEM:GetRarity()
-	return self:GetData("Rarity", self.Rarity)
-end
-
-function ITEM:GetRarityData()
-	return Item.Rarities[self:GetRarity()] or Item.Rarities[RARITY_COMMON]
 end
 
 function ITEM:GetArmor()
