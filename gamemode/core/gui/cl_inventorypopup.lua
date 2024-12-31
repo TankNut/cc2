@@ -26,9 +26,12 @@ function PANEL:Init()
 
 	self.OurInventory.OnIconAdded = function(_, icon)
 		icon:Droppable("StoreItem")
-	end
 
-	self.OurInventory:Populate(lp:GetInventory())
+		-- Not the cleanest but it works
+		if self.Inventory.StoreType == INV_ITEM and self.Inventory:GetItem() == icon:GetItem() then
+			icon:Remove()
+		end
+	end
 
 	self.TheirInventory = self:Add("CCItemList")
 	self.TheirInventory:Dock(RIGHT)
@@ -63,6 +66,7 @@ end
 
 function PANEL:Setup(inventory)
 	self.Inventory = inventory
+	self.OurInventory:Populate(lp:GetInventory())
 	self.TheirInventory:Populate(inventory)
 	self:SetTopBar("Inventory - " .. self:GetInventoryName())
 end
