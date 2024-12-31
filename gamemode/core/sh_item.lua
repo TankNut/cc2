@@ -131,14 +131,14 @@ local function checkName(item, name)
 
 	name = string.lower(name)
 
-	if string.find(item.ClassName, name) then
+	if string.find(item.ClassName, name, 1, true) then
 		return true
 	end
 
 	local rarity = Rarities[item.Rarity]
 
 	for _, tag in ipairs(table.Add({rarity.Name, item.Category}, item.Tags)) do
-		if string.find(string.lower(tag), name) then
+		if string.find(string.lower(tag), name, 1, true) then
 			return true
 		end
 	end
