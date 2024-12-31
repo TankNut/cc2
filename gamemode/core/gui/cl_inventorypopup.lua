@@ -57,7 +57,7 @@ function PANEL:GetInventoryName()
 		local ply = self.Inventory:GetPlayer()
 
 		return string.format("%s (%s credits)", ply:CharacterName(), ply:GetMoney())
-	elseif self.StoreType == INV_ITEM then
+	elseif storeType == INV_ITEM then
 		return self.Inventory:GetItem():GetName()
 	end
 
