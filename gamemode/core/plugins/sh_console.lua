@@ -164,6 +164,50 @@ console.Parser("SteamID", function(ply, args, last, options)
 	-- Target will be an error message if ok is false
 	return ok, ok and target:SteamID() or target
 end)
+
+if CLIENT then
+	local col = Color(200, 200, 200)
+
+	local function printItemList(name)
+		if name then
+			MsgC(col, string.format("ITEM LIST: (FILTER \"%s\")\n", name))
+		else
+			MsgC(col, "ITEM LIST:\n")
+		end
+
+		for class, item in SortedPairs(Item.Find(lp, name)) do
+			local rarity = Item.Rarities[item.Rarity]
+
+			MsgC("  ", col, class, " - ", rarity.Color or col, item.Name, "\n")
+		end
+	end
+
+	netstream.Hook("ItemList", printItemList)
+end
+
+console.Parser("Item", function(ply, args, last, options)
+	local itemList = function(name)
+		if name == "" then
+			name = nil
+		end
+
+		if CLIENT then
+			printItemList(name)
+		else
+			netstream.Send(ply, "ItemList", name)
+		end
+	end
+
+	local val = console.ReadArg(args, last)
+	local items = Item.Find(ply, val)
+
+	if table.Count(items) == 1 then
+		return true, table.GetKeys(items)[1]
+	end
+
+	itemList(val)
+
+	return true, nil
 end)
 
 hook.Add("LoadContent", "console", function()

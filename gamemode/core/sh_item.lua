@@ -124,6 +124,44 @@ function Get(id)
 	return All[id]
 end
 
+local function checkName(item, name)
+	if not name then
+		return true
+	end
+
+	name = string.lower(name)
+
+	if string.find(item.ClassName, name) then
+		return true
+	end
+
+	local rarity = Rarities[item.Rarity]
+
+	for _, tag in ipairs(table.Add({rarity.Name, item.Category}, item.Tags)) do
+		if string.find(string.lower(tag), name) then
+			return true
+		end
+	end
+
+	return false
+end
+
+function Find(ply, name)
+	local items = {}
+
+	for class, item in SortedPairs(Spawnable) do
+		if not checkName(item, name) then
+			continue
+		end
+
+		if hook.Run("CanSpawnItem", ply, item) then
+			items[class] = item
+		end
+	end
+
+	return items
+end
+
 function GetDropPosition(ply)
 	local tr = util.TraceLine({
 		start = ply:GetShootPos(),
@@ -136,6 +174,14 @@ end
 
 function meta:HasEquipmentSlot(slot)
 	return table.HasValue(self:RunCharFlag("EquipmentSlots"), slot)
+end
+
+function GM:CanSpawnItem(ply, itemClass)
+	if itemClass.Rarity == RARITY_DEVELOPER and not ply:IsDeveloper() then
+		return false
+	end
+
+	return true
 end
 
 function GM:CanInteractWithItem(ply, item)
