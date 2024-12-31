@@ -47,17 +47,3 @@ function ITEM:Remove()
 
 	Item.All[self.ID] = nil
 end
-
-if SERVER then
-	function ITEM:Delete()
-		self:SetInventory(nil)
-		self:OnDelete()
-		self:Remove()
-
-		async.Start(function()
-			local query = GAMEMODE.Database:Delete("rp_items")
-				query:WhereEqual("id", self.ID)
-			query:Execute()
-		end)
-	end
-end

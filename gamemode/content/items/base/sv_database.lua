@@ -45,5 +45,13 @@ function ITEM:SaveLocation()
 end
 
 function ITEM:Delete()
-	Item.Delete(self.ID)
+	self:SetInventory(nil)
+	self:OnDelete()
+	self:Remove()
+
+	async.Start(function()
+		local query = GAMEMODE.Database:Delete("rp_items")
+			query:WhereEqual("id", self.ID)
+		query:Execute()
+	end)
 end
