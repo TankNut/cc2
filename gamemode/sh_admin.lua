@@ -92,11 +92,6 @@ concommand.AddAdmin("rpa_stopsound", function(ply)
 	net.Broadcast()
 end, false)
 
-
-concommand.AddAdmin("rpa_aidisabled", function(ply, bool)
-	RunConsoleCommand("ai_disabled", bool)
-end, false, {TYPE_BOOL})
-
 concommand.AddAdmin("rpa_invisible", function(ply, targ, bool)
 	GAMEMODE:WriteLog("admin_invisible", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Bool = bool})
 	targ:SetNoDraw(bool)
@@ -274,63 +269,6 @@ concommand.AddAdmin("rpa_seeall", function(ply)
 	net.Start("nASeeAll")
 	net.Send(ply)
 end, false)
-
-concommand.AddAdmin("rpa_setcharmodel", function(ply, targ, mdl)
-	if not util.IsValidModel(mdl) then
-		ply:SendChat(nil, "ERROR", "Error: Invalid model")
-
-		return
-	end
-
-	targ:SetCharacterModel(mdl)
-	targ:UpdateAppearance()
-
-	GAMEMODE:WriteLog("admin_setmodel", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Model = mdl})
-
-	ply:SendChat(nil, "WARNING", "You set " .. targ:CharacterName() .. "'s character model to \"" .. mdl .. "\"")
-	targ:SendChat(nil, "WARNING", ply:Nick() .. " set your character model to \"" .. mdl .. "\"")
-end, false, {TYPE_ENTITY, TYPE_STRING})
-
-concommand.AddAdmin("rpa_setcharskin", function(ply, targ, skin)
-	targ:SetCharacterSkin(skin)
-
-	GAMEMODE:WriteLog("admin_setskin", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Skin = skin})
-
-	ply:SendChat(nil, "WARNING", "You set " .. targ:CharacterName() .. "'s skin to " .. skin)
-	targ:SendChat(nil, "WARNING", ply:Nick() .. " set your skin to " .. skin)
-end, false, {TYPE_ENTITY, TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_setcharname", function(ply, targ, name)
-	if #name < GAMEMODE.MinNameLength then
-		ply:SendChat(nil, "ERROR", "Error: Name is too short")
-
-		return
-	end
-
-	if #name > GAMEMODE.MaxNameLength then
-		ply:SendChat(nil, "ERROR", "Error: Name is too long")
-
-		return
-	end
-
-	if not GAMEMODE:CheckNameValidity(name) then
-		ply:SendChat(nil, "ERROR", "Error: Name cannot include '#', '~' or '%'")
-
-		return
-	end
-
-	name = string.Trim(name)
-
-	GAMEMODE:WriteLog("admin_setname", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Name = name})
-
-	local old = targ:CharacterName()
-
-	targ:SetCharacterName(name)
-	targ:UpdateVisibleName()
-
-	ply:SendChat(nil, "WARNING", "You set " .. old .. "'s name to " .. targ:CharacterName())
-	targ:SendChat(nil, "WARNING", ply:Nick() .. " set your name to " .. targ:CharacterName())
-end, false, {TYPE_ENTITY, TYPE_STRING})
 
 concommand.AddAdmin("rpa_tie", function(ply, targ)
 	targ:SetTiedUp(true)
@@ -800,16 +738,6 @@ concommand.AddAdmin("rpa_wipelocation", function(ply, loc, dest, port)
 	end)
 end, true, {TYPE_STRING, TYPE_STRING, TYPE_NUMBER})
 
-concommand.AddAdmin("rpa_sethealth", function(ply, targ, val)
-	val = math.Clamp(val, 0, 100000)
-
-	targ:SetHealth(val)
-end, false, {TYPE_ENTITY, TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_yell", function(ply, msg)
-	GAMEMODE:SendChat(ply, player.GetAll(), "ADMINYELL", msg)
-end, false, {TYPE_STRING})
-
 concommand.AddAdmin("rpa_playernotes", function(ply, targ)
 	GAMEMODE:PlayerNotes(ply, targ)
 end, false, {TYPE_ENTITY})
@@ -1121,20 +1049,6 @@ concommand.AddAdmin("rpa_charlookup", function(ply, name)
 	GAMEMODE:CharacterLookup(name, ply)
 end, false, {TYPE_STRING})
 
-concommand.AddAdmin("rpa_explode", function(ply, targ)
-	targ:Kill()
-
-	local explo = ents.Create("env_explosion")
-	explo:SetPos(targ:GetPos())
-	explo:SetKeyValue("iMagnitude", 0)
-	explo:Spawn()
-	explo:Activate()
-	explo:Fire("Explode")
-
-	GAMEMODE:WriteLog("admin_explode", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
-	GAMEMODE:SendChat(nil, player.GetAll(), "WARNING", ply:Nick() .. " exploded " .. targ:Nick())
-end, true, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_adminradio", function(ply, bool)
 	ply:SetAdminRadio(bool)
 end, false, {TYPE_BOOL})
@@ -1283,7 +1197,7 @@ concommand.AddAdmin("rpa_heal", function(ply, targ)
 	targ:SetHealth(targ:GetMaxHealth())
 
 	if SERVER then
-		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Self = ply == targ})
+		
 	end
 end, false, {TYPE_ENTITY})
 

@@ -46,6 +46,7 @@ GM.IntroCamText = {
 	"Good luck in City 17.\n\nPick a first and last name at the character creation prompt, and have fun!"
 }
 
+GM.AllowedNameCharacters = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
 GM.MinNameLength		= 3
 GM.MaxNameLength		= 40
 GM.MaxDescLength		= 2000

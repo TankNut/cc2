@@ -44,3 +44,82 @@ changeLevel:SetExecutionContext(console.Server)
 changeLevel:SetAccess(console.IsAdmin)
 
 changeLevel:AddOptional(console.String())
+
+local aiDisabled = console.AddCommand("rpa_aidisabled", function (ply, bool)
+	GAMEMODE:SendChat(nil, player.GetAdmins(), "WARNING", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"))
+
+	RunConsoleCommand("ai_disabled", bool and 1 or 0)
+end)
+
+aiDisabled:SetDescription("Updates the AI Disabled server console variable")
+aiDisabled:SetExecutionContext(console.Server)
+aiDisabled:SetAccess(console.IsAdmin)
+
+aiDisabled:AddParameter(console.Bool())
+
+local yell = console.AddCommand("rpa_yell", function(ply, message)
+	GAMEMODE:SendChat(ply, player.GetAll(), "ADMINYELL", message)
+end)
+
+yell:SetDescription("Announces a large-text message to all players")
+yell:SetExecutionContext(console.Server)
+yell:SetAccess(console.IsAdmin)
+
+yell:AddOptional(console.String())
+
+local heal = console.AddCommand("rpa_heal", function(ply, targets)
+	for _,target in pairs(targets) do
+		if target:Health() > target:GetMaxHealth() then
+			continue -- Don't reset the health of admins using rpa_sethealth.
+		end
+
+		target.ArmorFraction = 1
+
+		target:SetHealth(target:GetMaxHealth())
+		target:SetArmor(target:GetMaxArmor())
+
+		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Self = ply == target})
+
+		console.Feedback(target, "WARNING", "%s has healed you", ply)
+	end
+
+	local targetCount = table.Count(targets)
+
+	if targetCount == 1 then
+		console.Feedback(ply, "WARNING", "You've healed %s", targets[1])
+	else
+		console.Feedback(ply, "WARNING", "You've healed %d players", targetCount)
+	end
+end)
+
+heal:SetDescription("Heals one or more players to full health and armor")
+heal:SetExecutionContext(console.Server)
+heal:SetAccess(console.IsAdmin)
+
+heal:AddParameter(console.Player({
+	SingleTarget = false,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
+	target:SetHealth(max)
+
+	console.Feedback(ply, "WARNING", "You've set %s's health to \"%d\"", target, max)
+	console.Feedback(target, "WARNING", "%s set your health to \"%d\"", ply, max)
+end)
+
+setHealth:SetDescription("Manually sets a player's health bar")
+setHealth:SetExecutionContext(console.Server)
+setHealth:SetAccess(console.IsAdmin)
+
+setHealth:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = false,
+	NoSelfTarget = false
+}))
+
+setHealth:AddParameter(console.Number({
+	validate.Min(0),
+	validate.Max(100000)
+}))
