@@ -402,25 +402,6 @@ concommand.AddAdmin("rpa_editinventory", function(ply, targ)
 	net.Send(ply)
 end, false, {TYPE_ENTITY})
 
-concommand.AddAdmin("rpa_youtube", function(ply, url, volume)
-	if volume == 0 then
-		volume = 100
-	end
-
-	GAMEMODE:LogAdmin("[Y] " .. ply:Nick() .. " played youtube video " .. url, ply)
-
-	net.Start("nAPlayYT")
-		net.WriteString(ply:Nick())
-		net.WriteString(url)
-		net.WriteFloat(volume)
-	net.Broadcast()
-end, false, {TYPE_STRING, TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_stopyoutube", function(ply)
-	net.Start("nAStopYT")
-	net.Broadcast()
-end, false)
-
 concommand.AddAdmin("rpa_playurl", function(ply, url, volume)
 	if url == "" then
 		ply:SendChat(nil, "ERROR", "Error: Invalid syntax: rpa_playurl [url] [vol]")
