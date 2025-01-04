@@ -503,14 +503,6 @@ local function createitem(ply, class, temp, ...)
 	end
 end
 
-concommand.AddAdmin("rpa_createitem", function(ply, class, ...)
-	createitem(ply, class, false, ...)
-end, false, {TYPE_STRING, TYPE_NIL})
-
-concommand.AddAdmin("rpa_createtempitem", function(ply, class, ...)
-	createitem(ply, class, true, ...)
-end, false, {TYPE_STRING, TYPE_NIL})
-
 concommand.AddAdmin("rpa_playoverwatch", function(ply, line)
 	if GAMEMODE.OverwatchLines[line] then
 		GAMEMODE:LogAdmin("[O] " .. ply:Nick() .. " played overwatch line \"" .. GAMEMODE.OverwatchLines[line][2] .. "\"", ply)
