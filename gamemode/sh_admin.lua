@@ -1268,21 +1268,6 @@ concommand.AddAdmin("rpa_createloot", function(ply, pool)
 	end
 end, false, {TYPE_STRING})
 
-concommand.AddAdmin("rpa_deadmin", function(ply)
-	ply:SetUserGroup("user")
-	ply:SendChat(nil, "WARNING", "You've deadminned yourself")
-
-	local tab = {}
-
-	for _, v in player.Iterator() do
-		if v:IsAdmin() then
-			table.insert(tab, v)
-		end
-	end
-
-	GAMEMODE:SendChat(nil, tab, "WARNING", string.format("%s has deadminned themselves.", ply:Nick()))
-end, false)
-
 concommand.AddAdmin("rpa_givetempadmin", function(ply, targ)
 	local tab = {}
 

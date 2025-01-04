@@ -123,3 +123,14 @@ setHealth:AddParameter(console.Number({
 	validate.Min(0),
 	validate.Max(100000)
 }))
+
+local deadmin = console.AddCommand("rpa_deadmin", function(ply)
+	ply:SetUserGroup("user")
+
+	console.Feedback(ply, "WARNING", "You've deadminned yourself")
+	GAMEMODE:SendChat(nil, player.GetAdmins(), "WARNING", string.format("%s has deadminned themselves.", ply:Nick()))
+end)
+
+deadmin:SetDescription("Removes yourself from the admin role")
+deadmin:SetExecutionContext(console.Server)
+deadmin:SetAccess(console.IsAdmin)
