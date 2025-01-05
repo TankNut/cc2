@@ -7,6 +7,9 @@ ITEM.EquipmentSlots = {
 
 ITEM.Armor = 50
 
+ITEM.IconAngle = Angle(-80, -175, 90)
+ITEM.IconFOV = 14
+
 function ITEM:GetModelData(ply)
 	if not self:IsEquipped() then
 		return
