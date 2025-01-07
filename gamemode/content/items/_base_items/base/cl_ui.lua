@@ -54,13 +54,16 @@ function ITEM:OpenActionMenu(context)
 	dmenu:Open()
 end
 
-local defaultColor = Color(192, 192, 192)
-local template = [[
-<font=CombineControl.LabelBig><col=%s>%s</col></font>
-<font=CombineControl.LabelSmall>%s</font>]]
+local template = [[<font=CombineControl.LabelGiant><col=%s>%s</col></font>
+<font=CombineControl.LabelSmall>
+%s
+
+<col=cc_disabled>%s</col></font>]]
 
 function ITEM:GetTooltip()
-	return string.format(template, self:GetRarityData().Color or defaultColor, self:GetName(), self:GetDescription())
+	return string.format(template, self:GetRarityData().Color or scribe.DefaultColor,
+		self:GetName(), self:GetDescription(),
+		string.format("Weight: %s kg", self:GetWeight()))
 end
 
 function ITEM:DrawTooltip()
