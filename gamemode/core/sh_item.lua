@@ -9,13 +9,13 @@ All = All or {}
 ActionCache = {}
 
 Rarities = {
-	[RARITY_COMMON] = {Name = "Common"},
-	[RARITY_UNCOMMON] = {Name = "Uncommon", Color = Color(30, 255, 0)},
-	[RARITY_RARE] = {Name = "Rare", Color = Color(0, 112, 221)},
-	[RARITY_EPIC] = {Name = "Epic", Color = Color(163, 53, 238)},
-	[RARITY_LEGENDARY] = {Name = "Legendary", Color = Color(255, 128, 0)},
-	[RARITY_ARTIFACT] = {Name = "Artifact", Color = Color(255, 50, 50)},
-	[RARITY_DEVELOPER] = {Name = "Developer", Color = Color(0, 204, 255)}
+	[RARITY_COMMON] = {Name = "Common", Color = Color(200, 200, 200):Register("rarity_common")},
+	[RARITY_UNCOMMON] = {Name = "Uncommon", Color = Color(30, 255, 0):Register("rarity_uncommon")},
+	[RARITY_RARE] = {Name = "Rare", Color = Color(0, 112, 221):Register("rarity_rare")},
+	[RARITY_EPIC] = {Name = "Epic", Color = Color(163, 53, 238):Register("rarity_epic")},
+	[RARITY_LEGENDARY] = {Name = "Legendary", Color = Color(255, 128, 0):Register("rarity_legendary")},
+	[RARITY_ARTIFACT] = {Name = "Artifact", Color = Color(255, 50, 50):Register("rarity_artifact")},
+	[RARITY_DEVELOPER] = {Name = "Developer", Color = Color(0, 204, 255):Register("rarity_developer")}
 }
 
 local meta = FindMetaTable("Player")

@@ -71,11 +71,11 @@ function PANEL:Paint(w, h)
 
 	BaseClass.Paint(self, w, h)
 
-	local rarity = self.Item:GetRarityData()
+	if self.Item:GetRarity() != RARITY_COMMON then
+		local color = self.Item:GetRarityData().Color
 
-	if rarity.Color then
 		draw.NoTexture()
-		surface.SetDrawColor(rarity.Color.r, rarity.Color.g, rarity.Color.b, 230)
+		surface.SetDrawColor(color.r, color.g, color.b, 230)
 
 		draw.Circle(w - 6, h - 6, 4, 8)
 		surface.DrawCircle(w - 6, h - 6, 4, 20, 20, 20, 230)
