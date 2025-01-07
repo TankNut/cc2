@@ -61,13 +61,13 @@ function ITEM:OpenActionMenu(context)
 end
 
 local template = [[<font=CombineControl.LabelGiant><col=%s>%s</col></font>
-<font=CombineControl.LabelSmall>
-%s
 
-<col=cc_disabled>%s</col></font>]]
+<font=CombineControl.LabelSmall>%s<reset>
+
+<font=CombineControl.LabelSmall><col=cc_disabled>%s]]
 
 function ITEM:GetTooltip()
-	return string.format(template, self:GetRarityData().Color or scribe.DefaultColor,
+	return string.format(template, "rarity_" .. self:GetRarityData().Name,
 		self:GetName(), self:GetDescription(),
 		string.format("Weight: %s kg", self:GetWeight()))
 end

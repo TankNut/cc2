@@ -31,7 +31,15 @@ function ITEM:SetData(key, val)
 end
 
 function ITEM:GetName() return self:GetData("Name", self.Name) end
-function ITEM:GetDescription() return self:GetData("Description", self.Description) end
+function ITEM:GetDescription()
+	local description = {self:GetData("Description", self.Description), "<reset>"}
+
+	if self:IsEquipped() then
+		table.insert(description, string.format("\n\n<col=lime>Equipped as %s</col>", EquipmentSlot(self:GetEquipmentSlot())))
+	end
+
+	return table.concat(description)
+end
 
 function ITEM:GetRarity() return self:GetData("Rarity", self.Rarity) end
 function ITEM:GetRarityData() return Item.Rarities[self:GetRarity()] end
