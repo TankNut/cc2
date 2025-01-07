@@ -16,7 +16,7 @@ function ITEM:RemovePanels()
 		panel:Remove()
 	end
 
-	table.Empty(self.Panels)
+	self.Panels = {}
 end
 
 function ITEM:OpenActionMenu(context)
