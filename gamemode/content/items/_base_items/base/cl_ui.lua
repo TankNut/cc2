@@ -19,6 +19,12 @@ function ITEM:RemovePanels()
 	self.Panels = {}
 end
 
+function ITEM:TriggerPanelUpdate()
+	for panel in pairs(self.Panels) do
+		panel:ItemUpdated()
+	end
+end
+
 function ITEM:OpenActionMenu(context)
 	local actions = self:GetAvailableActions(context)
 

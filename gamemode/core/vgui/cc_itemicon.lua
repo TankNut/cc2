@@ -62,6 +62,10 @@ function PANEL:DoRightClick(category)
 	self.Item:OpenActionMenu(category)
 end
 
+function PANEL:ItemUpdated()
+	self:SetItem(self.Item)
+end
+
 function PANEL:Paint(w, h)
 	local col = self.Item:GetHighlightColor()
 

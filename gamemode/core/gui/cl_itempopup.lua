@@ -70,11 +70,16 @@ function PANEL:Setup(item)
 	self.Item = item
 	self.Item.Panels[self] = true
 
+	self.ModelPanel:SetItem(item)
+
+	self:ItemUpdated()
+end
+
+function PANEL:ItemUpdated()
+	local item = self.Item
 	local name = item:GetName()
 
 	self:SetTopBar(name)
-
-	self.ModelPanel:SetItem(item)
 
 	self.TitleLabel:SetText(name)
 	self.TitleLabel:SizeToContentsY()
