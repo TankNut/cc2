@@ -1,6 +1,6 @@
 local PANEL = {}
 
-local inventoryWidth = 310
+local inventoryWidth = 360
 
 function PANEL:Init()
 	self:SetSize(800, 500)
