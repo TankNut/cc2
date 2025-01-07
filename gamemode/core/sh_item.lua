@@ -135,6 +135,11 @@ local function checkName(item, name)
 		return true
 	end
 
+	if item == name then
+		-- Direct match
+		return true, true
+	end
+
 	name = string.lower(name)
 
 	if string.find(item.ClassName, name, 1, true) then
@@ -156,8 +161,14 @@ function Find(ply, name)
 	local items = {}
 
 	for class, item in SortedPairs(Spawnable) do
-		if not checkName(item, name) then
+		local ok, match = checkName(item, name)
+
+		if not ok then
 			continue
+		end
+
+		if match then
+			return {[class] = item}
 		end
 
 		if hook.Run("CanSpawnItem", ply, item) then
