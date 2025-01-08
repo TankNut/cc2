@@ -103,7 +103,6 @@ netstream.Hook("CreateCharacter", function(ply, name, desc, model, skin)
 	end
 end)
 
-
 netstream.Hook("SelectCharacter", function(ply, id)
 	if not ply:CharacterList()[id] then
 		return

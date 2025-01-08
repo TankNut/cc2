@@ -30,7 +30,7 @@ function Register(name, item)
 
 	if name != "base" then
 		setmetatable(item, {
-			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base"),
+			__index = baseclass.Get(item.Base and "item_" .. item.Base or "item_base")
 		})
 	end
 

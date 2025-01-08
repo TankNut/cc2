@@ -44,7 +44,6 @@ function INPUT:OnKeyCodeTyped(code)
 	self:OnKeyCode(code)
 	if code == KEY_ESCAPE then
 		GAMEMODE:HideChat()
-		RunConsoleCommand("cancelselect")
 	elseif code == KEY_ENTER and not self:IsMultiline() and self:GetEnterAllowed() then
 		if IsValid(self.Menu) then
 			self.Menu:Remove()
