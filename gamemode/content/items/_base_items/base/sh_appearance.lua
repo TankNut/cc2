@@ -1,9 +1,3 @@
-ITEM.Model = Model("models/props_lab/cactus.mdl")
-ITEM.Skin = 0
-
-ITEM.Color = color_white
-ITEM.Scale = 1
-
 function ITEM:SetItemAppearance(ent)
 	ent:SetSkin(self:GetSkin())
 	ent:SetColor(self:GetColor())

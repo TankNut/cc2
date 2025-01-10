@@ -1,19 +1,32 @@
-ITEM.Name = nil -- Just here for clarity's sake
+-- Internal data
+ITEM.Base = nil
+ITEM.Internal = true
+
+-- General info
+ITEM.Name = nil
 ITEM.Description = "Whoever made this item forgot to add a description!"
 
 ITEM.Rarity = RARITY_COMMON
 ITEM.Category = "Misc"
 ITEM.Tags = {}
 
-ITEM.Internal = true
+-- Appearance
+ITEM.Model = Model("models/props_lab/cactus.mdl")
+ITEM.Skin = 0
 
+ITEM.Color = color_white
+ITEM.Scale = 1
+
+-- Inventory data
 ITEM.Weight = 1
 ITEM.WeightMultiplier = 0.2
 
+-- Equipment data
 ITEM.EquipmentSlots = {}
 
 ITEM.Armor = 0
 
+-- Icon data
 ITEM.IconAngle = Angle()
 ITEM.IconFOV = 14
 
