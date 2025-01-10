@@ -29,6 +29,8 @@ function ITEM:CheckEquipment()
 	end
 
 	Inventory.Equipment[self:GetPlayer()][slot] = self
+
+	return true
 end
 
 if SERVER then
@@ -44,5 +46,21 @@ if SERVER then
 		end
 
 		self:SetData("EquipmentSlot", slot)
+	end
+
+	function ITEM:AddBuffs()
+		local ply = self:GetPlayer()
+
+		for _, buff in ipairs(self.Buffs) do
+			ply:AddBuff(buff)
+		end
+	end
+
+	function ITEM:RemoveBuffs()
+		local ply = self:GetPlayer()
+
+		for _, buff in ipairs(self.Buffs) do
+			ply:RemoveBuff(buff, 1)
+		end
 	end
 end

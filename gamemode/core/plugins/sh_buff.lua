@@ -49,18 +49,20 @@ hook.Add("LoadContent", "buff", function()
 	RegisterFolder(engine.ActiveGamemode() .. "/gamemode/content/buffs/")
 end)
 
-hook.Add("Move", "buff", function(ply, mv)
-	HookPlayer(ply, "Move", mv)
-end)
+hook.Add("Move", "buff", function(ply, mv) PlayerHook(ply, "Move", mv) end)
 
 if SERVER then
 	hook.Add("PlayerDeath", "buff", function(ply)
-		HookPlayer(ply, "OnDeath")
+		PlayerHook(ply, "OnDeath")
 
 		for name, buff in pairs(ply:GetBuffs()) do
 			if buff.RemoveOnDeath then
 				ply:RemoveBuff(name, true)
 			end
 		end
+	end)
+
+	hook.Add("BlockFallDamage", "buff", function(ply)
+		return PlayerHook(ply, "BlockFallDamage")
 	end)
 end

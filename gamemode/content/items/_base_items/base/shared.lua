@@ -25,6 +25,7 @@ ITEM.WeightMultiplier = 0.2
 ITEM.EquipmentSlots = {}
 
 ITEM.Armor = 0
+ITEM.Buffs = {}
 
 -- Icon data
 ITEM.IconAngle = Angle()

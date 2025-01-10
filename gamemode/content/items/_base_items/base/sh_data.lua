@@ -73,4 +73,8 @@ if CLIENT then
 	function ITEM:GetIconCamera()
 		return Angle(self:GetData("IconAngle", self.IconAngle)), self:GetData("IconFOV", self.IconFOV)
 	end
+else
+	function ITEM:GetBuffs()
+		return self:GetData("Buffs", self.Buffs)
+	end
 end

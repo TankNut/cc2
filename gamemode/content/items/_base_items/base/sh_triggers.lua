@@ -1,6 +1,6 @@
 function ITEM:OnLoaded()
-	if self:IsEquipped() then
-		self:CheckEquipment()
+	if self:IsEquipped() and self:CheckEquipment() and SERVER then
+		self:AddBuffs()
 	end
 end
 
@@ -9,6 +9,10 @@ function ITEM:OnRemove()
 
 	if self:IsEquipped() and IsValid(ply) then
 		Inventory.Equipment[ply][self:GetEquipmentSlot()] = nil
+
+		if SERVER then
+			self:RemoveBuffs()
+		end
 	end
 
 	if CLIENT then
@@ -50,6 +54,8 @@ function ITEM:OnEquipped(ply, slot)
 		if self.Armor > 0 then
 			ply:UpdateArmor()
 		end
+
+		self:AddBuffs()
 	end
 
 	self:GetInventory():RecalculateWeight()
@@ -64,6 +70,8 @@ function ITEM:OnUnequipped(ply)
 		if self.Armor > 0 then
 			ply:UpdateArmor()
 		end
+
+		self:RemoveBuffs()
 	end
 
 	self:GetInventory():RecalculateWeight()
@@ -95,5 +103,23 @@ function ITEM:OnWeightMultiplierChanged(old, new)
 
 	if inventory and self:IsEquipped() then
 		inventory:RecalculateWeight()
+	end
+end
+
+if SERVER then
+	function ITEM:OnBuffsChanged(old, new)
+		if not self:IsEquipped() then
+			return
+		end
+
+		local ply = self:GetPlayer()
+
+		for _, buff in ipairs(old) do
+			ply:RemoveBuff(buff, 1)
+		end
+
+		for _, buff in ipairs(new) do
+			ply:AddBuff(buff)
+		end
 	end
 end
