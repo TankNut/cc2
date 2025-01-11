@@ -86,7 +86,7 @@ function pmeta:GetEquipment(slot)
 	end
 end
 
-function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
+function GM:OnInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
 		local inventory = ply:GetInventory()
 
@@ -96,7 +96,7 @@ function GM:PlayerInventoryWeightChanged(ply, old, new, loaded)
 	end
 end
 
-function GM:PlayerMaxInventoryWeightChanged(ply, old, new, loaded)
+function GM:OnMaxInventoryWeightChanged(ply, old, new, loaded)
 	if CLIENT then
 		local inventory = ply:GetInventory()
 

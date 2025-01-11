@@ -15,7 +15,7 @@ function Add(name, data)
 	local index = data.Index
 	local default = data.Default
 
-	local hookName = "Player" .. name .. "Changed"
+	local hookName = "On" .. name .. "Changed"
 
 	GM[name] = function()
 		return Store[name] or default

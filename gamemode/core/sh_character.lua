@@ -4,13 +4,13 @@ PlayerVar.Add("CharacterList", {Default = {}, Private = true})
 PlayerVar.Add("VisibleRPName", {Default = "Unconnected"})
 PlayerVar.Add("ShortDescription", {Default = ""})
 
-CharacterVar.Add("Name", {Default = "Unknown", Private = true, DataType = VARCHAR(64)})
-CharacterVar.Add("NameOverride", {Default = "", Private = true, DataType = VARCHAR(64)})
+CharacterVar.Add("CharacterName", {Default = "Unknown", Private = true, Field = "Name", DataType = VARCHAR(64)})
+CharacterVar.Add("CharacterNameOverride", {Default = "", Private = true, Field = "NameOverride", DataType = VARCHAR(64)})
 
-CharacterVar.Add("Description", {Default = "", Private = true, DataType = TEXT()})
+CharacterVar.Add("CharacterDescription", {Default = "", Private = true, Field = "Description", DataType = TEXT()})
 
-CharacterVar.Add("Model", {Default = "models/player/skeleton.mdl", ServerOnly = true, DataType = VARCHAR(128)})
-CharacterVar.Add("Skin", {Default = 0, ServerOnly = true, DataType = TINYINT()})
+CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", ServerOnly = true, Field = "Model", DataType = VARCHAR(128)})
+CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin", DataType = TINYINT()})
 
 local meta = FindMetaTable("Player")
 
@@ -22,7 +22,7 @@ function meta:IsTemporaryCharacter()
 	return self:CharID() < 0
 end
 
-function GM:PlayerCharacterListChanged(ply, old, new, loaded)
+function GM:OnCharacterListChanged(ply, old, new, loaded)
 	if CLIENT and loaded then
 		self.CCMode = table.Count(new) > 0 and CC_CREATESELECT_C or CC_CREATE
 		self:CreateCharEditor()
@@ -44,11 +44,11 @@ function GM:PostLoadCharacter(ply)
 	end
 end
 
-function GM:CharacterModelChanged(ply, old, new, loaded)
+function GM:OnCharacterModelChanged(ply, old, new, loaded)
 	if SERVER and not loaded then ply:UpdateAppearance() end
 end
 
-function GM:CharacterSkinChanged(ply, old, new, loaded)
+function GM:OnCharacterSkinChanged(ply, old, new, loaded)
 	if SERVER and not loaded then ply:UpdateAppearance() end
 end
 

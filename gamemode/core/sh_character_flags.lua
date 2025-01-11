@@ -4,8 +4,9 @@ List = List or {}
 
 local meta = FindMetaTable("Player")
 
-CharacterVar.Add("Flag", {
+CharacterVar.Add("CharacterFlag", {
 	Default = "citizen",
+	Field = "Flag",
 	DataType = VARCHAR(64)
 })
 
@@ -61,7 +62,7 @@ function GM:RunCharFlag(ply, name, ...)
 	end
 end
 
-function GM:CharacterFlagChanged(ply, old, new, loaded)
+function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	if not loaded then
 		hook.Run("PlayerApplyFlag", ply)
 	end

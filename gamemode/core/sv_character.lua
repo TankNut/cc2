@@ -54,7 +54,7 @@ function meta:LoadCharacter(id)
 		local val = data[var.Field]
 
 		if not val then
-			self["SetCharacter" .. var.Name](self, nil, true)
+			self["Set" .. var.Name](self, nil, true)
 
 			continue
 		end
@@ -63,7 +63,7 @@ function meta:LoadCharacter(id)
 			val = sfs.decode(val)
 		end
 
-		self["SetCharacter" .. var.Name](self, val, true)
+		self["Set" .. var.Name](self, val, true)
 	end
 
 	Inventory.Load(self)

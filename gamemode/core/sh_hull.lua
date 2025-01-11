@@ -9,7 +9,7 @@ Default = {
 }
 
 PlayerVar.Add("Scale", {Default = 0})
-CharacterVar.Add("Scale", {Default = 1, DataType = FLOAT()})
+CharacterVar.Add("CharacterScale", {Default = 1, Field = "Scale", DataType = FLOAT()})
 
 local meta = FindMetaTable("Player")
 
@@ -63,13 +63,13 @@ function GM:GetPlayerScale(ply)
 	return scale != 0 and scale or ply:RunCharFlag("PlayerScale")
 end
 
-function GM:PlayerScaleChanged(ply, old, new, loaded)
+function GM:OnScaleChanged(ply, old, new, loaded)
 	if not loaded then
 		ply:UpdateHull()
 	end
 end
 
-function GM:CharacterScaleChanged(ply, old, new, loaded)
+function GM:OnCharacterScaleChanged(ply, old, new, loaded)
 	if not loaded then
 		ply:UpdateHull()
 	end

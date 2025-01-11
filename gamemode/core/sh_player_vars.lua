@@ -34,7 +34,7 @@ function Add(name, data)
 	local validate = data.Validate
 
 	local cache = Store[name]
-	local hookName = "Player" .. name .. "Changed"
+	local hookName = "On" .. name .. "Changed"
 
 	if persist then
 		Fields[data.Field] = data

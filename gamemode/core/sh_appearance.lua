@@ -1,6 +1,6 @@
 local meta = FindMetaTable("Player")
 
-function GM:PlayerAppearanceChanged(ply, old, new, loaded)
+function GM:OnAppearanceChanged(ply, old, new, loaded)
 	ply:UpdateHull()
 
 	if CLIENT then

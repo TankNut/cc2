@@ -32,19 +32,19 @@ function Add(name, data)
 	local validate = data.Validate
 
 	local cache = Store[name]
-	local hookName = "Character" .. name .. "Changed"
+	local hookName = "On" .. name .. "Changed"
 
 	if serverOnly and CLIENT then
 		return
 	end
 
-	meta["Character" .. name] = function(ply)
+	meta[name] = function(ply)
 		local val = cache[ply]
 
 		return val == nil and default or val
 	end
 
-	meta["SetCharacter" .. name] = function(ply, val, loading)
+	meta["Set" .. name] = function(ply, val, loading)
 		if val == default then val = nil end
 
 		if validate and val != nil and not validate(val) then
