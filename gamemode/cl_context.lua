@@ -545,7 +545,7 @@ function GM:CCCreateDoorNameEdit()
 
 		else
 
-			lp:SendChat("ERROR", "Error: Name must be between 1 and 50 characters.")
+			lp:SendChat("ERROR", "Name must be between 1 and 50 characters.")
 
 		end
 

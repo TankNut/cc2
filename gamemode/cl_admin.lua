@@ -74,7 +74,7 @@ net.Receive("nAPlayOverwatch", function(len)
 end)
 
 net.Receive("nATooTight", function(len)
-	lp:SendChat("ERROR", "Error: You're in too tight a space to do this.")
+	lp:SendChat("ERROR", "You're in too tight a space to do this.")
 end)
 
 net.Receive("nAEditInventory", function(len)

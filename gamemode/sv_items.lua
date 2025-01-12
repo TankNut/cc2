@@ -244,7 +244,7 @@ end
 function GM:CreateItem(ply, classname, arguments, temp)
 	if temp then
 		if class.IsChildOf(classname, "base_stacking") then
-			ply:SendChat("ERROR", "Error: Stacking items cannot be temp items.")
+			ply:SendChat("ERROR", "Stacking items cannot be temp items.")
 
 			return
 		end

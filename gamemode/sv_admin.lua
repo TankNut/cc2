@@ -35,7 +35,7 @@ function concommand.AddAdminVariable(cmd, var, default, friendlyvar, sa)
 		end
 
 		if not args[1] then
-			ply:SendChat("ERROR", "Error: No value specified.")
+			ply:SendChat("ERROR", "No value specified.")
 
 			return
 		end

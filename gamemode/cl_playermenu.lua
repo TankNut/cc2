@@ -168,13 +168,13 @@ function GM:PMCreateNameEdit()
 
 			else
 
-				lp:SendChat("ERROR", "Error: Name cannot include '#', '~' or '%'.")
+				lp:SendChat("ERROR", "Name cannot include '#', '~' or '%'.")
 
 			end
 
 		else
 
-			lp:SendChat("ERROR", "Error: Name must be between " .. GAMEMODE.MinNameLength .. " and " .. GAMEMODE.MaxNameLength .. " characters.")
+			lp:SendChat("ERROR", "Name must be between " .. GAMEMODE.MinNameLength .. " and " .. GAMEMODE.MaxNameLength .. " characters.")
 
 		end
 
@@ -264,7 +264,7 @@ function GM:PMCreateDescEdit()
 
 		else
 
-			lp:SendChat("ERROR", "Error: Description must be less than " .. GAMEMODE.MaxDescLength .. " characters.")
+			lp:SendChat("ERROR", "Description must be less than " .. GAMEMODE.MaxDescLength .. " characters.")
 
 		end
 
