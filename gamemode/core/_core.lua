@@ -55,6 +55,7 @@ function GM:LoadContent()
 	CharacterFlag.Load()
 	Item.Load()
 	Language.Load()
+	Chat.Load()
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
@@ -70,6 +71,7 @@ GM:Include("sh_admin.lua")
 GM:Include("sh_appearance.lua")
 GM:Include("sh_character_flags.lua")
 GM:Include("sh_character.lua")
+GM:Include("sh_chat.lua")
 GM:Include("sh_entity.lua")
 GM:Include("sh_global.lua")
 GM:Include("sh_hull.lua")
@@ -92,3 +94,32 @@ GM:LoadFolder("core/plugins", "_plugin.lua")
 GM:Include(engine.ActiveGamemode() .. "/gamemode/content/sh_defines.lua")
 
 hook.Call("LoadContent", GM)
+
+function GM:OnReloaded()
+	if CLIENT then
+		if not self.NextReloadSound then
+			self.NextReloadSound = 0
+		end
+
+		if CurTime() > self.NextReloadSound then
+			surface.PlaySound("buttons/combine_button1.wav")
+			self.NextReloadSound = CurTime() + 1
+		end
+	end
+
+	self.BaseClass:OnReloaded()
+
+	Item.OnReloaded()
+
+	if CLIENT then
+		derma.RefreshSkins()
+		Chat.Create()
+	end
+end
+
+
+function GM:OnGamemodeLoaded()
+	if CLIENT then
+		Chat.Create()
+	end
+end

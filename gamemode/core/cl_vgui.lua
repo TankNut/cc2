@@ -16,6 +16,12 @@ function meta:SetCloseOnPause(bool)
 	end
 end
 
+function meta:OnPauseMenu()
+	self:Remove()
+
+	return true
+end
+
 function GM:OnPauseMenuShow()
 	for panel in pairs(vgui.PauseClosePanels) do
 		if not IsValid(panel) then
@@ -25,9 +31,9 @@ function GM:OnPauseMenuShow()
 		end
 
 		if vgui.FocusedHasParent(panel) then
-			panel:Remove()
-
-			vgui.PauseClosePanels[panel] = nil
+			if panel:OnPauseMenu() then
+				vgui.PauseClosePanels[panel] = nil
+			end
 
 			return false
 		end

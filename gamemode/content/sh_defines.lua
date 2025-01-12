@@ -2,12 +2,13 @@ GM.EquipmentNames = {
 	test = "Test Slot"
 }
 
-local function Lang(command, name, unknown, default)
+local function Lang(command, name, unknown, default, override)
 	return {
 		Command = command,
 		Name = name,
 		Unknown = unknown or name,
-		Default = default
+		Default = default,
+		Override = override
 	}
 end
 

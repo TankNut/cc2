@@ -28,6 +28,16 @@ function Get(lang)
 	return Lookup[lang]
 end
 
+function GetOverride(lang, index)
+	local override = Get(lang).Override
+
+	if override and override[index] then
+		override = override[index]
+
+		return isstring(override) and override or table.Random(override)
+	end
+end
+
 if SERVER then
 	function SetupCharacter(fields)
 		local field = {}
@@ -50,8 +60,8 @@ end
 
 if SERVER then
 	function meta:CheckLanguage()
-		local languages = self:GetLanguages()
-		local active = self:GetActiveLanguage()
+		local languages = self:Languages()
+		local active = self:ActiveLanguage()
 
 		if not Language.Lookup[active] or not languages[active] then
 			for _, v in pairs(Language.List) do

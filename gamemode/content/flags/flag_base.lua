@@ -1,6 +1,8 @@
 FLAG.Name = "Unnamed Character Flag"
 FLAG.Team = TEAM_UNASSIGNED
 
+FLAG.BaseLanguage = "eng"
+
 FLAG.Health = 100
 FLAG.Armor = 0
 

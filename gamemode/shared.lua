@@ -251,18 +251,6 @@ function meta:CanSee(ent)
 	return GAMEMODE:CanSeePos(self:EyePos(), ent:EyePos(), {self, ent})
 end
 
-function meta:CanHear(ent)
-	if self == ent then return true end
-	local trace = {
-		start = self:EyePos(),
-		endpos = ent:EyePos(),
-		filter = self,
-		mask = MASK_OPAQUE
-	}
-	local tr = util.TraceLine(trace)
-	return tr.Fraction == 1 or tr.Entity == ent
-end
-
 function emeta:IsDoor()
 	if self:GetClass() == "prop_door_rotating" then return true end
 	if self:GetClass() == "func_door_rotating" then return true end

@@ -62,10 +62,9 @@ function GM:PlayerBindPress(ply, bind, down)
 	end
 
 	if down and string.find(bind, "messagemode") then
+		Chat.Show()
 
-		self:ShowChat()
 		return true
-
 	end
 
 	if down and string.find(bind, "showspare2") and LocalPlayer():IsAdmin() then
@@ -107,10 +106,9 @@ function GM:PlayerBindPress(ply, bind, down)
 	if down and string.find(bind, "showteam") then
 
 		if LocalPlayer():TiedUp() then
+			lp:SendChat("ERROR", "You can't switch characters while tied up.")
 
-			self:AddChat("You can't switch characters while tied up.", Color(200, 0, 0, 255))
 			return true
-
 		end
 
 		local mul = LocalPlayer():IsSuperAdmin() and 3 or LocalPlayer():IsAdmin() and 2 or 1
