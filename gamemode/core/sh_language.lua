@@ -11,7 +11,6 @@ CharacterVar.Add("Languages", {
 })
 
 CharacterVar.Add("ActiveLanguage", {
-	Default = "",
 	Private = true,
 	DataType = VARCHAR(32)
 })
@@ -63,7 +62,7 @@ if SERVER then
 		local languages = self:Languages()
 		local active = self:ActiveLanguage()
 
-		if not Language.Lookup[active] or not languages[active] then
+		if active and (not Language.Lookup[active] or not languages[active]) then
 			for _, v in pairs(Language.List) do
 				if languages[v[1]] then
 					self:SetActiveLanguage(v[1])
