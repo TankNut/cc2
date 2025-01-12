@@ -14,7 +14,7 @@ function PANEL:SetText(t)
 	self.FakeText = t
 
 	surface.SetFont(self.m_FontName)
-	local h = GAMEMODE.FontHeight[self.m_FontName]
+	local h = surface.GetFontHeight(self.m_FontName)
 
 	if not self.ChildLabels then
 

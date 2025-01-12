@@ -390,7 +390,7 @@ function GM:DrawTimedProgress()
 	for k, v in pairs(self.TimedProgressBars) do
 		if v.Start and CurTime() < v.End then
 			local ply = v.Player
-			local y = self.FontHeight["CombineControl.LabelBig"]
+			local y = surface.GetFontHeight("CombineControl.LabelBig")
 
 			if not IsValid(ply) or ply:GetPos():Distance(LocalPlayer():GetPos()) > 100 or ply:GetVelocity():Length() > 5 or LocalPlayer():GetVelocity():Length() > 5 then
 				table.remove(self.TimedProgressBars, k)
@@ -441,7 +441,7 @@ function GM:DrawPassedOut()
 		surface.SetDrawColor(150, 20, 20, 255)
 		surface.DrawRect(ScrW() / 2 - 400 / 2 + 1, ScrH() / 2 + 40 + 1, (400 - 2) * math.min(LocalPlayer():Consciousness() / 100, 1), 40 - 2)
 
-		local y = self.FontHeight["CombineControl.LabelBig"]
+		local y = surface.GetFontHeight("CombineControl.LabelBig")
 		local ragdoll = LocalPlayer():Ragdoll()
 
 		if IsValid(ragdoll) and ragdoll:GetVelocity():Length() > 15 then
@@ -967,7 +967,7 @@ function GM:DrawAmmo()
 			surface.SetFont("CombineControl.HUDAmmo")
 
 			local x1, y1 = surface.GetTextSize(clip)
-			local y2 = self.FontHeight["CombineControl.HUDAmmo"]
+			local y2 = surface.GetFontHeight("CombineControl.HUDAmmo")
 
 			local x = x1
 			local y = math.max(y1, y2)
@@ -997,7 +997,7 @@ function GM:DrawAmmo()
 			surface.SetFont("CombineControl.HUDAmmo")
 
 			local x1, y1 = surface.GetTextSize(clip)
-			local y2 = self.FontHeight["CombineControl.HUDAmmo"]
+			local y2 = surface.GetFontHeight("CombineControl.HUDAmmo")
 
 			local x = x1
 			local y = math.max(y1, y2)
@@ -1595,7 +1595,7 @@ function GM:DrawTargetHUDText(pos, target)
 
 		draw.DrawText(text, self.TargetHUDFont, x, y, col, align)
 
-		y = y + self.FontHeight[self.TargetHUDFont]
+		y = y + surface.GetFontHeight(self.TargetHUDFont)
 	end
 
 	drawText("DATA RECV:")
@@ -1653,7 +1653,7 @@ function GM:DrawTargetHUDText(pos, target)
 	end
 
 	x = 20
-	y = ScrH() - 20 - (self.FontHeight[self.TargetHUDFont] * 4)
+	y = ScrH() - 20 - (surface.GetFontHeight(self.TargetHUDFont) * 4)
 
 	drawText("DEBUG QUERY")
 	drawText("SYSCHECK...")
