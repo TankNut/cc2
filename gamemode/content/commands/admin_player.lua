@@ -4,8 +4,8 @@ local setPhysTrust = console.AddCommand("rpa_setphystrust", function (ply, targe
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s phystrust to " .. tostring(trust), ply)
 
-	console.Feedback(ply, "WARNING", "You %s %s physics gun trust", bool and "gave" or "removed", target)
-	console.Feedback(target, "WARNING", "%s has %s physics gun trust", ply, bool and "given you" or "taken your")
+	console.Feedback(ply, "NOTICE", "You %s %s physics gun trust", bool and "gave" or "removed", target)
+	console.Feedback(target, "NOTICE", "%s has %s physics gun trust", ply, bool and "given you" or "taken your")
 end)
 
 setPhysTrust:SetDescription("Sets a player's physics gun access")
@@ -26,8 +26,8 @@ local setPropTrust = console.AddCommand("rpa_setproptrust", function (ply, targe
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s proptrust to " .. tostring(trust), ply)
 
-	console.Feedback(ply, "WARNING", "You %s %s prop spawning trust", bool and "gave" or "removed", target)
-	console.Feedback(target, "WARNING", "%s has %s prop spawning trust", ply, bool and "given you" or "taken your")
+	console.Feedback(ply, "NOTICE", "You %s %s prop spawning trust", bool and "gave" or "removed", target)
+	console.Feedback(target, "NOTICE", "%s has %s prop spawning trust", ply, bool and "given you" or "taken your")
 end)
 
 setPropTrust:SetDescription("Sets a player's prop spawning access")
@@ -56,8 +56,8 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 
 	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s tooltrust to " .. tostring(trust), ply)
 
-	console.Feedback(ply, "WARNING", "You've set %s's tool trust to \"%s\"", target, trust)
-	console.Feedback(target, "WARNING", "%s has set your tool trust to \"%s\"", ply, trust)
+	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to \"%s\"", target, trust)
+	console.Feedback(target, "NOTICE", "%s has set your tool trust to \"%s\"", ply, trust)
 end)
 
 setToolTrust:SetDescription("Sets a player's toolgun access")

@@ -1,5 +1,5 @@
 function console.PrintMessage(ply, str, ...)
-	console.Feedback(ply, "WARNING", str, ...)
+	console.Feedback(ply, "NOTICE", str, ...)
 end
 
 function console.PrintError(ply, str, ...)

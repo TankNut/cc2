@@ -159,7 +159,7 @@ function ccCSay(ply, cmd, args, text)
 
 	text = string.Trim(text)
 
-	Chat.Send(player.GetAll(), "WARNING", text)
+	Chat.Send(player.GetAll(), "NOTICE", text)
 end
 concommand.Add("csay", ccCSay)
 

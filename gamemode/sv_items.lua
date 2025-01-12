@@ -63,7 +63,7 @@ net.Receive("nADestroyItem", function(len, ply)
 		return
 	end
 
-	item.Player:SendChat("WARNING", ply:Nick() .. " removed your item \"" .. item:GetName() .. "\".")
+	item.Player:SendChat("NOTICE", ply:Nick() .. " removed your item \"" .. item:GetName() .. "\".")
 
 	GAMEMODE:WriteLog("item_destroy_admin", {Admin = GAMEMODE:LogPlayer(ply), Char = GAMEMODE:LogCharacter(item.Player), Ply = GAMEMODE:LogPlayer(item.Player), Item = GAMEMODE:LogItem(item)})
 	GAMEMODE:DeleteItem(item)
@@ -79,7 +79,7 @@ net.Receive("nATakeItem", function(len, ply)
 
 	local owner = item.Player
 
-	owner:SendChat("WARNING", ply:Nick() .. " took your item \"" .. item:GetName() .. "\".")
+	owner:SendChat("NOTICE", ply:Nick() .. " took your item \"" .. item:GetName() .. "\".")
 
 	item:SetItemLocation(ITEM_PLAYER, ply:CharID())
 

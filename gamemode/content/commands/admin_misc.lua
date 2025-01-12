@@ -46,7 +46,7 @@ changeLevel:SetAccess(console.IsAdmin)
 changeLevel:AddOptional(console.String())
 
 local aiDisabled = console.AddCommand("rpa_aidisabled", function (ply, bool)
-	Chat.Send(player.GetAdmins(), "WARNING", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"))
+	Chat.Send(player.GetAdmins(), "NOTICE", console.FormatMessage("%s has %s AI thinking", ply, bool and "disabled" or "enabled"))
 
 	RunConsoleCommand("ai_disabled", bool and 1 or 0)
 end)
@@ -80,15 +80,15 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 
 		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Self = ply == target})
 
-		console.Feedback(target, "WARNING", "%s has healed you", ply)
+		console.Feedback(target, "NOTICE", "%s has healed you", ply)
 	end
 
 	local targetCount = table.Count(targets)
 
 	if targetCount == 1 then
-		console.Feedback(ply, "WARNING", "You've healed %s", targets[1])
+		console.Feedback(ply, "NOTICE", "You've healed %s", targets[1])
 	else
-		console.Feedback(ply, "WARNING", "You've healed %d players", targetCount)
+		console.Feedback(ply, "NOTICE", "You've healed %d players", targetCount)
 	end
 end)
 
@@ -105,8 +105,8 @@ heal:AddParameter(console.Player({
 local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
 	target:SetHealth(max)
 
-	console.Feedback(ply, "WARNING", "You've set %s's health to \"%d\"", target, max)
-	console.Feedback(target, "WARNING", "%s set your health to \"%d\"", ply, max)
+	console.Feedback(ply, "NOTICE", "You've set %s's health to \"%d\"", target, max)
+	console.Feedback(target, "NOTICE", "%s set your health to \"%d\"", ply, max)
 end)
 
 setHealth:SetDescription("Manually sets a player's health bar")
@@ -127,8 +127,8 @@ setHealth:AddParameter(console.Number({
 local deadmin = console.AddCommand("rpa_deadmin", function(ply)
 	ply:SetUserGroup("user")
 
-	console.Feedback(ply, "WARNING", "You've deadminned yourself")
-	Chat.Send(player.GetAdmins(), "WARNING", string.format("%s has deadminned themselves.", ply:Nick()))
+	console.Feedback(ply, "NOTICE", "You've deadminned yourself")
+	Chat.Send(player.GetAdmins(), "NOTICE", string.format("%s has deadminned themselves.", ply:Nick()))
 end)
 
 deadmin:SetDescription("Removes yourself from the admin role")

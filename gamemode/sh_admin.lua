@@ -107,7 +107,7 @@ end, false, {TYPE_ENTITY})
 concommand.AddAdmin("rpa_kill", function(ply, targ)
 	targ:Kill()
 
-	targ:SendChat("WARNING", ply:Nick() .. " killed you")
+	targ:SendChat("NOTICE", ply:Nick() .. " killed you")
 
 	GAMEMODE:WriteLog("admin_kill", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
@@ -115,7 +115,7 @@ end, false, {TYPE_ENTITY})
 concommand.AddAdmin("rpa_slap", function(ply, targ)
 	targ:SetVelocity(Vector(math.random(-400, 400), math.random(-400, 400), math.random(400, 600)))
 
-	targ:SendChat("WARNING", ply:Nick() .. " slapped you")
+	targ:SendChat("NOTICE", ply:Nick() .. " slapped you")
 
 	GAMEMODE:WriteLog("admin_slap", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
@@ -124,7 +124,7 @@ concommand.AddAdmin("rpa_ko", function(ply, targ)
 	targ:SetConsciousness(0)
 	targ:PassOut()
 
-	targ:SendChat("WARNING", ply:Nick() .. " knocked you out")
+	targ:SendChat("NOTICE", ply:Nick() .. " knocked you out")
 
 	GAMEMODE:WriteLog("admin_ko", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
@@ -133,7 +133,7 @@ concommand.AddAdmin("rpa_wakeup", function(ply, targ)
 	targ:SetConsciousness(100)
 	targ:WakeUp()
 
-	targ:SendChat("WARNING", ply:Nick() .. " woke you up")
+	targ:SendChat("NOTICE", ply:Nick() .. " woke you up")
 
 	GAMEMODE:WriteLog("admin_wake", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
@@ -151,9 +151,9 @@ concommand.AddAdmin("rpa_kick", function(ply, targ, arg)
 	targ:Kick(reason)
 
 	if #arg > 0 then
-		Chat.Send(player.GetAll(), "WARNING", ply:Nick() .. " kicked " .. targNick .. " (" .. arg .. ")")
+		Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. " kicked " .. targNick .. " (" .. arg .. ")")
 	else
-		Chat.Send(player.GetAll(), "WARNING", ply:Nick() .. " kicked " .. targNick)
+		Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. " kicked " .. targNick)
 	end
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
@@ -191,7 +191,7 @@ concommand.AddAdmin("rpa_ban", function(ply, targ, duration, reason)
 
 	targ:Kick(message)
 
-	Chat.Send(player.GetAll(), "WARNING", ply:Nick() .. (perma and " Permabanned " or " Banned ") .. targNick .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
+	Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. (perma and " Permabanned " or " Banned ") .. targNick .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
 end, false, {TYPE_ENTITY, TYPE_NUMBER, TYPE_STRING})
 
 concommand.AddAdmin("rpa_banoffline", function(ply, steamid, duration, reason)
@@ -226,7 +226,7 @@ concommand.AddAdmin("rpa_banoffline", function(ply, steamid, duration, reason)
 	GAMEMODE:AddBan(steamid, duration, reason, ply:SteamID())
 	GAMEMODE:WriteLog("admin_ban", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(steamid), Reason = reason, Duration = duration})
 
-	ply:SendChat("WARNING", (perma and "Permabanned " or "Banned ") .. steamid .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
+	ply:SendChat("NOTICE", (perma and "Permabanned " or "Banned ") .. steamid .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
 end, false, {TYPE_STRING, TYPE_NUMBER, TYPE_STRING})
 
 concommand.AddAdmin("rpa_unban", function(ply, steamid)
@@ -250,7 +250,7 @@ concommand.AddAdmin("rpa_unban", function(ply, steamid)
 
 	GAMEMODE:WriteLog("admin_unban", {Admin = GAMEMODE:LogPlayer(ply), SteamID = steamid})
 
-	ply:SendChat("WARNING", "Unbanned " .. steamid)
+	ply:SendChat("NOTICE", "Unbanned " .. steamid)
 end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
@@ -289,11 +289,11 @@ concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	GAMEMODE:LogAdmin("[F] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s character flag to \"" .. flag .. "\"", ply)
 
 	if flag == "" then
-		ply:SendChat("WARNING", "You removed " .. targ:CharacterName() .. "'s character flag")
-		targ:SendChat("WARNING", ply:Nick() .. " removed your character flag")
+		ply:SendChat("NOTICE", "You removed " .. targ:CharacterName() .. "'s character flag")
+		targ:SendChat("NOTICE", ply:Nick() .. " removed your character flag")
 	else
-		ply:SendChat("WARNING", "You set " .. targ:CharacterName() .. "'s character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
-		targ:SendChat("WARNING", ply:Nick() .. " set your character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
+		ply:SendChat("NOTICE", "You set " .. targ:CharacterName() .. "'s character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
+		targ:SendChat("NOTICE", ply:Nick() .. " set your character flag to \"" .. flag .. "\" (" .. GAMEMODE:CharFlagPrintName(flag) .. ")")
 	end
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
@@ -657,8 +657,8 @@ concommand.AddAdmin("rpa_settrait", function(ply, targ, trait)
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " changed player " .. targ:CharacterName() .. "'s trait to " .. name .. ".", ply)
 
-	ply:SendChat("WARNING", "You set " .. targ:CharacterName() .. "'s trait to " .. name)
-	targ:SendChat("WARNING", ply:Nick() .. " set your trait to " .. name)
+	ply:SendChat("NOTICE", "You set " .. targ:CharacterName() .. "'s trait to " .. name)
+	targ:SendChat("NOTICE", ply:Nick() .. " set your trait to " .. name)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
 local nametolang = {}
@@ -692,8 +692,8 @@ concommand.AddAdmin("rpa_givelang", function(ply, targ, lang)
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. targ:CharacterName() .. " " .. name .. ".", ply)
 
-	ply:SendChat("WARNING", "You gave " .. targ:CharacterName() .. " the ability to speak " .. name)
-	targ:SendChat("WARNING", ply:Nick() .. " gave you the ability to speak " .. name)
+	ply:SendChat("NOTICE", "You gave " .. targ:CharacterName() .. " the ability to speak " .. name)
+	targ:SendChat("NOTICE", ply:Nick() .. " gave you the ability to speak " .. name)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
 concommand.AddAdmin("rpa_takelang", function(ply, targ, lang)
@@ -717,8 +717,8 @@ concommand.AddAdmin("rpa_takelang", function(ply, targ, lang)
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. name .. " from " .. targ:CharacterName() .. ".", ply)
 
-	ply:SendChat("WARNING", "You took the ability to speak " .. name .. " from " .. targ:CharacterName())
-	targ:SendChat("WARNING", ply:Nick() .. " took away the ability to speak " .. name)
+	ply:SendChat("NOTICE", "You took the ability to speak " .. name .. " from " .. targ:CharacterName())
+	targ:SendChat("NOTICE", ply:Nick() .. " took away the ability to speak " .. name)
 end, false, {TYPE_ENTITY, TYPE_STRING})
 
 local function OOCMute(ply, targ)
@@ -733,8 +733,8 @@ local function OOCMute(ply, targ)
 
 	GAMEMODE:LogAdmin("[M] " .. ply:Nick() .. str .. targ:Nick() .. " from OOC.", ply)
 
-	ply:SendChat("WARNING", "You" .. str .. targ:CharacterName() .. " from OOC")
-	targ:SendChat("WARNING", ply:Nick() .. str .. "you from OOC")
+	ply:SendChat("NOTICE", "You" .. str .. targ:CharacterName() .. " from OOC")
+	targ:SendChat("NOTICE", ply:Nick() .. str .. "you from OOC")
 end
 
 -- local nametolicense = {}
@@ -767,8 +767,8 @@ end
 
 -- 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. targ:CharacterName() .. " a " .. name .. " license.", ply)
 
--- 	ply:SendChat("WARNING", "You gave " .. targ:CharacterName() .. " the " .. name .. " license.")
--- 	targ:SendChat("WARNING", ply:Nick() .. " gave you the " .. name .. " license.")
+-- 	ply:SendChat("NOTICE", "You gave " .. targ:CharacterName() .. " the " .. name .. " license.")
+-- 	targ:SendChat("NOTICE", ply:Nick() .. " gave you the " .. name .. " license.")
 -- end, false, {TYPE_ENTITY, TYPE_STRING})
 
 -- concommand.AddAdmin("rpa_takelicense", function(ply, targ, license)
@@ -793,8 +793,8 @@ end
 
 -- 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. targ:CharacterName() .. "'s " .. name .. " license.", ply)
 
--- 	ply:SendChat("WARNING", "You took " .. targ:CharacterName() .. "'s " .. name .. " license.")
--- 	targ:SendChat("WARNING", ply:Nick() .. " took your " .. name .. " license.")
+-- 	ply:SendChat("NOTICE", "You took " .. targ:CharacterName() .. "'s " .. name .. " license.")
+-- 	targ:SendChat("NOTICE", ply:Nick() .. " took your " .. name .. " license.")
 -- end, false, {TYPE_ENTITY, TYPE_STRING})
 
 concommand.AddAdmin("rpa_oocmute", OOCMute, false, {TYPE_ENTITY})
@@ -812,8 +812,8 @@ concommand.AddAdmin("rpa_travelban", function(ply, targ)
 
 	GAMEMODE:LogAdmin("[M] " .. ply:Nick() .. " " .. str .. " " .. targ:Nick() .. " from travelling.", ply)
 
-	ply:SendChat("WARNING", "You" .. str .. targ:CharacterName() .. " from travelling")
-	targ:SendChat("WARNING", ply:Nick() .. str .. "you from travelling")
+	ply:SendChat("NOTICE", "You" .. str .. targ:CharacterName() .. " from travelling")
+	targ:SendChat("NOTICE", ply:Nick() .. str .. "you from travelling")
 end, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_charlist", function(ply, steamid)
@@ -867,7 +867,7 @@ concommand.AddAdmin("rpa_wipecharflags", function(ply, id)
 
 			v:SetCombineFlag("")
 
-			v:SendChat("WARNING", ply:Nick() .. " has wiped your flags")
+			v:SendChat("NOTICE", ply:Nick() .. " has wiped your flags")
 
 			offline = false
 
@@ -896,7 +896,7 @@ concommand.AddAdmin("rpa_deleteitem", function(ply, id)
 	else
 		local function cb()
 			if IsValid(ply) then
-				ply:SendChat("WARNING", "You've deleted item #" .. id)
+				ply:SendChat("NOTICE", "You've deleted item #" .. id)
 			end
 
 			GAMEMODE:WriteLog("admin_deleteitem", {Admin = GAMEMODE:LogPlayer(ply), ID = id})
@@ -930,7 +930,7 @@ concommand.AddAdmin("rpa_restoreitem", function(ply, id)
 		GAMEMODE:DBLoadItems({id})
 
 		if IsValid(ply) then
-			ply:SendChat("WARNING", "You've restored item #" .. id .. " to your inventory")
+			ply:SendChat("NOTICE", "You've restored item #" .. id .. " to your inventory")
 		end
 
 		GAMEMODE:WriteLog("admin_restoreitem", {Admin = GAMEMODE:LogPlayer(ply), ID = id})
@@ -1122,10 +1122,10 @@ end, false, {TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_createloot", function(ply, pool)
 	if not GAMEMODE.Loot.Pools[pool] then
-		ply:SendChat("WARNING", "Available loot types:")
+		ply:SendChat("NOTICE", "Available loot types:")
 
 		for k in SortedPairs(GAMEMODE.Loot.Pools) do
-			ply:SendChat("WARNING", string.format("  %s", k))
+			ply:SendChat("NOTICE", string.format("  %s", k))
 		end
 
 		return
@@ -1174,7 +1174,7 @@ concommand.AddAdmin("rpa_givetempadmin", function(ply, targ)
 		end
 	end
 
-	Chat.Send(tab, "WARNING", string.format("%s has given admin to %s.", ply:Nick(), targ:Nick()))
+	Chat.Send(tab, "NOTICE", string.format("%s has given admin to %s.", ply:Nick(), targ:Nick()))
 
 	targ:SetUserGroup("admin")
 end, true, {TYPE_ENTITY})
@@ -1190,5 +1190,5 @@ concommand.AddAdmin("rpa_taketempadmin", function(ply, targ)
 		end
 	end
 
-	Chat.Send(tab, "WARNING", string.format("%s has taken admin from %s.", ply:Nick(), targ:Nick()))
+	Chat.Send(tab, "NOTICE", string.format("%s has taken admin from %s.", ply:Nick(), targ:Nick()))
 end, true, {TYPE_ENTITY})

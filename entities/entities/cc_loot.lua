@@ -137,7 +137,7 @@ if SERVER then
 
 		self:EmitSound("items/ammocrate_open.wav")
 
-		ply:SendChat("WARNING", "Searching...")
+		ply:SendChat("NOTICE", "Searching...")
 	end
 
 	function ENT:Think()
@@ -208,7 +208,7 @@ if SERVER then
 
 		if ply.LootCharges < 1 then
 			stats.RateLimit = stats.RateLimit + 1
-			ply:SendChat("WARNING", table.Random(self.RateLimitPhrases), nil)
+			ply:SendChat("NOTICE", table.Random(self.RateLimitPhrases), nil)
 
 			return
 		end
@@ -224,7 +224,7 @@ if SERVER then
 				phrases = self.RarePhrases
 			end
 
-			ply:SendChat("WARNING", table.Random(phrases), nil)
+			ply:SendChat("NOTICE", table.Random(phrases), nil)
 
 			GAMEMODE.LootStats.Players[ply:SteamID()] = stats
 
@@ -240,7 +240,7 @@ if SERVER then
 			amt = override
 		end
 
-		ply:SendChat("WARNING", string.format("You found an item! (%s%s)",
+		ply:SendChat("NOTICE", string.format("You found an item! (%s%s)",
 			GAMEMODE:GetDefaultItemKey(self.StoredItem, "Name"),
 			amt > 1 and " x" .. amt or ""
 		))

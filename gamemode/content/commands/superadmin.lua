@@ -7,8 +7,8 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, target
 
 	target:SetUserGroup(usergroup)
 
-	console.Feedback(ply, "WARNING", "You've set %s's usergroup to %s", target, usergroup)
-	console.Feedback(target, "WARNING", "%s has set your usergroup to %s", ply, usergroup)
+	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target, usergroup)
+	console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 
 	-- TODO: Log this, one of the logging system is setup.
 end)
@@ -38,8 +38,8 @@ local giveBadge = console.AddCommand("rpa_givebadge", function(ply, target, badg
 
 	target:SetScoreboardBadges(target:ScoreboardBadges() + badgeId)
 
-	console.Feedback(ply, "WARNING", "You've given %s the %s badge", target, badge)
-	console.Feedback(target, "WARNING", "%s has given you the %s badge", ply, badge)
+	console.Feedback(ply, "NOTICE", "You've given %s the %s badge", target, badge)
+	console.Feedback(target, "NOTICE", "%s has given you the %s badge", ply, badge)
 end)
 
 giveBadge:SetDescription("Assigns a scoreboard badge to a player")
@@ -67,8 +67,8 @@ local takeBadge = console.AddCommand("rpa_takebadge", function(ply, target, badg
 
 	target:SetScoreboardBadges(target:ScoreboardBadges() - badgeId)
 
-	console.Feedback(ply, "WARNING", "You've taken %s's %s badge", target, badge)
-	console.Feedback(target, "WARNING", "%s has taken your %s badge", ply, badge)
+	console.Feedback(ply, "NOTICE", "You've taken %s's %s badge", target, badge)
+	console.Feedback(target, "NOTICE", "%s has taken your %s badge", ply, badge)
 end)
 
 takeBadge:SetDescription("Removes a scoreboard badge from a player")
@@ -96,7 +96,7 @@ local explode = console.AddCommand("rpa_explode", function(ply, target)
 	explosion:Fire("Explode")
 
 	GAMEMODE:WriteLog("admin_explode", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
-	Chat.Send(player.GetAll(), "WARNING", ply:Nick() .. " exploded " .. target:Nick())
+	Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. " exploded " .. target:Nick())
 end)
 
 explode:SetDescription("Explodes a player for some reason")
