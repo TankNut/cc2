@@ -86,4 +86,4 @@ function PANEL:Paint(w, h)
 	end
 end
 
-derma.DefineControl("CCItemIcon", "", PANEL, "DModelPanel")
+derma.DefineControl("CC_ItemIcon", "", PANEL, "DModelPanel")

@@ -12,7 +12,7 @@ function PANEL:Init()
 	self:MakePopup()
 	self:Center()
 
-	self.OurInventory = self:Add("CCItemList")
+	self.OurInventory = self:Add("CC_ItemList")
 	self.OurInventory:Dock(LEFT)
 	self.OurInventory:SetWide(inventoryWidth)
 
@@ -33,7 +33,7 @@ function PANEL:Init()
 		end
 	end
 
-	self.TheirInventory = self:Add("CCItemList")
+	self.TheirInventory = self:Add("CC_ItemList")
 	self.TheirInventory:Dock(RIGHT)
 	self.TheirInventory:SetWide(inventoryWidth)
 
@@ -71,7 +71,7 @@ function PANEL:Setup(inventory)
 	self:SetTopBar("Inventory - " .. self:GetInventoryName())
 end
 
-derma.DefineControl("GUI_InventoryPopup", "", PANEL, "CCFrame")
+derma.DefineControl("GUI_InventoryPopup", "", PANEL, "CC_Frame")
 
 GUI.Register("InventoryPopup", function(id)
 	local panel = vgui.Create("GUI_InventoryPopup")

@@ -29,7 +29,7 @@ function PANEL:Populate(inventory)
 	self.Layout:Clear()
 
 	for _, item in pairs(inventory.Items) do
-		local icon = vgui.Create("CCItemIcon")
+		local icon = vgui.Create("CC_ItemIcon")
 		icon:SetItem(item)
 
 		self.Layout:Add(icon)
@@ -87,4 +87,4 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "ItemList", self, w, h - 30)
 end
 
-derma.DefineControl("CCItemList", "", PANEL, "DPanel")
+derma.DefineControl("CC_ItemList", "", PANEL, "DPanel")

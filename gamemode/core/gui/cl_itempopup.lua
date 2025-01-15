@@ -1,5 +1,5 @@
 local PANEL = {}
-DEFINE_BASECLASS("CCFrame")
+DEFINE_BASECLASS("CC_Frame")
 
 function PANEL:Init()
 	self:SetSize(400, 450)
@@ -8,7 +8,7 @@ function PANEL:Init()
 	self:SetDraggable(true)
 	self:SetCloseOnPause(true)
 
-	self.ModelPanel = self:Add("CCItemModelPanel")
+	self.ModelPanel = self:Add("CC_ItemModelPanel")
 	self.ModelPanel:Dock(TOP)
 	self.ModelPanel:SetTall(200)
 
@@ -100,7 +100,7 @@ function PANEL:OnRemove()
 	self.Item.Panels[self] = nil
 end
 
-derma.DefineControl("GUI_ItemPopup", "", PANEL, "CCFrame")
+derma.DefineControl("GUI_ItemPopup", "", PANEL, "CC_Frame")
 
 GUI.Register("ItemPopup", function(item)
 	for panel in pairs(item.Panels) do

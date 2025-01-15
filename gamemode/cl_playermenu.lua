@@ -439,7 +439,7 @@ function GM:PMCreateBio()
 end
 
 function GM:PMCreateInventory()
-	CCP.PlayerMenu.InventoryPanel = CCP.PlayerMenu.ContentPane:Add("CCItemList")
+	CCP.PlayerMenu.InventoryPanel = CCP.PlayerMenu.ContentPane:Add("CC_ItemList")
 	CCP.PlayerMenu.InventoryPanel:DockMargin(10, 10, 10, 10)
 	CCP.PlayerMenu.InventoryPanel:Dock(FILL)
 	CCP.PlayerMenu.InventoryPanel:Populate(lp:GetInventory())

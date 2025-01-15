@@ -96,4 +96,4 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "Frame", self, w, h)
 end
 
-derma.DefineControl("CCFrame", "", PANEL, "EditablePanel")
+derma.DefineControl("CC_Frame", "", PANEL, "EditablePanel")

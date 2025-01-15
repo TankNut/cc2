@@ -8,7 +8,7 @@ function PANEL:Init()
 	self:SetSize(600, 300)
 	self:MakePopup()
 
-	self.Scroll = self:Add("CCChatScroll")
+	self.Scroll = self:Add("CC_ChatScroll")
 	self.Scroll:SetPos(10, 40)
 	self.Scroll:SetSize(580, 220)
 
@@ -55,7 +55,7 @@ function PANEL:Init()
 		table.insert(self.Buttons, button)
 	end
 
-	self.Input = self:Add("CCChatInput")
+	self.Input = self:Add("CC_ChatInput")
 	self.Input:SetSize(self:GetWide() - 20, 20)
 	self.Input:SetPos(10, self:GetTall() - self.Input:GetTall() - 10)
 

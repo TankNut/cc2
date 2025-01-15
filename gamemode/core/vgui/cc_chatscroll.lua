@@ -128,4 +128,4 @@ function PANEL:Paint(w, h)
 	end
 end
 
-derma.DefineControl("CCChatScroll", "", PANEL, "DPanel")
+derma.DefineControl("CC_ChatScroll", "", PANEL, "DPanel")
