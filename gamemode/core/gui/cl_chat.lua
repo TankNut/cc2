@@ -1,8 +1,6 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSkin("CombineControlNew")
-
 	self:SetCloseOnPause(true)
 
 	self:SetSize(600, 300)
