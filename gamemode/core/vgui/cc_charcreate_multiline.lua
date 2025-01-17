@@ -11,7 +11,7 @@ function PANEL:Init()
 		self:SetOption(val)
 	end
 
-	self:SetTall(150)
+	self.Entry:SetTall(150)
 end
 
 function PANEL:Setup(args, val)

@@ -31,10 +31,6 @@ function PANEL:Setup(args, val)
 				self.Entry:SetValue(CharCreate.GetRandomName(index))
 			end
 		end
-
-		self:SetTall(47)
-	else
-		self:SetTall(20)
 	end
 
 	if val then
