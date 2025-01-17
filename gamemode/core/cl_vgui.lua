@@ -31,7 +31,9 @@ function GM:OnPauseMenuShow()
 		end
 
 		if vgui.FocusedHasParent(panel) then
-			if panel:OnPauseMenu() then
+			panel:Close()
+
+			if not IsValid(panel) then
 				vgui.PauseClosePanels[panel] = nil
 			end
 

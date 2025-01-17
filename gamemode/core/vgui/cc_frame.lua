@@ -9,6 +9,14 @@ function PANEL:Init()
 	self:DockPadding(1, 1, 1, 1)
 end
 
+function PANEL:Close()
+	self:OnClose()
+end
+
+function PANEL:OnClose()
+	self:Remove()
+end
+
 function PANEL:SetTopBar(title)
 	if self.m_bTopBar then
 		self.Title:SetText(title)
@@ -31,7 +39,7 @@ function PANEL:SetTopBar(title)
 		self.ButtonClose:PerformLayout()
 		self.ButtonClose.Paint = function() end
 		self.ButtonClose.DoClick = function(pnl)
-			pnl:GetParent():Remove()
+			self:Close()
 		end
 	end
 
