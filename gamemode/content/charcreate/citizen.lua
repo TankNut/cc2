@@ -34,7 +34,7 @@ CLASS.Options = {
 	Name = {
 		Name = "Name", Panel = "CC_CharCreate_Name",
 		Field = "CharacterName",
-		Args = {RandomNames = {"Masculine", "Feminine"}}
+		Args = {RandomNames = {"Masculine", "Feminine", "Unisex"}}
 	},
 	Description = {
 		Name = "Description", Panel = "CC_CharCreate_Multiline",
