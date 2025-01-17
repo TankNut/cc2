@@ -43,4 +43,9 @@ end
 function PANEL:OnOptionChanged(key, val)
 end
 
+function PANEL:PerformLayout(w, h)
+	self.Canvas:SizeToChildren(false, true)
+	self:SizeToChildren(false, true)
+end
+
 derma.DefineControl("CC_CharCreate", "", PANEL, "DPanel")
