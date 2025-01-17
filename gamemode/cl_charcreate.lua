@@ -1,5 +1,6 @@
 function GM:CreateMOTD()
 	if not self.MOTDText then return end
+	if self.MOTDSeen then return end
 
 	CCP.MOTD = vgui.Create("DFrame")
 	CCP.MOTD:SetSize(400, 600)
@@ -24,4 +25,6 @@ function GM:CreateMOTD()
 	CCP.MOTD.Content:PerformLayout()
 
 	CCP.MOTD.ContentPane:AddItem(CCP.MOTD.Content)
+
+	self.MOTDSeen = true
 end
