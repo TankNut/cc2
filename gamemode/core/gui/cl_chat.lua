@@ -1,6 +1,9 @@
 local PANEL = {}
 
 function PANEL:Init()
+	-- Not CC_Frame derived so we have to manually set this
+	self:SetSkin("CombineControlNew")
+
 	self:SetCloseOnPause(true)
 
 	self:SetSize(600, 300)
@@ -57,18 +60,18 @@ function PANEL:Init()
 	self.Input:SetSize(self:GetWide() - 20, 20)
 	self.Input:SetPos(10, self:GetTall() - self.Input:GetTall() - 10)
 
-	self.Close = self:Add("DButton")
-	self.Close:SetFont("marlett")
-	self.Close:SetText("r")
-	self.Close:SetSize(20, 20)
-	self.Close:SetPos(self:GetWide() - self.Close:GetWide() - 10, 10)
+	self.CloseButton = self:Add("DButton")
+	self.CloseButton:SetFont("marlett")
+	self.CloseButton:SetText("r")
+	self.CloseButton:SetSize(20, 20)
+	self.CloseButton:SetPos(self:GetWide() - self.CloseButton:GetWide() - 10, 10)
 
-	self.Close.DoClick = function(pnl)
-		Chat.Hide()
+	self.CloseButton.DoClick = function(pnl)
+		self:Close()
 	end
 end
 
-function PANEL:OnPauseMenu()
+function PANEL:OnClose()
 	Chat.Hide()
 end
 
@@ -125,7 +128,7 @@ function PANEL:Show()
 		v:Show()
 	end
 
-	self.Close:Show()
+	self.CloseButton:Show()
 end
 
 function PANEL:Hide()
@@ -143,7 +146,7 @@ function PANEL:Hide()
 		v:Hide()
 	end
 
-	self.Close:Hide()
+	self.CloseButton:Hide()
 end
 
 function PANEL:ExportBuffer()
