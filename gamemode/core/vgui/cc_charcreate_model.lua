@@ -1,12 +1,17 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self.Layout = self.Canvas:Add("DTileLayout")
+	self.Scroll = self.Canvas:Add("DScrollPanel")
+	self.Scroll:Dock(FILL)
+
+	self.Layout = self.Scroll:Add("DTileLayout")
 	self.Layout:SetBaseSize(56)
 	self.Layout:Dock(FILL)
 end
 
 function PANEL:Setup(models, val)
+	self.Scroll:SetTall(math.min(math.ceil(#models / 6), 4) * 56)
+
 	for _, mdl in ipairs(models) do
 		local icon = vgui.Create("SpawnIcon")
 

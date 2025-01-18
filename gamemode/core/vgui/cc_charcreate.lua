@@ -1,7 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:DockMargin(0, 0, 0, 25)
+	self:DockMargin(0, 0, 0, 15)
 	self:Dock(TOP)
 
 	self:SetPaintBackground(false)
@@ -10,7 +10,7 @@ function PANEL:Init()
 
 	left:DockMargin(0, 0, 10, 0)
 	left:Dock(LEFT)
-	left:SetWide(120)
+	left:SetWide(115)
 	left:SetPaintBackground(false)
 
 	self.Label = left:Add("DLabel")
