@@ -89,6 +89,7 @@ GM:Include("sv_database.lua")
 GM:Include("sv_item.lua")
 GM:Include("sv_player_update.lua")
 GM:Include("sv_player.lua")
+GM:Include("sv_resource.lua")
 
 GM:LoadFolder("core/meta", "shared.lua")
 GM:LoadFolder("core/vgui")
