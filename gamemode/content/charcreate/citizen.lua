@@ -33,22 +33,25 @@ CLASS.Options = {
 	Name = {
 		Name = "Name", Panel = "CC_CharCreate_Name",
 		Field = "CharacterName",
-		Args = {RandomNames = {"Masculine", "Feminine", "Unisex"}}
+		Args = {
+			"English/Masculine",
+			"English/Feminine",
+			"English/Unisex"
+		}
 	},
 	Description = {
 		Name = "Description", Panel = "CC_CharCreate_Multiline",
 		Field = "CharacterDescription",
-		Args = {}
 	},
 	Model = {
 		Name = "Model", Panel = "CC_CharCreate_Model",
 		Field = "CharacterModel",
-		Args = {Models = CLASS.Models}
+		Args = CLASS.Models
 	},
 	Skin = {
 		Name = "Skin", Panel = "CC_CharCreate_Skin",
 		Field = "CharacterSkin",
-		Args = {Option = "Model"}
+		Args = "Model"
 	}
 }
 

@@ -6,8 +6,8 @@ function PANEL:Init()
 	self.Layout:Dock(FILL)
 end
 
-function PANEL:Setup(args, val)
-	for _, mdl in ipairs(args.Models) do
+function PANEL:Setup(models, val)
+	for _, mdl in ipairs(models) do
 		local icon = vgui.Create("SpawnIcon")
 
 		icon:SetSize(56, 56)
@@ -22,7 +22,7 @@ function PANEL:Setup(args, val)
 	end
 
 	if not val then
-		self:SetOption(args.Models[1])
+		self:SetOption(models[1])
 	end
 end
 

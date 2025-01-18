@@ -6,14 +6,14 @@ function PANEL:Init()
 	self.Layout:Dock(FILL)
 end
 
-function PANEL:Setup(args, val, options)
-	self.WatchedKey = args.Option
+function PANEL:Setup(key, val, options)
+	self.WatchedKey = key
 
 	if not val then
 		self:SetOption(0)
 	end
 
-	local mdl = options[self.WatchedKey]
+	local mdl = options[key]
 
 	if mdl then
 		self:Populate(mdl)

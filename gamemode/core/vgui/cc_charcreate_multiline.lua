@@ -14,7 +14,7 @@ function PANEL:Init()
 	self.Entry:SetTall(150)
 end
 
-function PANEL:Setup(args, val)
+function PANEL:Setup(_, val)
 	if val then
 		self.Entry:SetText(val)
 	else

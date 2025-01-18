@@ -11,8 +11,8 @@ function PANEL:Init()
 	end
 end
 
-function PANEL:Setup(args, val)
-	if args.RandomNames then
+function PANEL:Setup(names, val)
+	if names then
 		local buttons = self.Canvas:Add("DPanel")
 
 		buttons:Dock(TOP)
