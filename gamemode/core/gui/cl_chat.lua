@@ -10,13 +10,18 @@ function PANEL:Init()
 	self:MakePopup()
 
 	self.Scroll = self:Add("CC_ChatScroll")
-	self.Scroll:SetPos(10, 40)
-	self.Scroll:SetSize(580, 220)
+	self.Scroll:Dock(FILL)
+	self.Scroll:DockMargin(10, 5, 10, 5)
+
+	local topBar = self:Add("DPanel")
+	topBar:Dock(TOP)
+	topBar:DockMargin(10, 10, 10, 5)
+	topBar:SetPaintBackground(false)
+	topBar:SetTall(20)
 
 	self.Tabs = cookie.GetNumber("cc_chatfilter", -1)
 	self.Buttons = {}
 
-	local last
 	local tabs = {
 		{"LOOC", 	TAB_LOOC},
 		{"OOC",		TAB_OOC},
@@ -27,19 +32,15 @@ function PANEL:Init()
 	}
 
 	for _, v in pairs(tabs) do
-		local button = self:Add("DButton")
+		local button = topBar:Add("DButton")
 
 		button:SetFont("CombineControl.LabelSmall")
 		button:SetText(v[1])
-		button:SetSize(60, 20)
-		button:SetPos(10, 10)
+		button:Dock(LEFT)
+		button:DockMargin(0, 0, 5, 0)
 
 		button.SkinVar = "Active"
 		button.SkinInverted = true
-
-		if last then
-			button:MoveRightOf(last, 5)
-		end
 
 		button.Active = self:CanSeeTab(v[2])
 		button.Tab = v[2]
@@ -51,20 +52,19 @@ function PANEL:Init()
 			self:SaveTabConfig()
 		end
 
-		last = button
-
 		table.insert(self.Buttons, button)
 	end
 
 	self.Input = self:Add("CC_ChatInput")
-	self.Input:SetSize(self:GetWide() - 20, 20)
-	self.Input:SetPos(10, self:GetTall() - self.Input:GetTall() - 10)
+	self.Input:Dock(BOTTOM)
+	self.Input:DockMargin(10, 5, 10, 10)
+	self.Input:SetTall(20)
 
-	self.CloseButton = self:Add("DButton")
+	self.CloseButton = topBar:Add("DButton")
 	self.CloseButton:SetFont("marlett")
 	self.CloseButton:SetText("r")
-	self.CloseButton:SetSize(20, 20)
-	self.CloseButton:SetPos(self:GetWide() - self.CloseButton:GetWide() - 10, 10)
+	self.CloseButton:Dock(RIGHT)
+	self.CloseButton:SetWide(20)
 
 	self.CloseButton.DoClick = function(pnl)
 		self:Close()
