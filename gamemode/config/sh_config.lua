@@ -2,9 +2,6 @@
 GM.Config.SteamGroupURL	= ""
 GM.Config.WebsiteURL    = "http://taconbanana.com"
 
--- ONLY ADDONS THAT HAVE CUSTOM MODELS OR TEXTURES FOR CLIENT DOWNLOADS
--- FOR THE LOVE OF GOD DON'T FUCK IT LIKE EVERY OTHER ITERATION DID
-GM.Config.WorkshopAddons = {}
 GM.Config.MapRedirect    = {}
 
 GM.Config.AllowedNameCharacters = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
