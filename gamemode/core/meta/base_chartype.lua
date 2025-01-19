@@ -15,8 +15,12 @@ function CLASS:GetName()
 end
 
 if CLIENT then
-	function CLASS:SetupModelPanel(panel, options, key)
-		panel:SetModel("models/player/skeleton.mdl")
+	function CLASS:GetAppearance(options, key)
+		return {
+			_base = {
+				Model = Model("models/player/skeleton.mdl")
+			}
+		}
 	end
 else
 	function CLASS:GiveItem(ply, ...)
