@@ -139,38 +139,6 @@ function GM:CheckNameValidity(name)
 	return true
 end
 
-function GM:CheckCharacterValidity(name, desc, model, skin)
-	if #name < Config.Get("MinNameLength") then
-		return false, "Name must be longer than " .. Config.Get("MinNameLength") .. " characters."
-	end
-
-	if #name > Config.Get("MaxNameLength") then
-		return false, "Name must be shorter than " .. Config.Get("MaxNameLength") .. " characters."
-	end
-
-	if #desc > Config.Get("MaxDescLength") then
-		return false, "Description must be shorter than " .. Config.Get("MaxDescLength") .. " characters."
-	end
-
-	if not Config.Get("CitizenModels")[string.lower(model)] then
-		return false, "Invalid model."
-	end
-
-	if skin < 0 or skin > Config.Get("CitizenModels")[model] then
-		return false, "Invalid skin."
-	end
-
-	if string.find(name, "#", nil, true) or string.find(name, "~", nil, true) or string.find(name, "%", nil, true) then
-		return false, "Invalid name."
-	end
-
-	if not self:CheckNameValidity(name) then
-		return false, "Invalid characters in name."
-	end
-
-	return true
-end
-
 local fontCache = {}
 local function getCharWidth(char, fc)
 	if not fc[char] then
