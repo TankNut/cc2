@@ -3,7 +3,7 @@ local PANEL = {}
 function PANEL:Init()
 	self.Layout = self.Canvas:Add("DTileLayout")
 	self.Layout:SetBaseSize(56)
-	self.Layout:Dock(FILL)
+	self.Layout:Dock(TOP)
 end
 
 function PANEL:Setup(key, val, options)
@@ -23,7 +23,9 @@ end
 function PANEL:Populate(mdl)
 	self.Layout:Clear()
 
-	for i = 0, util.GetModelSkins(mdl) - 1 do
+	local skinCount = util.GetModelSkins(mdl)
+
+	for i = 0, skinCount - 1 do
 		local icon = vgui.Create("SpawnIcon")
 
 		icon:SetSize(56, 56)
@@ -37,7 +39,7 @@ function PANEL:Populate(mdl)
 		self.Layout:Add(icon)
 	end
 
-	self:InvalidateLayout()
+	self.Layout:InvalidateLayout(true)
 end
 
 function PANEL:OnOptionChanged(key, val)

@@ -1,3 +1,5 @@
+DEFINE_BASECLASS("CC_Frame")
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -124,7 +126,8 @@ function PANEL:SetPage(index)
 		panel.ID = id
 
 		panel:SetTitle(option.Name)
-		panel:Setup(option.Args, self.Options[id], self.Options)
+		panel:SetTooltip(option.Description or "")
+		panel:PerformSetup(option.Args, self.Options[id], self.Options)
 	end
 
 	self.Back:SetText(index == 1 and "Cancel" or "Back: " .. self:GetPageData(index - 1).Name)

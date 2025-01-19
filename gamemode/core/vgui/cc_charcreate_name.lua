@@ -1,9 +1,9 @@
+DEFINE_BASECLASS("CC_CharCreate")
+
 local PANEL = {}
 
 function PANEL:Init()
 	self.Entry = self.Canvas:Add("DTextEntry")
-	self.Entry:DockMargin(0, 0, 0, 5)
-	self.Entry:Dock(TOP)
 	self.Entry:SetUpdateOnType(true)
 
 	self.Entry.OnValueChange = function(_, val)
@@ -13,18 +13,10 @@ end
 
 function PANEL:Setup(names, val)
 	if names then
-		local buttons = self.Canvas:Add("DPanel")
+		self.RandomButton = self.Canvas:Add("DButton")
 
-		buttons:Dock(TOP)
-		buttons:SetTall(22)
-		buttons:SetPaintBackground(false)
-
-		local button = buttons:Add("DButton")
-
-		button:DockMargin(0, 0, 5, 0)
-		button:Dock(LEFT)
-		button:SetText("Random Names")
-		button:SizeToContentsX(20)
+		self.RandomButton:SetText("Random Names")
+		self.RandomButton:SizeToContentsX(20)
 
 		-- Override func to prevent the menu from closing when clicked
 		local func = function(pnl, mousecode)
@@ -35,8 +27,8 @@ function PANEL:Setup(names, val)
 			end
 		end
 
-		button.DoClick = function()
-			local dmenu = DermaMenu(false, button)
+		self.RandomButton.DoClick = function()
+			local dmenu = DermaMenu(false, self.RandomButton)
 			local tree = {
 				_panel = dmenu
 			}
@@ -76,6 +68,16 @@ function PANEL:Setup(names, val)
 		self.Entry:SetText(val)
 	else
 		self:SetOption("")
+	end
+end
+
+function PANEL:PerformLayout(w, h)
+	BaseClass.PerformLayout(self, w, h)
+
+	self.Entry:StretchToParent(nil, nil, 0, nil)
+
+	if self.RandomButton then
+		self.RandomButton:MoveBelow(self.Entry, 5)
 	end
 end
 

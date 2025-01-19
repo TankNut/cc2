@@ -1,17 +1,15 @@
+DEFINE_BASECLASS("CC_CharCreate")
+
 local PANEL = {}
 
 function PANEL:Init()
 	self.Entry = self.Canvas:Add("DTextEntry")
-	self.Entry:DockMargin(0, 0, 0, 5)
-	self.Entry:Dock(FILL)
 	self.Entry:SetMultiline(true)
 	self.Entry:SetUpdateOnType(true)
 
 	self.Entry.OnValueChange = function(_, val)
 		self:SetOption(val)
 	end
-
-	self.Entry:SetTall(150)
 end
 
 function PANEL:Setup(_, val)
@@ -20,6 +18,13 @@ function PANEL:Setup(_, val)
 	else
 		self:SetOption("")
 	end
+end
+
+function PANEL:PerformLayout(w, h)
+	BaseClass.PerformLayout(self, w, h)
+
+	self.Entry:SetTall(150)
+	self.Entry:StretchToParent(nil, nil, 0, nil)
 end
 
 derma.DefineControl("CC_CharCreate_Multiline", "", PANEL, "CC_CharCreate")
