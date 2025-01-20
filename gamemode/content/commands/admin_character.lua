@@ -74,24 +74,24 @@ setCharacterName:AddParameter(console.String({
 	validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
 }))
 
-local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang)
+local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name
-
-	if target:CanSpeakLanguage(lang) then
-		console.Feedback(ply, "ERROR", "%s can already speak %s", target:VisibleRPName(), languageName)
+	local accessType = speak and "speak" or "understand"
+	if (speak and target:CanSpeakLanguage(lang)) or (not speak and target:CanUnderstandLanguage(lang)) then
+		console.Feedback(ply, "ERROR", "%s can already %s %s", target:VisibleRPName(), accessType, languageName)
 
 		return
 	end
 
-	target:GiveLanguage(lang, true)
+	target:GiveLanguage(lang, speak)
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " gave player " .. target:CharacterName() .. " " .. languageName .. ".", ply)
 
-	console.Feedback(ply, "NOTICE", "You've given %s the ability to speak %s", target:VisibleRPName(), languageName)
-	console.Feedback(target, "NOTICE", "%s has given you the ability to speak %s", ply, languageName)
+	console.Feedback(ply, "NOTICE", "You've given %s the ability to %s %s", target:VisibleRPName(), accessType, languageName)
+	console.Feedback(target, "NOTICE", "%s has given you the ability to %s %s", ply, accessType, languageName)
 end)
 
-giveCharacterLanguage:SetDescription("Gives a spoken language to a player's character")
+giveCharacterLanguage:SetDescription("Gives a spoken or understood language to a player's character")
 giveCharacterLanguage:SetExecutionContext(console.Server)
 giveCharacterLanguage:SetAccess(console.IsAdmin)
 
@@ -103,11 +103,14 @@ giveCharacterLanguage:AddParameter(console.Player({
 
 giveCharacterLanguage:AddParameter(console.Language())
 
+giveCharacterLanguage:AddOptional(console.Bool(), true)
+
 local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(ply, target, lang)
 	local languageName = Language.Get(lang).Name
+	local accessType = target:CanSpeakLanguage(lang) and "speak" or "understand"
 
-	if not target:CanSpeakLanguage(lang) then
-		console.Feedback(ply, "ERROR", "%s does not speak %s", target:VisibleRPName(), languageName)
+	if not target:CanUnderstandLanguage(lang) then
+		console.Feedback(ply, "ERROR", "%s does not %s %s", target:VisibleRPName(), accessType, languageName)
 
 		return
 	end
@@ -116,11 +119,11 @@ local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(pl
 
 	GAMEMODE:LogAdmin("[T] " .. ply:Nick() .. " took " .. languageName ..  " from player " .. target:CharacterName() .. ".", ply)
 
-	console.Feedback(ply, "NOTICE", "You've taken %s's ability to speak %s", target:VisibleRPName(), languageName)
-	console.Feedback(target, "NOTICE", "%s has taken your the ability to speak %s", ply, languageName)
+	console.Feedback(ply, "NOTICE", "You've taken %s's ability to %s %s", target:VisibleRPName(), accessType, languageName)
+	console.Feedback(target, "NOTICE", "%s has taken your the ability to %s %s", ply, accessType, languageName)
 end)
 
-takeCharacterLanguage:SetDescription("Takes a spoken language from a player's character")
+takeCharacterLanguage:SetDescription("Takes a spoken or understood language from a player's character")
 takeCharacterLanguage:SetExecutionContext(console.Server)
 takeCharacterLanguage:SetAccess(console.IsAdmin)
 
