@@ -4,3 +4,18 @@ end)
 
 uptime:SetDescription("Tells you how long the server has been running the current map for")
 uptime:SetExecutionContext(console.Shared)
+
+local whatIsThis = console.AddCommand("rp_whatisthis", function(ply)
+	local ent = ply:GetEyeTrace().Entity
+
+	if not ent or not (ent:GetClass() == "prop_physics" or ent:GetClass() == "prop_effect") then
+		return
+	end
+
+	local model = ent.AttachedEntity and ent.AttachedEntity:GetModel() or ent:GetModel()
+
+	console.PrintMessage(ply, "Prop Model: %s", model)
+end)
+
+whatIsThis:SetDescription("Tells you the path of the current model you're looking at")
+whatIsThis:SetExecutionContext(console.ClientOnly)
