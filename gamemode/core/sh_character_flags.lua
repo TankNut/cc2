@@ -25,22 +25,29 @@ function Register(name, flag)
 	List[name] = baseclass.Get(flag.ThisClass)
 end
 
-function RegisterFile(path)
-	_G.FLAG = {}
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		local name = string.FileName(path)
 
-	GM:Include(path)
+		if name == "shared" then
+			name = string.FileName(folder)
+		end
 
-	Register(string.gsub(string.FileName(path), "^flag_", ""), FLAG)
+		_G.FLAG = {}
 
-	FLAG = nil
+		GM:Include(path)
+
+		Register(string.gsub(name, "^flag_", ""), FLAG)
+
+		FLAG = nil
+	end)
 end
 
 function Load()
-	local path = string.format("%s/gamemode/content/flags/", engine.ActiveGamemode())
-	local files = file.Find(path .. "*.lua", "LUA")
+	RegisterFolder(ContentFolder .. "flags/")
 
-	for _, v in ipairs(files) do
-		RegisterFile(path .. v)
+	for _, plugin in ipairs(PluginFolders) do
+		RegisterFolder(plugin .. "flags/")
 	end
 end
 

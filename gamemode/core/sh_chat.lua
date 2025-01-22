@@ -24,40 +24,24 @@ function Register(data)
 	end
 end
 
-function RegisterFile(path)
-	_G.CLASS = {}
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		_G.CLASS = {}
 
-	GM:Include(path)
+		GM:Include(path)
 
-	Register(CLASS)
+		Register(CLASS)
 
-	CLASS = nil
-end
-
-function RegisterFolder(basePath)
-	local function load(path)
-		local files, folders = file.Find(path .. "*", "LUA")
-
-		for _, v in ipairs(files) do
-			local filePath = path .. v
-
-			if string.GetExtensionFromFilename(filePath) != "lua" then
-				continue
-			end
-
-			RegisterFile(filePath)
-		end
-
-		for _, v in ipairs(folders) do
-			load(path .. v .. "/")
-		end
-	end
-
-	load(basePath)
+		CLASS = nil
+	end)
 end
 
 function Load()
-	RegisterFolder(engine.ActiveGamemode() .. "/gamemode/content/chat/")
+	RegisterFolder(ContentFolder .. "chat/")
+
+	for _, plugin in ipairs(PluginFolders) do
+		RegisterFolder(plugin .. "chat/")
+	end
 end
 
 function AddConsoleCommand(names, command)

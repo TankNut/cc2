@@ -64,15 +64,6 @@ function table.FullCopy(tab)
 	return res
 end
 
--- Christ
-function string.FileName(path)
-	return string.StripExtension(string.GetFileFromFilename(path))
-end
-
-function string.FirstToUpper(str)
-	return string.gsub(str, "^%l", string.upper)
-end
-
 -- Shouldn't be used for stuff that needs to persist between restarts or needs to be networked
 function util.UID()
 	g_UID = g_UID or 0

@@ -56,3 +56,17 @@ if CLIENT then
 		GAMEMODE:AddChatMessage(message)
 	end
 end
+
+ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
+PluginFolder = engine.ActiveGamemode() .. "/gamemode/core/plugins/"
+
+function BuildPluginFolders()
+	local tab = {}
+	local _, folders = file.Find(PluginFolder .. "*", "LUA")
+
+	for _, folder in ipairs(folders) do
+		table.insert(tab, PluginFolder .. folder .. "/")
+	end
+
+	PluginFolders = tab
+end

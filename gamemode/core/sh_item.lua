@@ -52,53 +52,30 @@ function Register(name, item)
 	end
 end
 
-function RegisterFile(path)
-	_G.ITEM = {}
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		local name = string.FileName(path)
 
-	GM:Include(path)
-
-	Register(string.gsub(string.FileName(path), "^item_", ""), ITEM)
-
-	ITEM = nil
-end
-
-function RegisterFolder(basePath)
-	local function load(path)
-		local files, folders = file.Find(path .. "*", "LUA")
-
-		for _, v in ipairs(files) do
-			local filePath = path .. v
-
-			if string.GetExtensionFromFilename(filePath) != "lua" then
-				continue
-			end
-
-			RegisterFile(filePath)
+		if name == "shared" then
+			name = string.FileName(folder)
 		end
 
-		for _, v in ipairs(folders) do
-			local folderPath = path .. v
-			local filePath = folderPath .. "/shared.lua"
+		_G.ITEM = {}
 
-			if file.Exists(filePath, "LUA") then
-				_G.ITEM = {}
+		GM:Include(path)
 
-				GM:Include(filePath)
+		Register(string.gsub(name, "^item_", ""), ITEM)
 
-				Register(string.gsub(string.FileName(folderPath), "^item_", ""), ITEM)
-
-				ITEM = nil
-			else
-				load(folderPath .. "/")
-			end
-		end
-	end
-
-	load(basePath)
+		ITEM = nil
+	end)
 end
 
 function Load()
-	RegisterFolder(engine.ActiveGamemode() .. "/gamemode/content/items/")
+	RegisterFolder(ContentFolder .. "items/")
+
+	for _, plugin in ipairs(PluginFolders) do
+		RegisterFolder(plugin .. "items/")
+	end
 end
 
 function OnReloaded()

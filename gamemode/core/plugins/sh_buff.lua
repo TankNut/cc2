@@ -10,43 +10,30 @@ function RegisterFile(path)
 	BUFF = nil
 end
 
-function RegisterFolder(basePath)
-	local function load(path)
-		local files, folders = file.Find(path .. "*", "LUA")
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		local name = string.FileName(path)
 
-		for _, v in ipairs(files) do
-			local filePath = path .. v
-
-			if string.GetExtensionFromFilename(filePath) != "lua" then
-				continue
-			end
-
-			RegisterFile(filePath)
+		if name == "shared" then
+			name = string.FileName(folder)
 		end
 
-		for _, v in ipairs(folders) do
-			local folderPath = path .. v
-			local filePath = folderPath .. "/shared.lua"
+		_G.BUFF = {}
 
-			if file.Exists(filePath, "LUA") then
-				_G.BUFF = {}
+		GM:Include(path)
 
-				GM:Include(filePath)
+		Register(string.gsub(name, "^buff_", ""), BUFF)
 
-				Register(string.gsub(string.FileName(folderPath), "^buff_", ""), BUFF)
-
-				BUFF = nil
-			else
-				load(folderPath .. "/")
-			end
-		end
-	end
-
-	load(basePath)
+		BUFF = nil
+	end)
 end
 
 hook.Add("LoadContent", "buff", function()
-	RegisterFolder(engine.ActiveGamemode() .. "/gamemode/content/buffs/")
+	RegisterFolder(ContentFolder .. "buffs/")
+
+	for _, plugin in ipairs(PluginFolders) do
+		RegisterFolder(plugin .. "buffs/")
+	end
 end)
 
 hook.Add("Move", "buff", function(ply, mv) PlayerHook(ply, "Move", mv) end)

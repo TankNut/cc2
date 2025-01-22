@@ -31,24 +31,10 @@ function GM:IncludeServer(path)
 	end
 end
 
-function GM:LoadFolder(path, subFile)
-	path = string.format("%s/gamemode/%s/", engine.ActiveGamemode(), path)
-
-	local files, folders = file.Find(path .. "*", "LUA")
-
-	for _, filePath in ipairs(files) do
-		if string.GetExtensionFromFilename(filePath) != "lua" then
-			continue
-		end
-
-		self:Include(path .. filePath)
-	end
-
-	if subFile then
-		for _, folderPath in ipairs(folders) do
-			self:IncludeShared(string.format("%s%s/%s", path, folderPath, subFile))
-		end
-	end
+function GM:LoadFolder(dir, subFile)
+	file.Iterate(dir, subFile, "LUA", function(path)
+		self:Include(path)
+	end)
 end
 
 function GM:LoadContent()
@@ -91,15 +77,17 @@ GM:Include("sv_player_update.lua")
 GM:Include("sv_player.lua")
 GM:Include("sv_resource.lua")
 
-GM:LoadFolder("core/meta", "shared.lua")
-GM:LoadFolder("core/vgui")
-GM:LoadFolder("core/gui")
-GM:LoadFolder("core/plugins", "_plugin.lua")
+local baseFolder = engine.ActiveGamemode() .. "/gamemode/"
 
-local contentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
+GM:LoadFolder(baseFolder .. "core/meta/", "shared.lua")
+GM:LoadFolder(baseFolder .. "core/vgui/")
+GM:LoadFolder(baseFolder .. "core/gui/")
+GM:LoadFolder(baseFolder .. "core/plugins/", "_plugin.lua")
 
-GM:Include(contentFolder .. "sh_defines.lua")
-GM:Include(contentFolder .. "sh_names.lua")
+BuildPluginFolders()
+
+GM:Include(baseFolder .. "content/sh_defines.lua")
+GM:Include(baseFolder .. "content/sh_names.lua")
 
 hook.Call("LoadContent", GM)
 

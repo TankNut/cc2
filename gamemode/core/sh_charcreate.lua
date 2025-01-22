@@ -13,24 +13,31 @@ function Register(data)
 	List[data.ID] = setmetatable(data, Class)
 end
 
-function RegisterFile(path)
-	_G.CLASS = {
-		ID = string.FileName(path)
-	}
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		local name = string.FileName(path)
 
-	GM:Include(path)
+		if name == "shared" then
+			name = string.FileName(folder)
+		end
 
-	Register(CLASS)
+		_G.CLASS = {
+			ID = name
+		}
 
-	CLASS = nil
+		GM:Include(path)
+
+		Register(CLASS)
+
+		CLASS = nil
+	end)
 end
 
 function Load()
-	local path = string.format("%s/gamemode/content/charcreate/", engine.ActiveGamemode())
-	local files = file.Find(path .. "*.lua", "LUA")
+	RegisterFolder(ContentFolder .. "charcreate/")
 
-	for _, v in ipairs(files) do
-		RegisterFile(path .. v)
+	for _, plugin in ipairs(PluginFolders) do
+		RegisterFolder(plugin .. "charcreate/")
 	end
 end
 

@@ -1,8 +1,3 @@
-hook.Add("LoadContent", "broken_legs", function()
-	-- Why do we have to navigate from _core.lua...
-	buff.RegisterFile("plugins/broken_legs/buff_broken_legs.lua")
-end)
-
 if SERVER then
 	hook.Add("OnTakeFallDamage", "broken_legs", function(ply, damage)
 		ply:AddBuff("broken_legs", {
