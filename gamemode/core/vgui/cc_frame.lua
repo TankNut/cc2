@@ -44,6 +44,7 @@ function PANEL:SetTopBar(title)
 	end
 
 	self.Title = self:Add("DLabel")
+	self.Title:SetFont("CombineControl.Window")
 	self.Title:SetText(title)
 
 	self:PerformLayout()
