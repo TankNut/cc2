@@ -1,8 +1,8 @@
 CLASS.Name = "Long Emote"
 CLASS.Description = "Perform an action at a greater distance."
 
-CLASS.Commands = {"lme"}
-CLASS.Aliases = {":", "lem"}
+CLASS.Commands = {"lme", "lem"}
+CLASS.Aliases = {":"}
 
 CLASS.Range = 800
 CLASS.MuffledRange = 400

@@ -1,8 +1,8 @@
 CLASS.Name = "Emote"
 CLASS.Description = "Perform an action."
 
-CLASS.Commands = {"me"}
-CLASS.Aliases = {":", "em"}
+CLASS.Commands = {"me", "em"}
+CLASS.Aliases = {":"}
 
 CLASS.Range = 400
 CLASS.MuffledRange = 150
