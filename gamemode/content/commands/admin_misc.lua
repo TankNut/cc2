@@ -81,63 +81,6 @@ yell:SetAccess(console.IsAdmin)
 
 yell:AddParameter(console.String())
 
-local heal = console.AddCommand("rpa_heal", function(ply, targets)
-	for _,target in pairs(targets) do
-		if target:Health() > target:GetMaxHealth() then
-			continue -- Don't reset the health of admins using rpa_sethealth.
-		end
-
-		target.ArmorFraction = 1
-
-		target:SetHealth(target:GetMaxHealth())
-		target:SetArmor(target:GetMaxArmor())
-
-		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Self = ply == target})
-
-		console.Feedback(target, "NOTICE", "%s has healed you", ply)
-	end
-
-	local targetCount = table.Count(targets)
-
-	if targetCount == 1 then
-		console.Feedback(ply, "NOTICE", "You've healed %s", targets[1])
-	else
-		console.Feedback(ply, "NOTICE", "You've healed %d players", targetCount)
-	end
-end)
-
-heal:SetDescription("Heals one or more players to full health and armor")
-heal:SetExecutionContext(console.Server)
-heal:SetAccess(console.IsAdmin)
-
-heal:AddParameter(console.Player({
-	SingleTarget = false,
-	CheckImmunity = false,
-	NoSelfTarget = false
-}))
-
-local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
-	target:SetHealth(max)
-
-	console.Feedback(ply, "NOTICE", "You've set %s's health to %d", target, max)
-	console.Feedback(target, "NOTICE", "%s set your health to %d", ply, max)
-end)
-
-setHealth:SetDescription("Manually sets a player's health bar")
-setHealth:SetExecutionContext(console.Server)
-setHealth:SetAccess(console.IsAdmin)
-
-setHealth:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
-}))
-
-setHealth:AddParameter(console.Number({
-	validate.Min(0),
-	validate.Max(100000)
-}))
-
 local deadmin = console.AddCommand("rpa_deadmin", function(ply)
 	ply:SetUserGroup("user", true)
 

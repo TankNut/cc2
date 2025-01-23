@@ -99,22 +99,6 @@ concommand.AddAdmin("rpa_namewarn", function(ply, targ)
 	net.Send(targ)
 end, false, {TYPE_ENTITY})
 
-concommand.AddAdmin("rpa_kill", function(ply, targ)
-	targ:Kill()
-
-	targ:SendChat("NOTICE", ply:Nick() .. " killed you")
-
-	GAMEMODE:WriteLog("admin_kill", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
-end, false, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_slap", function(ply, targ)
-	targ:SetVelocity(Vector(math.random(-400, 400), math.random(-400, 400), math.random(400, 600)))
-
-	targ:SendChat("NOTICE", ply:Nick() .. " slapped you")
-
-	GAMEMODE:WriteLog("admin_slap", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_ko", function(ply, targ)
 	targ:SetConsciousness(0)
 	targ:PassOut()
