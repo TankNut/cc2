@@ -569,7 +569,7 @@ hook.Add("CC.SV.PlayerThink", "SV.Player.AFKThink", function(plys)
 	for i = 1, #plys do
 		local ply = plys[i]
 
-		if Config.Get("AFKKickerEnabled") and CurTime() - (ply.AFKTime or 0) > Config.Get("AFKTime") and (#player.GetAll() / game.MaxPlayers()) > Config.Get("AFKPercentage") and not ply:IsAdmin() and not ply:IsEventCoordinator() then
+		if Config.Get("AFKKickerEnabled") and CurTime() - (ply.AFKTime or 0) > Config.Get("AFKTime") and (#player.GetAll() / game.MaxPlayers()) > Config.Get("AFKPercentage") and not ply:IsAdmin() then
 
 			ply:Kick("Auto-kicked for being AFK")
 		end

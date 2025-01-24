@@ -446,10 +446,6 @@ function meta:HasLicense(license)
 	return false
 end
 
-function meta:IsEventCoordinator()
-	return self:GetUserGroup() == "eventcoordinator"
-end
-
 function game.GetIP()
 	local hostip = tonumber(GetConVarString("hostip"))
 

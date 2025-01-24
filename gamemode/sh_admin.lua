@@ -799,67 +799,30 @@ concommand.AddAdmin("rpa_adminradio", function(ply, bool)
 	ply:SetAdminRadio(bool)
 end, false, {TYPE_BOOL})
 
-function GM:PlayerNoClip(ply)
+function GM:PlayerNoClip(ply, state)
 	if ply:PassedOut() then return false end
 	if ply:Bottify() then return false end
 
-	if not ply:IsAdmin() and not ply:IsEventCoordinator() then
-
+	if not ply:IsAdmin() then
 		if CLIENT and IsFirstTimePredicted() then
-
 			lp:SendChat("ERROR", "You need to be an admin to do this.")
-
 		end
 
 		return false
-
 	end
 
 	if SERVER then
-
-		if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) then
-
-			ply:GodDisable()
-			ply:SetNoTarget(false)
-			ply:SetNoDraw(false)
-			ply:SetNotSolid(false)
-
-			if ply:GetActiveWeapon() != NULL then
-
-				ply:GetActiveWeapon():SetNoDraw(false)
-				ply:GetActiveWeapon():SetColor(Color(255, 255, 255, 255))
-
-			end
-
-			if ply.NoclipPos then
-
-				ply:SetPos(ply.NoclipPos)
-				ply.NoclipPos = nil
-
-			end
-
-		else
-
+		if state then
 			ply:GodEnable()
 			ply:SetNoTarget(true)
-			ply:SetNoDraw(true)
 			ply:SetNotSolid(true)
-
-			if ply:GetActiveWeapon() != NULL then
-
-				ply:GetActiveWeapon():SetNoDraw(true)
-				ply:GetActiveWeapon():SetColor(Color(255, 255, 255, 0))
-
-			end
-
-			if ply:IsEventCoordinator() then
-
-				ply.NoclipPos = ply:GetPos()
-
-			end
-
+			ply:SetNoDraw(true)
+		else
+			ply:GodDisable()
+			ply:SetNoTarget(false)
+			ply:SetNotSolid(false)
+			ply:SetNoDraw(false)
 		end
-
 	end
 
 	return true
