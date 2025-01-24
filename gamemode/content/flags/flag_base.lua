@@ -30,6 +30,10 @@ function FLAG:VisibleRPName(ply)
 	return ply:CharacterName()
 end
 
+function FLAG:VisibleDescription(ply)
+	return ply:CharacterDescription()
+end
+
 function FLAG:PlayerScale(ply)
 	return self.Scale != 0 and self.Scale or ply:CharacterScale()
 end
