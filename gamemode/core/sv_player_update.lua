@@ -23,6 +23,21 @@ function meta:UpdateVisibleName()
 	self:SetVisibleRPName(name or self:RunCharFlag("VisibleRPName"))
 end
 
+function meta:UpdateVisibleDescription()
+	local description = self:RunCharFlag("VisibleDescription")
+
+	self:SetVisibleDescription(description)
+
+	local short = string.match(description, "^[^\r\n]*")
+	local config = Config.Get("ShortDescLength")
+
+	if #short > 0 and #short > config then
+		short = string.sub(short, 1, config) .. "..."
+	end
+
+	self:SetShortDescription(short)
+end
+
 function meta:UpdateMovementSpeed()
 	local slow, walk, run, jump, crouch = self:RunCharFlag("GetSpeeds")
 

@@ -126,3 +126,15 @@ netstream.Hook("SelectCharacter", function(ply, id)
 
 	ply:LoadCharacter(id)
 end)
+
+function GM:OnCharacterNameChanged(ply, old, new)
+	ply:UpdateVisibleName()
+end
+
+function GM:OnCharacterNameOverrideChanged(ply, old, new)
+	ply:UpdateVisibleName()
+end
+
+function GM:OnCharacterDescriptionChanged(ply, old, new)
+	ply:UpdateVisibleDescription()
+end

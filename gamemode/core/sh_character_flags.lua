@@ -85,6 +85,7 @@ function GM:PlayerApplyFlag(ply)
 
 	ply:UpdateArmor()
 	ply:UpdateVisibleName()
+	ply:UpdateVisibleDescription()
 	ply:UpdateMovementSpeed()
 	ply:UpdateAppearance()
 	ply:UpdateLoadout()

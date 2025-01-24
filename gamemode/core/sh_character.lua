@@ -2,6 +2,7 @@ PlayerVar.Add("CharID", {Default = 0})
 PlayerVar.Add("CharacterList", {Default = {}, Private = true})
 
 PlayerVar.Add("VisibleRPName", {Default = "Unconnected"})
+PlayerVar.Add("VisibleDescription", {Default = "", Private = true})
 PlayerVar.Add("ShortDescription", {Default = ""})
 
 CharacterVar.Add("CharacterName", {Default = "Unknown", Private = true, Field = "Name", DataType = VARCHAR(64)})

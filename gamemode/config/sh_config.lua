@@ -10,6 +10,8 @@ GM.Config.MaxNameLength = 40
 GM.Config.MaxDescLength = 2000
 GM.Config.MaxCharacters = 15
 
+GM.Config.ShortDescLength = 64
+
 GM.Config.PlayerSight = 1024
 GM.Config.ConsciousnessRate = 0.7
 
