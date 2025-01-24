@@ -7,6 +7,10 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 		part.Clear(ply)
 
 		for name, data in pairs(new) do
+			if name == "_base" then
+				continue
+			end
+
 			local partType = data._type or "ModelPart"; data._type = nil
 
 			if partType == "ModelPart" and data.Bonemerge == nil then
@@ -64,9 +68,6 @@ if SERVER then
 		local base = assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
 
 		self:ApplyModel(base)
-
-		appearance._base = nil
-
 		self:SetAppearance(appearance)
 	end
 end
