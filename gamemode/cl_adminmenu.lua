@@ -22,7 +22,7 @@ function GM:CreateAdminMenu()
 		end
 	end
 
-	CCP.AdminMenu.TopBar = vgui.Create("DPanel", CCP.AdminMenu)
+	CCP.AdminMenu.TopBar = vgui.Create("Panel", CCP.AdminMenu)
 	CCP.AdminMenu.TopBar:SetPos(0, 24)
 	CCP.AdminMenu.TopBar:SetSize(800, 50)
 	function CCP.AdminMenu.TopBar:Paint(w, h)
@@ -115,7 +115,7 @@ function GM:CreateAdminMenu()
 	end
 	CCP.AdminMenu.TopBar.Buttons[6]:PerformLayout()
 
-	CCP.AdminMenu.ContentPane = vgui.Create("DPanel", CCP.AdminMenu)
+	CCP.AdminMenu.ContentPane = vgui.Create("Panel", CCP.AdminMenu)
 	CCP.AdminMenu.ContentPane:SetPos(0, 74)
 	CCP.AdminMenu.ContentPane:SetSize(800, 426)
 	function CCP.AdminMenu.ContentPane:Paint(w, h) end
@@ -1703,7 +1703,7 @@ function GM:AdminCreateRoleplayMenu()
 
 			if not v.EasterEgg then
 
-				local itempane = vgui.Create("DPanel")
+				local itempane = vgui.Create("Panel")
 				itempane:SetPos(0, y)
 				itempane:SetSize(556, 64)
 				function itempane:Paint(w, h)

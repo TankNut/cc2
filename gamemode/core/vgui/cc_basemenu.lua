@@ -5,7 +5,7 @@ local PANEL = {}
 function PANEL:Init()
 	self:SetDraggable(true)
 
-	self.TopBar = self:Add("DPanel")
+	self.TopBar = self:Add("Panel")
 	self.TopBar:DockPadding(5, 10, 5, 10)
 	self.TopBar:Dock(TOP)
 
@@ -20,10 +20,9 @@ function PANEL:Init()
 	self.MenuButtons = {}
 	self.SelectedMenu = 0
 
-	self.Content = self:Add("DPanel")
+	self.Content = self:Add("Panel")
 	self.Content:DockMargin(10, 10, 10, 10)
 	self.Content:Dock(FILL)
-	self.Content:SetPaintBackground(false)
 end
 
 function PANEL:Think()

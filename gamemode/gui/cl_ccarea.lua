@@ -13,4 +13,4 @@ function PANEL:Paint(w, h)
 	return true
 end
 
-derma.DefineControl("CCArea", "", PANEL, "DPanel")
+derma.DefineControl("CCArea", "", PANEL, "Panel")

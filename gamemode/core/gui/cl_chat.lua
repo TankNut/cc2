@@ -13,10 +13,9 @@ function PANEL:Init()
 	self.Scroll:Dock(FILL)
 	self.Scroll:DockMargin(10, 5, 10, 5)
 
-	local topBar = self:Add("DPanel")
+	local topBar = self:Add("Panel")
 	topBar:Dock(TOP)
 	topBar:DockMargin(10, 10, 10, 5)
-	topBar:SetPaintBackground(false)
 	topBar:SetTall(20)
 
 	self.Tabs = cookie.GetNumber("cc_chat_tabs", 0)

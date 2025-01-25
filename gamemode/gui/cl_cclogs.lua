@@ -251,4 +251,4 @@ end
 function PANEL:Paint(w, h)
 end
 
-derma.DefineControl("CCLogs", "", PANEL, "DPanel")
+derma.DefineControl("CCLogs", "", PANEL, "Panel")

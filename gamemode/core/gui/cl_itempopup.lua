@@ -12,15 +12,13 @@ function PANEL:Init()
 	self.ModelPanel:Dock(TOP)
 	self.ModelPanel:SetTall(200)
 
-	self.Buttons = self:Add("DPanel")
+	self.Buttons = self:Add("Panel")
 	self.Buttons:DockMargin(0, 5, 0, 0)
 	self.Buttons:Dock(BOTTOM)
-	self.Buttons:SetPaintBackground(false)
 	self.Buttons:SetTall(22 * 3 + 15)
 
-	self.Right = self.Buttons:Add("DPanel")
+	self.Right = self.Buttons:Add("Panel")
 	self.Right:Dock(RIGHT)
-	self.Right:SetPaintBackground(false)
 	self.Right:SetWide(100)
 
 	self.DestroyButton = self.Right:Add("DButton")

@@ -18,7 +18,7 @@ function GM:CreatePlayerMenu()
 		end
 	end
 
-	CCP.PlayerMenu.TopBar = vgui.Create("DPanel", CCP.PlayerMenu)
+	CCP.PlayerMenu.TopBar = vgui.Create("Panel", CCP.PlayerMenu)
 	CCP.PlayerMenu.TopBar:SetPos(0, 24)
 	CCP.PlayerMenu.TopBar:SetSize(800, 50)
 	CCP.PlayerMenu.TopBar:DockPadding(5, 10, 5, 10)
@@ -78,7 +78,7 @@ function GM:CreatePlayerMenu()
 		v:SetWide(width)
 	end
 
-	CCP.PlayerMenu.ContentPane = vgui.Create("DPanel", CCP.PlayerMenu)
+	CCP.PlayerMenu.ContentPane = vgui.Create("Panel", CCP.PlayerMenu)
 	CCP.PlayerMenu.ContentPane:SetPos(0, 74)
 	CCP.PlayerMenu.ContentPane:SetSize(800, 426)
 	function CCP.PlayerMenu.ContentPane:Paint() end
@@ -436,7 +436,7 @@ function GM:PMPopulateBusiness(filter)
 			continue
 		end
 
-		local ui = vgui.Create("DPanel")
+		local ui = vgui.Create("Panel")
 		ui:SetPos(0, y)
 		ui:SetSize(556, 64)
 

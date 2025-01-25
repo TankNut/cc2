@@ -20,7 +20,7 @@ local function isHiddenFromScoreboard(ply)
 end
 
 function GM:ScoreboardShow()
-	CCP.Scoreboard = vgui.Create("DPanel")
+	CCP.Scoreboard = vgui.Create("Panel")
 	CCP.Scoreboard:SetSize(620, 600)
 	CCP.Scoreboard:Center()
 	CCP.Scoreboard:MakePopup()
@@ -102,7 +102,7 @@ GM.ScoreboardBadges[BADGE_BIRTHDAY] = {Material("icon16/cake.png"), "Gang's Birt
 GM.ScoreboardBadges[BADGE_BUGGER] = {Material("icon16/bug.png"), "Bug Hunter"}
 
 function GM:ScoreboardAdd(ply, y, n)
-	local entry = vgui.Create("DPanel", CCP.Scoreboard.Players)
+	local entry = vgui.Create("Panel", CCP.Scoreboard.Players)
 	entry:SetSize(620, 58)
 	function entry:Paint(w, h)
 

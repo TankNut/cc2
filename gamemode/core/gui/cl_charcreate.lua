@@ -8,21 +8,18 @@ function PANEL:Init()
 
 	self:SetCloseOnPause(true)
 
-	self.Left = self:Add("DPanel")
+	self.Left = self:Add("Panel")
 	self.Left:DockMargin(0, 0, 5, 0)
 	self.Left:Dock(LEFT)
 	self.Left:SetWide(480)
-	self.Left:SetPaintBackground(false)
 
-	self.Content = self.Left:Add("DPanel")
+	self.Content = self.Left:Add("Panel")
 	self.Content:Dock(FILL)
-	self.Content:SetPaintBackground(false)
 
-	self.Buttons = self.Left:Add("DPanel")
+	self.Buttons = self.Left:Add("Panel")
 	self.Buttons:DockMargin(0, 5, 0, 0)
 	self.Buttons:Dock(BOTTOM)
 	self.Buttons:SetTall(22)
-	self.Buttons:SetPaintBackground(false)
 
 	self.Next = self.Buttons:Add("DButton")
 	self.Next:Dock(RIGHT)

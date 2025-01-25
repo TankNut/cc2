@@ -4,11 +4,8 @@ function PANEL:Init()
 	self:DockMargin(0, 0, 0, 15)
 	self:Dock(TOP)
 
-	self:SetPaintBackground(false)
-
-	self.Left = self:Add("DPanel")
+	self.Left = self:Add("Panel")
 	self.Left:SetWide(115)
-	self.Left:SetPaintBackground(false)
 
 	self.Label = self.Left:Add("DLabel")
 	self.Label:SetWide(115)
@@ -23,8 +20,7 @@ function PANEL:Init()
 	self.Tooltip:SetWrap(true)
 	self.Tooltip:SetAutoStretchVertical(true)
 
-	self.Canvas = self:Add("DPanel")
-	self.Canvas:SetPaintBackground(false)
+	self.Canvas = self:Add("Panel")
 
 	self.Canvas.PerformLayout = function(pnl, w, h)
 		pnl:SizeToChildren(false, true)
@@ -68,4 +64,4 @@ end
 function PANEL:OnOptionChanged(key, val)
 end
 
-derma.DefineControl("CC_CharCreate", "", PANEL, "DPanel")
+derma.DefineControl("CC_CharCreate", "", PANEL, "Panel")

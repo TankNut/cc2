@@ -34,4 +34,4 @@ function PANEL:Paint(w, h)
 	return true
 end
 
-derma.DefineControl("CCProgressBar", "", PANEL, "DPanel")
+derma.DefineControl("CCProgressBar", "", PANEL, "Panel")

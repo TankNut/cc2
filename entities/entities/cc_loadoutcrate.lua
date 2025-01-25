@@ -98,7 +98,7 @@ if CLIENT then
 		for _, v in pairs(loadout) do
 			local itemdata = assert(GAMEMODE.Items[v], "invalid loadout item " .. tostring(v) .. " for '" .. tostring(flag.Flag) .. "'")
 
-			local itempane = vgui.Create("DPanel")
+			local itempane = vgui.Create("Panel")
 			itempane:SetPos(0, y)
 			itempane:SetSize(556, 64)
 			itempane.Item = v

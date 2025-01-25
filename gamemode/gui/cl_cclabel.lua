@@ -72,4 +72,4 @@ function PANEL:SizeToContentsY()
 	self:SetTall(y)
 end
 
-derma.DefineControl("CCLabel", "", PANEL, "DPanel")
+derma.DefineControl("CCLabel", "", PANEL, "Panel")

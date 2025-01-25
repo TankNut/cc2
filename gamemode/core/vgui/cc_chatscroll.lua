@@ -16,10 +16,6 @@ function PANEL:Init()
 	end
 
 	self:SetMouseInputEnabled(true)
-
-	self:SetPaintBackgroundEnabled(false)
-	self:SetPaintBorderEnabled(false)
-	self:SetPaintBackground(false)
 end
 
 function PANEL:OnMouseWheeled(delta)
@@ -128,4 +124,4 @@ function PANEL:Paint(w, h)
 	end
 end
 
-derma.DefineControl("CC_ChatScroll", "", PANEL, "DPanel")
+derma.DefineControl("CC_ChatScroll", "", PANEL, "Panel")

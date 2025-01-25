@@ -1,5 +1,5 @@
 local PANEL = {}
-DEFINE_BASECLASS("DPanel")
+DEFINE_BASECLASS("Panel")
 
 function PANEL:Init()
 	self.Weight = self:Add("CCProgressBar")
@@ -87,4 +87,4 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "ItemList", self, w, h - 30)
 end
 
-derma.DefineControl("CC_ItemList", "", PANEL, "DPanel")
+derma.DefineControl("CC_ItemList", "", PANEL, "Panel")

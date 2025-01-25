@@ -1,8 +1,6 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetPaintBackground(false)
-
 	self.ModelPanel = self:Add("CC_CharacterModel")
 	self.ModelPanel:SetWide(200)
 	self.ModelPanel:SetAllowManipulation(true)
@@ -84,7 +82,7 @@ function PANEL:UpdateMiscInfo()
 	self.MiscInfo:SetText("<c=cc_disabled>" .. table.concat(lines, "\n") .. "")
 end
 
-derma.DefineControl("CC_PlayerMenu_Description", "", PANEL, "DPanel")
+derma.DefineControl("CC_PlayerMenu_Description", "", PANEL, "Panel")
 
 function GM:GetMiscCharacterInfo(panel)
 	local spoken = {}
