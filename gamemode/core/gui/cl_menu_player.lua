@@ -24,7 +24,7 @@ GUI.Register("PlayerMenu", function()
 end, true)
 
 function GM:PopulatePlayerMenu(panel)
-	panel:AddMenu(1, "Description", "CC_PlayerMenu_Description")
+	panel:AddMenu(1, "Character", "CC_PlayerMenu_Description")
 	panel:AddMenu(2, "Inventory", "CC_PlayerMenu_Inventory", nil, true)
 	panel:AddMenu(10, "Settings", "CC_PlayerMenu_Settings")
 end
