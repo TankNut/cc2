@@ -13,11 +13,7 @@ function PANEL:Init()
 	self.Input:SetUpdateOnType(true)
 
 	self.Input.OnEnter = function()
-		if self:CheckInput() then
-			async.Handle(self.Coroutine, self:GetValue())
-
-			self:Remove()
-		end
+		self.Submit:DoClick()
 	end
 
 	self.Input.OnValueChange = function(_, val)
@@ -32,6 +28,14 @@ function PANEL:Init()
 
 	self.Submit = self:Add("DButton")
 	self.Submit:SetText("Submit")
+
+	self.Submit.DoClick = function()
+		if self:CheckInput() then
+			async.Handle(self.Coroutine, self:GetValue())
+
+			self:Remove()
+		end
+	end
 end
 
 function PANEL:Setup(data)
