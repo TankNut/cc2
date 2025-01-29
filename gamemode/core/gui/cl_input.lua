@@ -98,7 +98,7 @@ derma.DefineControl("GUI_Input_Number", "", PANEL, "GUI_Input_Text")
 PANEL = {}
 
 function PANEL:Init()
-	self:SetTall(500)
+	self:SetSize(500, 280)
 
 	self.Input:SetTall(220)
 	self.Input:SetFont("CombineControl.LabelSmall")
