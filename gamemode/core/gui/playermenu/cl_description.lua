@@ -45,8 +45,12 @@ function PANEL:Init()
 	self.CharacterName:SetFont("CombineControl.LabelGiant")
 	self.CharacterName:SetText(lp:VisibleRPName())
 
-	self.CharacterDescription = self:Add("ScribeLabel")
+	self.DescriptionScroll = self:Add("DScrollPanel")
+
+	self.CharacterDescription = self.DescriptionScroll:Add("ScribeLabel")
+	self.CharacterDescription:Dock(TOP)
 	self.CharacterDescription:SetText(lp:VisibleDescription())
+	self.CharacterDescription:SetAutoStretchVertical(true)
 
 	self:UpdateMiscInfo()
 
@@ -90,8 +94,10 @@ function PANEL:PerformLayout(w, h)
 	self.MiscInfo:Rebuild()
 	self.MiscInfo:SizeToContentsY()
 
-	self.CharacterDescription:MoveRightOf(self.ModelPanel, 12)
-	self.CharacterDescription:StretchBottomTo(self.MiscInfo, 5)
+	self.DescriptionScroll:MoveRightOf(self.ModelPanel, 12)
+	self.DescriptionScroll:MoveBelow(self.CharacterName, 5)
+	self.DescriptionScroll:StretchToParent(nil, nil, 0)
+	self.DescriptionScroll:StretchBottomTo(self.MiscInfo, 5)
 end
 
 function PANEL:UpdateMiscInfo()
