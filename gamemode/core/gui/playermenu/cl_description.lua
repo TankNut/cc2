@@ -24,13 +24,13 @@ function PANEL:Init()
 
 	self:UpdateMiscInfo()
 
-	hook.Add("OnVisibleRPNameChanged", self, function(ply, old, new)
+	hook.Add("OnVisibleRPNameChanged", self, function(_, ply, old, new)
 		if ply == lp then
 			self.CharacterName:SetText(new)
 		end
 	end)
 
-	hook.Add("OnVisibleDescriptionChanged", self, function(ply, old, new)
+	hook.Add("OnVisibleDescriptionChanged", self, function(_, ply, old, new)
 		if ply == lp then
 			self.CharacterDescription:SetText(new)
 		end
