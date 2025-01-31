@@ -41,22 +41,6 @@ function EquipmentSlot(slot)
 	return GAMEMODE.EquipmentNames[slot]
 end
 
-if CLIENT then
-	-- Maybe we should add a backport of eternity/afterglow chat to the list, this is horrid
-	function SendLocalChat(messageType, str)
-		local class = assert(GAMEMODE.MessageTypes[messageType], "Invalid message type")
-
-		local message = table.Merge(table.Copy(class), {
-			Class		= class,
-			Text		= str
-		})
-
-		message.Name = nil
-
-		GAMEMODE:AddChatMessage(message)
-	end
-end
-
 ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 PluginFolder = engine.ActiveGamemode() .. "/gamemode/core/plugins/"
 
