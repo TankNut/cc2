@@ -6,3 +6,11 @@ function Get(key)
 
 	return config[key]
 end
+
+function Fallback(key, value)
+	local config = (GM or GAMEMODE).Config
+
+	if config[key] == nil then
+		config[key] = value
+	end
+end
