@@ -1,9 +1,17 @@
-PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_BANNED,  Persist = true, DataType = TINYINT()})
-PlayerVar.Add("PhysTrust", {Default = PHYSTRUST_ENABLED, Persist = true, DataType = TINYINT()})
-PlayerVar.Add("PropTrust", {Default = PROPTRUST_ENABLED, Persist = true, DataType = TINYINT()})
+PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
-EntityVar.Add("PropCreator",     {Default = ""})
-EntityVar.Add("PropSteamID",     {Default = ""})
-EntityVar.Add("PropDescription", {Default = ""})
-EntityVar.Add("PropSaved",       {Default = false})
-EntityVar.Add("FakePlayer",      {Default = NULL})
+function GM:GetToolTrust(ply)
+	if ply:IsDeveloper() then
+		return TOOLTRUST_DEVELOPER
+	end
+
+	if ply:IsAdmin() then
+		return TOOLTRUST_ADMIN
+	end
+
+	return ply:ToolTrust()
+end
+
+function meta:GetToolTrust()
+	return hook.Run("GetToolTrust", self)
+end
