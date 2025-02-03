@@ -141,10 +141,6 @@ function GM:LimitReachedProcess(ply, str)
 	return false
 end
 
-function GM:CanDrive(ply, ent)
-	return false
-end
-
 function GM:ContextMenuOpen()
 	return LocalPlayer():GetActiveWeapon() and LocalPlayer():GetActiveWeapon():IsValid() and LocalPlayer():GetActiveWeapon():GetClass() == "gmod_tool" and not CCP.ContextMenu
 end
