@@ -133,3 +133,26 @@ end
 function GM:CanDrive(ply, ent)
 	return false
 end
+
+-- Prop ownership
+if SERVER then
+	if not cleanup.ccAdd then
+		cleanup.ccAdd = cleanup.Add
+	end
+
+	function cleanup.Add(ply, name, ent)
+		-- Set owner
+
+		return cleanup.ccAdd(ply, name, ent)
+	end
+
+	if not meta.ccAddCount then
+		meta.ccAddCount = meta.AddCount
+	end
+
+	function meta:AddCount(name, ent)
+		-- Set owner
+
+		return meta.ccAddCount(self, name, ent)
+	end
+end
