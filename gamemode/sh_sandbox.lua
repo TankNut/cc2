@@ -462,7 +462,7 @@ function GM:OnPhysgunReload(physgun, ply)
 
 		if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-		if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
+		if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:FakePlayer() or ent:FakePlayer() == NULL) then
 			local tab = {}
 
 			for _, v in player.Iterator() do
@@ -504,7 +504,7 @@ function GM:CanPlayerUnfreeze(ply, ent, phys)
 
 	if ply:PhysTrust() == PHYSTRUST_BANNED then return false end
 
-	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:PropFakePlayer() or ent:PropFakePlayer() == NULL) then
+	if ply:ToolTrust() < TOOLTRUST_ADVANCED and ent:PropSteamID() != ply:SteamID() and (not ent:FakePlayer() or ent:FakePlayer() == NULL) then
 		local tab = {}
 
 		for _, v in player.Iterator() do

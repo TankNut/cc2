@@ -35,14 +35,14 @@ function meta:MakeRagdollClone()
 	rag:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
 	function rag:GetPlayerColor()
-		if not IsValid(self:PropFakePlayer()) then return Vector(1, 1, 1) end
+		if not IsValid(self:FakePlayer()) then return Vector(1, 1, 1) end
 
-		return self:PropFakePlayer():GetPlayerColor()
+		return self:FakePlayer():GetPlayerColor()
 	end
 
 	part.Copy(self, rag)
 
-	rag:SetPropFakePlayer(self)
+	rag:SetFakePlayer(self)
 	self:SetRagdoll(rag)
 
 	return rag

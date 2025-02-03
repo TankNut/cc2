@@ -113,8 +113,8 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 		return true
 	end
 
-	if ent:GetClass() == "prop_ragdoll" and IsValid(ent:PropFakePlayer()) then
-		if ent:PropFakePlayer():IsEFlagSet(EFL_NOCLIP_ACTIVE) then
+	if ent:GetClass() == "prop_ragdoll" and IsValid(ent:FakePlayer()) then
+		if ent:FakePlayer():IsEFlagSet(EFL_NOCLIP_ACTIVE) then
 			return
 		end
 
@@ -129,7 +129,7 @@ hook.Add("EntityTakeDamage", "SV.Player.EntityTakeDamage", function(ent, dmginfo
 		pdmg:SetDamagePosition(ent:GetPos())
 		pdmg:SetInflictor(dmginfo:GetInflictor())
 
-		ent:PropFakePlayer():TakeDamageInfo(pdmg)
+		ent:FakePlayer():TakeDamageInfo(pdmg)
 	end
 
 	if ent:IsVehicle() and IsValid(ent:GetDriver()) then
@@ -310,9 +310,9 @@ function GM:LegacyEntityRemoved(ent)
 
 		end
 
-		if ent:PropFakePlayer() and ent:PropFakePlayer():IsValid() and ent:PropFakePlayer():PassedOut() then
+		if ent:FakePlayer() and ent:FakePlayer():IsValid() and ent:FakePlayer():PassedOut() then
 
-			ent:PropFakePlayer():Kill()
+			ent:FakePlayer():Kill()
 
 		end
 

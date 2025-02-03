@@ -194,11 +194,11 @@ function SWEP:FistDamage()
 					net.Start("nFlashRed")
 					net.Send(tr.Entity)
 
-				elseif tr.Entity:GetClass() == "prop_ragdoll" and tr.Entity:PropFakePlayer() and tr.Entity:PropFakePlayer():IsValid() then
+				elseif tr.Entity:GetClass() == "prop_ragdoll" and tr.Entity:FakePlayer() and tr.Entity:FakePlayer():IsValid() then
 
 					local dmg = 8 * blockmul
 
-					tr.Entity:PropFakePlayer():TakeCDamage(math.floor(dmg))
+					tr.Entity:FakePlayer():TakeCDamage(math.floor(dmg))
 
 				elseif tr.Entity:IsVehicle() and tr.Entity:GetDriver() and tr.Entity:GetDriver():IsValid() then
 
