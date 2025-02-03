@@ -120,8 +120,12 @@ else
 	function Sync(ply, requester)
 		local data = {}
 
-		for var, players in pairs(Store) do
-			data[var] = players[ply]
+		for name, var in pairs(Vars) do
+			if (var.Private and ply != requester) or var.ServerOnly then
+				continue
+			end
+
+			data[name] = Store[name][ply]
 		end
 
 		if table.Count(data) > 0 then

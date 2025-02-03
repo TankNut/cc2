@@ -99,8 +99,12 @@ else
 	function Sync(ent, requester)
 		local data = {}
 
-		for var, entities in pairs(Store) do
-			data[var] = entities[ent]
+		for name, var in pairs(Vars) do
+			if var.ServerOnly then
+				continue
+			end
+
+			data[name] = Store[name][ent]
 		end
 
 		if table.Count(data) > 0 then
