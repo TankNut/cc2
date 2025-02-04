@@ -1,21 +1,17 @@
-local emeta = FindMetaTable("Entity")
-
 module("EntityVar", package.seeall)
 
 Vars = Vars or {}
 Store = Store or {}
 
-function Add(metatable, name, data)
-	if data == nil then
-		data = name
-		name = metatable
-		metatable = "Entity"
-	end
+local ENTITY = FindMetaTable("Entity")
 
-	local meta = FindMetaTable(metatable)
+function Add(name, data, metatable)
+	metatable = metatable or "Entity"
 
-	if not meta or (meta != emeta and meta.MetaBaseClass != emeta) then
-		error("Metatable doesn't exist or isn't derived from Entity")
+	local meta = assert(FindMetaTable(metatable), "Attempt to add an entity var to nil metatable " .. metatable)
+
+	if meta != ENTITY then
+		assert(meta.MetaBaseClass == ENTITY, "Attempt to add an entity var to non-entity metatable " .. metatable)
 	end
 
 	data = {
