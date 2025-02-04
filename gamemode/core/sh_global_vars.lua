@@ -90,12 +90,12 @@ else
 			if value == nil then
 				query = GAMEMODE.Database:Delete("rp_globals")
 
-				query:WhereEqual("Map", var.MapBased and game.GetMap() or "")
+				query:WhereEqual("Map", var.MapBased and game.GetMapOverride() or "")
 				query:WhereEqual("Key", var.Field)
 			else
 				query = GAMEMODE.Database:Upsert("rp_globals")
 
-				query:Insert("Map", var.MapBased and game.GetMap() or "")
+				query:Insert("Map", var.MapBased and game.GetMapOverride() or "")
 				query:Insert("Key", var.Field)
 				query:Insert("Value", sfs.encode(value))
 			end
@@ -107,7 +107,7 @@ else
 	function Load(ply)
 		local query = GAMEMODE.Database:Select("rp_globals")
 
-		query:WhereIn("Map", {game.GetMap(), ""})
+		query:WhereIn("Map", {game.GetMapOverride(), ""})
 
 		for _, data in ipairs(query:Execute()) do
 			local var = Fields[data.Key]

@@ -412,7 +412,7 @@ end
 GM.ConnectMessages = {}
 GM.EntryPortSpawns = {}
 
-local files = file.Find(GM.FolderName .. "/gamemode/maps/" .. game.GetMap() .. ".lua", "LUA", "namedesc")
+local files = file.Find(GM.FolderName .. "/gamemode/maps/" .. game.GetMapOverride() .. ".lua", "LUA", "namedesc")
 
 if #files > 0 then
 	for _, v in pairs(files) do
@@ -420,9 +420,9 @@ if #files > 0 then
 		AddCSLuaFile("maps/" .. v)
 	end
 
-	MsgC(Color(200, 200, 200, 255), "Serverside map lua file for " .. game.GetMap() .. " loaded.\n")
+	MsgC(Color(200, 200, 200, 255), "Serverside map lua file for " .. game.GetMapOverride() .. " loaded.\n")
 else
-	MsgC(Color(200, 200, 200, 255), "Warning: No serverside map lua file for " .. game.GetMap() .. ".\n")
+	MsgC(Color(200, 200, 200, 255), "Warning: No serverside map lua file for " .. game.GetMapOverride() .. ".\n")
 end
 
 if not GM.CurrentLocation then

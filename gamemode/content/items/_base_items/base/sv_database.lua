@@ -21,7 +21,7 @@ function ITEM:SaveLocation()
 		local query = GAMEMODE.Database:Update("rp_items")
 
 		query:Update("StoreType", INV_WORLD)
-		query:Update("StoreID", game.GetMap())
+		query:Update("StoreID", game.GetMapOverride())
 
 		query:Update("MapData", sfs.encode({
 			Pos = ent:GetPos(),

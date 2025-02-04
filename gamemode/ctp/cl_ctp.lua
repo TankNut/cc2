@@ -400,7 +400,7 @@ do -- Enable
 		self.Enabled = true
 
 		if self:IsLoadByMapNameEnabled() then
-			self:LoadNodePreset(game.GetMap())
+			self:LoadNodePreset(game.GetMapOverride())
 		end
 
 		RunConsoleCommand("ctp_enabled", "1")

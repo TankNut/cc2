@@ -187,7 +187,7 @@ function GM:DBLoadWorldItems()
 	self.SQL:Query([[
 		SELECT * FROM $items
 			WHERE StorageType = ? AND WorldMap = ? AND Deleted = 0
-		]], ITEM_WORLD, self:GetMapRedirect(), cb)
+		]], ITEM_WORLD, game.GetMapOverride(), cb)
 end
 
 function GM:DBLoadCharacterItems(charid)

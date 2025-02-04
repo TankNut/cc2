@@ -14,3 +14,14 @@ function Fallback(key, value)
 		config[key] = value
 	end
 end
+
+function game.GetMapOverride()
+	local map = game.GetMap()
+	local config = Get("MapOverrides")
+
+	while config[map] do
+		map = config[map]
+	end
+
+	return map
+end

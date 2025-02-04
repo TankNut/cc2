@@ -603,7 +603,7 @@ local function save(tab, ent)
 end
 
 function GM:GetPermaPropFile()
-	return string.format("combinecontrol/savedprops/v3/%s.txt", self:GetMapRedirect())
+	return string.format("combinecontrol/savedprops/v3/%s.txt", game.GetMapOverride())
 end
 
 function GM:SaveSavedProps()

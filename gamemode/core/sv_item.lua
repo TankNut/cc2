@@ -30,7 +30,7 @@ end
 function LoadWorld()
 	local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", INV_WORLD)
-		query:WhereEqual("StoreID", game.GetMap())
+		query:WhereEqual("StoreID", game.GetMapOverride())
 
 	local i = 0
 

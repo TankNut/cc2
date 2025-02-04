@@ -26,7 +26,7 @@ function GM:LoadWorldEnt(data)
 end
 
 function GM:LoadWorldEnts()
-	self.SQL:Query("SELECT * FROM $worldents WHERE MapName = ?", self:GetMapRedirect(), function(res)
+	self.SQL:Query("SELECT * FROM $worldents WHERE MapName = ?", game.GetMapOverride(), function(res)
 		for _, v in ipairs(res) do
 			self:LoadWorldEnt(v)
 		end
@@ -61,7 +61,7 @@ function GM:SaveWorldEnt(ent)
 
 		self.SQL:Insert("$worldents", {
 			Class = ent:GetClass(),
-			MapName = self:GetMapRedirect(),
+			MapName = game.GetMapOverride(),
 			MapPos = pos,
 			CustomData = data
 		}, function(res)

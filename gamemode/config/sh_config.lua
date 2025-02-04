@@ -2,7 +2,7 @@
 GM.Config.SteamGroupURL	= ""
 GM.Config.WebsiteURL    = "http://taconbanana.com"
 
-GM.Config.MapRedirect    = {}
+GM.Config.MapOverrides  = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
 
 -- Gameplay
 GM.Config.FistsHaveEffectOnPlayers = true

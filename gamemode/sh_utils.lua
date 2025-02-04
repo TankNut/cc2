@@ -264,24 +264,11 @@ function string.Gibberish(str, prob)
 	return ret
 end
 
-function GM:GetMapRedirect()
-	local map = game.GetMap()
-	local config = Config.Get("MapRedirect")
-
-	while config[map] do
-		map = config[map]
-	end
-
-	return map
-end
-
 util.GridScale = 1024
 util.GridMax = 32768 / util.GridScale
 
-local gm = GM or GAMEMODE
-
-util.GridNoiseX = math.Round(util.SharedRandom(gm:GetMapRedirect(), 0, 999 - util.GridMax, 1))
-util.GridNoiseY = math.Round(util.SharedRandom(gm:GetMapRedirect(), 0, 999 - util.GridMax, 2))
+util.GridNoiseX = math.Round(util.SharedRandom(game.GetMapOverride(), 0, 999 - util.GridMax, 1))
+util.GridNoiseY = math.Round(util.SharedRandom(game.GetMapOverride(), 0, 999 - util.GridMax, 2))
 
 function util.ToGrid(x, y)
 	x = (x + 16384) / util.GridScale
