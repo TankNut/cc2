@@ -133,26 +133,3 @@ end
 function GM:CanDrive(ply, ent)
 	return false
 end
-
--- Prop ownership
-if SERVER then
-	if not cleanup.ccAdd then
-		cleanup.ccAdd = cleanup.Add
-	end
-
-	function cleanup.Add(ply, name, ent)
-		-- Set owner
-
-		return cleanup.ccAdd(ply, name, ent)
-	end
-
-	if not PLAYER.ccAddCount then
-		PLAYER.ccAddCount = PLAYER.AddCount
-	end
-
-	function PLAYER:AddCount(name, ent)
-		-- Set owner
-
-		return PLAYER.ccAddCount(self, name, ent)
-	end
-end
