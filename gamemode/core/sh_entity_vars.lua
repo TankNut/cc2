@@ -65,7 +65,7 @@ function Add(name, data, metatable)
 			return
 		end
 
-		if SERVER and not serverOnly then
+		if SERVER and not serverOnly and ent:EntIndex() > 0 then
 			netstream.Send(nil, index, ent, value)
 		end
 	end
