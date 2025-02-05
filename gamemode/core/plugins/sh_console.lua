@@ -224,11 +224,16 @@ console.Parser("Language", function(ply, args, last, options)
 	return true, val
 end)
 
-hook.Add("LoadContent", "plugins.console", function()
-	local path = string.format("%s/gamemode/content/commands/", engine.ActiveGamemode())
-	local files = file.Find(path .. "*.lua", "LUA")
+local function folder(dir)
+	file.Iterate(dir, nil, "LUA", function(path)
+		GM:Include(path)
+	end)
+end
 
-	for _, v in ipairs(files) do
-		GM:Include(path .. v)
+hook.Add("LoadContent", "plugins.console", function()
+	folder(ContentFolder .. "commands/")
+
+	for _, plugin in ipairs(PluginFolders) do
+		folder(plugin .. "commands/")
 	end
 end)
