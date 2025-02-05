@@ -45,7 +45,7 @@ function Add(name, data, metatable)
 		return value
 	end
 
-	local set = function(ent, value)
+	local set = function(ent, value, loading)
 		local old = get(ent)
 		cache[ent] = value
 		local new = get(ent)
@@ -54,11 +54,11 @@ function Add(name, data, metatable)
 			return true
 		end
 
-		hook.Run(hookName, ent, old, new)
+		hook.Run(hookName, ent, old, new, loading)
 	end
 
 	meta[name] = get
-	meta["Set" .. name] = function(ent, value)
+	meta["Set" .. name] = function(ent, value, loading)
 		if value == default then value = nil end
 
 		if set(ent, value) then
@@ -66,7 +66,7 @@ function Add(name, data, metatable)
 		end
 
 		if SERVER and not serverOnly and ent:EntIndex() > 0 then
-			netstream.Send(nil, index, ent, value)
+			netstream.Send(nil, index, ent, value, loading)
 		end
 	end
 
@@ -84,11 +84,7 @@ end
 if CLIENT then
 	netstream.Hook("BulkEntityVars", function(ent, data)
 		for name, value in pairs(data) do
-			local set = ent["Set" .. name]
-
-			if set then
-				set(ent, value)
-			end
+			ent["Set" .. name](ent, value, true)
 		end
 	end)
 else
