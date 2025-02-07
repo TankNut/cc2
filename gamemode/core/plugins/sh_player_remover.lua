@@ -27,7 +27,7 @@ function RemovePlayer(target, ply, tr)
 	end
 end
 
--- Want this to run before any logging hooks so we can block the normal toolgun log
+-- Want this to run after permission checks but before any logging hooks so we can block the normal toolgun log
 hook.Add("CanTool", "plugins.player_remover", function(args, ply, tr, tool)
 	local ok = args[2]
 	local ent = tr.Entity

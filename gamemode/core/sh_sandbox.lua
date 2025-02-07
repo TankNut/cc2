@@ -24,7 +24,7 @@ function PLAYER:GetToolTrust()
 end
 
 function GM:IsProtectedEntity(ent)
-	local class = self:GetClass()
+	local class = ent:GetClass()
 
 	for _, v in ipairs(Config.Get("ProtectedEntities")) do
 		if string.find(class, v) then
