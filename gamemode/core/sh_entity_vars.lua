@@ -22,7 +22,7 @@ function Add(name, data, metatable)
 	}
 
 	Store[name] = Store[name] or {}
-	Vars[name] = Vars[name] or {}
+	Vars[name] = data
 
 	local index = data.Index
 	local default = data.Default
