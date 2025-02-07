@@ -383,16 +383,6 @@ function GM:PMCreateBio()
 
 	local langs = {}
 
-	for _, v in pairs(self.LangsList) do
-
-		if LocalPlayer():HasLang(v) then
-
-			table.insert(langs, self.Langs[v][1])
-
-		end
-
-	end
-
 	CCP.PlayerMenu.CharacterLang = vgui.Create("DLabel", CCP.PlayerMenu.ContentPane)
 	CCP.PlayerMenu.CharacterLang:SetText("Languages: " .. table.concat(langs, ", "))
 	CCP.PlayerMenu.CharacterLang:SetPos(220, 396)

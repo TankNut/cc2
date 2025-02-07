@@ -403,27 +403,6 @@ GM.BusinessLicenses[BUSINESS_QUARTERMASTER] = {"Quartermaster"}
 --GM.BusinessLicenses[BUSINESS_ILLEGAL] = {"Illegal.", 500} --drugs, melee, scrap weapons, some clothes relevent to class
 --GM.BusinessLicenses[BUSINESS_SPECIAL] = {"Special Supply"} --exo gear, top tier guns, top tier augs maybe......flag set only like classic blackmarket
 
-GM.Langs = {}
-GM.Langs[LANG_ENGLISH] = {"English", "The default language. Pick this if you do not want additional languages for your character."}
-GM.Langs[LANG_RUSSIAN] = {"Russian", "Can additionally speak Russian with /rus."}
-GM.Langs[LANG_CHINESE] = {"Chinese", "Can additionally speak Chinese with /chi."}
-GM.Langs[LANG_JAPANESE] = {"Japanese", "Can additionally speak Japanese with /jap."}
-GM.Langs[LANG_SPANISH] = {"Spanish", "Can additionally speak Spanish with /spa."}
-GM.Langs[LANG_FRENCH] = {"French", "Can additionally speak French with /fre."}
-GM.Langs[LANG_GERMAN] = {"German", "Can additionally speak German with /ger."}
-GM.Langs[LANG_ITALIAN] = {"Italian", "Can additionally speak Italian with /ita."}
-
-GM.LangsList = {
-	LANG_ENGLISH,
-	LANG_RUSSIAN,
-	LANG_CHINESE,
-	LANG_JAPANESE,
-	LANG_SPANISH,
-	LANG_FRENCH,
-	LANG_GERMAN,
-	LANG_ITALIAN
-}
-
 function PLAYER:HasTrait(trait)
 	if bit.band(self:Trait(), trait) == trait then return true end
 	return false

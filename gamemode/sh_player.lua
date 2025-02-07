@@ -5,7 +5,6 @@ GM.PlayerAccessors = {
 	{"Description",			false, 	"String", 	""},
 	{"Holstered", 			false, 	"Bit", 		true},
 	{"Trait", 				false, 	"Float", 	TRAIT_NONE},
-	{"Lang", 				false, 	"Float", 	LANG_ENGLISH},
 	{"CombineFlag", 		false, 	"String", 	""},
 	{"CombineSquad",		false,	"String",	""},
 	{"CombineSquadID",		false,	"Float",	4},

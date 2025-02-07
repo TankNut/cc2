@@ -12,8 +12,6 @@ hook.Add("CC.SH.InitEnts", "SV.Map.InitEnts", function()
 	GAMEMODE.FilterDamage:SetKeyValue("negated", "1")
 	GAMEMODE.FilterDamage:Spawn()
 
-	GAMEMODE:SpawnSavedProps()
-
 	if #ents.FindByClass("cc_loadoutcrate") == 0 and GAMEMODE.LoadoutCrates then
 		for _, v in pairs(GAMEMODE.LoadoutCrates) do
 			local e = ents.Create("cc_loadoutcrate")

@@ -96,7 +96,6 @@ GM.SQLTables.chars = {
 	["Inventory"] 			= {Type = "VARCHAR(2048)", 	Default = ""},
 	["Money"] 				= {Type = "MEDIUMINT(11)", 	Default = "0"},
 	["Trait"] 				= {Type = "MEDIUMINT(11)", 	Default = TRAIT_NONE},
-	["Lang"] 				= {Type = "MEDIUMINT(11)", 	Default = LANG_ENGLISH},
 	["CharFlags"] 			= {Type = "VARCHAR(10)", 	Default = ""},
 	["BusinessLicenses"] 	= {Type = "FLOAT", 			Default = "0"},
 	["CriminalRecord"] 		= {Type = "VARCHAR(2048)", 	Default = ""},

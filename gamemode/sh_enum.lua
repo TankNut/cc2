@@ -24,16 +24,6 @@ NEWBIE_STATUS_OLD = 1
 
 TRAIT_NONE 		= 2^0
 
-LANG_ENGLISH	= 2^0
-LANG_RUSSIAN	= 2^1
-LANG_CHINESE	= 2^2
-LANG_JAPANESE	= 2^3
-LANG_SPANISH	= 2^4
-LANG_FRENCH		= 2^5
-LANG_GERMAN		= 2^6
-LANG_ITALIAN	= 2^7
---LANG_CITY		= 2^8 -- "city speak" a combination of slang and different languages used in San Angeles. might be tied to a trait later on that only criminals can use
-
 --teams need reorganising for tekka
 TEAM_CITIZEN		= 1
 TEAM_SKYNET			= 2
