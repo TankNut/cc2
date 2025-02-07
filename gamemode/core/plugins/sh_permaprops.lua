@@ -79,6 +79,9 @@ if SERVER then
 
 		data.Description = ent:PropDescription()
 		data.PropInfo = ent:PermaPropInfo()
+
+		data.SteamID = ent:OwnerID()
+		data.Name = ent:OwnerName()
 	end
 
 	function Save()
@@ -137,6 +140,9 @@ if SERVER then
 			end
 		end
 
+		ent:SetOwnerID(data.SteamID, true)
+		ent:SetOwnerName(data.Name, true)
+
 		ent:SetPropDescription(data.Description, true)
 		ent:SetPermaPropInfo(data.PropInfo, true)
 		ent:SetPermaProp(true, true)
@@ -156,6 +162,8 @@ if SERVER then
 		for _, data in ipairs(sfs.decode(file.Read(path, "DATA"))) do
 			hook.Run("ReadPermaPropData", data)
 		end
+
+		timer.Remove("plugins.permaprops.save")
 	end
 
 	function GM:OnPermaPropChanged(ent, old, new, loaded)
@@ -167,16 +175,11 @@ if SERVER then
 
 		if new then
 			local propInfo = ent:PermaPropInfo() or {}
-			local owner = ent:OwnerID()
-
-			if owner then
-				propInfo.Creator = string.format("%s (%s)", ent:PropCreator(), owner)
-			end
 
 			propInfo.Admin = Admin and string.format("%s (%s)", Admin:VisibleRPName(), Admin:SteamID()) or nil
+			propInfo.Time = os.time()
 
 			ent:SetPermaPropInfo(propInfo)
-			ent:SetCreator(nil)
 
 			undo.ReplaceEntity(ent, NULL)
 			cleanup.ReplaceEntity(ent, NULL)
@@ -202,8 +205,8 @@ if SERVER then
 
 		if ent:PermaProp() and info then
 			table.insert(data, "-- PermaProp info --")
-			table.insert(data, info.Creator and "Original creator: " .. info.Creator or "Unknown (map prop?)")
-			table.insert(data, info.Admin and "Permapropped by: " .. info.Admin or "Permapropped by unknown means")
+			table.insert(data, info.Admin and "Permapropped by: " .. info.Admin or "Permapropped through unknown means")
+			table.insert(data, string.format("Saved %s ago", string.NiceTime(os.difftime(os.time(), into.Time))))
 		end
 	end, POST_HOOK_RETURN)
 
@@ -219,13 +222,15 @@ if SERVER then
 		end
 	end)
 
-	hook.Add("PreCleanupMap", "plugins.permaprops", function()
+	local function runQueuedSave()
 		if timer.Exists("plugins.permaprops.save") then
 			Save()
 		end
-	end)
+	end
 
-	hook.Add("PostCleanupMap", "plugins.permaprops", function()
-		Load()
-	end)
+	hook.Add("ShutDown", "plugins.permaprops", runQueuedSave)
+	hook.Add("PreCleanupMap", "plugins.permaprops", runQueuedSave)
+
+	hook.Add("PostCleanupMap", "plugins.permaprops", Load)
+	hook.Add("InitPostEntity", "plugins.permaprops", Load)
 end

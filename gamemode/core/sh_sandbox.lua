@@ -3,7 +3,6 @@ local ENTITY = FindMetaTable("Entity")
 
 PlayerVar.Add("ToolTrust", {Default = TOOLTRUST_UNTRUSTED, Persist = true, DataType = TINYINT()})
 
-EntityVar.Add("PropCreator",     {Default = ""})
 EntityVar.Add("PropDescription", {Default = ""})
 EntityVar.Add("FakePlayer",      {Default = NULL})
 
@@ -114,24 +113,38 @@ function GM:PhysgunDrop(ply, ent)
 	end
 end
 
-function GM:PlayerSpawnObject(ply, mdl, skin)
-	mdl = string.lower(mdl)
+if SERVER then
+	function GM:PlayerSpawnObject(ply, mdl, skin)
+		mdl = string.lower(mdl)
 
-	if IsUselessModel(mdl) then
-		return false
-	end
+		if IsUselessModel(mdl) then
+			return false
+		end
 
-	if ply:GetToolTrust() >= Config.Get("ToolTrust").BypassBlacklist then
+		if ply:GetToolTrust() >= Config.Get("ToolTrust").BypassBlacklist then
+			return true
+		end
+
+		for _, v in ipairs(Config.Get("ToolTrust")) do
+			if string.find(mdl, v) then
+				return false
+			end
+		end
+
 		return true
 	end
 
-	for _, v in ipairs(Config.Get("ToolTrust")) do
-		if string.find(mdl, v) then
+	function GM:CanPlayerUnfreeze(ply, ent, phys)
+		if ent:IsProtectedEntity() or (ent.CanPhys and not ent:CanPhys(ply)) then
 			return false
 		end
-	end
 
-	return true
+		if ply:GetToolTrust() < Config.Get("ToolTrust").IgnoreOwnership and not ply:IsCreator(ent) then
+			return false
+		end
+
+		return true
+	end
 end
 
 function GM:CanArmDupe(ply)
@@ -163,7 +176,7 @@ if SERVER then
 		local owner = ent:OwnerID()
 
 		if owner then
-			table.insert(info, "Owner: " .. string.format("%s (%s)", ent:PropCreator(), owner))
+			table.insert(info, "Created by: " .. string.format("%s (%s)", ent:PropCreator(), owner))
 		end
 
 		return info

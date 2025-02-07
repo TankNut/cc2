@@ -2,6 +2,7 @@ local PLAYER = FindMetaTable("Player")
 local ENTITY = FindMetaTable("Entity")
 
 EntityVar.Add("OwnerID", {})
+EntityVar.Add("OwnerName", {})
 
 function ENTITY:GetCreator()
 	local val = self.m_PlayerCreator
@@ -31,10 +32,10 @@ if SERVER then
 	function ENTITY:SetCreator(ply)
 		if IsValid(ply) then
 			self:SetOwnerID(ply:SteamID())
-			self:SetPropCreator(ply:VisibleRPName()) -- Todo: Do we want to keep this?
+			self:SetOwnerName(ply:VisibleRPName())
 		else
 			self:SetOwnerID(nil)
-			self:SetPropCreator(nil)
+			self:SetOwnerName(nil)
 		end
 	end
 
