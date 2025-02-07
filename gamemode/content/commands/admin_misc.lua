@@ -135,11 +135,7 @@ local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 		return
 	end
 
-	local info = hook.Run("GetPropInfo", ply, ent)
-
-	for _, line in ipairs(info) do
-		console.Feedback(ply, "CONSOLE", (string.Left(line, 2) == "--" and "" or "  ") .. line)
-	end
+	console.Feedback(ply, "CONSOLE", table.concat(hook.Run("GetPropInfo", ply, ent), "\n"))
 end)
 
 propInfo:SetDescription("Get information about whatever prop you're looking at")

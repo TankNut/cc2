@@ -204,9 +204,9 @@ if SERVER then
 		local info = ent:PermaPropInfo()
 
 		if ent:PermaProp() and info then
-			table.insert(data, "-- PermaProp info --")
-			table.insert(data, info.Admin and "Permapropped by: " .. info.Admin or "Permapropped through unknown means")
-			table.insert(data, string.format("Saved %s ago", string.NiceTime(os.difftime(os.time(), into.Time))))
+			table.insert(data, "<c=white>-- PermaProp info --</c>")
+			table.insert(data, info.Admin and "  Permapropped by: " .. info.Admin or "Permapropped through unknown means")
+			table.insert(data, string.format("  Saved: %s ago", string.NiceTime(os.difftime(os.time(), info.Time))))
 		end
 	end, POST_HOOK_RETURN)
 

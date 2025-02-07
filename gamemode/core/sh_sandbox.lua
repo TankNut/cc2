@@ -169,14 +169,15 @@ end
 if SERVER then
 	function GM:GetPropInfo(ply, ent)
 		local info = {
-			string.format("-- %s --", ent:GetClass()),
-			"Model: " .. ent:GetModel()
+			"<c=white>-- General info --</c>",
+			"  Type: " .. ent:GetClass(),
+			"  Model: " .. ent:GetModel()
 		}
 
 		local owner = ent:OwnerID()
 
 		if owner then
-			table.insert(info, "Created by: " .. string.format("%s (%s)", ent:PropCreator(), owner))
+			table.insert(info, "  Created by: " .. string.format("%s (%s)", ent:OwnerName(), owner))
 		end
 
 		return info

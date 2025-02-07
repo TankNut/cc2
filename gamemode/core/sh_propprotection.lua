@@ -94,7 +94,7 @@ if SERVER then
 	end
 end
 
-function GM:OnOwnerIDChanged(ent, old, new)
+function GM:OnOwnerIDChanged(ent, old, new, loaded)
 	if new == nil then
 		ent.m_PlayerCreator = nil
 	else
