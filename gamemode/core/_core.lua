@@ -93,8 +93,7 @@ GM:LoadFolder(baseFolder .. "core/plugins/", "_plugin.lua")
 
 BuildPluginFolders()
 
-GM:Include(baseFolder .. "content/sh_defines.lua")
-GM:Include(baseFolder .. "content/sh_names.lua")
+GM:Include(baseFolder .. "content/_content.lua")
 
 hook.Call("LoadContent", GM)
 
