@@ -23,11 +23,7 @@ function PLAYER:GetToolTrust()
 	return hook.Run("GetToolTrust", self)
 end
 
-function ENTITY:IsProtectedEntity()
-	if self:PermaProp() then
-		return true
-	end
-
+function GM:IsProtectedEntity(ent)
 	local class = self:GetClass()
 
 	for _, v in ipairs(Config.Get("ProtectedEntities")) do
@@ -37,6 +33,10 @@ function ENTITY:IsProtectedEntity()
 	end
 
 	return false
+end
+
+function ENTITY:IsProtectedEntity()
+	return tobool(hook.Run("IsProtectedEntity", self))
 end
 
 function GM:CanUseTool(ply, tool)

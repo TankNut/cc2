@@ -28,6 +28,12 @@ toggleSaved:SetExecutionContext(console.Server)
 toggleSaved:SetAccess(console.IsAdmin)
 toggleSaved:SetNoConsole()
 
+hook.Add("IsProtectedEntity", "plugins.permaprops", function(ent)
+	if ent:PermaProp() then
+		return true
+	end
+end)
+
 if SERVER then
 	local dir = DataFolder .. "permaprops/"
 
