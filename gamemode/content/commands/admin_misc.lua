@@ -138,7 +138,7 @@ local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 	local info = hook.Run("GetPropInfo", ply, ent)
 
 	for _, line in ipairs(info) do
-		console.Feedback(ply, "NOTICE", (string.Left(line, 2) == "--" and "" or "  ") .. line)
+		console.Feedback(ply, "CONSOLE", (string.Left(line, 2) == "--" and "" or "  ") .. line)
 	end
 end)
 
