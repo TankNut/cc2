@@ -85,7 +85,7 @@ hook.Add("OnEntityCreated", "CL.Init.OnEntityCreated", function(ent)
 		GAMEMODE.EntityTable.npc[table.Count(GAMEMODE.EntityTable.npc)] = ent
 	end
 
-	if cookie.GetNumber( "cc_thirdperson", 0 ) == 1 then
+	if Settings.Get("EnableThirdperson") then
 		ctp:Enable()
 	end
 end)

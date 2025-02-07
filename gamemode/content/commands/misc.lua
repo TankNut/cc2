@@ -19,3 +19,17 @@ end)
 
 whatIsThis:SetDescription("Tells you the path of the current model you're looking at")
 whatIsThis:SetExecutionContext(console.ClientOnly)
+
+local toggleHUD = console.AddCommand("rp_togglehud", function()
+	Settings.Set("EnableHUD", not Settings.Get("EnableHUD"))
+end)
+
+toggleHUD:SetDescription("Toggles your HUD between active and disabled")
+toggleHUD:SetExecutionContext(console.ClientOnly)
+
+local toggleThirdperson = console.AddCommand("rp_thirdperson", function(ply)
+	Settings.Set("EnableThirdperson", not Settings.Get("EnableThirdperson"))
+end)
+
+toggleThirdperson:SetDescription("Toggles your thirdperson between active and disabled")
+toggleThirdperson:SetExecutionContext(console.ClientOnly)

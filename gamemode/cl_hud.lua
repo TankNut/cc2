@@ -165,7 +165,7 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 end
 
 function GM:ShouldDrawLocalPlayer(ply)
-	if cookie.GetNumber("cc_thirdperson", 0) == 1 then return self:ShouldDoThirdPerson(ply) end
+	if Settings.Get("EnableThirdperson") then return self:ShouldDoThirdPerson(ply) end
 
 	return false
 end
@@ -902,7 +902,7 @@ function GM:HUDPaint()
 		self:DrawTargetHUD()
 	end
 
-	if cookie.GetNumber("cc_hud", 1) == 1 then
+	if Settings.Get("EnableHUD") then
 		self:DrawDamage()
 		self:DrawConsciousness()
 		self:DrawPassedOut()
@@ -919,7 +919,7 @@ function GM:HUDPaint()
 		self:DrawNotifications()
 	end
 
-	if cookie.GetNumber("cc_hud", 1) != 1 then
+	if not Settings.Get("EnableHUD") then
 		self:DrawConsciousness()
 		self:DrawPassedOut()
 		self:DrawWeaponSelect()

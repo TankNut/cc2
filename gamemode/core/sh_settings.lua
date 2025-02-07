@@ -262,6 +262,10 @@ if SERVER then
 		local i = 0
 
 		for key, data in pairs(List) do
+			if data.ClientOnly then
+				continue
+			end
+
 			local value = new[key]
 
 			if value == nil then

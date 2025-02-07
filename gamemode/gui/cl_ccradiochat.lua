@@ -17,7 +17,7 @@ function RADIO:Paint(w, h)
 		return
 	end
 
-	if cookie.GetNumber("cc_hud", 1) == 0 and cookie.GetNumber("cc_chat", 0) == 0 then
+	if not Settings.Get("EnableHUD") and cookie.GetNumber("cc_chat", 0) == 0 then
 		return
 	end
 

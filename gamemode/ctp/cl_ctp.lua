@@ -413,7 +413,7 @@ do -- Enable
 
 		self:SetPlayer(ply)
 
-		cookie.Set( "cc_thirdperson", 1 );
+		Settings.Set("EnableThirdperson", true)
 	end
 
 	function ctp:Disable()
@@ -455,7 +455,7 @@ do -- Enable
 
 		RunConsoleCommand("ctp_enabled", "0")
 
-		cookie.Set( "cc_thirdperson", 0 );
+		Settings.Set("EnableThirdperson", false)
 	end
 
 	function ctp:IsEnabled()

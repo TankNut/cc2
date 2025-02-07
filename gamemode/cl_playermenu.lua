@@ -672,15 +672,6 @@ function GM:PMCreateSettings()
 		hudLabel:SetFont("CombineControl.LabelSmall")
 		hudLabel:SizeToContents()
 
-	local hudCheck = vgui.Create("DCheckBoxLabel", CCP.PlayerMenu.ContentPane)
-		hudCheck:SetText("")
-		hudCheck:SetPos(160, 40)
-		hudCheck:SetValue(cookie.GetNumber("cc_hud", 1))
-		hudCheck:SizeToContents()
-		function hudCheck:OnChange(val)
-			cookie.Set("cc_hud", val and 1 or 0)
-		end
-
 	local hudChatLabel = vgui.Create("DLabel", CCP.PlayerMenu.ContentPane)
 		hudChatLabel:SetText("Always draw chat")
 		hudChatLabel:SetPos(10, 70)
@@ -716,20 +707,6 @@ function GM:PMCreateSettings()
 		thirdPersonLabel:SetPos(10, 130)
 		thirdPersonLabel:SetFont("CombineControl.LabelSmall")
 		thirdPersonLabel:SizeToContents()
-
-	local thirdPersonCheck = vgui.Create("DCheckBoxLabel", CCP.PlayerMenu.ContentPane)
-		thirdPersonCheck:SetText("")
-		thirdPersonCheck:SetPos(160, 130)
-		thirdPersonCheck:SetValue(cookie.GetNumber("cc_thirdperson", 0))
-		thirdPersonCheck:SizeToContents()
-		function thirdPersonCheck:OnChange(val)
-			cookie.Set("cc_thirdperson", val and 1 or 0)
-			if cookie.GetNumber( "cc_thirdperson", 0 ) == 1 then
-				ctp:Enable()
-			else
-				ctp:Disable()
-			end
-		end
 
 	local headbobLabel = vgui.Create("DLabel", CCP.PlayerMenu.ContentPane)
 		headbobLabel:SetText("Enable headbob")
@@ -982,24 +959,3 @@ function GM:PMCreateSettings()
 			RunConsoleCommand("retry")
 		end
 end
-concommand.Add("rp_togglehud", function ()
-		local oldValue = cookie.GetNumber("cc_hud", 1)
-		cookie.Set("cc_hud", 1 - oldValue)
-	end)
-
-function ccToggleThirdPerson(ply, cmd, args)
-	cookie.Set("cc_thirdperson", 1 - cookie.GetNumber("cc_thirdperson", 0))
-
-	if CCP.PlayerMenu and CCP.PlayerMenu:IsValid() and thirdPersonCheck and thirdPersonCheck:IsValid() then
-
-		thirdPersonCheck:SetValue(cookie.GetNumber("cc_thirdperson", 0))
-
-	end
-
-	if cookie.GetNumber( "cc_thirdperson", 0 ) == 1 and ply:Alive() then
-		ctp:Enable()
-	else
-		ctp:Disable()
-	end
-end
-concommand.Add("rp_thirdperson", ccToggleThirdPerson)
