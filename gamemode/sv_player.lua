@@ -333,28 +333,6 @@ function GM:PlayerDisconnected(ply)
 	if ply:Ragdoll() and ply:Ragdoll():IsValid() then
 		ply:Ragdoll():Remove()
 	end
-
-	if not ply:IsAdmin() then
-		local steamid = ply:SteamID() -- Caching
-
-		timer.Create("disconnect_" .. steamid, 3600, 1, function()
-			if IsValid(player.GetBySteamID(steamid)) then
-				return
-			end
-
-			for _, v in ipairs(ents.FindByClass("prop_physics")) do
-				if v:PropSaved() == 0 and v:PropSteamID() == steamid then
-					SafeRemoveEntity(v)
-				end
-			end
-
-			for _, v in ipairs(ents.FindByClass("prop_effect")) do
-				if v:PropSaved() == 0 and v:PropSteamID() == steamid then
-					SafeRemoveEntity(v)
-				end
-			end
-		end)
-	end
 end
 
 function GM:ShutDown()
