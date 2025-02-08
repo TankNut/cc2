@@ -135,6 +135,14 @@ if CLIENT then
 		end
 	end
 
+	function Bind(bind, down)
+		if down and string.find(bind, "messagemode") then
+			Show()
+
+			return true
+		end
+	end
+
 	function Show()
 		GUI.Get("Chat"):Show()
 	end

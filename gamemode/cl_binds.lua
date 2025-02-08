@@ -3,11 +3,7 @@ function GM:PlayerBindPress(ply, bind, down)
 		return true
 	end
 
-	if down and string.find(bind, "messagemode") then
-		Chat.Show()
-
-		return true
-	end
+	if Chat.Bind(bind, down) then return true end
 
 	if down and string.find(bind, "showspare2") and LocalPlayer():IsAdmin() then
 
