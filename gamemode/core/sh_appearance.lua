@@ -1,3 +1,5 @@
+PlayerVar.Add("Appearance", {Default = {}})
+
 local PLAYER = FindMetaTable("Player")
 
 function GM:OnAppearanceChanged(ply, old, new, loaded)
@@ -21,9 +23,9 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 		end
 
 		return
-	end
+	else
+		ply:ApplyModel(new._base)
 
-	if SERVER then
 		ply:SetupHands()
 		self:PlayerSetHandsModel(ply, ply:GetHands())
 	end
@@ -65,9 +67,8 @@ if SERVER then
 			end
 		end
 
-		local base = assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
+		assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
 
-		self:ApplyModel(base)
 		self:SetAppearance(appearance)
 	end
 end

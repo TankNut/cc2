@@ -4,6 +4,5 @@ PlayerVar.Add("ScoreboardTitle", {Default = "", Persist = true, DataType = VARCH
 PlayerVar.Add("ScoreboardTitleC", {Default = Vector(255, 255, 255), Persist = true, DataType = BLOB()})
 
 PlayerVar.Add("DonatorActive", {Default = false})
-PlayerVar.Add("Appearance", {Default = {}})
 
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
