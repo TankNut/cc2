@@ -25,6 +25,10 @@ function GM:OnEntityCreated(ent)
 	if ent:IsPlayer() then
 		Inventory.Init(ent)
 	end
+
+	if SERVER and ent:IsNPC() then
+		ent:SetKeyValue("spawnflags", bit.band(ent:GetSpawnFlags(), SF_NPC_NO_WEAPON_DROP))
+	end
 end
 
 function GM:EntityRemoved(ent, fullUpdate)
