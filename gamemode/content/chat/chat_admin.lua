@@ -1,5 +1,5 @@
 CLASS.Name = "Admin"
-CLASS.Description = "Global out-of-character chat."
+CLASS.Description = "Speak with server administrators."
 
 CLASS.Commands = {"a", "admin"}
 CLASS.Aliases = {"@"}
