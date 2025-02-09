@@ -15,7 +15,7 @@ Settings.Add("Thirdperson", {
 }, "HUD")
 
 function GM:OnThirdpersonSettingChanged(ply, old, new)
-	if new and ply:Alive() then
+	if new then
 		ctp:Enable()
 	else
 		ctp:Disable()

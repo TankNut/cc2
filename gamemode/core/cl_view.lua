@@ -53,7 +53,7 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 end
 
 function GM:ShouldDoThirdPerson(ply)
-	if ply:IsRagdolled() then
+	if not ply:Alive() or ply:IsRagdolled() then
 		return false
 	end
 
