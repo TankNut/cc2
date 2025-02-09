@@ -7,6 +7,12 @@ PlayerVar.Add("UserGroup", {
 	DataType = VARCHAR(64)
 })
 
+PlayerVar.Add("TempAdmin", {
+	Default = false,
+	ServerOnly = true,
+	Persist = false
+})
+
 local immunity = {
 	user = 0,
 	admin = 1,

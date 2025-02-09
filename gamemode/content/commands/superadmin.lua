@@ -6,6 +6,7 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, target
 	end
 
 	target:SetUserGroup(usergroup)
+	target:SetTempAdmin(false)
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target, usergroup)
 	console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
@@ -99,4 +100,54 @@ explode:AddParameter(console.Player({
 	SingleTarget = true,
 	CheckImmunity = false,
 	NoSelfTarget = false
+}))
+
+local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, target)	
+	if target:IsAdmin() then
+		console.Feedback(ply, "ERROR", "%s already has administrator access", target)
+
+		return
+	end
+
+	target:SetTempUserGroup("admin")
+	target:SetTempAdmin(true)
+
+	Chat.Send("NOTICE", string.format("%s has given temporary admin to %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
+end)
+
+giveTempAdmin:SetDescription("Gives a player temporary admin access")
+giveTempAdmin:SetExecutionContext(console.Server)
+giveTempAdmin:SetAccess(console.IsSuperAdmin)
+
+giveTempAdmin:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = true
+}))
+
+local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, target)
+	if not target:IsAdmin() then
+		console.Feedback(ply, "ERROR", "%s does not have administrator access", target)
+
+		return
+	elseif target:IsAdmin() and not target:TempAdmin() then
+		console.Feedback(ply, "ERROR", "%s is not a temporary administrator", target)
+
+		return
+	end
+
+	target:SetUserGroup("user")
+	target:SetTempAdmin(false)
+
+	Chat.Send("NOTICE", string.format("%s has taken temporary admin from %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
+end)
+
+takeTempAdmin:SetDescription("Revokes a player's temporary admin access")
+takeTempAdmin:SetExecutionContext(console.Server)
+takeTempAdmin:SetAccess(console.IsSuperAdmin)
+
+takeTempAdmin:AddParameter(console.Player({
+	SingleTarget = true,
+	CheckImmunity = true,
+	NoSelfTarget = true
 }))

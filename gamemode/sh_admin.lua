@@ -751,31 +751,3 @@ end, false, {TYPE_NUMBER, TYPE_NUMBER})
 concommand.AddAdmin("rpa_radiostatic", function(ply, severity)
 	GAMEMODE.RadioJammed = severity > 0 and severity or nil
 end, false, {TYPE_NUMBER})
-
-concommand.AddAdmin("rpa_givetempadmin", function(ply, targ)
-	local tab = {}
-
-	for _, v in player.Iterator() do
-		if v:IsAdmin() then
-			table.insert(tab, v)
-		end
-	end
-
-	Chat.Send(tab, "NOTICE", string.format("%s has given admin to %s.", ply:Nick(), targ:Nick()))
-
-	targ:SetUserGroup("admin")
-end, true, {TYPE_ENTITY})
-
-concommand.AddAdmin("rpa_taketempadmin", function(ply, targ)
-	targ:SetUserGroup("user")
-
-	local tab = {}
-
-	for _, v in player.Iterator() do
-		if v:IsAdmin() then
-			table.insert(tab, v)
-		end
-	end
-
-	Chat.Send(tab, "NOTICE", string.format("%s has taken admin from %s.", ply:Nick(), targ:Nick()))
-end, true, {TYPE_ENTITY})

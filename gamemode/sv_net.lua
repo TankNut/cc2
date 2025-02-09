@@ -13,9 +13,6 @@ util.AddNetworkString("nBansList")
 util.AddNetworkString("nSetPropDesc")
 util.AddNetworkString("nPropDescTooLong")
 
-util.AddNetworkString("nWakeUp")
-util.AddNetworkString("nRagSetPlayer")
-
 util.AddNetworkString("nFlashbang")
 util.AddNetworkString("nSmoke")
 
