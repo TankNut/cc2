@@ -1,21 +1,11 @@
-util.AddNetworkString("nAAdminPanel")
-
-util.AddNetworkString("nAUpdateAdminVariable")
-util.AddNetworkString("nARemove")
-util.AddNetworkString("nASeeAll")
 util.AddNetworkString("nAFlagsRoster")
 util.AddNetworkString("nAPlayURL")
 util.AddNetworkString("nAStopURL")
 util.AddNetworkString("nAPlayMusic")
 util.AddNetworkString("nAStopMusic")
-util.AddNetworkString("nAListItems")
 util.AddNetworkString("nAPlayOverwatch")
-util.AddNetworkString("nATooTight")
 util.AddNetworkString("nAEditInventory")
 util.AddNetworkString("nWarnName")
-
-util.AddNetworkString("nQuizBan")
-util.AddNetworkString("nAQuizBan")
 
 util.AddNetworkString("nGetBansList")
 util.AddNetworkString("nBansList")

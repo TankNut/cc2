@@ -244,10 +244,13 @@ concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	GAMEMODE:WriteLog("admin_givemoney", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Amount = amt})
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
-concommand.AddAdmin("rpa_seeall", function(ply)
-	net.Start("nASeeAll")
-	net.Send(ply)
-end, false)
+concommand.AddAdmin("rpa_tie", function(ply, targ)
+	targ:SetTiedUp(true)
+end, false, {TYPE_ENTITY})
+
+concommand.AddAdmin("rpa_untie", function(ply, targ)
+	targ:SetTiedUp(false)
+end, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_setcharflag", function(ply, targ, flag)
 	targ:SetCharFlags(flag)
@@ -346,38 +349,6 @@ concommand.AddAdmin("rpa_stopmusic", function(ply)
 	net.Start("nAStopMusic")
 	net.Broadcast()
 end, false)
-
-local function createitem(ply, class, temp, ...)
-	local args = {...}
-
-	if GAMEMODE.ItemClasses[class] then
-		GAMEMODE:LogAdmin("[I] " .. ply:Nick() .. " spawned item \"" .. class .. "\"", ply)
-		GAMEMODE:CreateItem(ply, class, args, temp)
-	else
-		local match = nil
-
-		for k in SortedPairs(GAMEMODE.ItemClasses) do
-			if string.find(k, class) then
-				if not match then
-					match = k
-				else
-					match = nil
-
-					break
-				end
-			end
-		end
-
-		if match then
-			GAMEMODE:LogAdmin("[I] " .. ply:Nick() .. " spawned item \"" .. match .. "\"", ply)
-			GAMEMODE:CreateItem(ply, match, args, temp)
-		else
-			net.Start("nAListItems")
-				net.WriteString(class)
-			net.Send(ply)
-		end
-	end
-end
 
 concommand.AddAdmin("rpa_playoverwatch", function(ply, line)
 	if GAMEMODE.OverwatchLines[line] then

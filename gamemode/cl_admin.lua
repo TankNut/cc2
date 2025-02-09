@@ -1,17 +1,3 @@
-net.Receive("nAUpdateAdminVariable", function(len)
-	local ply = net.ReadEntity()
-	local val = net.ReadFloat()
-	local friendlyvar = net.ReadString()
-	GAMEMODE:AddNotification(ply:Nick() .. " set " .. friendlyvar .. " to " .. tostring(val))
-end)
-
-net.Receive("nARemove", function(len)
-	local nick = net.ReadString()
-	local ply = net.ReadEntity()
-
-	lp:SendChat("NOTICE", ply:Nick() .. " removed " .. nick .. ".")
-end)
-
 net.Receive("nAFlagsRoster", function(len)
 	local tab = net.ReadTable()
 
@@ -34,30 +20,10 @@ net.Receive("nAStopMusic", function(len)
 	GAMEMODE:FadeOutMusic()
 end)
 
-net.Receive("nAListItems", function(len)
-	local filter = net.ReadString()
-
-	if filter == "" then
-		MsgC(Color(128, 128, 128, 255), "ITEM LIST:\n")
-	else
-		MsgC(Color(128, 128, 128, 255), "ITEM LIST (FILTER \"" .. filter .. "\"):\n")
-	end
-
-	for k in SortedPairs(GAMEMODE.ItemClasses) do
-		if string.find(k, filter) or filter == "" then
-			MsgC(Color(229, 201, 98, 255), k, "\n")
-		end
-	end
-end)
-
 net.Receive("nAPlayOverwatch", function(len)
 	local id = net.ReadFloat()
 
 	surface.PlaySound(GAMEMODE.OverwatchLines[id][1])
-end)
-
-net.Receive("nATooTight", function(len)
-	lp:SendChat("ERROR", "You're in too tight a space to do this.")
 end)
 
 net.Receive("nAEditInventory", function(len)
