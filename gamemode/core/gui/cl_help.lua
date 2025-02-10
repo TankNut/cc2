@@ -22,6 +22,7 @@ function PANEL:Init()
 	end
 
 	self.MenuButtons = {}
+	self.InitialMenu = math.huge
 	self.SelectedMenu = 0
 
 	self.Content = self:Add("Panel")
@@ -37,6 +38,10 @@ function PANEL:AddMenu(order, name, content)
 		Name = name,
 		Content = content
 	}
+
+	if order < self.InitialMenu then
+		self.InitialMenu = order
+	end
 end
 
 function PANEL:Populate()
@@ -54,7 +59,7 @@ function PANEL:Populate()
 		option.Button = button
 	end
 
-	self:SelectMenu(1)
+	self:SelectMenu(self.InitialMenu)
 end
 
 function PANEL:SelectMenu(index)
