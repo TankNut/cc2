@@ -9,7 +9,7 @@ function PANEL:Init()
 	self:SetTopBar("Help Menu")
 
 	self.LeftBar = self:Add("Panel")
-	self.LeftBar:DockPadding(5, 10, 5, 10)
+	self.LeftBar:DockPadding(10, 10, 10, 10)
 	self.LeftBar:SetWidth(150)
 	self.LeftBar:Dock(LEFT)
 
