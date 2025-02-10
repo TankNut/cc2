@@ -10,8 +10,7 @@ local text = [[<massive><b><c=cc_primary>CombineControl</c></b></massive>
 	Dave Brown:	<dark>For keeping TnB alive over the years by shooting cops and bots alike</dark>
 	Gangleider:	<dark>For taking over the mantle from Dave and getting this project off the ground</dark>
 
-<dark>Based on a gamemode by Disseminate</dark>
-]]
+<dark>Based on a gamemode by Disseminate</dark>]]
 
 hook.Add("PopulateHelpMenu", "credits", function(panel)
 	panel:AddMenu(1, "Gamemode Credits", text)

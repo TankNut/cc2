@@ -22,7 +22,7 @@ local func = function()
 	return str
 end
 
-hook.Add("PopulateHelpMenu", "credits", function(panel)
+hook.Add("PopulateHelpMenu", "sandbox", function(panel)
 	panel:AddMenu(4, "Sandbox Permissions", func)
 end)
 
