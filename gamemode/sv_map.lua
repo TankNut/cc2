@@ -7,11 +7,6 @@ hook.Add("CC.SH.InitEnts", "SV.Map.InitEnts", function()
 		v:Remove()
 	end
 
-	GAMEMODE.FilterDamage = ents.Create("filter_activator_name")
-	GAMEMODE.FilterDamage:SetKeyValue("TargetName", "CCFilterDamage")
-	GAMEMODE.FilterDamage:SetKeyValue("negated", "1")
-	GAMEMODE.FilterDamage:Spawn()
-
 	if #ents.FindByClass("cc_loadoutcrate") == 0 and GAMEMODE.LoadoutCrates then
 		for _, v in pairs(GAMEMODE.LoadoutCrates) do
 			local e = ents.Create("cc_loadoutcrate")

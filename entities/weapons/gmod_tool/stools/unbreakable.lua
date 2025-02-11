@@ -12,6 +12,13 @@ if (SERVER) then
 	-- Comment this line if you don't want to send this stool to clients
 	AddCSLuaFile("weapons/gmod_tool/stools/unbreakable.lua")
 
+	hook.Add("InitPostEntity", "unbreakable", function()
+		GAMEMODE.FilterDamage = ents.Create("filter_activator_name")
+		GAMEMODE.FilterDamage:SetKeyValue("TargetName", "CCFilterDamage")
+		GAMEMODE.FilterDamage:SetKeyValue("negated", "1")
+		GAMEMODE.FilterDamage:Spawn()
+	end)
+
 	function TOOL:Unbreakable(Element, Value)
 		local Filter = ""
 
