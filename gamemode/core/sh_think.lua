@@ -12,7 +12,6 @@ function GM:Think()
 	if CLIENT then
 		-- Legacy code
 		self:MusicThink()
-		self:CreateParticleEmitters()
 		self:ToggleHolsterThink()
 		-- Legacy code ends
 

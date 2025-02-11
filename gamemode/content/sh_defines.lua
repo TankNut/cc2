@@ -46,4 +46,3 @@ GM.Badges = {
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
 	Badge("debugger",   "Bug Hunter",  "icon16/bug.png")
 }
-

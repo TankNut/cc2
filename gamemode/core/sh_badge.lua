@@ -8,8 +8,8 @@ PlayerVar.Add("CustomBadges", {
 	Default = {},
 	Private = false,
 	Persist = true,
-	DataType = BLOB()}
-)
+	DataType = BLOB()
+})
 
 function Load()
 	List = GM.Badges
