@@ -1,3 +1,11 @@
+function GM:CreateTeams()
+	team.SetUp(TEAM_CITIZEN, "Humans", Color(0, 120, 0, 255), false)
+	team.SetUp(TEAM_REPROG, "Reprogrammed", Color(0, 191, 255, 255), false)
+	team.SetUp(TEAM_SKYNET, "Terminators", Color(222, 92, 0, 255), false)
+	team.SetUp(TEAM_GREY, "SkyNET Human Assets", Color(220, 0, 0, 255), false)
+	team.SetUp(TEAM_AOF, "Auxiliary Organic Forces", Color(127, 0, 0, 255), false)
+end
+
 GM.EquipmentNames = {
 	test = "Test Slot"
 }
