@@ -107,10 +107,6 @@ function PANEL:LayoutEntity(ent)
 		ent:SetAngles(Angle(0, self:GetBaseYaw(), 0))
 	end
 
-	if not self.AllowManipulation then
-		return
-	end
-
 	self:SetCamPos(self:GetCamPos():Approach(pos, 10))
 	self:SetLookAt(self:GetLookAt():Approach(look, 10))
 	self:SetFOV(math.ApproachSpeed(self:GetFOV(), fov, 10))
