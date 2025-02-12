@@ -1,5 +1,6 @@
 -- General config
-GM.Config.GamemodeName = "development" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
+GM.Config.InternalName = "development" -- Used for figuring out what folder within data/combinecontrol we want to put our stuff
+GM.Config.ServerName = "CombineControl: Development Server"
 
 -- Web integration
 GM.Config.SteamGroupURL	= ""
