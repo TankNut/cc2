@@ -1,11 +1,27 @@
 -- Starting off fresh
 
-function GM:Include(path)
-	local realm = string.Left(string.FileName(path), 3)
+local prefixes = {
+	["cl_"] = "client",
+	["cc_"] = "client",
+	["gui_"] = "client",
+	["sv_"] = "server"
+}
 
-	if realm == "cl_" or realm == "cc_" then
+function GM:Include(path)
+	local filename = string.FileName(path)
+	local includeRealm = "shared"
+
+	for prefix, realm in pairs(prefixes) do
+		if string.sub(filename, 1, #prefix) == prefix then
+			includeRealm = realm
+
+			break
+		end
+	end
+
+	if includeRealm == "client" then
 		return self:IncludeClient(path)
-	elseif realm == "sv_" then
+	elseif includeRealm == "server" then
 		return self:IncludeServer(path)
 	end
 
