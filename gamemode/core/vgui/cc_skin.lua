@@ -325,24 +325,24 @@ function SKIN:PaintScoreboard(panel, w, h)
 	surface.DrawRect(0, 0, w, 50)
 	surface.DrawOutlinedRect(0, 0, w, h)
 
-	draw.DrawText(Config.Get("ServerName"), "CombineControl.LabelMassive", 10, 10, self.Text.Normal)
+	draw.SimpleText(Config.Get("ServerName"), "CombineControl.LabelMassive", w * 0.5, 25, self.Text.Normal, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 function SKIN:PaintScoreboardEntry(panel, w, h)
-	if panel:GetAlt() then
+	if panel.Alt then
 		surface.SetDrawColor(ColorAlpha(self.Colors.Border, 130))
 		surface.DrawRect(0, 0, w, h)
 	end
 
-	if panel:GetHidden() then
+	if panel.Hidden then
 		surface.SetDrawColor(ColorAlpha(self.Colors.Primary, 10))
 		surface.DrawRect(0, 0, w, h)
 	end
 
-	local ply = panel:GetPlayer()
+	local ply = panel.Player
 
-	draw.SimpleText(ply:GetVisibleName(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(ply:GetShortDescription(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
 	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - 20, 5, self.Text.Normal, TEXT_ALIGN_RIGHT)
 
@@ -352,7 +352,7 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 
 	surface.SetDrawColor(color_white)
 
-	for k, v in pairs(panel.Badges) do
+	for k, v in ipairs(ply:GetBadges()) do
 		surface.SetMaterial(v.Material)
 		surface.DrawTexturedRect(w - 14 - (k * 18), 22, 16, 16)
 	end
