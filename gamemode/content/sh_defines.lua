@@ -44,5 +44,5 @@ GM.Badges = {
 	Badge("oocmuted",   "Muted from OOC Chat", "icon16/keyboard_mute.png", function(ply) return ply:OOCMuted() == 1 end),
 
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
-	Badge("debugger",   "Bug Hunter",  "icon16/bug.png")
+	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png")
 }
