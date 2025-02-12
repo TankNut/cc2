@@ -26,55 +26,6 @@ function GM:CreateTeams()
 	team.SetUp(TEAM_AOF, "Auxiliary Organic Forces", Color(127, 0, 0, 255), false)
 end
 
-function GM:TranslateModelToPlayer(mdl)
-	for k, v in pairs(player_manager.AllValidModels()) do
-		if string.lower(v) == string.lower(mdl) then
-			return k
-		end
-	end
-
-	return "kleiner"
-end
-
-GM.ItemRemapping = {
-	armor_drifter = "armor_drifter_brown",
-	mat_fabric = "junk_fabric",
-	mat_meds = "junk_meds",
-	mat_metal = "junk_metal",
-	mat_wood = "junk_wood",
-	weapon_m4 = "weapon_m4a1",
-
-	-- Vest rework
-	armor_bdu = "clothing_bdu",
-	armor_bdu_woodland = "clothing_bdu_woodland",
-	armor_casual = "clothing_casual",
-	armor_clearsky_grey = "clothing_clearsky_grey",
-	armor_clearsky_navy = "clothing_clearsky_navy",
-	armor_clearsky_woodland = "clothing_clearsky_woodland",
-	armor_desert = "clothing_desert",
-	armor_drifter_black = "clothing_drifter_black",
-	armor_drifter_brown = "clothing_drifter_brown",
-	armor_parka_blue = "clothing_parka_blue",
-	armor_parka_charcoal = "clothing_parka_charcoal",
-	armor_parka_coyote = "clothing_parka_coyote",
-	armor_parka_olive = "clothing_parka_olive",
-	armor_parka_red = "clothing_parka_red",
-	armor_parka_teal = "clothing_parka_teal",
-	armor_jacket_kevlar = "clothing_jacket",
-	armor_jacket_vest = "clothing_jacket",
-	armor_trenchcoat_black = "clothing_trenchcoat_black",
-	armor_trenchcoat_brown = "clothing_trenchcoat_brown",
-	armorvest = "vest_scout"
-}
-
-function XRES(x)
-	return x * (ScrW() / 640)
-end
-
-function YRES(y)
-	return y * (ScrH() / 480)
-end
-
 function PLAYER:IsFemale(mdl)
 	mdl = mdl or string.lower(self.CharModel or self:GetModel())
 
@@ -363,66 +314,6 @@ function GM:GetSongList(e)
 	end
 
 	return tab
-end
-
-GM.OverwatchLines = {
-	{"npc/overwatch/cityvoice/f_anticitizenreport_spkr.wav", "Attention, ground units. Anticitizen reported in this community. Code: lock, cauterize, stabilize."},
-	{"npc/overwatch/cityvoice/f_unrestprocedure1_spkr.wav", "Attention, community: unrest procedure code is now in effect. Inoculate, shield, pacify. Code: pressure, sword, sterilize."},
-}
-
-GM.RadioDispatchLines = {}
-GM.RadioDispatchLines.CameraDestroyed = {
-"METROPOLICE_IDLE_CR13", --on3 V_RNDCODECRIM_P inprogress, investigateandreport off2
-"METROPOLICE_IDLE_CR4", --on3 allunitsbolfor243suspect off2
-"METROPOLICE_IDLE_CR8", --on3 restrictedincursioninprogress, officerat V_G1_LOCATION_MAP__P V_G3_NUMBP investigateandreport off2
-"METROPOLICE_IDLE_CR9", --on3 socialfractureinprogress off2
-}
-
-GM.BusinessLicenses = {}
-GM.BusinessLicenses[BUSINESS_GENERIC] = {"Generic", 1000} --lowered prices for TRP for small economy
-GM.BusinessLicenses[BUSINESS_CLOTHING] = {"Clothing", 1500}
-GM.BusinessLicenses[BUSINESS_MEDICAL] = {"Medical"}
-GM.BusinessLicenses[BUSINESS_WEAPONRY] = {"Weaponry", 4000}
-GM.BusinessLicenses[BUSINESS_ILLEGAL] = {"Black Market"}
-GM.BusinessLicenses[BUSINESS_QUARTERMASTER] = {"Quartermaster"}
-
---NEEDS TO BE CHANGED or ADDED,
-
--- Players can only have one license at a time. To stop people having access to everything at once and specialise in one type of trade.
--- Ability to drop the license so another can be chosen instead. (No refund)
--- Sell-to-Menu button. A bit like SRP. Lets traders sell back to the menu.
--- ITEM.Sell value variable. To define how much money the trader will earn back from selling the item to menu.
--- Needed later, weapon damage percentage modifier for ITEM.Sell value......eg.... if weapon=damaged, ITEM.Sell = ###
-
-
--- TEKKA New list adding / changing special supply and illegal becomes more like lite BM
---GM.BusinessLicenses[BUSINESS_GENERIC] = {"Generic", 1000} --general supply like food and drink, basic ammos, meds, simple clothes, small variety of pistols
---GM.BusinessLicenses[BUSINESS_CLOTHING] = {"Clothing", 3000} --almost all clothes, plus tekka hairstyle options
---GM.BusinessLicenses[BUSINESS_MEDICAL] = {"Medical", 7000} --med supplies, batteries, stims, augments
---GM.BusinessLicenses[BUSINESS_WEAPONRY] = {"Weaponry.", 10000} --low to mid tier weapons
---GM.BusinessLicenses[BUSINESS_ILLEGAL] = {"Illegal.", 500} --drugs, melee, scrap weapons, some clothes relevent to class
---GM.BusinessLicenses[BUSINESS_SPECIAL] = {"Special Supply"} --exo gear, top tier guns, top tier augs maybe......flag set only like classic blackmarket
-
-function PLAYER:HasTrait(trait)
-	if bit.band(self:Trait(), trait) == trait then return true end
-	return false
-end
-
-function PLAYER:HasLang(lang)
-	if bit.band(self:Lang(), lang) == lang then return true end
-	return false
-end
-
-function PLAYER:HasLicense(license)
-	if istable(license) then
-		for _, lic in pairs(license) do
-			if self:HasLicense(lic) then return true end
-		end
-		return false
-	end
-
-	if bit.band(self:BusinessLicenses(), license) == license then return true end
-	return false
 end
 
 function game.GetIP()
