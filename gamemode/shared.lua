@@ -3,7 +3,7 @@
 DeriveGamemode("sandbox")
 
 GM.Name = "CombineControl: TnB"
-GM.Author = "Disseminate, Gangleider, Steve, Hoplite, Thor, TankNut, DaveBrown"
+GM.Author = "Taco N Banana"
 GM.Website = "http://taconbanana.com"
 GM.Email = "gangleider@taconbanana.com"
 
