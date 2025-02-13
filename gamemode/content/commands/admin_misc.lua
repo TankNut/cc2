@@ -96,21 +96,27 @@ local oocDelay = console.AddCommand("rpa_oocdelay", function(ply, delay)
 	GAMEMODE:SetOOCDelay(delay)
 	GAMEMODE:LogAdmin("[V] " .. ply:Nick() .. " set variable \"rpa_oocdelay\" to \"" .. tonumber(delay) .. "\".", ply)
 
-	if delay < 0 then
-		Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
-	else
-		Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
-	end
+	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
 end)
 
-oocDelay:SetDescription("Sets the global out-of-character chat delay, -1 to disable")
+oocDelay:SetDescription("Sets the global out-of-character chat delay")
 oocDelay:SetExecutionContext(console.Server)
 oocDelay:SetAccess(console.IsAdmin)
 
-oocDelay:AddParameter(console.Number({
-	validate.Min(-1),
-	validate.Max(86400)
+oocDelay:AddParameter(console.Duration({
+	Max = "1 hour"
 }))
+
+local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
+	GAMEMODE:SetOOCDelay(-1)
+	GAMEMODE:LogAdmin("[V] " .. ply:Nick() .. " set variable \"rpa_oocdelay\" to \"-1\".", ply)
+
+	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat.")
+end)
+
+oocDisable:SetDescription("Disables global out-of-character chat")
+oocDisable:SetExecutionContext(console.Server)
+oocDisable:SetAccess(console.IsAdmin)
 
 if CLIENT then
 	netstream.Hook("StopSound", function()
