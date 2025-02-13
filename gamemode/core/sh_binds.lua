@@ -54,4 +54,10 @@ else
 	function GM:ShowSpare1(ply)
 		ply:OpenGUI("PlayerMenu")
 	end
+
+	function GM:ShowSpare2(ply)
+		if ply:IsAdmin() then
+			ply:OpenGUI("AdminMenu")
+		end
+	end
 end
