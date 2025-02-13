@@ -116,7 +116,7 @@ oocDelay:SetExecutionContext(console.Server)
 oocDelay:SetAccess(console.IsAdmin)
 
 oocDelay:AddParameter(console.Duration({
-	Max = "1 hour"
+	Max = "1 Hour"
 }))
 
 local oocDisable = console.AddCommand("rpa_oocdisable", function(ply)
