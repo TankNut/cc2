@@ -3,7 +3,7 @@ GM.Config.InternalName = "development" -- Used for figuring out what folder with
 GM.Config.ServerName = "CombineControl: Development Server"
 
 GM.Config.CommunityLinks = {
-	{"Community Forums", "http://taconbanana.com"}
+	{"Community Forums", "https://taconbanana.com"}
 }
 
 GM.Config.MapOverrides  = {} -- Makes the script believe it's running on a different map, useful for maps with different versions but identical layouts
