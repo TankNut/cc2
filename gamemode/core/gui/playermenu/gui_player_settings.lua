@@ -32,6 +32,30 @@ function PANEL:Init()
 		GUI.Open("MOTD")
 	end
 
+	self.Rejoin = self.Right:Add("DButton")
+	self.Rejoin:DockMargin(0, 5, 0, 0)
+	self.Rejoin:Dock(BOTTOM)
+	self.Rejoin:SetText("Rejoin")
+	self.Rejoin.DoClick = function()
+		RunConsoleCommand("retry")
+	end
+
+	self.Suicide = self.Right:Add("DButton")
+	self.Suicide:DockMargin(0, 5, 0, 0)
+	self.Suicide:Dock(BOTTOM)
+	self.Suicide:SetText("Suicide")
+	self.Suicide.DoClick = function()
+		RunConsoleCommand("kill")
+	end
+
+	self.StopSounds = self.Right:Add("DButton")
+	self.StopSounds:DockMargin(0, 5, 0, 0)
+	self.StopSounds:Dock(BOTTOM)
+	self.StopSounds:SetText("Stop Sounds")
+	self.StopSounds.DoClick = function(pnl)
+		RunConsoleCommand("stopsound")
+	end
+
 	self.CategoryList = self:Add("DScrollPanel")
 	self.CategoryList:Dock(FILL)
 
