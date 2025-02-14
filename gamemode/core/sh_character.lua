@@ -13,6 +13,8 @@ CharacterVar.Add("CharacterDescription", {Default = "", Private = true, Field = 
 CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", ServerOnly = true, Field = "Model", DataType = VARCHAR(128)})
 CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin", DataType = TINYINT()})
 
+CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = TINYINT()})
+
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:HasCharacter()
@@ -84,6 +86,10 @@ function GM:CanChangeCharacterDescription(ply)
 end
 
 if CLIENT then
+	function GM:ShouldHidePlayer(ply)
+		return ply:CharacterHidden() == 1 or ply:RunCharFlag("ShouldHidePlayer")
+	end
+
 	netstream.Hook("PostLoadCharacter", function()
 		hook.Run("PostLoadCharacter", lp)
 	end)

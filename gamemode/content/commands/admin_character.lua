@@ -170,3 +170,39 @@ takeCharacterLanguage:AddParameter(console.Player({
 }))
 
 takeCharacterLanguage:AddParameter(console.Language())
+
+local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets, bool)
+	local targetCount = table.Count(targets)
+
+	if targetCount > 1 and bool == nil then
+		console.Feedback(ply, "ERROR", "Multiple matches found when attempting to invert a single character")
+
+		return
+	end
+
+	for _, target in pairs(targets) do
+		local new = 1 - target:CharacterHidden()
+
+		if bool != nil then
+			new = bool and 1 or 0
+		end
+
+		target:SetCharacterHidden(new)
+
+		console.Feedback(ply, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
+	end
+
+	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
+end)
+
+hideCharacter:SetDescription("Toggles a character's hidden status on the scoreboard")
+hideCharacter:SetExecutionContext(console.Server)
+hideCharacter:SetAccess(console.IsAdmin)
+
+hideCharacter:AddParameter(console.Player({
+	SingleTarget = false,
+	CheckImmunity = true,
+	NoSelfTarget = false
+}))
+
+hideCharacter:AddOptional(console.Bool())

@@ -76,12 +76,18 @@ setToolTrust:AddParameter(console.String({
 }))
 
 local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
-	target:SetOOCMuted(bool and 1 or 0)
+	local new = 1 - target:OOCMuted()
 
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s ooc mute to " .. tostring(bool), ply)
+	if bool != nil then
+		new = bool and 1 or 0
+	end
 
-	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", bool and "muted" or "unmuted", target)
-	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, bool and "muted" or "unmuted")
+	target:SetOOCMuted(new)
+
+	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s ooc mute to " .. tostring(new == 1), ply)
+
+	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
+	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
 end)
 
 oocMute:SetDescription("Mute or unmutes a player from OOC chat")
@@ -94,7 +100,7 @@ oocMute:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
-oocMute:AddParameter(console.Bool())
+oocMute:AddOptional(console.Bool())
 
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
 	for _,target in pairs(targets) do

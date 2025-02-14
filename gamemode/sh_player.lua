@@ -16,7 +16,6 @@ GM.PlayerAccessors = {
 	{"PropProtection",		true,	"Table",	{}},
 	{"RagdollIndex",		false,	"Float",	-1},
 	{"HideAdmin",			false,	"Bit",		false},
-	{"Hidden",				false, 	"Bit",		false},
 	{"LastPMSender",		true,	"String",	""},
 	{"LastNotesUpdate", 	false, 	"Float", 	0},
 	{"IsTravelBanned", 		false, 	"Bit", 		false},

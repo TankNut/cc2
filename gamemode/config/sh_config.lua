@@ -46,7 +46,9 @@ GM.Config.DefaultLogLines = 200
 GM.Config.MaxLogLines = 500
 GM.Config.ScoreboardCommands = {
 	{"Goto", "rpa_goto"},
-	{"Bring", "rpa_bring"}
+	{"Bring", "rpa_bring"},
+	{"Toggle Hidden", "rpa_charhidden"},
+	{"Toogle OOC Muted", "rpa_oocmute"},
 }
 
 -- Sandbox

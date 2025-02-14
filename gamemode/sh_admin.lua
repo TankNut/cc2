@@ -456,10 +456,6 @@ concommand.AddAdmin("rpa_hidebadge", function(ply, bool)
 	ply:SetHideAdmin(not ply:HideAdmin())
 end, false)
 
-concommand.AddAdmin("rpa_hide", function(ply, targ)
-	targ:SetHidden(not targ:Hidden())
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_playernotes", function(ply, targ)
 	GAMEMODE:PlayerNotes(ply, targ)
 end, false, {TYPE_ENTITY})
