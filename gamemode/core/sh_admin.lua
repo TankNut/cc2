@@ -50,6 +50,28 @@ end
 
 PLAYER.GetUserGroup = PLAYER.UserGroup
 
+function GM:PlayerNoClip(ply, state)
+	if not ply:IsAdmin() then
+		if CLIENT and IsFirstTimePredicted() then
+			lp:SendChat("ERROR", "You need to be an admin to do this.")
+		end
+
+		return false
+	end
+
+	if SERVER then
+		if state then
+			ply:SetNoTarget(true)
+			ply:SetNotSolid(true)
+		else
+			ply:SetNoTarget(false)
+			ply:SetNotSolid(false)
+		end
+	end
+
+	return true
+end
+
 if SERVER then
 	hook.Remove("PlayerInitialSpawn", "PlayerAuthSpawn")
 

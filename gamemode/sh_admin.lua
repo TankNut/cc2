@@ -674,28 +674,6 @@ concommand.AddAdmin("rpa_adminradio", function(ply, bool)
 	ply:SetAdminRadio(bool)
 end, false, {TYPE_BOOL})
 
-function GM:PlayerNoClip(ply, state)
-	if not ply:IsAdmin() then
-		if CLIENT and IsFirstTimePredicted() then
-			lp:SendChat("ERROR", "You need to be an admin to do this.")
-		end
-
-		return false
-	end
-
-	if SERVER then
-		if state then
-			ply:SetNoTarget(true)
-			ply:SetNotSolid(true)
-		else
-			ply:SetNoTarget(false)
-			ply:SetNotSolid(false)
-		end
-	end
-
-	return true
-end
-
 concommand.AddAdmin("rpa_infiniteammo", function(ply, targ, bool)
 	targ:SetInfiniteAmmo(bool)
 end, false, {TYPE_ENTITY, TYPE_BOOL})
