@@ -50,5 +50,5 @@ function CLASS:Paint(w, h)
 	self.NameScribe:Draw(x + boxW - margin, y - boxH + margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	self.TeamScribe:Draw(x + boxW - margin, y - margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
 
-	self:SetCache("LOffset", offset + boxH)
+	self:SetCache("LOffset", y - boxH)
 end

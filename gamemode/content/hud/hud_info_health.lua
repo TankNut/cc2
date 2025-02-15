@@ -22,15 +22,14 @@ function CLASS:Think()
 end
 
 function CLASS:Paint(w, h)
-	local offset = self:GetCache("LOffset", 0)
+	local y = self:GetCache("LOffset", 0)
 
-	if offset == 0 then
-		offset = 20
+	if y == 0 then
+		y = h - 20
 	else
-		offset = offset + 10
+		y = y - 10
 	end
 
-	local y = h - offset
 	local background = Color("cc_fill_dark", 200)
 
 	do
@@ -51,5 +50,5 @@ function CLASS:Paint(w, h)
 		y = y - self.Height - 2
 	end
 
-	self:SetCache("LOffset", y + 2)
+	self:SetCache("LOffset", y + 2) -- Compensate for the -2 margin
 end
