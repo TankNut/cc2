@@ -1085,10 +1085,6 @@ do -- CalcView
 		local offset = vector_origin
 		local right = self:GetRight()
 
-		if GAMEMODE:Cursed() == 2 or (GAMEMODE:Cursed() == 1 and GAMEMODE:AprilFools()) then
-			right = -self:GetRight()
-		end
-
 		if self:IsOffsetRelative() then
 			if self:IsZLockEnabled() then
 				offset = offset + (self:GetPlayer():EyeAngles():Right() * right)

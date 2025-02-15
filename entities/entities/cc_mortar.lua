@@ -81,11 +81,7 @@ if SERVER then
 
 		ParticleEffect("high_explosive_main", pos, Angle())
 
-		if GAMEMODE:AprilFools() then
-			GAMEMODE:SoundRange(pos, 15000, "fart")
-		else
-			GAMEMODE:SoundRange(pos, 15000, "tekka/weapons/weapon_ied_distant.wav")
-			GAMEMODE:SoundRange(pos, self.Radius, "tekka/weapons/weapon_ied_close.wav", 0.4)
-		end
+		GAMEMODE:SoundRange(pos, 15000, "tekka/weapons/weapon_ied_distant.wav")
+		GAMEMODE:SoundRange(pos, self.Radius, "tekka/weapons/weapon_ied_close.wav", 0.4)
 	end
 end

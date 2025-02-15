@@ -169,10 +169,6 @@ if CLIENT then
 		cam.Start3D2D(self:LocalToWorld(Vector(4.6, -1.55, 9)), self:LocalToWorldAngles(Angle(-180, 90, 180)), 0.06)
 			local time = self:GetIsArmed() and math.ceil(self:GetExplodeTimer() - CurTime()) or self:GetTimer()
 
-			if self:GetIsArmed() and GAMEMODE:AprilFools() then
-				time = self:GetTimer() + math.abs(math.ceil(self:GetExplodeTimer() - CurTime()) - self:GetTimer())
-			end
-
 			draw.DrawText(os.date("%M:%S", time), "CombineControl.LabelStupid", 0, 0, Color(151, 12, 12))
 		cam.End3D2D()
 	end

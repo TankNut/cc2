@@ -12,29 +12,12 @@ function ENT:SetTimer(dDelay)
 	self:NextThink(CurTime())
 end
 
-local models = {
-	"models/props_junk/garbage_metalcan001a.mdl",
-	"models/Gibs/HGIBS.mdl",
-	"models/props_c17/doll01.mdl",
-	"models/props_junk/watermelon01.mdl",
-	"models/props_lab/huladoll.mdl",
-	"models/props_lab/cactus.mdl",
-	"models/props_junk/garbage_coffeemug001a.mdl",
-	"models/props/cs_italy/bananna_bunch.mdl",
-	"models/props/cs_italy/orange.mdl",
-	"models/props/cs_italy/bananna.mdl"
-}
-
 function ENT:Initialize()
 	if CLIENT then
 		return
 	end
 
 	self:SetModel(self.Model)
-
-	if GAMEMODE:AprilFools() then
-		self:SetModel(Model(table.Random(models)))
-	end
 
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)

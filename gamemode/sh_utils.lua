@@ -283,19 +283,3 @@ function util.FromGrid(x, y)
 
 	return y, x
 end
-
-if CLIENT then
-	local VECTOR = FindMetaTable("Vector")
-
-	VECTOR.ToScreenOld = VECTOR.ToScreenOld or VECTOR.ToScreen
-
-	function VECTOR:ToScreen()
-		local tab = self:ToScreenOld()
-
-		if GAMEMODE:Cursed() == 2 or (GAMEMODE:Cursed() == 1 and GAMEMODE:AprilFools()) then
-			tab.x = ScrW() - tab.x
-		end
-
-		return tab
-	end
-end

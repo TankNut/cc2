@@ -1294,41 +1294,6 @@ hook.Add("PreDrawOutlines", "CL.Hud.Outlines", function()
 	end
 end)
 
-local mat = CreateMaterial("!cursed", "UnlitGeneric", {
-	["$basetexture"] = "_rt_fullframefb"
-})
-
-hook.Add("PreDrawViewModels", "cursed", function()
-	if GAMEMODE:Cursed() == 2 or (GAMEMODE:Cursed() == 1 and GAMEMODE:AprilFools()) then
-		hook.Run("RenderScreenspaceEffects")
-		hook.Run("PostDrawEffects")
-
-		cam.Start2D()
-			render.UpdateScreenEffectTexture()
-
-			surface.SetMaterial(mat)
-			surface.SetDrawColor(255, 255, 255, 255)
-			surface.DrawTexturedRectUV(0, 0, ScrW(), ScrH(), 1, 0, 0, 1)
-		cam.End2D()
-	end
-end)
-
-local old
-
-hook.Add("CreateMove", "cursed", function(cmd)
-	if GAMEMODE:Cursed() == 2 or (GAMEMODE:Cursed() == 1 and GAMEMODE:AprilFools()) then
-		old = old or cmd:GetViewAngles()
-
-		local diff = math.NormalizeAngle((old - cmd:GetViewAngles()).y)
-
-		cmd:SetViewAngles(cmd:GetViewAngles() + Angle(0, diff * 2, 0))
-
-		old = cmd:GetViewAngles()
-
-		cmd:SetSideMove(-cmd:GetSideMove())
-	end
-end)
-
 function GM:ShouldDrawStencilEnt(ent)
 	if ent:IsNPC() and ent:Health() > 0 then
 		return ent

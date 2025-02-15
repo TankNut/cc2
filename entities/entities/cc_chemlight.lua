@@ -32,16 +32,10 @@ function ENT:Initialize()
 	self:SetVecColor(self.Color:ToVector())
 
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-
-	if GAMEMODE:AprilFools() then
-		self:SetRainbow(true)
-	end
 end
 
 function ENT:SetupDataTables()
 	BaseClass.SetupDataTables(self)
-
-	self:NetworkVar("Bool", 0, "Rainbow")
 
 	self:NetworkVar("Int", 1, "Channel")
 
@@ -69,12 +63,6 @@ if CLIENT then
 			local size = 256
 			local col = self:GetVecColor()
 			local die = self:GetDieTime()
-
-			if self:GetRainbow() then
-				local time = (CurTime() - self:GetCreationTime()) * 10
-
-				col = HSVToColor(time % 360, 1, 1):ToVector()
-			end
 
 			if die != 0 then
 				local frac = math.RemapC(die - CurTime(), self.FadeTime, 0, 1, 0)

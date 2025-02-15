@@ -46,7 +46,7 @@ local function ShowToAdminsOrSelf(ply)
 		return true
 	end
 
-	return LocalPlayer():IsAdmin() or LocalPlayer() == ply
+	return lp:IsAdmin() or lp == ply
 end
 
 GM.Badges = {
