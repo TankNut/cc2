@@ -45,7 +45,7 @@ function CLASS:ShouldDraw()
 		return true
 	end
 
-	return Settings.Get("HUD")
+	return Settings.Get("Hud")
 end
 
 function CLASS:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
