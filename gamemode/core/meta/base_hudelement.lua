@@ -5,6 +5,8 @@ CLASS.Name = "Unnamed Hud Element"
 CLASS.Default = false -- Whether the element is added to the hud by default
 CLASS.Setting = false -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
 
+CLASS.ExtraSettings = {}
+
 CLASS.AlwaysDraw = false -- Whether the element draws when the hud is disabled
 
 CLASS.DrawOrder = 0

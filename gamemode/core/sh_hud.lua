@@ -30,6 +30,10 @@ function Register(name, hud)
 			hook.Add("OnHud" .. hud.Setting .. "SettingChanged", "hud", Rebuild)
 		end
 	end
+
+	for _, setting in ipairs(hud.ExtraSettings) do
+		Settings.Add("Hud" .. setting[1], setting[2], "Hud")
+	end
 end
 
 function RegisterFolder(dir)
