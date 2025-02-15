@@ -53,6 +53,8 @@ function GM:PostLoadCharacter(ply)
 	if CLIENT then
 		GUI.Close("CharacterCreate")
 		GUI.Close("CharacterSelect")
+
+		Hud.Rebuild()
 	end
 
 	ply:SetScale(0, true)

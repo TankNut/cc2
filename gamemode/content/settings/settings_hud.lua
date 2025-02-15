@@ -1,10 +1,10 @@
-Settings.Add("HUD", {
-	Name = "Enable HUD",
+Settings.Add("Hud", {
+	Name = "Enable Hud",
 	ClientOnly = true,
 	Default = true,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
-}, "HUD")
+}, "Hud")
 
 Settings.Add("Thirdperson", {
 	Name = "Enable Thirdperson",
@@ -12,7 +12,7 @@ Settings.Add("Thirdperson", {
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
-}, "HUD")
+}, "Hud")
 
 function GM:OnThirdpersonSettingChanged(ply, old, new)
 	if new then

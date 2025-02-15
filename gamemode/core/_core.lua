@@ -61,6 +61,7 @@ function GM:LoadContent()
 	CharCreate.Load()
 	Chat.Load()
 	Item.Load()
+	Hud.Load()
 end
 
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
@@ -85,6 +86,7 @@ GM:Include("sh_character.lua")
 GM:Include("sh_charcreate.lua")
 GM:Include("sh_chat.lua")
 GM:Include("sh_entity.lua")
+GM:Include("sh_hud.lua")
 GM:Include("sh_hull.lua")
 GM:Include("sh_inventory.lua")
 GM:Include("sh_item.lua")
@@ -125,6 +127,9 @@ function GM:OnReloaded()
 			surface.PlaySound("buttons/combine_button1.wav")
 			self.NextReloadSound = CurTime() + 1
 		end
+
+		Hud.Clear()
+		Hud.Rebuild()
 	end
 
 	self.BaseClass:OnReloaded()
