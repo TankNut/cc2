@@ -1,11 +1,11 @@
-CLASS.Name = "Character Info"
+HUD.Name = "Character Info"
 
-CLASS.Default = true
-CLASS.Setting = "CharacterInfo"
+HUD.Default = true
+HUD.Setting = "CharacterInfo"
 
-CLASS.DrawOrder = 0
+HUD.DrawOrder = 0
 
-function CLASS:Initialize()
+function HUD:Initialize()
 	self:UpdateInfo()
 
 	hook.Add("OnVisibleRPNameChanged", self, self.OnVisibleRPNameChanged)
@@ -13,13 +13,13 @@ function CLASS:Initialize()
 	self.Dark = Color("cc_dark")
 end
 
-function CLASS:OnVisibleRPNameChanged(ply, _, new)
+function HUD:OnVisibleRPNameChanged(ply, _, new)
 	if ply == lp then
 		self:UpdateInfo(new)
 	end
 end
 
-function CLASS:UpdateInfo(name)
+function HUD:UpdateInfo(name)
 	self.LastName = name or lp:VisibleRPName()
 	self.LastTeam = lp:Team()
 
@@ -27,13 +27,13 @@ function CLASS:UpdateInfo(name)
 	self.TeamScribe = scribe.Parse("<giant><ol><c=cc_normal>" .. team.GetName(self.LastTeam))
 end
 
-function CLASS:Think()
+function HUD:Think()
 	if lp:Team() != self.LastTeam then
 		self:UpdateInfo()
 	end
 end
 
-function CLASS:Paint(w, h)
+function HUD:Paint(w, h)
 	local offset = 20
 	local margin = 2
 

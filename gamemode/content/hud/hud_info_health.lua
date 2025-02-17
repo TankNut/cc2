@@ -1,27 +1,27 @@
-CLASS.Name = "Health"
+HUD.Name = "Health"
 
-CLASS.Default = true
-CLASS.Setting = "Health"
+HUD.Default = true
+HUD.Setting = "Health"
 
-CLASS.Width = 220
-CLASS.Height = 14
+HUD.Width = 220
+HUD.Height = 14
 
-CLASS.HealthColor = Color(150, 20, 20, 255)
-CLASS.ArmorColor = Color(37, 84, 158, 255)
+HUD.HealthColor = Color(150, 20, 20, 255)
+HUD.ArmorColor = Color(37, 84, 158, 255)
 
-CLASS.DrawOrder = 1
+HUD.DrawOrder = 1
 
-function CLASS:Initialize()
+function HUD:Initialize()
 	self.HP = lp:Health()
 	self.Armor = lp:Armor()
 end
 
-function CLASS:Think()
+function HUD:Think()
 	self.HP = math.min(math.ApproachSpeed(self.HP, lp:Health(), 20), lp:GetMaxHealth())
 	self.Armor = math.min(math.ApproachSpeed(self.Armor, lp:Armor(), 20), lp:GetMaxArmor())
 end
 
-function CLASS:Paint(w, h)
+function HUD:Paint(w, h)
 	local y = self:GetCache("LOffset", 0)
 
 	if y == 0 then

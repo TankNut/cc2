@@ -40,13 +40,13 @@ function RegisterFolder(dir)
 			name = string.FileName(folder)
 		end
 
-		_G.CLASS = {}
+		_G.HUD = {}
 
 		include(path)
 
-		Register(string.gsub(name, "^hud_", ""), CLASS)
+		Register(string.gsub(name, "^hud_", ""), HUD)
 
-		CLASS = nil
+		HUD = nil
 	end)
 end
 
