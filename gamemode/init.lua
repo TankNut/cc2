@@ -4,7 +4,6 @@ GM.FullyLoaded = GM.FullyLoaded or false
 GM.Config = GM.Config or {}
 
 include("sh_enum.lua")
-include("sh_fixes.lua")
 
 include("core/enums.lua")
 include("core/sh_config.lua")
@@ -42,7 +41,6 @@ include("sv_worldents.lua")
 AddCSLuaFile("cl_init.lua")
 
 AddCSLuaFile("sh_enum.lua")
-AddCSLuaFile("sh_fixes.lua")
 AddCSLuaFile("sh_utils.lua")
 
 AddCSLuaFile("core/enums.lua")

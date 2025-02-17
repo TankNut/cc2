@@ -165,66 +165,6 @@ function table.Filter(tab, callback)
 	return tab
 end
 
-model = {}
-
-function model.SetSubMaterials(ent, tab)
-	local materials
-
-	ent:SetSubMaterial()
-
-	for k, v in pairs(tab) do
-		if k == "BaseClass" then
-			continue
-		end
-
-		if isstring(k) then
-			if not materials then
-				materials = GetMaterials(ent)
-
-				if table.MakeAssociative(materials)["___error"] then
-					error(string.format("Attempt to use string material replacement on %s affected by ___error", ent:GetModel()))
-				end
-			end
-
-			for index, mat in pairs(materials) do
-				if mat == k then
-					ent:SetSubMaterial(index - 1, v)
-				end
-			end
-		else
-			ent:SetSubMaterial(k, v)
-		end
-	end
-end
-
-function model.SetNumBodygroup(ent, group, index)
-	local id
-
-	if not isnumber(index) and not isbool(index) then
-		return
-	end
-
-	if isnumber(group) then
-		id = group
-	else
-		for _, v in pairs(ent:GetBodyGroups()) do
-			if string.gsub(string.lower(v.name), " ", "_") == group then
-				id = v.id
-
-				break
-			end
-		end
-	end
-
-	if id then
-		if isbool(index) then
-			index = index and 1 or 0
-		end
-
-		ent:SetBodygroup(id, index)
-	end
-end
-
 size = {}
 size.Head = 12
 size.Streetsign = 24

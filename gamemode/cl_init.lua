@@ -8,7 +8,6 @@ if not CCP then
 end
 
 include("sh_enum.lua")
-include("sh_fixes.lua")
 
 include("core/enums.lua")
 include("core/sh_config.lua")
