@@ -68,12 +68,12 @@ function PANEL:Populate()
 		button:SetDisabled(true)
 	end
 
-	for id, name in SortedPairs(temp) do
+	for id, name in SortedPairs(temp, true) do
 		local button = self:Add("DButton")
 
 		button:DockMargin(0, 0, 0, 5)
 		button:Dock(TOP)
-		button:SetText(name)
+		button:SetText("[" .. name .. "]")
 
 		button.DoClick = function(pnl)
 			if self.DeleteMode then
