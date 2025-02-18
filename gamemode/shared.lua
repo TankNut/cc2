@@ -17,16 +17,7 @@ local ENTITY = FindMetaTable("Entity")
 stub = function() end -- Used in several places, might as well make it global
 
 function PLAYER:IsFemale(mdl)
-	mdl = mdl or string.lower(self.CharModel or self:GetModel())
-
-	if string.find(mdl, "female") then return true end
-	if mdl == "models/player/alyx.mdl" then return true end
-	if mdl == "models/player/mossman.mdl" then return true end
-	if mdl == "models/player/mossman_arctic.mdl" then return true end
-	if mdl == "models/player/p2_chell.mdl" then return true end
-	if mdl == "models/player/police_fem.mdl" then return true end
-
-	return false
+	return util.IsFemaleModel(mdl or self:GetModel())
 end
 
 function PLAYER:Gender(mdl)
