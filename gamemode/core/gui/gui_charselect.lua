@@ -108,6 +108,18 @@ function PANEL:Populate()
 		self.CreateNew:SetDisabled(true)
 	end
 
+	if #lp:GetCharacterGenerators() > 0 then
+		self.GenCharacter = self:Add("DButton")
+		self.GenCharacter:DockMargin(0, 5, 0, 0)
+		self.GenCharacter:Dock(TOP)
+		self.GenCharacter:SetText("Generate temporary character")
+
+		self.GenCharacter.DoClick = function(pnl)
+			self:Remove()
+			GUI.Open("CharacterGen")
+		end
+	end
+
 	self.Delete = self:Add("DButton")
 	self.Delete:DockMargin(0, 5, 0, 0)
 	self.Delete:Dock(TOP)

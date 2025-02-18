@@ -4,7 +4,7 @@ local models = Config.Get("BaseModels")
 
 function GENERATOR:GetFields(ply)
 	local mdl = table.Random(models)
-	local isFemale = util.GetModelGender(mdl)
+	local isFemale = util.GetModelGender(mdl) == "female"
 
 	local name
 
