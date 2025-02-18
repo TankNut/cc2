@@ -17,11 +17,11 @@ local ENTITY = FindMetaTable("Entity")
 stub = function() end -- Used in several places, might as well make it global
 
 function PLAYER:IsFemale(mdl)
-	return util.IsFemaleModel(mdl or self:GetModel())
+	return self:Gender(mdl) == "female"
 end
 
 function PLAYER:Gender(mdl)
-	return self:IsFemale(mdl) and "female" or "male"
+	return util.GetModelGender(mdl or self:GetModel())
 end
 
 function GM:FindPlayer(name, caller)
