@@ -50,12 +50,7 @@ function Clear(ply, removed)
 				continue
 			end
 
-			if inventory:IsTempInventory() then
-				-- Stop sending to the player
-				inventory:UpdateReceivers()
-			else
-				inventory:Remove()
-			end
+			inventory:Clear()
 		end
 	end
 

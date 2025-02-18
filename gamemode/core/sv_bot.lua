@@ -177,6 +177,7 @@ end, POST_HOOK)
 
 hook.Add("PlayerDisconnected", "bot", function(ply)
 	if ply:IsBot() and ply:IsTemporaryCharacter() then
+		-- Otherwise they'll keep piling up
 		Character.DeleteTemp(ply:CharID())
 	end
 end)

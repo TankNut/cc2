@@ -12,6 +12,9 @@ function INVENTORY:GetReceivers()
 	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
 		local ply = self:GetPlayer()
 
+		-- Check is here for temp characters, since the inventory sticks around when the character is unloaded
+		-- we need to make sure it doesn't network to the player when they're on a diff character (not actually a problem
+		-- in and of itself, but a problem when the inventory thinks the player is already a receiver after a rejoin)
 		if IsValid(ply) and ply:CharID() == self.StoreID then
 			receivers[self:GetPlayer()] = true
 		end

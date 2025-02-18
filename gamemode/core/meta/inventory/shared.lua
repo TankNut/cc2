@@ -74,4 +74,13 @@ if CLIENT then
 			panel[func](panel, ...)
 		end
 	end
+else
+	function INVENTORY:Clear()
+		if self:IsTempInventory() then
+			-- Stop sending to the player
+			self:UpdateReceivers()
+		else
+			self:Remove()
+		end
+	end
 end
