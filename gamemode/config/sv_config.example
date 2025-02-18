@@ -20,7 +20,7 @@ GM.MySQLAliases = {
 	logplayers 		= "cc_logs_players"
 }
 
-GM.DatabaseConfig = {
+GM.Config.Database = {
 	Host = "localhost",
 	Username = "root",
 	Password = "",

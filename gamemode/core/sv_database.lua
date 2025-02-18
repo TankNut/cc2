@@ -73,7 +73,7 @@ end
 
 function GM:LoadDatabase()
 	async.Start(function()
-		local config = self.DatabaseConfig
+		local config = Config.Get("Database")
 
 		self.Database = database.New(config.Host, config.Username, config.Password, config.Database, config.Port)
 
