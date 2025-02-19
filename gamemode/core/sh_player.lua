@@ -27,6 +27,11 @@ function PLAYER:CanMove()
 	return hook.Run("CanMove", self)
 end
 
+-- Todo: Implement weapon zoom as a multiplier
+function PLAYER:GetSightRange()
+	return Config.Get("PlayerSight")
+end
+
 function GM:CanMove(ply)
 	return not ply:IsRagdolled()
 end
