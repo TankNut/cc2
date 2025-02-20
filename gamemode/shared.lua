@@ -60,17 +60,6 @@ function GM:FindPlayer(name, caller)
 	end
 end
 
-local allowedChars = "!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ"
-
-function GM:CheckNameValidity(name)
-	for _, char in pairs(string.Explode("", name)) do
-		if not string.find(allowedChars, char, 1, true) then
-			return false
-		end
-	end
-	return true
-end
-
 local fontCache = {}
 local function getCharWidth(char, fc)
 	if not fc[char] then
@@ -155,34 +144,6 @@ function GM:GetHandTrace(ply, len)
 	trace.filter = ply
 
 	return util.TraceLine(trace)
-end
-
-function util.TimeSinceDate(d)
-	if not d or d == "" then return 0 end
-
-	local c = os.date("!*t")
-
-	local sides = string.Explode(" ", d)
-	local d2 = string.Explode("/", sides[1])
-	local t2 = string.Explode(":", sides[2])
-
-	local cmonth = tonumber(d2[1])
-	local cday = tonumber(d2[2])
-	local cyear = tonumber(d2[3])
-	local chour = tonumber(t2[1])
-	local cmin = tonumber(t2[2])
-	local csec = tonumber(t2[3])
-
-	c.year = c.year - 2000
-
-	local count = (c.year - cyear) * 525600
-	count = count + (c.month - cmonth) * 43200
-	count = count + (c.day - cday) * 1440
-	count = count + (c.hour - chour) * 60
-	count = count + (c.min - cmin)
-	count = count + math.ceil((c.sec - csec) / 60)
-
-	return count
 end
 
 GM.Music = {
@@ -280,22 +241,6 @@ function GM:GetSongList(e)
 	end
 
 	return tab
-end
-
-function game.GetIP()
-	local hostip = tonumber(GetConVarString("hostip"))
-
-	local ip = {}
-	ip[1] = bit.rshift(bit.band(hostip, 0xFF000000), 24)
-	ip[2] = bit.rshift(bit.band(hostip, 0x00FF0000), 16)
-	ip[3] = bit.rshift(bit.band(hostip, 0x0000FF00), 8)
-	ip[4] = bit.band(hostip, 0x000000FF)
-
-	return table.concat(ip, ".")
-end
-
-function game.GetPort()
-	return tonumber(GetConVarString("hostport"))
 end
 
 function ParseChatLog(data)
