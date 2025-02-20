@@ -65,7 +65,7 @@ function PANEL:Init()
 	self.DisableOOC:SetWide(80)
 	self.DisableOOC:SetDisabled(initial == -1)
 	self.DisableOOC.DoClick = function()
-		RunConsoleCommand("rpa_oocdelay", -1)
+		RunConsoleCommand("rpa_oocdisable")
 	end
 
 	hook.Add("OnOOCDelayChanged", self, function(_, old, new, loaded)
