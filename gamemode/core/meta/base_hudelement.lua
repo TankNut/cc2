@@ -32,6 +32,10 @@ end
 function HUD:OnRemove()
 end
 
+function HUD:GetExtraSetting(key)
+	return Settings.Get("Hud" .. (self.Setting or "") .. key)
+end
+
 function HUD:GetCache(key, fallback)
 	local val = Hud.Cache[key]
 

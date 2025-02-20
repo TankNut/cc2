@@ -21,7 +21,7 @@ function Register(name, hud)
 
 	if hud.ExtraSettings then
 		for _, setting in ipairs(hud.ExtraSettings) do
-			Settings.Add("Hud" .. setting[1], setting[2], "Hud")
+			Settings.Add("Hud" .. (hud.Setting or "") .. setting[1], setting[2], "Hud")
 		end
 	end
 end
