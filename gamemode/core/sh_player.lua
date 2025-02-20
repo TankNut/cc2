@@ -45,6 +45,15 @@ function GM:StartCommand(ply, cmd)
 	end
 end
 
+function GM:FinishMove(ply, mv)
+	if ply:IsRagdolled() then
+		ply:SetNetworkOrigin(ply:GetRagdoll():GetNetworkOrigin())
+		ply:SetEyeAngles(mv:GetAngles())
+
+		return true
+	end
+end
+
 function GM:PlayerSwitchWeapon(ply, old, new)
 	return not ply:CanAct()
 end
