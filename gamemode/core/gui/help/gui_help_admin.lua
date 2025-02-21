@@ -22,7 +22,7 @@ local func = function()
 	local str = ""
 
 	str = str .. "<giant><b>Admin Commands:</b></giant>\n"
-	str = str .. "Various commands and utilities to help administrators manage the server, categorized into sections loosely based on how similar verious commands are. Parameters wrapped in <b>(parenthesis)</b> are required while those wrapped in <b>[brackets]</b> are optional with, potentially, a non-null default value."
+	str = str .. "Various commands and utilities to help administrators manage the server, categorized into sections loosely based on how similar various commands are. Parameters wrapped in <b>(parenthesis)</b> are required while those wrapped in <b>[brackets]</b> are optional with, potentially, a non-null default value."
 
 	local function addCommandCategory(category, commands)
 		str = str .. string.format("%s<big><b>%s:</b></big>", first and "" or "\n\n", category)
