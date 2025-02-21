@@ -76,7 +76,7 @@ function Clear()
 	Lookup = {}
 end
 
-function Hud.Add(id)
+function Add(id)
 	assert(Rebuilding, "Cannot use Hud.Add outside of GM:GetHudElements")
 	assert(List[id], "Attempt to add unknown hud type: " .. id)
 
