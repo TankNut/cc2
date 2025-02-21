@@ -106,7 +106,7 @@ explode:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
-local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, target)	
+local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, target)
 	if target:IsAdmin() then
 		console.Feedback(ply, "ERROR", "%s already has administrator access", target)
 
