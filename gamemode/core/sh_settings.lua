@@ -36,7 +36,8 @@ function Add(name, data, category)
 		Category = category or "Misc",
 		Panel = data.Panel,
 		Args = data.Args,
-		CanAccess = data.CanAccess
+		CanAccess = data.CanAccess,
+		Dark = tobool(data.Dark)
 	}
 
 	if not data.ClientOnly then

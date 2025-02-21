@@ -54,6 +54,10 @@ function PANEL:Configure(setting)
 	self.Setting = setting
 	self:SetTitle(setting.Name)
 
+	if setting.Dark then
+		self.Label:SetTextColor(Color("cc_dark"))
+	end
+
 	local value = self:GetSetting()
 
 	if value == setting.Default then
