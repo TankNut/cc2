@@ -629,61 +629,6 @@ function GM:DrawDamage()
 	end
 end
 
-GM.Notifications = {}
-
-net.Receive("nAddNotification", function(len)
-	local str = net.ReadString()
-	GAMEMODE:AddNotification(str)
-end)
-
-function GM:AddNotification(text, col)
-	local n = 0
-
-	for _, m in pairs(self.Notifications) do
-		for _, v in pairs(self.Notifications) do
-			if v[3] == n then
-				n = v[3] + 1
-			end
-		end
-	end
-
-	table.insert(self.Notifications, {text, CurTime(), n, col})
-	surface.PlaySound("ambient/water/drip" .. math.random(1, 4) .. ".wav")
-end
-
-function GM:DrawNotifications()
-	for k, v in pairs(self.Notifications) do
-		local t = v[2]
-		local n = v[3]
-		local col = v[4]
-
-		if CurTime() - t > 10 then
-			table.remove(self.Notifications, k)
-			continue
-		end
-
-		local a = 1
-
-		if CurTime() - t < 0.5 then
-			a = (CurTime() - t) / 0.5
-		elseif CurTime() - t > 6 then
-			a = 1 - (CurTime() - t - 6) / 4
-		end
-
-		if not col then
-			col = Color(200, 200, 200, 255 * a)
-		else
-			col = Color(col.r, col.g, col.b, 255 * a)
-		end
-
-		surface.SetFont("CombineControl.LabelGiant")
-		local x1, y1 = surface.GetTextSize(v[1])
-
-		draw.RoundedBox(0, ScrW() - 24 - x1, ScrH() * (3 / 4) - (n * (y1 + 8)), x1 + 4, y1 + 4, Color(30, 30, 30, 200 * a))
-		draw.DrawTextShadow(v[1], "CombineControl.LabelGiant", ScrW() - 22 - x1, ScrH() * (3 / 4) - (n * (y1 + 8)) + 2, Color(200, 200, 200, 255 * a), Color(0, 0, 0, 255 * a), 0)
-	end
-end
-
 function GM:HUDPaint()
 	if not CCP or not lp:HasCharacter() then return end
 
@@ -706,7 +651,6 @@ function GM:HUDPaint()
 		end
 
 		self:DrawAmmo()
-		self:DrawNotifications()
 	end
 
 	self:DrawWarnings()

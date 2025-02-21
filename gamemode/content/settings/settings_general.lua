@@ -6,7 +6,7 @@ Settings.Add("Newbie", {
 }, "General")
 
 Settings.Add("TransparentBackgrounds", {
-	Name = "Use Transparent Backgrounds on Menus",
+	Name = "Use Transparent Backgrounds on UI",
 	ClientOnly = true,
 	Default = true,
 	Validate = validate.Bool(),
