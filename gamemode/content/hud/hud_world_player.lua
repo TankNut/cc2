@@ -1,3 +1,5 @@
+local BaseClass = inherit.Get("hud", "base")
+
 HUD.Name = "Player Labels"
 
 HUD.Default = true
@@ -17,12 +19,16 @@ function HUD:Initialize()
 	self.Cache = {}
 end
 
-function HUD:GetEntity(ply)
-	return ply:IsRagdolled() and ply:GetRagdoll() or ply
+function HUD:ShouldDraw()
+	if Settings.Get("SeeAll") then
+		return false
+	end
+
+	return BaseClass.ShouldDraw(self)
 end
 
 function HUD:IsVisible(ply)
-	local ent = self:GetEntity(ply)
+	local ent = self:GetPlayer(ply)
 
 	if self:GetExtraSetting("Legacy") then
 		return lp:CanSee(ent, true)
@@ -60,7 +66,7 @@ end
 local colorBlack = Color(0, 0, 0)
 local colorDescription = Color(220, 220, 220)
 
-function HUD:DrawText(text, font, x, y, color, alpha)
+function HUD:DrawLine(text, font, x, y, color, alpha)
 	colorBlack.a = alpha
 	draw.DrawText(text, font, x + 1, y + 1, colorBlack, TEXT_ALIGN_CENTER)
 
@@ -74,10 +80,10 @@ function HUD:DrawPlayer(ply, x, y, alpha)
 	local desc = ply:ShortDescription()
 
 	if #desc > 0 then
-		y = self:DrawText(desc, "CombineControl.PlayerFont", x, y, colorDescription, alpha)
+		y = self:DrawLine(desc, "CombineControl.PlayerFont", x, y, colorDescription, alpha)
 	end
 
-	self:DrawText(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
+	self:DrawLine(ply:VisibleRPName(), "CombineControl.PlayerFont", x, y, team.GetColor(ply:Team()), alpha)
 end
 
 function HUD:PaintBackground(w, h)
@@ -96,7 +102,7 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		local ent = self:GetEntity(ply)
+		local ent = self:GetPlayer(ply)
 		local pos = (ent:EyePos() + Vector(0, 0, 10)):ToScreen()
 
 		if not pos.visible then

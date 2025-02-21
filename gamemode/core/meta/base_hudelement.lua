@@ -54,6 +54,10 @@ function HUD:ShouldDraw()
 	return Settings.Get("Hud")
 end
 
+function HUD:GetPlayer(ply)
+	return ply:IsRagdolled() and ply:GetRagdoll() or ply
+end
+
 function HUD:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
 	if xAlign == TEXT_ALIGN_CENTER then
 		x = x - w * 0.5
