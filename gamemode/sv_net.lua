@@ -13,16 +13,12 @@ util.AddNetworkString("nBansList")
 util.AddNetworkString("nSetPropDesc")
 util.AddNetworkString("nPropDescTooLong")
 
-util.AddNetworkString("nFlashbang")
-util.AddNetworkString("nSmoke")
-
 util.AddNetworkString("nRequestPlayerData")
 util.AddNetworkString("nRequestAllPlayerData")
 util.AddNetworkString("nRequestDoorData")
 
 util.AddNetworkString("nPlayVCD")
 
-util.AddNetworkString("nCreateTimedProgressBar")
 util.AddNetworkString("nCBuyDoor")
 util.AddNetworkString("nCSellDoor")
 util.AddNetworkString("nCLockUnlock")
@@ -43,38 +39,8 @@ util.AddNetworkString("nFlashRed")
 
 util.AddNetworkString("nToggleHolster")
 
-util.AddNetworkString("nLoadoutCrate")
-util.AddNetworkString("nLoadoutCrateNotAllowed")
-util.AddNetworkString("nTakeLoadout")
-
-util.AddNetworkString("nVendingMachineUpdateSupply")
-util.AddNetworkString("nVendingMachineNormal")
-util.AddNetworkString("nVendingMachineLucky")
-util.AddNetworkString("nVendingMachineNoCredits")
-util.AddNetworkString("nVendingMachineOutOfStock")
-
 util.AddNetworkString("nPlaySignal")
 util.AddNetworkString("nPlayExpression")
-
-util.AddNetworkString("nNMMGoTo")
-util.AddNetworkString("nNMMWalkTo")
-util.AddNetworkString("nNMMSetMastermindColor")
-util.AddNetworkString("nNMMFireInput")
-util.AddNetworkString("nNMMGunOn")
-util.AddNetworkString("nNMMPlayGesture")
-util.AddNetworkString("nNMMHateUnflagged")
-util.AddNetworkString("nNMMHateFlagged")
-util.AddNetworkString("nNMMHateCitizens")
-util.AddNetworkString("nNMMHateRebels")
-util.AddNetworkString("nNMMHateWeapons")
-util.AddNetworkString("nNMMKill")
-
-util.AddNetworkString("nNCMShake")
-
-util.AddNetworkString("nAddNotification")
-
-util.AddNetworkString("nAddPropProtection")
-util.AddNetworkString("nRemovePropProtection")
 
 util.AddNetworkString("nSwapItem")
 
