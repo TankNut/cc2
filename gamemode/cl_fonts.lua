@@ -27,6 +27,21 @@ surface.CreateFont("CombineControl.HUDAmmoSmall", {
 	size = 30,
 	weight = 500})
 
+surface.CreateFont("CombineControl.WepSelectHeader", {
+	font = GM.FontFace,
+	size = 20,
+	weight = 700})
+
+surface.CreateFont("CombineControl.WepSelectWep", {
+	font = GM.FontFace,
+	size = 18,
+	weight = 500})
+
+surface.CreateFont("CombineControl.WepSelectInfo", {
+	font = GM.FontFace,
+	size = 16,
+	weight = 500})
+
 surface.CreateFont("CombineControl.Written", {
 	font = "Comic Sans MS",
 	size = 20,

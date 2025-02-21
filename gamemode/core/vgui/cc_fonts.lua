@@ -6,24 +6,6 @@ surface.CreateFont("CombineControl.Window", {
 	weight = 500
 })
 
-surface.CreateFont("CombineControl.WepSelectHeader", {
-	font = GM.FontFace,
-	size = 20,
-	weight = 700
-})
-
-surface.CreateFont("CombineControl.WepSelectWep", {
-	font = GM.FontFace,
-	size = 18,
-	weight = 500
-})
-
-surface.CreateFont("CombineControl.WepSelectInfo", {
-	font = GM.FontFace,
-	size = 16,
-	weight = 500
-})
-
 for name, size in pairs({Stupid = 50, Massive = 30, Giant = 22, Big = 18, Medium = 16, Small = 14, Tiny = 12}) do
 	local fontName = "CombineControl.Label" .. name
 
