@@ -24,7 +24,7 @@ GM.Languages = {
 	Lang("eng", "English", nil, true),
 	Lang("rus", "Russian"),
 	Lang("chi", "Chinese"),
-	Lang("jap", "Japanese"),
+	Lang("jpn", "Japanese"),
 	Lang("spa", "Spanish"),
 	Lang("fre", "French"),
 	Lang("ger", "German"),
