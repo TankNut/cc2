@@ -5,10 +5,17 @@ Settings.Add("Newbie", {
 	Panel = "CC_Setting_Bool"
 }, "General")
 
-Settings.Add("TransparentBackgrounds", {
-	Name = "Use Transparent Backgrounds on UI",
+Settings.Add("UITransparency", {
+	Name = "UI Transparency",
 	ClientOnly = true,
-	Default = true,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
+	Default = 60,
+	Validate = {
+		validate.Min(0),
+		validate.Max(100)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Max = 100,
+		Notches = 20
+	}
 }, "General")
