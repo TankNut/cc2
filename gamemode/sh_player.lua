@@ -2,12 +2,7 @@ local PLAYER = FindMetaTable("Player")
 
 GM.PlayerAccessors = {
 	{"NewbieStatus", 		false, 	"Float", 	NEWBIE_STATUS_NEW},
-	{"Description",			false, 	"String", 	""},
 	{"Holstered", 			false, 	"Bit", 		true},
-	{"Trait", 				false, 	"Float", 	TRAIT_NONE},
-	{"CombineFlag", 		false, 	"String", 	""},
-	{"CombineSquad",		false,	"String",	""},
-	{"CombineSquadID",		false,	"Float",	4},
 	{"ActiveFlag", 			false, 	"String", 	""},
 	{"CharCreationDate",	true,	"String",	""},
 	{"InAttack2",			false,	"Bit",		false},
@@ -19,16 +14,11 @@ GM.PlayerAccessors = {
 	{"LastNotesUpdate", 	false, 	"Float", 	0},
 	{"IsTravelBanned", 		false, 	"Bit", 		false},
 	{"AdminRadio", 			true, 	"Bit", 		false},
-	{"PlayerScale",			false,	"Float",	1},
-	{"CharacterScale", 		true, 	"Float", 	1},
 	{"InfiniteAmmo", 		false, 	"Bit", 		false},
 	{"OverlayMode", 		true, 	"Float", 	OVERLAY_NONE},
 	{"ThermalHidden", 		false, 	"Bit", 		false},
-	{"JumpPackActive", 		false, 	"Bit", 		false},
-	{"Hunger", 				true, 	"Float", 	0},
 	{"ZoneMins", 			true, 	"Vector", 	Vector()},
 	{"ZoneMaxs", 			true, 	"Vector", 	Vector()},
-	{"ArmoryAccess", 		true, 	"String", 	""},
 }
 
 for k, v in pairs(GM.PlayerAccessors) do
