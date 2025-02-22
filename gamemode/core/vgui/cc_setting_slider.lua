@@ -8,6 +8,8 @@ function PANEL:Init()
 	self.Slider:SetWide(sliderWidth + overlap)
 
 	self.Slider.OnValueChanged = function(_, val)
+		val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
+
 		self.Save:SetDisabled(val == self:GetSetting())
 	end
 
@@ -22,7 +24,9 @@ function PANEL:Init()
 	self.Save:SizeToContentsX(20)
 
 	self.Save.DoClick = function(pnl)
-		self:SaveSetting(self.Slider:GetValue())
+		local val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
+
+		self:SaveSetting(val)
 		pnl:SetDisabled(true)
 	end
 end
