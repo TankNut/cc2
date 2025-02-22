@@ -1,6 +1,6 @@
 local PANEL = {}
 
-local sliderWidth = 300
+local sliderWidth = 250
 local overlap = 250
 
 function PANEL:Init()
