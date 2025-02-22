@@ -183,7 +183,7 @@ function PANEL:Paint(w, h)
 	local color = Color("cc_normal")
 
 	draw.SimpleText(team.GetName(self.Team), "CombineControl.LabelGiant", 10, 25, color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), game.MaxPlayers()), "CombineControl.LabelGiant", w - 10, 25, color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - 10, 25, color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 end
 
 derma.DefineControl("CC_ScoreboardTeam", "", PANEL, "Panel")
