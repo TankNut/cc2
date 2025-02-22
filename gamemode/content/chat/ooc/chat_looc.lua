@@ -1,5 +1,6 @@
 CLASS.Name = "Local OOC"
 CLASS.Description = "Local out-of-character chat."
+CLASS.Typing = "Typing..."
 
 CLASS.Commands = {"looc"}
 CLASS.Aliases = {"[[", ".//"}

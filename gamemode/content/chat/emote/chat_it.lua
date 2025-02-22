@@ -1,5 +1,6 @@
 CLASS.Name = "It"
 CLASS.Description = "Describe something from a 3rd person perspective."
+CLASS.Typing = "Emoting..."
 
 CLASS.Commands = {"it"}
 

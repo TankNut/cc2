@@ -1,5 +1,6 @@
 CLASS.Name = "Set language"
 CLASS.Description = "Say something in the chosen language or set your default."
+CLASS.Typing = "Talking..."
 
 CLASS.Commands = {}
 

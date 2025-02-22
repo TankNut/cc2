@@ -1,5 +1,6 @@
 CLASS.Name = "Say"
 CLASS.Description = "Speak, the default chat command."
+CLASS.Typing = "Talking..."
 
 CLASS.Commands = {"say"}
 

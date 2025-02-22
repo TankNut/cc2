@@ -1,5 +1,6 @@
 CLASS.Name = "Event"
 CLASS.Description = "Describe a global event."
+CLASS.Typing = "Eventing..."
 
 CLASS.Commands = {"ev"}
 

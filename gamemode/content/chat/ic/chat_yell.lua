@@ -1,5 +1,6 @@
 CLASS.Name = "Yell"
 CLASS.Description = "Yell something at the top of your lungs."
+CLASS.Typing = "Yelling..."
 
 CLASS.Commands = {"yell", "y"}
 

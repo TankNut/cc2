@@ -1,5 +1,6 @@
 CLASS.Name = "Emote"
 CLASS.Description = "Perform an action."
+CLASS.Typing = "Emoting..."
 
 CLASS.Commands = {"me", "em"}
 CLASS.Aliases = {":"}

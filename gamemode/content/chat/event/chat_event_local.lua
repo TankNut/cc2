@@ -1,5 +1,6 @@
 CLASS.Name = "Local Event"
 CLASS.Description = "Describe a local event."
+CLASS.Typing = "Eventing..."
 
 CLASS.Commands = {"lev"}
 

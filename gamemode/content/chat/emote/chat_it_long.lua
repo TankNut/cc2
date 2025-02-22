@@ -1,5 +1,6 @@
 CLASS.Name = "Long It"
 CLASS.Description = "Describe something from a 3rd person perspective at a greater distance."
+CLASS.Typing = "Emoting..."
 
 CLASS.Commands = {"lit"}
 

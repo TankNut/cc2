@@ -1,5 +1,6 @@
 CLASS.Name = "Long Emote"
 CLASS.Description = "Perform an action at a greater distance."
+CLASS.Typing = "Emoting..."
 
 CLASS.Commands = {"lme", "lem"}
 CLASS.Aliases = {":"}

@@ -1,5 +1,6 @@
 CLASS.Name = "Whisper"
 CLASS.Description = "Quietly whisper to people close to you."
+CLASS.Typing = "Whispering..."
 
 CLASS.Commands = {"whisper", "w"}
 
