@@ -111,7 +111,7 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		if ply:IsDormant() or not ply:Alive() then
+		if ply:IsDormant() or ply:GetNoDraw() or not ply:Alive() then
 			continue
 		end
 
