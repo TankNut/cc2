@@ -102,7 +102,7 @@ function HUD:DrawPlayer(ply, alpha)
 	self:StartWorldLabel()
 
 	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
-		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelSmallItalic", colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
+		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelMediumItalic", colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
 	end
 
 	if self:GetExtraSetting("ShowDescriptions") then
