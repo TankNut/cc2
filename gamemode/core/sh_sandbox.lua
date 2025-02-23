@@ -99,7 +99,7 @@ function GM:PhysgunPickup(ply, ent)
 		return false
 	end
 
-	if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
+	if trust < config.IgnoreOwnership and not ply:IsCreator(ent) and not ent.AllowPhys then
 		return false
 	end
 
