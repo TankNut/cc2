@@ -6,7 +6,6 @@ GM.PlayerAccessors = {
 	{"ActiveFlag", 			false, 	"String", 	""},
 	{"CharCreationDate",	true,	"String",	""},
 	{"InAttack2",			false,	"Bit",		false},
-	{"Typing",				false,	"Float",	0},
 	{"PropProtection",		true,	"Table",	{}},
 	{"RagdollIndex",		false,	"Float",	-1},
 	{"HideAdmin",			false,	"Bit",		false},
