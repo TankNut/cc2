@@ -182,7 +182,7 @@ end
 
 function PANEL:Paint(w, h)
 	if self.IsOpen then
-		derma.SkinHook("Paint", "Frame", self, w, h)
+		derma.SkinHook("Paint", "Chat", self, w, h)
 	end
 end
 

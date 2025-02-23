@@ -129,6 +129,14 @@ function SKIN:PaintFrame(panel, w, h)
 	end
 end
 
+function SKIN:PaintChat(panel, w, h)
+	surface.SetDrawColor(self.Colors.FillDark.r, self.Colors.FillDark.g, self.Colors.FillDark.b, 230)
+	surface.DrawRect(0, 0, w, h)
+
+	surface.SetDrawColor(self.Colors.Border)
+	surface.DrawOutlinedRect(0, 0, w, h)
+end
+
 function SKIN:PaintButton(panel, w, h)
 	if not panel.m_bBackground then
 		return
