@@ -1,4 +1,4 @@
-GM.FontFace = system.IsOSX() and "ChatFont" or "Myriad Pro"
+GM.FontFace = system.IsOSX() and "ChatFont" or "Tahoma"
 
 surface.CreateFont("CombineControl.Window", {
 	font = GM.FontFace,
