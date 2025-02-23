@@ -4,8 +4,8 @@ List = List or {}
 Models = Models or {}
 
 Default = {
-	Standing = {Vector(-16, -16, 0), Vector(16, 16, 72), Vector(0, 0, 64)},
-	Crouching = {Vector(-16, -16, 0), Vector(16, 16, 36), Vector(0, 0, 28)},
+	Standing = {Vector(-10, -10, 0), Vector(10, 10, 72), Vector(0, 0, 64)},
+	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 38)},
 }
 
 PlayerVar.Add("Scale", {Default = 0})
