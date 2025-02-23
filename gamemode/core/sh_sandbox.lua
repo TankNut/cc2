@@ -89,10 +89,14 @@ function GM:PhysgunPickup(ply, ent)
 	local config = Config.Get("ToolTrust")
 	local trust = ply:GetToolTrust()
 
-	if ent:IsPlayer() and trust >= config.PhysgunPlayers and ply:CanTarget(ent) then
-		ent:SetMoveType(MOVETYPE_NONE)
+	if ent:IsPlayer() then
+		if trust >= config.PhysgunPlayers and ply:CanTarget(ent) then
+			ent:SetMoveType(MOVETYPE_NONE)
 
-		return true
+			return true
+		end
+
+		return false
 	end
 
 	if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
