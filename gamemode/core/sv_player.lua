@@ -26,6 +26,7 @@ function GM:PlayerInitialSpawn(ply)
 	end
 
 	ply:SetTeam(TEAM_UNASSIGNED)
+	ply:SetMaxArmor(0)
 
 	-- Holdover from TRP, do we want to keep this?
 	ply:AddEFlags(EFL_NO_DAMAGE_FORCES)
