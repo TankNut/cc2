@@ -101,7 +101,9 @@ end
 function HUD:DrawItem(item)
 	local rarity = Item.Rarities[item:GetRarity()]
 
-	self:AddWorldLabel(item:WorldSpaceCenter() + Vector(0, 0, 10), item:GetItemName(), "CombineControl.PlayerFont", rarity.Color)
+	self:AddWorldLabel(item:WorldSpaceCenter() + Vector(0, 0, 10), {
+		{scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=rarity_%s>%s", rarity.Name, item:GetItemName()))}
+	})
 end
 
 function HUD:PaintBackground(w, h)
