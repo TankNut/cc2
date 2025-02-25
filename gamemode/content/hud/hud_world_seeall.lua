@@ -52,44 +52,50 @@ function HUD:ShouldDraw()
 	return BaseClass.ShouldDraw(self)
 end
 
-local colorBlack = Color(0, 0, 0)
-local colorNormal = Color("cc_normal")
-
-local colorNick = Color(87, 165, 255)
-local colorHealth = Color(200, 0, 0)
-local colorArmor = Color(0, 63, 255)
-
-function HUD:DrawLine(text, font, x, y, color)
-	draw.DrawText(text, font, x + 1, y + 1, colorBlack, TEXT_ALIGN_CENTER)
-	draw.DrawText(text, font, x, y, color, TEXT_ALIGN_CENTER)
-
-	return y - 20
-end
-
 function HUD:DrawPlayer(ply)
-	self:StartWorldLabel()
+	local lines = {}
 
-	if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 then
-		self:AddWorldLabel(ply:Armor() .. "%", "CombineControl.PlayerFont", colorArmor)
-	end
+	if Settings.Get("SeeAllPlayersNames") then
+		local color = ColorToHex(team.GetColor(ply:Team()))
 
-	if Settings.Get("SeeAllPlayersHealth") then
-		self:AddWorldLabel(ply:Health() .. "%", "CombineControl.PlayerFont", colorHealth)
-	end
-
-	if Settings.Get("SeeAllPlayersTyping") and ply:Typing() then
-		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelSmallItalic", colorNormal)
+		table.insert(lines, {
+			scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName()))
+		})
 	end
 
 	if Settings.Get("SeeAllPlayersNicks") then
-		self:AddWorldLabel(ply:Nick(), "CombineControl.PlayerFont", colorNick)
+		table.insert(lines, {
+			scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#57A5FF>" .. ply:Nick())
+		})
 	end
 
-	if Settings.Get("SeeAllPlayersNames") then
-		self:AddWorldLabel(ply:VisibleRPName(), "CombineControl.PlayerFont", team.GetColor(ply:Team()))
+	if Settings.Get("SeeAllPlayersTyping") and ply:Typing() then
+		table.insert(lines, {
+			scribe.Parse("<f=CombineControl.LabelMediumItalic><ol><c=cc_normal>" .. ply:GetTypingString())
+		})
 	end
 
-	self:EndWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10))
+	do
+		local health = {}
+
+		if Settings.Get("SeeAllPlayersHealth") then
+			table.insert(health, string.format("<c=#c80000>%s%%", ply:Health()))
+		end
+
+		if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 then
+			table.insert(health, string.format("<c=#003FFF>%s%%", ply:Armor()))
+		end
+
+		if #health > 0 then
+			table.insert(lines, {
+				scribe.Parse("<f=CombineControl.PlayerFont><ol>" ..  table.concat(health, " "))
+			})
+		end
+	end
+
+	if #lines > 0 then
+		self:AddWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10), lines)
+	end
 end
 
 function HUD:DrawItem(item)

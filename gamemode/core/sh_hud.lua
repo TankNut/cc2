@@ -156,23 +156,7 @@ function AddWorldLabel(pos, lines)
 	})
 end
 
--- Stripped down and optimized version of draw.SimpleText
-local function simpleText(text, font, x, y, color, alpha)
-	text = tostring(text)
-	surface.SetFont(font)
-
-	local w = surface.GetFontSize(font, text)
-
-	x = x - (w * 0.5)
-
-	surface.SetTextPos(x, y)
-	surface.SetTextColor(color.r, color.g, color.b, alpha)
-	surface.DrawText(text)
-end
-
-local colorBlack = Color(0, 0, 0)
 local background = Color(0, 0, 0)
-local spacing = 20
 local margin = 2
 
 function DrawWorldLabels()
@@ -188,28 +172,32 @@ function DrawWorldLabels()
 		local x = math.ceil(label.Screen.x)
 		local y = math.ceil(label.Screen.y)
 
-		if mult > 0 then
-			local w = 0
-			local alpha = 0
+		local w, h = 0, 0
+		local alpha = 0
 
-			for _, line in ipairs(label.Lines) do
-				w = math.max(w, surface.GetFontSize(line.Font, line.Text))
-				alpha = math.max(alpha, line.Alpha)
+		for _, instance in ipairs(label.Lines) do
+			instance[2] = instance[2] or 1
+
+			if instance[2] > 0 then
+				w = math.max(w, instance[1]:GetWide())
+				h = h + instance[1]:GetTall()
+
+				alpha = math.max(alpha, instance[2])
 			end
-
-			local h = #label.Lines * spacing
-
-			background.a = alpha * (mult * 0.01)
-
-			draw.RoundedBox(0, x - w * 0.5 - margin, y - h + spacing - margin, w + margin * 2, h + margin * 2, background)
-			surface.SetDrawColor(colorBlack)
 		end
 
-		for _, line in SortedPairs(label.Lines) do
-			simpleText(line.Text, line.Font, x + 1, y + 1, colorBlack, line.Alpha)
-			simpleText(line.Text, line.Font, x, y, line.Color, line.Alpha)
+		if mult > 0 then
+			background.a = math.Remap(mult * alpha, 0, 100, 0, 255)
 
-			y = y - spacing
+			draw.RoundedBox(0, x - w * 0.5 - margin, y - h - margin, w + margin * 2, h + margin * 2, background)
+		end
+
+		for _, instance in SortedPairs(label.Lines, true) do
+			if instance[2] > 0 then
+				instance[1]:Draw(x, y, instance[2], TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+
+				y = y - instance[1]:GetTall()
+			end
 		end
 	end
 

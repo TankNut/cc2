@@ -96,28 +96,37 @@ function HUD:Think()
 	end
 end
 
-local colorWhite = Color(220, 220, 220)
-
 function HUD:DrawPlayer(ply, alpha)
-	self:StartWorldLabel()
+	local lines = {}
 
-	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
-		self:AddWorldLabel(ply:GetTypingString(), "CombineControl.LabelMediumItalic", colorWhite, self:GetExtraSetting("AlwaysTyping") and 255 or alpha)
+	if self:GetExtraSetting("ShowNames") then
+		local color = ColorToHex(team.GetColor(ply:Team()))
+
+		table.insert(lines, {
+			scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=%s>%s", color, ply:VisibleRPName())), alpha
+		})
 	end
 
 	if self:GetExtraSetting("ShowDescriptions") then
 		local desc = ply:ShortDescription()
 
 		if #desc > 0 then
-			self:AddWorldLabel(desc, "CombineControl.PlayerFont", colorWhite, alpha)
+			table.insert(lines, {
+				scribe.Parse("<f=CombineControl.PlayerFont><ol><c=#DCDCDC>" .. ply:ShortDescription()), alpha
+			})
 		end
 	end
 
-	if self:GetExtraSetting("ShowNames") then
-		self:AddWorldLabel(ply:VisibleRPName(), "CombineControl.PlayerFont", team.GetColor(ply:Team()), alpha)
+	if self:GetExtraSetting("ShowTyping") and ply:Typing() then
+		table.insert(lines, {
+			scribe.Parse("<f=CombineControl.LabelMediumItalic><ol><c=cc_normal>" .. ply:GetTypingString()),
+			self:GetExtraSetting("AlwaysTyping") and 1 or alpha
+		})
 	end
 
-	self:EndWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10))
+	if #lines > 0 then
+		self:AddWorldLabel(self:GetPlayer(ply):EyePos() + Vector(0, 0, 10), lines)
+	end
 end
 
 function HUD:PaintBackground(w, h)
@@ -136,6 +145,6 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		self:DrawPlayer(ply, cache.Alpha * 255)
+		self:DrawPlayer(ply, cache.Alpha)
 	end
 end
