@@ -14,7 +14,7 @@ end
 local backgroundColor = Color("cc_fill_dark", 200)
 local foregroundColor = Color(150, 20, 20)
 
-local textColor = Color()
+local textColor = Color("cc_normal")
 local back = surface.GetFontHeight("CombineControl.LabelBig") * 0.5
 
 function HUD:Paint(w, h)
