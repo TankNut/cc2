@@ -176,7 +176,7 @@ if SERVER then
 		if new then
 			local propInfo = ent:PermaPropInfo() or {}
 
-			propInfo.Admin = Admin and string.format("%s (%s)", Admin:VisibleRPName(), Admin:SteamID()) or nil
+			propInfo.Admin = Admin and string.format("%s (%s)", Admin:Nick(), Admin:SteamID()) or nil
 			propInfo.Time = os.time()
 
 			ent:SetPermaPropInfo(propInfo)

@@ -154,7 +154,7 @@ local propInfo = console.AddCommand("rpa_propinfo", function(ply)
 	local ent = ply:GetEyeTrace().Entity
 
 	if not IsValid(ent) then
-		console.Feedback(ply, "NOTICE", "You're not looking at a prop!")
+		console.Feedback(ply, "NOTICE", "You're not looking at an entity!")
 
 		return
 	end
