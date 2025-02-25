@@ -20,8 +20,12 @@ function PLAYER:CanSee(target, checkSight)
 		pos = target:IsPlayer() and target:EyePos() or target:WorldSpaceCenter()
 	end
 
-	if checkSight and startPos:Distance(pos) > self:GetSightRange() then
-		return false
+	if checkSight then
+		local dist = isnumber(checkSight) and checkSight or self:GetSightRange()
+
+		if startPos:Distance(pos) > dist then
+			return false
+		end
 	end
 
 	local tr = util.TraceLine({
