@@ -101,7 +101,7 @@ end
 function HUD:DrawItem(item)
 	local rarity = Item.Rarities[item:GetRarity()]
 
-	self:AddWorldLabel(item:WorldSpaceCenter() + Vector(0, 0, 10), {
+	self:AddWorldLabel(item:WorldSpaceCenter(), {
 		{scribe.Parse(string.format("<f=CombineControl.PlayerFont><ol><c=rarity_%s>%s", rarity.Name, item:GetItemName()))}
 	})
 end
