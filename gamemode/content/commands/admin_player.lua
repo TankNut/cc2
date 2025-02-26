@@ -157,18 +157,22 @@ slap:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
+local function printCharacterList(data)
+	MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
+
+	for _, character in pairs(data.Characters) do
+		MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s%s",
+				character.id,
+				character.Name,
+				character.NameOverride and " (" .. character.NameOverride .. ")" or "",
+				character.Flag and (" - " .. CharacterFlag.Get(flag).Name or flag) or ""),
+			"\n")
+	end
+end
+
 if CLIENT then
 	netstream.Hook("ListCharacters", function(data)
-		MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
-
-		for _, character in pairs(data.Characters) do
-			MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s%s",
-					character.id,
-					character.Name,
-					character.NameOverride and " (" .. character.NameOverride .. ")" or "",
-					character.Flag and (" - " .. CharacterFlag.Get(flag).Name or flag) or ""),
-				"\n")
-		end
+		printCharacterList(data)
 	end)
 end
 
@@ -190,12 +194,18 @@ local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, st
 		return
 	end
 
-	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
-
-	netstream.Send(ply, "ListCharacters", {
+	local data = {
 		Name = name,
 		Characters = characters
-	})
+	}
+
+	if IsValid(ply) then
+		console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
+
+		netstream.Send(ply, "ListCharacters", data)
+	else
+		printCharacterList(data)
+	end
 end)
 
 listCharacters:SetCategory("Player Commands")

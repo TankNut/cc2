@@ -71,7 +71,8 @@ GM.Config.ScoreboardCommands = {
 	{"Goto Player", "rpa_goto"},
 	{"Bring Player", "rpa_bring"},
 	{"Toggle Hidden", "rpa_charhidden"},
-	{"Toogle OOC Muted", "rpa_oocmute"},
+	{"Toggle OOC Muted", "rpa_oocmute"},
+	{"List Characters", "rpa_listcharacters"},
 }
 
 -- Sandbox
