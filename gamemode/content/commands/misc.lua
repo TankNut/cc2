@@ -47,7 +47,7 @@ local roll = console.AddCommand("rp_roll", function(ply, diceFormat)
 	end
 
 	num = math.Clamp(num, 1, 10)
-	sides = math.Clamp(sides, 2, 20)
+	sides = math.Clamp(sides, 2, 100)
 
 	local results, total = {}, 0
 
