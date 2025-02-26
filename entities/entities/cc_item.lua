@@ -10,6 +10,7 @@ function ENT:Initialize()
 	self:PhysicsInit(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 	self:SetUseType(SIMPLE_USE)
+	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
 
 	if not IsValid(self:GetPhysicsObject()) then
 		self:PhysicsInitBox(self:GetModelBounds())
