@@ -5,28 +5,10 @@ List = List or {}
 EntityVar.Add("PermaProp", {Default = false})
 EntityVar.Add("PermaPropInfo", {ServerOnly = true})
 
-local whitelist = {
+Whitelist = {
 	["prop_physics"] = true,
 	["prop_effect"] = true
 }
-
-local toggleSaved = console.AddCommand("rpa_togglesaved", function(ply)
-	local ent = ply:GetEyeTrace().Entity
-
-	if IsValid(ent) and whitelist[ent:GetClass()] then
-		-- Context that gets passed to OnPermaPropChanged to write to PermaPropInfo
-		Admin = ply
-
-		ent:SetPermaProp(not ent:PermaProp())
-
-		Admin = nil
-	end
-end)
-
-toggleSaved:SetDescription("Toggles persistence on a prop or effect")
-toggleSaved:SetExecutionContext(console.Server)
-toggleSaved:SetAccess(console.IsAdmin)
-toggleSaved:SetNoConsole()
 
 hook.Add("IsProtectedEntity", "plugins.permaprops", function(ent)
 	if ent:PermaProp() then

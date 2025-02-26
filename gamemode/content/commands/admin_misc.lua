@@ -167,6 +167,24 @@ propInfo:SetExecutionContext(console.Server)
 propInfo:SetAccess(console.IsAdmin)
 propInfo:SetNoConsole()
 
+local toggleSaved = console.AddCommand("rpa_togglesaved", function(ply)
+	local ent = ply:GetEyeTrace().Entity
+
+	if IsValid(ent) and PermaProps.Whitelist[ent:GetClass()] then
+		-- Context that gets passed to OnPermaPropChanged to write to PermaPropInfo
+		Admin = ply
+
+		ent:SetPermaProp(not ent:PermaProp())
+
+		Admin = nil
+	end
+end)
+
+toggleSaved:SetDescription("Toggles persistence on a prop or effect")
+toggleSaved:SetExecutionContext(console.Server)
+toggleSaved:SetAccess(console.IsAdmin)
+toggleSaved:SetNoConsole()
+
 local seeAll = console.AddCommand("rpa_seeall", function(ply)
 	Settings.Set("SeeAll", not Settings.Get("SeeAll"))
 end)
