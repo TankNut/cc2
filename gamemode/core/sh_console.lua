@@ -4,6 +4,10 @@ function COMMAND:SetCategory(category)
 	self.Category = category
 end
 
+function COMMAND:SetChatAlias(alias)
+	Chat.AddConsoleCommand(alias, self.Name)
+end
+
 function console.PrintMessage(ply, str, ...)
 	console.Feedback(ply, "NOTICE", str, ...)
 end
