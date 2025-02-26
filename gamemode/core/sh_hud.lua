@@ -260,7 +260,7 @@ end
 local disabled = table.Lookup({
 	"CHudWeaponSelection", "CHudAmmo", "CHudSecondaryAmmo",
 	"CHudHealth", "CHudBattery", "CHudHistoryResource",
-	"CHUDAutoAim", "CHudChat"
+	"CHUDAutoAim", "CHudChat", "CHUDQuickInfo"
 })
 
 function GM:HUDShouldDraw(str)
