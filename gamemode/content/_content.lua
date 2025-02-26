@@ -4,7 +4,6 @@ GM:Include("sh_player_remover.lua")
 
 GM:LoadFolder(ContentFolder .. "_defines/")
 GM:LoadFolder(ContentFolder .. "settings/")
-
 GM:LoadFolder(ContentFolder .. "commands/")
 
 Badge.Load()

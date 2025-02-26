@@ -25,6 +25,10 @@ function PANEL:Init()
 	end
 
 	self.Examine.DoRightClick = function()
+		if not lp:IsAdmin() then
+			return
+		end
+
 		self:OpenScoreboardCommands()
 	end
 end
