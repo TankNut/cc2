@@ -7,6 +7,13 @@ PlayerVar.Add("UserGroup", {
 	DataType = VARCHAR(64)
 })
 
+PlayerVar.Add("UserAlias", {
+	Default = "",
+	ServerOnly = true,
+	Persist = true,
+	DataType = VARCHAR(64)
+})
+
 PlayerVar.Add("TempAdmin", {
 	Default = false,
 	ServerOnly = true,

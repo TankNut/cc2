@@ -109,6 +109,38 @@ function SKIN:PaintPanel(panel, w, h)
 	surface.DrawRect(0, 0, w, h)
 end
 
+function SKIN:PaintListView(panel, w, h)
+	if not panel.m_bBackground then
+		return
+	end
+
+	surface.SetDrawColor(self.Colors.FillDark)
+	surface.DrawRect(0, 0, w, h)
+
+	surface.SetDrawColor(ColorAlpha(self.Colors.Border, 100))
+	surface.DrawOutlinedRect(0, 0, w, h)
+end
+
+function SKIN:PaintListViewColumn(panel, w, h)
+	surface.SetDrawColor(self.Colors.FillDark)
+	surface.DrawRect(0, 0, w, h)
+
+	surface.SetDrawColor(ColorAlpha(self.Colors.Border, 100))
+	surface.DrawOutlinedRect(0, 0, w, h)
+end
+
+function SKIN:PaintListViewLine(panel, w, h)
+	if self:IsSelected() then
+		surface.SetDrawColor(self.Colors.Primary)
+	elseif self.Hovered then
+		surface.SetDrawColor(self.Colors.FillLight)
+	elseif self.m_bAlt then
+		surface.SetDrawColor(self.Colors.FillMedium)
+	end
+
+	surface.DrawRect(0, 0, w, h)
+end
+
 function SKIN:PaintItemList(panel, w, h)
 	surface.SetDrawColor(0, 0, 0, 70)
 	surface.DrawRect(0, 0, w, h)

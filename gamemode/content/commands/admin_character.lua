@@ -71,11 +71,7 @@ setCharacterName:AddParameter(console.Player({
 	NoSelfTarget = false
 }))
 
-setCharacterName:AddParameter(console.String({
-	validate.Min(Config.Get("MinNameLength")),
-	validate.Max(Config.Get("MaxNameLength")),
-	validate.AllowedCharacters(Config.Get("AllowedNameCharacters"))
-}))
+setCharacterName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
 local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale, persist)
 	if persist then
