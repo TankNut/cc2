@@ -35,7 +35,6 @@ function PANEL:Init()
 	end
 
 	self.List = self:Add("DListView")
-	-- self.List:SetSize(780, 400)
 	self.List:SetMultiSelect(false)
 	self.List:AddColumn("Usergroup")
 	self.List:AddColumn("SteamID")
