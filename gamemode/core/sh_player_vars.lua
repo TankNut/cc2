@@ -115,6 +115,35 @@ if CLIENT then
 		end
 	end)
 else
+	function SetOffline(steamid, name, value)
+		local ply = player.GetBySteamID(steamid)
+
+		if ply then
+			ply["Set" .. name](ply, value)
+
+			return
+		end
+
+		local data = Vars[name]
+
+		local default = data.Default
+		local persist = assert(data.Persist, "Cannot SetOffline non-persist player vars")
+		local dataType = data.DataType
+		local validate = data.Validate
+
+		if not persist then
+			return
+		end
+
+		if value == default then value = nil end
+
+		if validate and value != nil and not validate(value) then
+			error(string.format("Set value '%s' doesn't match database type %s", value, dataType), 2)
+		end
+
+		Save(steamid, data, value)
+	end
+
 	function Sync(ply, requester)
 		local data = {}
 
