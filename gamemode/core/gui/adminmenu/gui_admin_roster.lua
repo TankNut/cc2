@@ -36,11 +36,11 @@ function PANEL:Init()
 
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
-	self.List:AddColumn("Usergroup")
-	self.List:AddColumn("SteamID")
+	self.List:AddColumn("Usergroup"):SetFixedWidth(100)
+	self.List:AddColumn("SteamID"):SetFixedWidth(150)
 	self.List:AddColumn("Community Alias")
-	self.List:AddColumn("Last Online Name")
-	self.List:AddColumn("Last Online Time")
+	self.List:AddColumn("Last Name")
+	self.List:AddColumn("Last Online")
 
 	self.List.OnRowSelected = function(panel, index, row)
 		local canTarget = lp:CanTargetUserGroup(row.Data.UserGroup, true)
@@ -65,8 +65,15 @@ function PANEL:RequestAdminRoster()
 		end
 
 		for index, admin in pairs(admins) do
-			self.List:AddLine(string.FirstToUpper(admin.UserGroup), admin.SteamID, admin.UserAlias, admin.LastOnlineName, admin.LastOnlineTime).Data = admin
+			self.List:AddLine(
+				string.FirstToUpper(admin.UserGroup),
+				admin.SteamID,
+				admin.UserAlias,
+				admin.LastOnlineName,
+				admin.LastOnlineTime and string.NiceTime(os.time() - admin.LastOnlineTime) .. " ago" or "Never").Data = admin
 		end
+
+		self.List:SortByColumn(1, false)
 	end)
 end
 

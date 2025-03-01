@@ -26,13 +26,14 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamI
 		end
 
 		local upsert = GAMEMODE.Database:Upsert("rp_players")
-			upsert:Insert("SteamID", steamId)
+		upsert:Insert("SteamID", steamId)
 
-			if usergroup == "user" then
-				upsert:InsertRaw("UserGroup", "NULL")
-			else
-				upsert:Insert("UserGroup", usergroup)
-			end
+		if usergroup == "user" then
+			upsert:InsertRaw("UserGroup", "NULL")
+		else
+			upsert:Insert("UserGroup", usergroup)
+		end
+
 		upsert:Execute()
 	end
 

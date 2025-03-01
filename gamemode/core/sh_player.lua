@@ -18,7 +18,7 @@ PlayerVar.Add("LastOnlineTime", {
 	Default = nil,
 	ServerOnly = true,
 	Persist = true,
-	DataType = TIMESTAMP()
+	DataType = UINT()
 })
 
 -- Todo: Implement weapon zoom as a multiplier

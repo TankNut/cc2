@@ -12,6 +12,13 @@ function TINYINT()
 	}
 end
 
+function UINT()
+	return {
+		DataType = "INT(11) UNSIGNED",
+		Validate = function(val) return isnumber(val) and val % 1 == 0 and val > 0 end,
+	}
+end
+
 function VARCHAR(length)
 	return {
 		DataType = string.format("VARCHAR(%s)", length),
@@ -38,26 +45,6 @@ function FLOAT()
 	return {
 		DataType = "FLOAT",
 		Validate = function(val) return isnumber(val) end
-	}
-end
-
-function TIMESTAMP()
-	return {
-		DataType = "TIMESTAMP",
-		Validate = function(val) return isnumber(val) and val > 0 end,
-		Encode = function(val) return os.date("%Y-%m-%d %H:%M:%S", val) end,
-		Decode = function(val)
-			local parts = string.Explode("[-: ]", val, true)
-
-			return os.time({
-				year = parts[1],
-				month = parts[2],
-				day = parts[3],
-				hour = parts[4],
-				min = parts[5],
-				sec = parts[6]
-			})
-		end,
 	}
 end
 
