@@ -62,11 +62,11 @@ local setUserAlias = console.AddCommand("rpa_setuseralias", function(ply, steamI
 	local name = target and target:Nick() or steamId
 
 	if target then
-		target:SetUserAlias(alias)
+		target:SetAlias(alias)
 	else
 		local query = GAMEMODE.Database:Upsert("rp_players")
 			query:Insert("SteamID", steamId)
-			query:Insert("UserAlias", alias)
+			query:Insert("Alias", alias)
 		query:Execute()
 	end
 
