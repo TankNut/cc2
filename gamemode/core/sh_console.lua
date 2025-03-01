@@ -113,6 +113,8 @@ function console.FindPlayer(ply, str, options)
 			str = string.sub(str, 2)
 		end
 
+		local priv = isConsole or ply:IsAdmin()
+
 		for _, target in player.Iterator() do
 			if target:HasCharacter() and string.find(string.lower(target:VisibleRPName()), str, 1, not multi) then
 				table.insert(targets, target)
@@ -120,13 +122,13 @@ function console.FindPlayer(ply, str, options)
 				continue
 			end
 
-			if (isConsole or ply:IsAdmin()) and string.find(string.lower(target:Nick()), str, 1, not multi) then
+			if priv and string.find(string.lower(target:Nick()), str, 1, not multi) then
 				table.insert(targets, target)
 
 				continue
 			end
 
-			if (isConsole or ply:IsAdmin()) and string.find(string.lower(target:SteamID()), str, 1, not multi) then
+			if priv and target:SteamID() == str then
 				table.insert(targets, target)
 
 				continue
