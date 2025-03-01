@@ -119,8 +119,8 @@ if SERVER then
 			query:Select("SteamID")
 			query:Select("UserGroup")
 			query:Select("UserAlias")
-			query:Select("LastOnlineName")
-			query:Select("LastOnlineTime")
+			query:Select("LastNick")
+			query:Select("LastSeen")
 			query:WhereNotNull("UserGroup")
 		local data = query:Execute()
 

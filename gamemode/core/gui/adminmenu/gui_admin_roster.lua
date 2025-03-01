@@ -40,7 +40,7 @@ function PANEL:Init()
 	self.List:AddColumn("SteamID"):SetFixedWidth(150)
 	self.List:AddColumn("Community Alias")
 	self.List:AddColumn("Steam Name")
-	self.List:AddColumn("Last Online")
+	self.List:AddColumn("Last Seen")
 
 	self.List.OnRowSelected = function(panel, index, row)
 		local canTarget = lp:CanTargetUserGroup(row.Data.UserGroup, true)
@@ -69,8 +69,9 @@ function PANEL:RequestAdminRoster()
 				string.FirstToUpper(admin.UserGroup),
 				admin.SteamID,
 				admin.UserAlias,
-				admin.LastOnlineName,
-				admin.LastOnlineTime and string.NiceTime(os.time() - admin.LastOnlineTime) .. " ago" or "Never").Data = admin
+				admin.LastNick,
+				admin.LastSeen and string.NiceTime(os.time() - admin.LastSeen) .. " ago" or "Never"
+			).Data = admin
 		end
 
 		self.List:SortByColumn(1, false)
@@ -84,14 +85,13 @@ function PANEL:DoDemoteUser()
 
 	if data.UserAlias then
 		admin = data.UserAlias
-	elseif data.LastOnlineName then
-		admin = data.LastOnlineName
+	elseif data.LastSeen then
+		admin = data.LastSeen
 	end
 
 	async.Start(function()
 		local confirm = GUI.Open("Input", "confirm", string.format("Demote %s", admin), {
 			Prompt = string.format("Demote %s and revoke all of their current in-game access?", admin),
-			Name = "DemoteUser"
 		})
 
 		if not confirm then
@@ -111,7 +111,7 @@ function PANEL:DoUpdateAlias()
 	local steamId = line.Data.SteamID
 
 	async.Start(function()
-		local alias = GUI.Open("Input", "string", "Update Community Alias", {
+		local alias = GUI.Open("Input", "string", "Update Alias", {
 			Default = line:GetValue(3),
 			Validate = {
 				validate.Min(1),

@@ -7,15 +7,14 @@ PlayerVar.Add("DonatorActive", {Default = false})
 
 PlayerVar.Add("OOCMuted", {Default = 0, Persist = true, DataType = TINYINT()})
 
-PlayerVar.Add("LastOnlineName", {
+PlayerVar.Add("LastNick", {
 	Default = "",
 	ServerOnly = true,
 	Persist = true,
 	DataType = VARCHAR(32)
 })
 
-PlayerVar.Add("LastOnlineTime", {
-	Default = nil,
+PlayerVar.Add("LastSeen", {
 	ServerOnly = true,
 	Persist = true,
 	DataType = UINT()

@@ -7,8 +7,8 @@ function GM:OnPlayerReady(ply)
 		PlayerVar.Load(ply)
 		ply:LoadCharacterList()
 
-		ply:SetLastOnlineName(ply:Nick())
-		ply:SetLastOnlineTime(os.time())
+		ply:SetLastNick(ply:Nick())
+		ply:SetLastSeen(os.time())
 	end)
 end
 
