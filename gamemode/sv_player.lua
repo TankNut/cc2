@@ -200,6 +200,8 @@ function GM:PlayerShouldTakeDamage(ply, attacker)
 end
 
 function GM:PlayerDisconnected(ply)
+	ply:SetLastSeen(os.time())
+
 	for _, v in pairs(game.GetDoors()) do
 		if table.HasValue(v:DoorOwners(), ply:CharID()) then
 			if table.Count(v:DoorOwners()) == 1 then
