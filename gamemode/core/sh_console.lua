@@ -180,7 +180,7 @@ end)
 console.Parser("SteamID", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
-	if util.IsValidSteamID(val) and not options.Online then
+	if util.IsValidSteamID(val) and not options.Online and not player.GetBySteamID(val) then
 		return true, val
 	end
 
