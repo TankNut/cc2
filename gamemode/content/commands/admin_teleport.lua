@@ -56,7 +56,6 @@ goTo:SetNoConsole()
 
 goTo:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = false,
 	NoSelfTarget = true
 }))
 
@@ -73,7 +72,6 @@ bring:SetNoConsole()
 
 bring:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = false,
 	NoSelfTarget = true
 }))
 
@@ -89,12 +87,10 @@ send:SetAccess(console.IsAdmin)
 
 send:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = false,
 	NoSelfTarget = true
 }))
 
 send:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = false,
 	NoSelfTarget = true
 }))

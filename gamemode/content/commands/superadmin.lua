@@ -85,8 +85,7 @@ giveBadge:SetAccess(console.IsSuperAdmin)
 
 giveBadge:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	CheckImmunity = true
 }))
 
 giveBadge:AddParameter(console.Badge())
@@ -111,8 +110,7 @@ takeBadge:SetAccess(console.IsSuperAdmin)
 
 takeBadge:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	CheckImmunity = true
 }))
 
 takeBadge:AddParameter(console.Badge())
@@ -137,9 +135,7 @@ explode:SetExecutionContext(console.Server)
 explode:SetAccess(console.IsSuperAdmin)
 
 explode:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, target)

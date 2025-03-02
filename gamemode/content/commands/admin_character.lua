@@ -1,6 +1,6 @@
 local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, target, mdl)
 	if not util.IsValidModel(mdl) then
-		console.Feedback(ply, "ERROR", "The given model is not mounted on server", target)
+		console.Feedback(ply, "ERROR", "The given model is not mounted on the server", target)
 
 		return
 	end
@@ -20,9 +20,7 @@ setCharacterModel:SetExecutionContext(console.Server)
 setCharacterModel:SetAccess(console.IsAdmin)
 
 setCharacterModel:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 setCharacterModel:AddParameter(console.String())
@@ -43,9 +41,7 @@ setCharacterSkin:SetExecutionContext(console.Server)
 setCharacterSkin:SetAccess(console.IsAdmin)
 
 setCharacterSkin:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 setCharacterSkin:AddParameter(console.Number())
@@ -66,9 +62,7 @@ setCharacterName:SetExecutionContext(console.Server)
 setCharacterName:SetAccess(console.IsAdmin)
 
 setCharacterName:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 setCharacterName:AddParameter(console.String(Config.Get("CharacterNameRules")))
@@ -133,9 +127,7 @@ giveCharacterLanguage:SetExecutionContext(console.Server)
 giveCharacterLanguage:SetAccess(console.IsAdmin)
 
 giveCharacterLanguage:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 giveCharacterLanguage:AddParameter(console.Language())
@@ -166,9 +158,7 @@ takeCharacterLanguage:SetExecutionContext(console.Server)
 takeCharacterLanguage:SetAccess(console.IsAdmin)
 
 takeCharacterLanguage:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 takeCharacterLanguage:AddParameter(console.Language())
@@ -177,7 +167,7 @@ local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets
 	local targetCount = table.Count(targets)
 
 	if targetCount > 1 and bool == nil then
-		console.Feedback(ply, "ERROR", "Multiple matches found when attempting to invert a single character")
+		console.Feedback(ply, "ERROR", "Multiple matches found when attempting to flip hidden status")
 
 		return
 	end
@@ -202,12 +192,7 @@ hideCharacter:SetDescription("Toggles a character's hidden status on the scorebo
 hideCharacter:SetExecutionContext(console.Server)
 hideCharacter:SetAccess(console.IsAdmin)
 
-hideCharacter:AddParameter(console.Player({
-	SingleTarget = false,
-	CheckImmunity = true,
-	NoSelfTarget = false
-}))
-
+hideCharacter:AddParameter(console.Player())
 hideCharacter:AddOptional(console.Bool())
 
 local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, target, flag)
@@ -227,9 +212,7 @@ setCharacterFlag:SetExecutionContext(console.Server)
 setCharacterFlag:SetAccess(console.IsAdmin)
 
 setCharacterFlag:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
+	SingleTarget = true
 }))
 
 setCharacterFlag:AddParameter(console.CharacterFlag())

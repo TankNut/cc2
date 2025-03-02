@@ -11,7 +11,7 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 	target:SetToolTrust(toolTrustLevel)
 	target:UpdateLoadout()
 
-	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed player " .. target:CharacterName() .. "'s tooltrust to " .. tostring(trust), ply)
+	GAMEMODE:LogAdmin("[S] " .. ply:Nick() .. " changed " .. target:Nick() .. "'s tooltrust to " .. tostring(trust), ply)
 
 	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to %s", target, trust)
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)
@@ -24,8 +24,7 @@ setToolTrust:SetAccess(console.IsAdmin)
 
 setToolTrust:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	NoAdmin = true
 }))
 
 setToolTrust:AddParameter(console.String({
@@ -55,14 +54,13 @@ oocMute:SetAccess(console.IsAdmin)
 
 oocMute:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	CheckImmunity = true
 }))
 
 oocMute:AddOptional(console.Bool())
 
 local heal = console.AddCommand("rpa_heal", function(ply, targets)
-	for _,target in pairs(targets) do
+	for _, target in ipairs(targets) do
 		if target:Health() > target:GetMaxHealth() then
 			continue -- Don't reset the health of admins using rpa_sethealth.
 		end
@@ -77,12 +75,10 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 		console.Feedback(target, "NOTICE", "%s has healed you", ply)
 	end
 
-	local targetCount = table.Count(targets)
-
-	if targetCount == 1 then
-		console.Feedback(ply, "NOTICE", "You've healed %s", targets[1])
+	if #targets > 1 then
+		console.Feedback(ply, "NOTICE", "You've healed %d players", #targets)
 	else
-		console.Feedback(ply, "NOTICE", "You've healed %d players", targetCount)
+		console.Feedback(ply, "NOTICE", "You've healed %s", targets[1])
 	end
 end)
 
@@ -91,34 +87,29 @@ heal:SetDescription("Heals one or more players to full health and armor")
 heal:SetExecutionContext(console.Server)
 heal:SetAccess(console.IsAdmin)
 
-heal:AddParameter(console.Player({
-	SingleTarget = false,
-	CheckImmunity = false,
-	NoSelfTarget = false
-}))
+heal:AddParameter(console.Player())
 
-local setHealth = console.AddCommand("rpa_sethealth", function(ply, target, max)
-	target:SetHealth(max)
+local setHealth = console.AddCommand("rpa_sethealth", function(ply, targets, health)
+	for _, target in ipairs(targets) do
+		target:SetHealth(health)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's health to %d", target, max)
-	console.Feedback(target, "NOTICE", "%s set your health to %d", ply, max)
+		console.Feedback(target, "NOTICE", "%s has set your health to %d", ply, health)
+	end
+
+	if #targets > 1 then
+		console.Feedback(ply, "NOTICE", "You've set %d players' health to %d", #targets, health)
+	else
+		console.Feedback(ply, "NOTICE", "You've set %s's health to %d", targets[1], health)
+	end
 end)
 
 setHealth:SetCategory("Player Commands")
-setHealth:SetDescription("Manually sets a player's health bar")
+setHealth:SetDescription("Sets a player's health")
 setHealth:SetExecutionContext(console.Server)
 setHealth:SetAccess(console.IsAdmin)
 
-setHealth:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false
-}))
-
-setHealth:AddParameter(console.Number({
-	validate.Min(0),
-	validate.Max(100000)
-}))
+setHealth:AddParameter(console.Player())
+setHealth:AddParameter(console.Number())
 
 local kill = console.AddCommand("rpa_kill", function(ply, target)
 	target:Kill()
@@ -136,14 +127,15 @@ kill:SetAccess(console.IsAdmin)
 
 kill:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	CheckImmunity = true
 }))
 
 local slap = console.AddCommand("rpa_slap", function(ply, target)
-	target:SetVelocity(Vector(math.random(-400, 400), math.random(-400, 400), math.random(400, 600)))
+	target:SetVelocity(Vector(math.random(-200, 200), math.random(-200, 200), 0))
+	target:TakeDamage(10)
 
-	console.Feedback(target, "NOTICE", "%s slapped you", ply)
+	console.Feedback(target, "NOTICE", "%s has slapped you", ply)
+	console.Feedback(ply, "NOTICE", "You've slapped %s", target)
 
 	GAMEMODE:WriteLog("admin_slap", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
 end)
@@ -156,8 +148,7 @@ slap:SetAccess(console.IsAdmin)
 
 slap:AddParameter(console.Player({
 	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false
+	CheckImmunity = true
 }))
 
 local function printCharacterList(data)
@@ -219,10 +210,7 @@ listCharacters:SetExecutionContext(console.Server)
 listCharacters:SetAccess(console.IsAdmin)
 
 listCharacters:AddParameter(console.SteamID({
-	SingleTarget = true,
-	CheckImmunity = false,
-	NoSelfTarget = false,
-	Online = false,
+	SingleTarget = true
 }))
 
 local setAlias = console.AddCommand("rpa_setalias", function(ply, steamId, alias)
