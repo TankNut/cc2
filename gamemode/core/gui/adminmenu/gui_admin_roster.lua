@@ -1,43 +1,6 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self.ActionsLabel = self:Add("DLabel")
-	self.ActionsLabel:SetFont("CombineControl.LabelMediumBold")
-	self.ActionsLabel:SetWide(120)
-	self.ActionsLabel:SetContentAlignment(5)
-	self.ActionsLabel:SetText("Superadmin Tools")
-
-	self.UpdateAlias = self:Add("DButton")
-	self.UpdateAlias:SetText("Update Alias")
-	self.UpdateAlias:SetWide(120)
-	self.UpdateAlias:SetDisabled(true)
-	self.UpdateAlias.DoClick = function()
-		self:DoUpdateAlias()
-	end
-
-	self.PromoteUser = self:Add("DButton")
-	self.PromoteUser:SetText("Promote User")
-	self.PromoteUser:SetWide(120)
-	self.PromoteUser:SetDisabled(not lp:IsSuperAdmin())
-	self.PromoteUser.DoClick = function()
-		self:DoPromoteUser()
-	end
-
-	self.DemoteUser = self:Add("DButton")
-	self.DemoteUser:SetText("Demote User")
-	self.DemoteUser:SetWide(120)
-	self.DemoteUser:SetDisabled(true)
-	self.DemoteUser.DoClick = function()
-		self:DoDemoteUser()
-	end
-
-	self.Refresh = self:Add("DButton")
-	self.Refresh:SetText("Refresh Roster")
-	self.Refresh:SetWide(120)
-	self.Refresh.DoClick = function()
-		self:RequestAdminRoster()
-	end
-
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
 	self.List:AddColumn("Usergroup"):SetFixedWidth(70)
@@ -46,11 +9,43 @@ function PANEL:Init()
 	self.List:AddColumn("Steam Name"):SetFixedWidth(150)
 	self.List:AddColumn("Last Seen"):SetFixedWidth(130)
 
-	self.List.OnRowSelected = function(panel, index, row)
-		local canTarget = lp:IsSuperAdmin() and row.Data.UserGroup == "admin"
+	self.Refresh = self:Add("DButton")
+	self.Refresh:SetText("Refresh Roster")
+	self.Refresh:SetWide(100)
+	self.Refresh.DoClick = function()
+		self:RequestAdminRoster()
+	end
 
-		self.UpdateAlias:SetDisabled(not canTarget)
-		self.DemoteUser:SetDisabled(not canTarget)
+	if lp:IsSuperAdmin() then
+		self.List.OnRowSelected = function(panel, index, row)
+			local group = row.Data.UserGroup
+
+			self.UpdateAlias:SetDisabled(not lp:CanTargetUserGroup(group))
+			self.DemoteUser:SetDisabled(IsElevatedUserGroup(group))
+		end
+
+		self.AddUser = self:Add("DButton")
+		self.AddUser:SetText("Add User")
+		self.AddUser:SetWide(100)
+		self.AddUser.DoClick = function()
+			self:DoAddUser()
+		end
+
+		self.UpdateAlias = self:Add("DButton")
+		self.UpdateAlias:SetText("Update Alias")
+		self.UpdateAlias:SetWide(100)
+		self.UpdateAlias:SetDisabled(true)
+		self.UpdateAlias.DoClick = function()
+			self:DoUpdateAlias()
+		end
+
+		self.DemoteUser = self:Add("DButton")
+		self.DemoteUser:SetText("Demote User")
+		self.DemoteUser:SetWide(100)
+		self.DemoteUser:SetDisabled(true)
+		self.DemoteUser.DoClick = function()
+			self:DoDemoteUser()
+		end
 	end
 
 	self:RequestAdminRoster()
@@ -90,20 +85,25 @@ local function getName(data)
 	return data.Alias or data.LastNick or data.SteamID
 end
 
-function PANEL:DoPromoteUser()
+function PANEL:DoAddUser()
+	local existing = table.Lookup(table.Map(self.List:GetLines(), function(line)
+		return line.Data.SteamID
+	end))
+
 	async.Start(function()
-		local target = GUI.Open("Input", "string", "Promote User to Admin", {
-			Default = "",
+		local steamid = GUI.Open("Input", "string", "Add Admin", {
 			Validate = {
-				validate.Max(32),
-			}
+				validate.Callback(function(val)
+					return util.IsValidSteamID(val), "is not a valid SteamID"
+				end),
+				validate.Callback(function(val)
+					return tobool(not existing[val]), "is already an admin"
+				end)
+			},
+			Name = "That"
 		})
 
-		RunConsoleCommand("rpa_setusergroup", target, "admin")
-
-		if IsValid(self) then
-			self:RequestAdminRoster()
-		end
+		RunConsoleCommand("rpa_setusergroup", steamid, "admin")
 	end)
 end
 
@@ -131,7 +131,7 @@ end
 
 function PANEL:DoUpdateAlias()
 	local _, line = self.List:GetSelectedLine()
-	local steamId = line.Data.SteamID
+	local steamID = line.Data.SteamID
 	local name = getName(line.Data)
 
 	async.Start(function()
@@ -142,7 +142,7 @@ function PANEL:DoUpdateAlias()
 			}
 		})
 
-		RunConsoleCommand("rpa_setalias", steamId, alias)
+		RunConsoleCommand("rpa_setuseralias", steamID, alias)
 
 		if IsValid(self) and IsValid(line) then
 			line:SetColumnText(3, alias)
@@ -151,24 +151,21 @@ function PANEL:DoUpdateAlias()
 end
 
 function PANEL:PerformLayout(w, h)
-	self.Refresh:AlignRight()
+	self.List:StretchToParent(0, 0, 0, 30)
+
+	self.Refresh:AlignLeft()
 	self.Refresh:AlignBottom()
 
-	self.ActionsLabel:AlignRight()
-	self.ActionsLabel:AlignTop()
+	if lp:IsSuperAdmin() then
+		self.DemoteUser:AlignRight()
+		self.DemoteUser:AlignBottom()
 
-	self.PromoteUser:AlignRight()
-	self.PromoteUser:MoveBelow(self.ActionsLabel, 5)
+		self.UpdateAlias:MoveLeftOf(self.DemoteUser, 5)
+		self.UpdateAlias:AlignBottom()
 
-	self.DemoteUser:AlignRight()
-	self.DemoteUser:MoveBelow(self.PromoteUser, 5)
-
-	self.UpdateAlias:AlignRight()
-	self.UpdateAlias:MoveBelow(self.DemoteUser, 5)
-
-	self.List:AlignLeft()
-	self.List:StretchRightTo(self.ActionsLabel, 10)
-	self.List:StretchToParent(nil, nil, nil, 0)
+		self.AddUser:MoveLeftOf(self.UpdateAlias, 5)
+		self.AddUser:AlignBottom()
+	end
 end
 
 derma.DefineControl("CC_AdminMenu_Roster", "", PANEL, "Panel")
