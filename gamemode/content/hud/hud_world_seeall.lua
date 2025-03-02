@@ -83,7 +83,7 @@ function HUD:DrawPlayer(ply)
 			table.insert(health, string.format("<c=#c80000>%s%%", ply:Health()))
 		end
 
-		if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 then
+		if Settings.Get("SeeAllPlayersArmor") and ply:GetMaxArmor() > 0 or ply:Armor() > 0 then
 			table.insert(health, string.format("<c=#003FFF>%s%%", ply:Armor()))
 		end
 
