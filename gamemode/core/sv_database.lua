@@ -1,9 +1,5 @@
 module("Database", package.seeall)
 
-function Load(db)
-	CreateTables(db)
-end
-
 function CreateTables(db)
 	local query
 
@@ -80,6 +76,13 @@ function PopulateFromVars(db, tableName, vars)
 	if query then
 		query:Execute()
 	end
+
+	for name, data in pairs(vars) do
+		if data.DatabaseIndex then
+			db:Query(string.format("CREATE INDEX IF NOT EXISTS cc_%s ON %s (%s)",
+				data.Field, tableName, data.Field))
+		end
+	end
 end
 
 function GM:LoadDatabase()
@@ -88,7 +91,7 @@ function GM:LoadDatabase()
 
 		self.Database = database.New(config.Host, config.Username, config.Password, config.Database, config.Port)
 
-		Load(self.Database)
+		CreateTables(self.Database)
 
 		Access.LoadBans()
 		Item.LoadWorld()

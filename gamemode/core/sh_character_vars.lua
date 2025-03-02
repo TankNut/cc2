@@ -21,6 +21,7 @@ function Add(name, data)
 		Validate = data.Validate or databaseType.Validate,
 		Encode = data.Encode or databaseType.Encode,
 		Decode = data.Decode or databaseType.Decode,
+		DatabaseIndex = tobool(data.DatabaseIndex)
 	}
 
 	Store[name] = Store[name] or {}
