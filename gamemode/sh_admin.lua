@@ -92,13 +92,6 @@ concommand.AddAdmin("rpa_invisible", function(ply, targ, bool)
 	targ:SetNoDraw(bool)
 end, false, {TYPE_ENTITY, TYPE_BOOL})
 
-concommand.AddAdmin("rpa_namewarn", function(ply, targ)
-	GAMEMODE:WriteLog("admin_namewarn", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
-
-	net.Start("nWarnName")
-	net.Send(targ)
-end, false, {TYPE_ENTITY})
-
 concommand.AddAdmin("rpa_ko", function(ply, targ)
 	targ:SetConsciousness(0)
 	targ:PassOut()
@@ -135,102 +128,6 @@ concommand.AddAdmin("rpa_kick", function(ply, targ, arg)
 		Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. " kicked " .. targNick)
 	end
 end, false, {TYPE_ENTITY, TYPE_STRING})
-
-concommand.AddAdmin("rpa_ban", function(ply, targ, duration, reason)
-	if duration < 0 then
-		ply:SendChat("ERROR", "Invalid duration")
-
-		return
-	end
-
-	if #reason <= 0 then
-		ply:SendChat("ERROR", "Missing reason")
-
-		return
-	end
-
-	if GAMEMODE:SteamIDIsBanned(targ:SteamID()) then
-		ply:SendChat("ERROR", "Player is already banned")
-
-		return
-	end
-
-	duration = math.Round(duration)
-	local targNick = targ:VisibleRPName()
-	local perma = duration == 0
-	local message = (perma and "Permabanned by " or "Banned by ") .. ply:Nick() .. (perma and "" or " for " .. duration .. " minutes") .. " (" .. reason .. ")"
-
-	if not targ:IsBot() then
-		targ:AddAutomatedPlayerNote("Ban log", reason, ply:Nick())
-
-		GAMEMODE:AddBan(targ:SteamID(), duration, reason, ply:SteamID())
-	end
-
-	GAMEMODE:WriteLog("admin_ban", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Reason = reason, Duration = duration})
-
-	targ:Kick(message)
-
-	Chat.Send(player.GetAll(), "NOTICE", ply:Nick() .. (perma and " Permabanned " or " Banned ") .. targNick .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
-end, false, {TYPE_ENTITY, TYPE_NUMBER, TYPE_STRING})
-
-concommand.AddAdmin("rpa_banoffline", function(ply, steamid, duration, reason)
-	if not util.IsValidSteamID(steamid) then
-		ply:SendChat("ERROR", "SteamID is invalid")
-
-		return
-	end
-
-	if duration < 0 then
-		ply:SendChat("ERROR", "Duration is invalid")
-
-		return
-	end
-
-	if #reason <= 0 then
-		ply:SendChat("ERROR", "Missing reason")
-
-		return
-	end
-
-	if GAMEMODE:SteamIDIsBanned(steamid) then
-		ply:SendChat("ERROR", "Player is already banned")
-
-		return
-	end
-
-	duration = math.Round(duration)
-
-	local perma = duration == 0
-
-	GAMEMODE:AddBan(steamid, duration, reason, ply:SteamID())
-	GAMEMODE:WriteLog("admin_ban", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(steamid), Reason = reason, Duration = duration})
-
-	ply:SendChat("NOTICE", (perma and "Permabanned " or "Banned ") .. steamid .. (perma and "" or " for " .. string.NiceTime(duration * 60)) .. " (" .. reason .. ")")
-end, false, {TYPE_STRING, TYPE_NUMBER, TYPE_STRING})
-
-concommand.AddAdmin("rpa_unban", function(ply, steamid)
-	if not util.IsValidSteamID(steamid) then
-		ply:SendChat("ERROR", "SteamID is invalid")
-
-		return
-	end
-
-	local bans = GAMEMODE:LookupBans(steamid)
-
-	if table.Count(bans) < 1 then
-		ply:SendChat("ERROR", "No bans found")
-
-		return
-	end
-
-	for id, data in pairs(bans) do
-		GAMEMODE:RemoveBan(id, steamid, "Unbanned by " .. ply:SteamID(), ply:SteamID())
-	end
-
-	GAMEMODE:WriteLog("admin_unban", {Admin = GAMEMODE:LogPlayer(ply), SteamID = steamid})
-
-	ply:SendChat("NOTICE", "Unbanned " .. steamid)
-end, false, {TYPE_STRING})
 
 concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	if amt == 0 then
