@@ -247,10 +247,7 @@ setAlias:SetExecutionContext(console.Server)
 setAlias:SetAccess(console.IsAdmin)
 
 setAlias:AddParameter(console.SteamID({
-	SingleTarget = true,
-	CheckImmunity = true,
-	NoSelfTarget = false,
-	Online = false
+	SingleTarget = true
 }))
 
 setAlias:AddParameter(console.String({

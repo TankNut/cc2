@@ -5,9 +5,9 @@ function PANEL:Init()
 	self.List:SetMultiSelect(false)
 	self.List:AddColumn("Usergroup"):SetFixedWidth(70)
 	self.List:AddColumn("SteamID"):SetFixedWidth(150)
-	self.List:AddColumn("Alias"):SetFixedWidth(150)
-	self.List:AddColumn("Steam Name"):SetFixedWidth(150)
-	self.List:AddColumn("Last Seen"):SetFixedWidth(130)
+	self.List:AddColumn("Alias")
+	self.List:AddColumn("Steam Name")
+	self.List:AddColumn("Last Seen"):SetFixedWidth(100)
 
 	self.Refresh = self:Add("DButton")
 	self.Refresh:SetText("Refresh Roster")
@@ -52,8 +52,10 @@ function PANEL:Init()
 end
 
 function PANEL:RequestAdminRoster()
-	self.UpdateAlias:SetDisabled(true)
-	self.DemoteUser:SetDisabled(true)
+	if lp:IsSuperAdmin() then
+		self.UpdateAlias:SetDisabled(true)
+		self.DemoteUser:SetDisabled(true)
+	end
 
 	self.List:Clear()
 
@@ -145,6 +147,7 @@ function PANEL:DoUpdateAlias()
 		RunConsoleCommand("rpa_setuseralias", steamID, alias)
 
 		if IsValid(self) and IsValid(line) then
+			line.Data.Alias = alias
 			line:SetColumnText(3, alias)
 		end
 	end)
