@@ -177,10 +177,19 @@ console.Parser("Player", function(ply, args, last, options)
 	return console.FindPlayer(ply, console.ReadArg(args, last), options)
 end)
 
+-- Does not work for non-admins atm because of limitations built into FindPlayer
 console.Parser("SteamID", function(ply, args, last, options)
 	local val = console.ReadArg(args, last)
 
 	if util.IsValidSteamID(val) and not options.Online and not player.GetBySteamID(val) then
+		if IsValid(ply) and (options.CheckImmunity or options.StrictImmunity) then
+			local group = PlayerVar.GetOffline(val, "UserGroup")
+
+			if not ply:CanTargetUserGroup(group, options.StrictImmunity) then
+				return false, "You cannot target this person"
+			end
+		end
+
 		return true, val
 	end
 
