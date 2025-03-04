@@ -23,6 +23,14 @@ function Player(ply)
 end
 
 function Admin(ply)
+	if not IsValid(ply) then
+		return {
+			AdminID = "CONSOLE",
+			Admin = "CONSOLE",
+			UserGroup = "CONSOLE"
+		}
+	end
+
 	local data = {
 		AdminID = ply:SteamID(),
 		Admin = ply:GetAlias(),
