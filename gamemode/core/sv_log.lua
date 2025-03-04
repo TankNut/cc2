@@ -3,10 +3,10 @@ module("Log", package.seeall)
 function Character(ply)
 	local data = {
 		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName(),
-		Player = ply:Nick(),
-		SteamID = ply:SteamID()
+		CharName = ply:VisibleRPName()
 	}
+
+	table.Merge(data, Player(ply))
 
 	if ply:IsTemporaryCharacter() then
 		data.IsTemporary = 1
@@ -25,11 +25,12 @@ end
 function Admin(ply)
 	local data = {
 		AdminID = ply:SteamID(),
-		Admin = ply:GetAlias()
+		Admin = ply:GetAlias(),
+		UserGroup = ply:UserGroup()
 	}
 
 	if ply:TempAdmin() then
-		data.IsTempAdmin = 1
+		data.UserGroup = "temp_admin"
 	end
 
 	return data
