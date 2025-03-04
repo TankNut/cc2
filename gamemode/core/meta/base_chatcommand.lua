@@ -70,7 +70,15 @@ if SERVER then
 
 		data.__Type = self.Name
 
+		if self.Log then
+			Log.Write("chat_" .. self.Log, self, data, ply)
+		end
+
 		netstream.Send(self:GetTargets(ply, data), "SendChat", data)
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return
 	end
 end
 

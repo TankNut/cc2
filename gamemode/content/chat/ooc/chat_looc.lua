@@ -11,6 +11,8 @@ CLASS.Tabs = TAB_LOOC
 
 CLASS.Color = Color(138, 185, 209)
 
+CLASS.Log = "ooc_local"
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 		return string.format("<c=%s>%s: [LOCAL-OOC] %s", self.Color, data.Name, data.Text)
@@ -22,6 +24,12 @@ if SERVER then
 		return {
 			Name = ply:VisibleRPName(),
 			Text = text
+		}
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return string.format("[LOOC] %s: %s", ply:VisibleRPName(), data.Text), {
+			Log.Character(ply)
 		}
 	end
 end

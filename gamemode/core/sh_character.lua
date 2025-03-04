@@ -63,6 +63,8 @@ function GM:PostLoadCharacter(ply)
 	hook.Run("PlayerApplyFlag", ply)
 
 	if SERVER then
+		Log.Write("character_load", ply)
+
 		ply:Spawn()
 		ply:CheckLanguage()
 	end

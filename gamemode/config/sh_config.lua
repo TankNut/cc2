@@ -65,8 +65,8 @@ GM.Config.ShortDescLength = 64
 GM.Config.BotGenerator = "citizen"
 
 -- Admin stuff
-GM.Config.DefaultLogLines = 200
-GM.Config.MaxLogLines = 500
+GM.Config.LogLines = 200
+
 GM.Config.ScoreboardCommands = {
 	{"Goto Player", "rpa_goto"},
 	{"Bring Player", "rpa_bring"},

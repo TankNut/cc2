@@ -15,6 +15,8 @@ CLASS.Tabs = TAB_IC
 CLASS.Color = Color(255, 50, 50)
 CLASS.LanguageColor = Color(255, 167, 73)
 
+CLASS.Log = "ic_yell"
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 		if data.Form then -- We don't understand them
@@ -54,6 +56,10 @@ if SERVER then
 			end
 		end
 
+		if self.Log then
+			Log.Write("chat_" .. self.Log, self, Language.Get(lang).Name, text, ply)
+		end
+
 		-- No reason to check for an empty table since we're always sending the valid version to ourselves
 		Chat.Send(self.Name, {
 			Name = ply:VisibleRPName(),
@@ -69,5 +75,12 @@ if SERVER then
 				Form = form
 			}, invalid)
 		end
+	end
+
+	function CLASS:WriteLog(lang, text, ply)
+		return string.format("[%s] %s: [YELL] %s", lang, ply:VisibleRPName(), text), {
+			Log.Character(ply),
+			Language = lang
+		}
 	end
 end

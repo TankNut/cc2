@@ -12,6 +12,8 @@ CLASS.AdminTextColor = Color(255, 156, 230)
 CLASS.PlayerNameColor = Color(225, 51, 51)
 CLASS.PlayerTextColor = Color(255, 83, 83)
 
+CLASS.Log = "admin"
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 		local prefix = data.FromAdmin and "ADMIN" or "TO ADMINS"
@@ -32,6 +34,12 @@ if SERVER then
 			Name = string.format("%s (%s)", ply:VisibleRPName(), ply:Nick()),
 			Text = text,
 			FromAdmin = ply:IsAdmin()
+		}
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return string.format("[%sADMINS] %s: %s", ply:IsAdmin() and "" or "TO ", ply:VisibleRPName(), data.Text), {
+			Log.Character(ply)
 		}
 	end
 end

@@ -9,6 +9,8 @@ CLASS.Tabs = TAB_OOC
 
 CLASS.Color = Color(200, 0, 0)
 
+CLASS.Log = "ooc_global"
+
 if CLIENT then
 	function CLASS:OnReceive(data)
 		return string.format("<c=%s>[OOC]</c> <c=%s>%s</c>: %s", self.Color, data.Color, data.Name, data.Text)
@@ -47,6 +49,12 @@ if SERVER then
 			Name = ply:VisibleRPName(),
 			Color = team.GetColor(ply:Team()),
 			Text = text
+		}
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return string.format("[OOC] %s: %s", ply:VisibleRPName(), data.Text), {
+			Log.Character(ply)
 		}
 	end
 end

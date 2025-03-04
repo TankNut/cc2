@@ -30,6 +30,12 @@ function Register(data)
 			Aliases[alias] = data.Commands[1]
 		end
 	end
+
+	if data.Log then
+		Log.AddType("chat_" .. data.Log, function(self, ...)
+			return self:WriteLog(...)
+		end)
+	end
 end
 
 function RegisterFolder(dir)
