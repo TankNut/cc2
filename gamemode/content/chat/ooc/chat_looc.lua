@@ -8,10 +8,9 @@ CLASS.Aliases = {"[[", ".//"}
 CLASS.Range = 400
 
 CLASS.Tabs = TAB_LOOC
+CLASS.Log = "ooc"
 
 CLASS.Color = Color(138, 185, 209)
-
-CLASS.Log = "ooc_local"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
@@ -29,7 +28,8 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[LOOC] %s: %s", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply)
+			Log.Character(ply),
+			ChatType = "looc"
 		}
 	end
 end

@@ -39,7 +39,8 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[%sADMINS] %s: %s", ply:IsAdmin() and "" or "TO ", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply)
+			Log.Character(ply),
+			ChatType = "admin"
 		}
 	end
 end

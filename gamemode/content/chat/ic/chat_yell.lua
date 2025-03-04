@@ -11,11 +11,10 @@ CLASS.Range = 800
 CLASS.MuffledRange = 400
 
 CLASS.Tabs = TAB_IC
+CLASS.Log = "ic"
 
 CLASS.Color = Color(255, 50, 50)
 CLASS.LanguageColor = Color(255, 167, 73)
-
-CLASS.Log = "ic_yell"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
@@ -80,6 +79,7 @@ if SERVER then
 	function CLASS:WriteLog(ply, lang, text)
 		return string.format("[%s] %s: [YELL] %s", lang, ply:VisibleRPName(), text), {
 			Log.Character(ply),
+			ChatType = "yell",
 			Language = lang
 		}
 	end

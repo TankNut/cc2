@@ -6,10 +6,9 @@ CLASS.Commands = {"ooc"}
 CLASS.Aliases = {"//"}
 
 CLASS.Tabs = TAB_OOC
+CLASS.Log = "ooc"
 
 CLASS.Color = Color(200, 0, 0)
-
-CLASS.Log = "ooc_global"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
@@ -54,7 +53,8 @@ if SERVER then
 
 	function CLASS:WriteLog(data, ply)
 		return string.format("[OOC] %s: %s", ply:VisibleRPName(), data.Text), {
-			Log.Character(ply)
+			Log.Character(ply),
+			ChatType = "ooc"
 		}
 	end
 end

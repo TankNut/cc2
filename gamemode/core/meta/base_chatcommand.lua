@@ -15,6 +15,7 @@ CLASS.Range = nil
 CLASS.MuffledRange = nil
 
 CLASS.Tabs = nil
+CLASS.Log = nil
 
 if CLIENT then
 	function CLASS:OnReceive(data)

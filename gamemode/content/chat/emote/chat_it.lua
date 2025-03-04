@@ -8,6 +8,7 @@ CLASS.Range = 400
 CLASS.MuffledRange = 150
 
 CLASS.Tabs = TAB_IC
+CLASS.Log = "ic"
 
 CLASS.Color = Color(131, 196, 251)
 
@@ -22,6 +23,13 @@ if SERVER then
 		return {
 			Name = ply:VisibleRPName(),
 			Text = text
+		}
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return string.format("(%s) ** %s **", ply:VisibleRPName(), data.Text), {
+			Log.Character(ply),
+			ChatType = "it"
 		}
 	end
 end
