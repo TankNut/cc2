@@ -208,6 +208,8 @@ function PANEL:SendRequest()
 		if #logs == Config.Get("LogLines") then
 			self.Next:SetDisabled(false)
 		end
+
+		self.Logs:SortByColumn(1, true)
 	end)
 end
 
