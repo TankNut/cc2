@@ -57,7 +57,7 @@ if SERVER then
 		end
 
 		if self.Log then
-			Log.Write("chat_" .. self.Log, self, Language.Get(lang).Name, text, ply)
+			Log.Write("chat_" .. self.Log, self, ply, Language.Get(lang).Name, text)
 		end
 
 		-- No reason to check for an empty table since we're always sending the valid version to ourselves
@@ -77,7 +77,7 @@ if SERVER then
 		end
 	end
 
-	function CLASS:WriteLog(lang, text, ply)
+	function CLASS:WriteLog(ply, lang, text)
 		return string.format("[%s] %s: [YELL] %s", lang, ply:VisibleRPName(), text), {
 			Log.Character(ply),
 			Language = lang
