@@ -197,6 +197,8 @@ function PANEL:SendRequest()
 
 			line.KeyValues = log.Data
 			line.Timestamp = log.Timestamp
+			line.Columns[2]:SetContentAlignment(7)
+			line.Columns[2]:SetTextInset(5, 2)
 
 			line:SetTooltipPanelOverride("CC_Tooltip")
 			line:SetTooltip(string.format([[<b>Log:</b> <dark>%s</dark>

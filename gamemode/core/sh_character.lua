@@ -16,6 +16,8 @@ CharacterVar.Add("CharacterSkin", {Default = 0, ServerOnly = true, Field = "Skin
 
 CharacterVar.Add("CharacterHidden", {Default = 0, Field = "Hidden", DataType = TINYINT()})
 
+CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
+
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:HasCharacter()
@@ -64,6 +66,8 @@ function GM:PostLoadCharacter(ply)
 
 	if SERVER then
 		Log.Write("character_load", ply)
+
+		ply:SetCharacterLastSeen(os.time())
 
 		ply:Spawn()
 		ply:CheckLanguage()

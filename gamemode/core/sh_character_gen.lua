@@ -52,6 +52,8 @@ if SERVER then
 		end
 
 		Run(ply, id, true)
+
+		Log.Write("character_generate", ply, Get(id))
 	end)
 end
 

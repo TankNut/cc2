@@ -94,6 +94,8 @@ if SERVER then
 
 		ply:CreateCharacter(fields)
 
+		Log.Write("character_create", ply, charType)
+
 		charType:PostCreateCharacter(ply, options)
 	end
 end
