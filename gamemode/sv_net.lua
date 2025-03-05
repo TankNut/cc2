@@ -67,9 +67,6 @@ util.AddNetworkString("nDropAmount")
 
 util.AddNetworkString("nSetDeployableEnt")
 
-util.AddNetworkString("nRequestLogs")
-util.AddNetworkString("nSendLogs")
-
 util.AddNetworkString("nSetRadioChannel")
 util.AddNetworkString("nSetRadioChannelActive")
 util.AddNetworkString("nSetRadioChannelPrimary")

@@ -88,7 +88,6 @@ function concommand.AddAdmin(cmd, func, sa, typeList)
 end
 
 concommand.AddAdmin("rpa_invisible", function(ply, targ, bool)
-	GAMEMODE:WriteLog("admin_invisible", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Bool = bool})
 	targ:SetNoDraw(bool)
 end, false, {TYPE_ENTITY, TYPE_BOOL})
 
@@ -97,8 +96,6 @@ concommand.AddAdmin("rpa_ko", function(ply, targ)
 	targ:PassOut()
 
 	targ:SendChat("NOTICE", ply:Nick() .. " knocked you out")
-
-	GAMEMODE:WriteLog("admin_ko", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_wakeup", function(ply, targ)
@@ -106,8 +103,6 @@ concommand.AddAdmin("rpa_wakeup", function(ply, targ)
 	targ:WakeUp()
 
 	targ:SendChat("NOTICE", ply:Nick() .. " woke you up")
-
-	GAMEMODE:WriteLog("admin_wake", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ)})
 end, false, {TYPE_ENTITY})
 
 concommand.AddAdmin("rpa_kick", function(ply, targ, arg)
@@ -117,8 +112,6 @@ concommand.AddAdmin("rpa_kick", function(ply, targ, arg)
 	if #arg > 0 then
 		reason = reason .. " (" .. arg .. ")"
 	end
-
-	GAMEMODE:WriteLog("admin_kick", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Reason = arg})
 
 	targ:Kick(reason)
 
@@ -137,8 +130,6 @@ concommand.AddAdmin("rpa_givemoney", function(ply, targ, amt)
 	end
 
 	targ:AddMoney(amt)
-
-	GAMEMODE:WriteLog("admin_givemoney", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(targ), Char = GAMEMODE:LogCharacter(targ), Amount = amt})
 end, false, {TYPE_ENTITY, TYPE_NUMBER})
 
 concommand.AddAdmin("rpa_flagsroster", function(ply)
@@ -181,8 +172,6 @@ concommand.AddAdmin("rpa_playurl", function(ply, url, volume)
 	end
 
 	math.Clamp(volume, 0, 1)
-
-	GAMEMODE:WriteLog("admin_playurl", {Admin = GAMEMODE:LogPlayer(ply), URL = url})
 
 	net.Start("nAPlayURL")
 		net.WriteString(ply:Nick())
@@ -328,8 +317,6 @@ concommand.AddAdmin("rpa_deleteitem", function(ply, id)
 			if IsValid(ply) then
 				ply:SendChat("NOTICE", "You've deleted item #" .. id)
 			end
-
-			GAMEMODE:WriteLog("admin_deleteitem", {Admin = GAMEMODE:LogPlayer(ply), ID = id})
 		end
 
 		GAMEMODE.SQL:Query([[
@@ -362,8 +349,6 @@ concommand.AddAdmin("rpa_restoreitem", function(ply, id)
 		if IsValid(ply) then
 			ply:SendChat("NOTICE", "You've restored item #" .. id .. " to your inventory")
 		end
-
-		GAMEMODE:WriteLog("admin_restoreitem", {Admin = GAMEMODE:LogPlayer(ply), ID = id})
 	end
 
 	GAMEMODE.SQL:Query([[

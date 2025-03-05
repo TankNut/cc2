@@ -173,14 +173,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 		end
 
 		self:LogSQL(string.format("Player %s (%s) killed player %s (%s) with %s.", attacker:Nick(), attacker:SteamID(), ply:Nick(), ply:SteamID(), weapon))
-
-		self:WriteLog("sandbox_kill", {
-			Ply = GAMEMODE:LogPlayer(attacker),
-			Char = GAMEMODE:LogCharacter(attacker),
-			VictimPly = GAMEMODE:LogPlayer(ply),
-			VictimChar = GAMEMODE:LogCharacter(ply),
-			Weapon = weapon
-		})
 	end
 
 	net.Start("nSetNightvision")

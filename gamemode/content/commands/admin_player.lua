@@ -71,8 +71,6 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 			target:SetArmor(target:GetMaxArmor())
 		end
 
-		GAMEMODE:WriteLog("admin_heal", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target), Self = ply == target})
-
 		console.Feedback(target, "NOTICE", "%s has healed you", ply)
 	end
 
@@ -138,8 +136,6 @@ local kill = console.AddCommand("rpa_kill", function(ply, target)
 	target:Kill()
 
 	console.Feedback(target, "NOTICE", "%s killed you", ply)
-
-	GAMEMODE:WriteLog("admin_kill", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
 end)
 
 kill:SetCategory("Player Commands")
@@ -159,8 +155,6 @@ local slap = console.AddCommand("rpa_slap", function(ply, target)
 
 	console.Feedback(target, "NOTICE", "%s has slapped you", ply)
 	console.Feedback(ply, "NOTICE", "You've slapped %s", target)
-
-	GAMEMODE:WriteLog("admin_slap", {Admin = GAMEMODE:LogPlayer(ply), Ply = GAMEMODE:LogPlayer(target), Char = GAMEMODE:LogCharacter(target)})
 end)
 
 slap:SetCategory("Player Commands")

@@ -11,7 +11,6 @@ if SERVER then
 			net.Send(ply)
 		else
 			if IsValid(ent) then
-				GAMEMODE:WriteLog("sandbox_propdesc", {Char = GAMEMODE:LogCharacter(ply), Ply = GAMEMODE:LogPlayer(ply), Ent = tostring(ent), Before = ent:PropDescription(), After = description})
 				ent:SetPropDescription(description)
 			end
 		end

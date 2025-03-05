@@ -20,7 +20,6 @@ include("sh_utils.lua")
 include("shared.lua")
 
 include("sh_includes.lua")
-include("sh_logging.lua")
 include("sh_admin.lua")
 include("sh_animation.lua")
 include("sh_entity.lua")
@@ -31,7 +30,6 @@ include("sh_pon.lua")
 include("sh_utils.lua")
 include("sh_weapons.lua")
 
-include("cl_logging.lua")
 include("cl_admin.lua")
 include("cl_adminmenu.lua")
 include("cl_binds.lua")
@@ -44,7 +42,6 @@ include("cl_playurl.lua")
 include("cl_fonts.lua")
 
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
-IncludeFolder(GM.FolderName .. "/gamemode/logtypes")
 
 include("core/_core.lua")
 

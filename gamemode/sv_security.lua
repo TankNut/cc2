@@ -30,8 +30,6 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 
 	if t then
 		if p then
-			self:WriteLog("security_banned", {SteamID = steamid, Nick = name, IP = networkid, Perma = p})
-
 			local reason = "."
 
 			if r and #r > 0 then
@@ -40,8 +38,6 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 
 			return false, "You're permabanned" .. reason .. " Apply for an unban at " .. Config.Get("WebsiteURL") .. "."
 		else
-			self:WriteLog("security_banned", {Duration = t, SteamID = steamid, Nick = name, IP = networkid})
-
 			local reason = "."
 
 			if r and #r > 0 then
@@ -53,8 +49,6 @@ function GM:CheckPassword(steamid, networkid, svpass, pass, name)
 	end
 
 	if svpass != "" and pass != svpass then
-		self:WriteLog("security_badpassword", {SteamID = steamid, Nick = name, IP = networkid, Password = pass})
-
 		return false, "#GameUI_ServerRejectBadPassword"
 	end
 

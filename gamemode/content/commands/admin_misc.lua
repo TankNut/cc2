@@ -1,5 +1,4 @@
 local restart = console.AddCommand("rpa_restart", function(ply)
-	GAMEMODE:WriteLog("admin_restart", {Admin = GAMEMODE:LogPlayer(ply)})
 	Chat.Send("GENERIC", {
 		Text = console.FormatMessage("<giant>%s is restarting the server in 5 seconds", ply),
 		Color = Color(200, 0, 0)
@@ -42,7 +41,6 @@ local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
 		return
 	end
 
-	GAMEMODE:WriteLog("admin_changelevel", {Admin = GAMEMODE:LogPlayer(ply), Map = map})
 	Chat.Send("GENERIC", {
 		Text = console.FormatMessage("<giant>%s is changing the map to %s in 5 seconds", ply, map),
 		Color = Color(200, 0, 0)

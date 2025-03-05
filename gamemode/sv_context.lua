@@ -86,14 +86,6 @@ net.Receive("nCGiveCredits", function(len, ply)
 		ply:AddMoney(-amt)
 		targ:AddMoney(amt)
 
-		GAMEMODE:WriteLog("character_givemoney", {
-			Ply = GAMEMODE:LogPlayer(ply),
-			Char = GAMEMODE:LogCharacter(ply),
-			TargetPly = GAMEMODE:LogPlayer(targ),
-			TargetChar = GAMEMODE:LogCharacter(targ),
-			Amount = amt
-		})
-
 		net.Start("nCReceiveCredits")
 			net.WriteFloat(amt)
 			net.WriteEntity(ply)
