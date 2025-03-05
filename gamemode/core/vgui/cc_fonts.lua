@@ -38,6 +38,42 @@ for name, size in pairs({Stupid = 50, Massive = 30, Giant = 22, Big = 18, Medium
 	scribe.Register(COMPONENT)
 end
 
+surface.CreateFont("CombineControl.PlayerFont", {
+	font = GM.FontFace,
+	size = 17,
+	weight = 700
+})
+
+surface.CreateFont("CombineControl.HUDAmmo", {
+	font = GM.FontFace,
+	size = 50,
+	weight = 500
+})
+
+surface.CreateFont("CombineControl.HUDAmmoSmall", {
+	font = GM.FontFace,
+	size = 30,
+	weight = 500
+})
+
+surface.CreateFont("CombineControl.WepSelectHeader", {
+	font = GM.FontFace,
+	size = 20,
+	weight = 700
+})
+
+surface.CreateFont("CombineControl.WepSelectWep", {
+	font = GM.FontFace,
+	size = 18,
+	weight = 500
+})
+
+surface.CreateFont("CombineControl.WepSelectInfo", {
+	font = GM.FontFace,
+	size = 16,
+	weight = 500
+})
+
 scribe.Register({
 	Name = {"chat"},
 	Components = {

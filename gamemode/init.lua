@@ -41,7 +41,6 @@ AddCSLuaFile("sh_weapons.lua")
 
 AddCSLuaFile("cl_binds.lua")
 AddCSLuaFile("cl_hud.lua")
-AddCSLuaFile("cl_fonts.lua")
 
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 

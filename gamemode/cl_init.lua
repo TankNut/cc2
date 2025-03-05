@@ -25,7 +25,6 @@ include("sh_weapons.lua")
 
 include("cl_binds.lua")
 include("cl_hud.lua")
-include("cl_fonts.lua")
 
 IncludeFolder(GM.FolderName .. "/gamemode/gui")
 
