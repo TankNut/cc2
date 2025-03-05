@@ -72,7 +72,15 @@ function PLAYER:CreateTempCharacter(fields)
 	return id
 end
 
+function GM:PreLoadCharacter(ply, id)
+	if ply:HasCharacter() then
+		ply:SetCharacterLastSeen(os.time())
+	end
+end
+
 function PLAYER:LoadTempCharacter(id)
+	hook.Run("PreLoadCharacter", self, id)
+
 	local data = TempData[-id].Fields
 
 	self:SetCharID(id)
@@ -97,6 +105,8 @@ function PLAYER:LoadTempCharacter(id)
 end
 
 function PLAYER:LoadCharacter(id)
+	hook.Run("PreLoadCharacter", self, id)
+
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:WhereEqual("id", id)
 		query:WhereNull("Deleted_At")
@@ -128,6 +138,8 @@ function PLAYER:LoadCharacter(id)
 end
 
 function PLAYER:UnloadCharacter()
+	hook.Run("PreLoadCharacter", self, 0)
+
 	self:SetCharID(0)
 
 	for _, var in pairs(CharacterVar.Vars) do

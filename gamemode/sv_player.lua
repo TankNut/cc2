@@ -145,8 +145,6 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 			weapon = weapon:GetClass()
 		end
 	end
-
-	hook.Run("CC.SV.PlayerDeath", ply)
 end
 
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)
@@ -160,6 +158,7 @@ end
 
 function GM:PlayerDisconnected(ply)
 	ply:SetLastSeen(os.time())
+	ply:SetCharacterLastSeen(os.time())
 
 	if ply:Ragdoll() and ply:Ragdoll():IsValid() then
 		ply:Ragdoll():Remove()
