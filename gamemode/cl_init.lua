@@ -1,5 +1,3 @@
-MsgC(Color(200, 200, 200, 255), "Loading clientside...\n")
-
 GM.Config = GM.Config or {}
 
 if not CCP then
@@ -67,5 +65,3 @@ function UIAutoClose(panel)
 		GAMEMODE.CursorItem = nil
 	end
 end
-
-MsgC(Color(200, 200, 200, 255), "Clientside loaded.\n")
