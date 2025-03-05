@@ -1,7 +1,7 @@
 local PLAYER = FindMetaTable("Player")
 
 function GM:IsSpawnpointSuitable(ply, spawn, force)
-	if ply:Team() == TEAM_SPECTATOR then return true end
+	if ply:Team() == TEAM_UNASSIGNED then return true end
 
 	local pos = spawn:GetPos()
 	local blockers = ents.FindInBox(pos + Vector(-16, -16, 0), pos + Vector(16, 16, 64))
@@ -167,6 +167,4 @@ end
 
 function GM:ShutDown()
 	GAMEMODE.IsShuttingDown = true
-
-	hook.Run("CC.SV.ShutDown")
 end
