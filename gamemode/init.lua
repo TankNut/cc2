@@ -1,5 +1,3 @@
-MsgC(Color(200, 200, 200, 255), "Loading serverside...\n")
-
 GM.Config = GM.Config or {}
 
 include("sh_enum.lua")
