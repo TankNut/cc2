@@ -90,31 +90,41 @@ function Get(id)
 	return All[id]
 end
 
+local fields = {
+	"ClassName",
+	"Name"
+}
+
 local function checkName(item, name)
 	if not name then
 		return true
 	end
 
-	if item == name then
-		-- Direct match
-		return true, true
-	end
-
 	name = string.lower(name)
 
-	if string.find(item.ClassName, name, 1, true) then
-		return true
-	end
+	local ok = false
 
-	local rarity = Rarities[item.Rarity]
+	for _, field in ipairs(fields) do
+		if name == string.lower(item[field]) then
+			return true, true
+		end
 
-	for _, tag in ipairs(table.Add({rarity.Name, item.Category}, item.Tags)) do
-		if string.find(string.lower(tag), name, 1, true) then
-			return true
+		if not ok and string.find(string.lower(item[field]), name, 1, true) then
+			ok = true
 		end
 	end
 
-	return false
+	if not ok then
+		local rarity = Rarities[item.Rarity]
+
+		for _, tag in ipairs(table.Add({rarity.Name, item.Category}, item.Tags)) do
+			if string.find(string.lower(tag), name, 1, true) then
+				return true
+			end
+		end
+	end
+
+	return ok
 end
 
 function Find(ply, name)
