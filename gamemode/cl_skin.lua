@@ -340,8 +340,19 @@ function SKIN:PaintItemHover(x, y, w, h)
 end
 
 function SKIN:PaintMenu(panel, w, h)
-	surface.SetDrawColor(self.Colors.FillMedium)
-	surface.DrawRect(0, 0, w, h)
+	local odd = true
+
+	for i = 0, h, 22 do
+		if odd then
+			surface.SetDrawColor(40, 40, 40, 255)
+			surface.DrawRect(0, i, w, 22)
+		else
+			surface.SetDrawColor(50, 50, 50, 255)
+			surface.DrawRect(0, i, w, 22)
+		end
+
+		odd = not odd
+	end
 
 	surface.SetDrawColor(self.Colors.FillDark)
 	surface.DrawOutlinedRect(0, 0, w, h, 1)

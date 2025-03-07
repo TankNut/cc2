@@ -291,46 +291,35 @@ function SKIN:PaintMenu(panel, w, h)
 	local odd = true
 
 	for i = 0, h, 22 do
-
 		if odd then
-
 			surface.SetDrawColor(40, 40, 40, 255)
 			surface.DrawRect(0, i, w, 22)
-
 		else
-
 			surface.SetDrawColor(50, 50, 50, 255)
 			surface.DrawRect(0, i, w, 22)
-
 		end
 
 		odd = not odd
-
 	end
 end
 
 function SKIN:PaintMenuOption(panel, w, h)
 	if not panel.LaidOut then
-
 		panel.LaidOut = true
+
 		panel:SetFont("CombineControl.LabelSmall")
 		panel:SetTextColor(Color(200, 200, 200, 255))
-
 	end
 
 	if panel.m_bBackground and (panel.Hovered or panel.Highlight) then
-
 		surface.SetDrawColor(70, 70, 70, 255)
 		surface.DrawRect(0, 0, w, h)
-
 	end
 
 	self.MenuOptionOdd = not self.MenuOptionOdd
 
 	if panel:GetChecked() then
-
 		self.tex.Menu_Check(5, h / 2 - 7, 15, 15)
-
 	end
 end
 
