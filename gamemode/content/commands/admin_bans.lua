@@ -13,8 +13,10 @@ ban:AddParameter(console.SteamID({
 }))
 
 ban:AddParameter(console.Duration({
-	AllowZero = true
+	AllowZero = true,
+	Min = "5 minutes"
 }, "length"))
+
 ban:AddOptional(console.String({
 	Max = 256
 }), nil, "No reason specified")
