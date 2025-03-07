@@ -76,6 +76,12 @@ function GM:CanTool(ply, tr, tool)
 		if trust < config.IgnoreOwnership and not ply:IsCreator(ent) then
 			return false
 		end
+
+		if SERVER then
+			Log.Write("sandbox_tool", ply, tool, ent:GetClass())
+		end
+	elseif SERVER then
+		Log.Write("sandbox_tool", ply, tool, "worldspawn")
 	end
 
 	return true
@@ -161,13 +167,35 @@ if SERVER then
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
+
+		Log.Write("sandbox_spawn_prop", ply, model)
 	end
 
 	function GM:PlayerSpawnedEffect(ply, model, ent)
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
+
+		Log.Write("sandbox_spawn_prop", ply, model)
 	end
+
+	function GM:PlayerSpawnedRagdoll(ply, model, ent)
+		-- Eternity does this by default? Should we undo that?
+		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
+
+		Log.Write("sandbox_spawn_prop", ply, model)
+	end
+
+	local function logEntitySpawn(key)
+		return function(_, ply, ent)
+			Log.Write("sandbox_spawn_" .. key, ply, ent:GetClass())
+		end
+	end
+
+	GM.PlayerSpawnedSWEP = logEntitySpawn("weapon")
+	GM.PlayerSpawnedNPC = logEntitySpawn("npc")
+	GM.PlayerSpawnedVehicle = logEntitySpawn("vehicle")
+	GM.PlayerSpawnedSENT = logEntitySpawn("entity")
 end
 
 function GM:CanArmDupe(ply)
