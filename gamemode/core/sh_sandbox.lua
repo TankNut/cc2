@@ -163,39 +163,39 @@ if SERVER then
 	GM.PlayerSpawnSENT = checkToolTrust("EntitySpawning")
 	GM.PlayerSpawnVehicle = checkToolTrust("VehicleSpawning")
 
-	function GM:PlayerSpawnedProp(ply, model, ent)
+	hook.Add("PlayerSpawnedProp", "sandbox", function(ply, model, ent)
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
 
 		Log.Write("sandbox_spawn_prop", ply, model)
-	end
+	end)
 
-	function GM:PlayerSpawnedEffect(ply, model, ent)
+	hook.Add("PlayerSpawnedEffect", "sandbox", function(ply, model, ent)
 		if ply:GetToolTrust() < Config.Get("ToolTrust").SolidProps then
 			ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 		end
 
 		Log.Write("sandbox_spawn_prop", ply, model)
-	end
+	end)
 
-	function GM:PlayerSpawnedRagdoll(ply, model, ent)
+	hook.Add("PlayerSpawnedRagdoll", "sandbox", function(ply, model, ent)
 		-- Eternity does this by default? Should we undo that?
 		ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
 
 		Log.Write("sandbox_spawn_prop", ply, model)
-	end
+	end)
 
 	local function logEntitySpawn(key)
-		return function(_, ply, ent)
+		return function(ply, ent)
 			Log.Write("sandbox_spawn_" .. key, ply, ent:GetClass())
 		end
 	end
 
-	GM.PlayerSpawnedSWEP = logEntitySpawn("weapon")
-	GM.PlayerSpawnedNPC = logEntitySpawn("npc")
-	GM.PlayerSpawnedVehicle = logEntitySpawn("vehicle")
-	GM.PlayerSpawnedSENT = logEntitySpawn("entity")
+	hook.Add("PlayerSpawnedSWEP", "sandbox", logEntitySpawn("weapon"))
+	hook.Add("PlayerSpawnedNPC", "sandbox", logEntitySpawn("npc"))
+	hook.Add("PlayerSpawnedVehicle", "sandbox", logEntitySpawn("vehicle"))
+	hook.Add("PlayerSpawnedSENT", "sandbox", logEntitySpawn("entity"))
 end
 
 function GM:CanArmDupe(ply)
