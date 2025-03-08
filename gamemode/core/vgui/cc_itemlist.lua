@@ -2,7 +2,7 @@ local PANEL = {}
 DEFINE_BASECLASS("Panel")
 
 function PANEL:Init()
-	self.Weight = self:Add("CCProgressBar")
+	self.Weight = self:Add("CC_ProgressBar")
 	self.Weight:DockMargin(0, 10, 0, 0)
 	self.Weight:Dock(BOTTOM)
 	self.Weight:SetTall(20)

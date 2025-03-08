@@ -40,8 +40,6 @@ AddCSLuaFile("sh_weapons.lua")
 AddCSLuaFile("cl_binds.lua")
 AddCSLuaFile("cl_hud.lua")
 
-IncludeFolder(GM.FolderName .. "/gamemode/gui")
-
 AddCSLuaFile("core/_core.lua")
 include("core/_core.lua")
 

@@ -24,8 +24,6 @@ include("sh_weapons.lua")
 include("cl_binds.lua")
 include("cl_hud.lua")
 
-IncludeFolder(GM.FolderName .. "/gamemode/gui")
-
 include("core/_core.lua")
 
 function GM:Initialize()
