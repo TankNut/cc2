@@ -166,6 +166,18 @@ if SERVER then
 			undo.ReplaceEntity(ent, NULL)
 			cleanup.ReplaceEntity(ent, NULL)
 
+			for uniqueID, data in pairs(g_SBoxObjects) do
+				data.props = table.Filter(data.props, function(_, prop)
+					return prop != ent
+				end)
+
+				local ply = player.GetByUniqueID(uniqueID)
+
+				if ply then
+					ply:GetCount("props")
+				end
+			end
+
 			constraint.RemoveAll(ent)
 
 			local phys = ent:GetPhysicsObject()
