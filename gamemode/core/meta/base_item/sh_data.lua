@@ -34,9 +34,25 @@ function ITEM:SetData(key, val)
 	end
 end
 
-function ITEM:GetName() return self:GetData("Name", self.Name) end
+function ITEM:GetName()
+	local custom = self:GetData("CustomName")
+
+	if custom then
+		return string.format("\"%s\"", custom)
+	end
+
+	return self:GetData("Name", self.Name)
+end
+
 function ITEM:GetDescription()
-	local description = {self:GetData("Description", self.Description), "<reset>"}
+	local custom = self:GetData("CustomDescription")
+	local description = {}
+
+	if custom then
+		table.insert(description, string.format("<i>%s<reset>", custom))
+	else
+		table.insert(description, self:GetData("Description", self.Description) .. "<reset>")
+	end
 
 	if self:IsEquipped() then
 		table.insert(description, string.format("\n\n<col=lime>Equipped as %s</col>", EquipmentSlot(self:GetEquipmentSlot())))
