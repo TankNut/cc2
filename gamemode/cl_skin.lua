@@ -1,6 +1,6 @@
 local SKIN = {}
 
-SKIN.PrintName 		= "CombineControlNew"
+SKIN.PrintName 		= "CombineControl"
 SKIN.Author 		= "TankNut"
 SKIN.DermaVersion 	= 1
 
@@ -428,4 +428,4 @@ function SKIN:PaintSliderKnob(panel, w, h)
 	surface.DrawOutlinedRect(x, 0, width, h)
 end
 
-derma.DefineSkin("CombineControlNew", "", SKIN)
+derma.DefineSkin("CombineControl", "", SKIN)

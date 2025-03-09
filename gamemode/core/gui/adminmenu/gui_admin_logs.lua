@@ -30,7 +30,7 @@ function PANEL:Init()
 
 	self.NameFilter.OnChange = function(pnl)
 		if IsValid(pnl.Menu) then
-			pnl.Menu:SetSkin("CombineControlNew")
+			pnl.Menu:SetSkin("CombineControl")
 		end
 	end
 

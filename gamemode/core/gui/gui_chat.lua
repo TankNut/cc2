@@ -2,7 +2,7 @@ local PANEL = {}
 
 function PANEL:Init()
 	-- Not CC_Frame derived so we have to manually set this
-	self:SetSkin("CombineControlNew")
+	self:SetSkin("CombineControl")
 
 	self:SetCloseOnPause(true)
 

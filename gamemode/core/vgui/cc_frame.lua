@@ -5,7 +5,7 @@ AccessorFunc(PANEL, "ToggleKey", "ToggleKey")
 AccessorFunc(PANEL, "Draggable", "Draggable")
 
 function PANEL:Init()
-	self:SetSkin("CombineControlNew")
+	self:SetSkin("CombineControl")
 end
 
 function PANEL:Close()

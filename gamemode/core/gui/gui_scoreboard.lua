@@ -67,7 +67,7 @@ function PANEL:OpenScoreboardCommands()
 
 	local dmenu = DermaMenu()
 
-	dmenu:SetSkin("CombineControlNew")
+	dmenu:SetSkin("CombineControl")
 	dmenu:SetPos(gui.MousePos())
 
 	for _, action in ipairs(actions) do
