@@ -51,3 +51,25 @@ Log.AddType("admin_misc_togglesaved", function(ply, model, saved)
 		Saved = saved and 1 or 0
 	}
 end)
+
+Log.AddType("admin_teleport_goto", function(ply, target)
+	return string.format("%s has teleported to %s", ply:Nick(), target:Nick()), {
+		Log.Admin(ply),
+		Log.Player(target)
+	}
+end)
+
+Log.AddType("admin_teleport_bring", function(ply, target)
+	return string.format("%s has brought %s to themself", ply:Nick(), target:Nick()), {
+		Log.Admin(ply),
+		Log.Player(target)
+	}
+end)
+
+Log.AddType("admin_teleport_send", function(ply, from, to)
+	return string.format("%s has sent %s to %s", ply:Nick(), from:Nick(), to:Nick()), {
+		Log.Admin(ply),
+		Log.Player(from),
+		Log.Player(to)
+	}
+end)

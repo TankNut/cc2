@@ -45,6 +45,8 @@ end
 
 local goTo = console.AddCommand("rpa_goto", function(ply, target)
 	ply:SetPos(FindTeleportPos(target))
+
+	Log.Write("admin_teleport_goto", ply, target)
 end)
 
 goTo:SetCategory("Teleport Commands")
@@ -61,6 +63,8 @@ goTo:AddParameter(console.Player({
 
 local bring = console.AddCommand("rpa_bring", function(ply, target)
 	target:SetPos(FindTeleportPos(ply))
+
+	Log.Write("admin_teleport_bring", ply, target)
 end)
 
 bring:SetCategory("Teleport Commands")
@@ -77,6 +81,8 @@ bring:AddParameter(console.Player({
 
 local send = console.AddCommand("rpa_send", function(ply, from, to)
 	from:SetPos(FindTeleportPos(to))
+
+	Log.Write("admin_teleport_send", ply, from, to)
 end)
 
 send:SetCategory("Teleport Commands")
