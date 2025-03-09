@@ -15,6 +15,10 @@ end
 ITEM.Actions.Equip = {
 	Priority = 10,
 
+	Context = table.Lookup({
+		"RightClick", "Examine"
+	}),
+
 	CanRun = function(self, ply)
 		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
 	end,
@@ -34,7 +38,12 @@ ITEM.Actions.Equip = {
 }
 
 ITEM.Actions.EquipSlot = {
+	Name = "Equip...",
 	Priority = 10,
+
+	Context = table.Lookup({
+		"RightClick", "Examine"
+	}),
 
 	CanRun = function(self, ply)
 		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() > 1
@@ -75,6 +84,10 @@ ITEM.Actions.EquipSlot = {
 
 ITEM.Actions.Unequip = {
 	Priority = 10,
+
+	Context = table.Lookup({
+		"RightClick", "Examine"
+	}),
 
 	CanRun = function(self, ply)
 		return hook.Run("CanUnequipItem", ply, self)

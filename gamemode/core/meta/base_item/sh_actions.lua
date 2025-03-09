@@ -39,7 +39,7 @@ end
 
 if CLIENT then
 	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
-	function ITEM:GetAvailableActions(context)
+	function ITEM:GetActionMenuData(context)
 		local actions = {}
 
 		for name, action in pairs(self:GetActions()) do
@@ -47,16 +47,12 @@ if CLIENT then
 				continue
 			end
 
-			local hidden = action.Hidden
+			if action.Hidden then
+				continue
+			end
 
-			if hidden then
-				if hidden == true then
-					continue
-				end
-
-				if istable(hidden) and hidden[context] then
-					continue
-				end
+			if action.Context and not action.Context[context] then
+				continue
 			end
 
 			if action.CanRun and not action.CanRun(self, lp) then
@@ -77,7 +73,39 @@ if CLIENT then
 			return a.Name < b.Name
 		end)
 
-		return actions
+		local menuData = {}
+
+		for _, action in ipairs(actions) do
+			local options = action.SubOptions
+
+			if isfunction(options) then
+				options = action.SubOptions(self)
+			end
+
+			if options then
+				if #options == 0 then
+					continue
+				end
+
+				for _, sub in ipairs(options) do
+					table.insert(menuData, {
+						Name = string.format("%s/%s", action.Name, sub.Name),
+						Callback = function()
+							self:RunAction(lp, action.ID, sub.Value)
+						end
+					})
+				end
+			else
+				table.insert(menuData, {
+					Name = action.Name,
+					Callback = function()
+						self:RunAction(lp, action.ID)
+					end
+				})
+			end
+		end
+
+		return menuData
 	end
 end
 

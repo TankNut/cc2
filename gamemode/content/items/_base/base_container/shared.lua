@@ -4,6 +4,8 @@ ITEM.Internal = true
 
 ITEM.Category = "Container"
 
+ITEM.Unique = true
+
 ITEM.BaseWeight = 0
 ITEM.MaxWeight = 10
 
@@ -12,6 +14,11 @@ GM:Include("sh_triggers.lua")
 ITEM.Actions = {}
 ITEM.Actions.Open = {
 	Priority = 20,
+
+	Context = table.Lookup({
+		"RightClick", "Examine",
+		"InventoryContext"
+	}),
 
 	CanRun = function(self, ply)
 		return hook.Run("CanOpenItemContainer", ply, self)

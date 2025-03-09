@@ -26,39 +26,15 @@ function ITEM:TriggerPanelUpdate()
 end
 
 function ITEM:OpenActionMenu(context)
-	local actions = self:GetAvailableActions(context)
+	local menuData = self:GetActionMenuData(context)
 
-	if #actions < 1 then
+	if #menuData < 1 then
 		return
 	end
 
-	local dmenu = DermaMenu()
+	local dmenu = util.BuildMenu(menuData)
 
-	dmenu:SetSkin("CombineControlNew")
-	dmenu:SetPos(gui.MousePos())
-
-	for _, action in ipairs(actions) do
-		local options = action.SubOptions
-
-		if isfunction(options) then
-			options = action.SubOptions(self, lp)
-		end
-
-		if options and #options > 0 then
-			local parent = dmenu:AddSubMenu(action.Name)
-
-			for _, v in ipairs(options) do
-				parent:AddOption(v.Name, function()
-					self:RunAction(lp, action.ID, v.Value)
-				end)
-			end
-		else
-			dmenu:AddOption(action.Name, function()
-				self:RunAction(lp, action.ID)
-			end)
-		end
-	end
-
+	dmenu:SetSkin("CombineControl")
 	dmenu:Open()
 end
 

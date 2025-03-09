@@ -14,6 +14,8 @@ ITEM.Rarity = RARITY_COMMON
 ITEM.Category = "Misc"
 ITEM.Tags = {}
 
+ITEM.Unique = false -- Don't collapse duplicate entries for item actions
+
 -- Appearance
 ITEM.Model = Model("models/props_lab/cactus.mdl")
 ITEM.Skin = 0

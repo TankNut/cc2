@@ -95,7 +95,7 @@ function PANEL:ItemUpdated()
 
 	self.DestroyButton:SetDisabled(not item:CanRunAction(lp, "Destroy"))
 	self.DropButton:SetDisabled(not item:CanRunAction(lp, "Drop"))
-	self.ActionButton:SetDisabled(#item:GetAvailableActions("Examine") < 1)
+	self.ActionButton:SetDisabled(#item:GetActionMenuData("Examine") < 1)
 end
 
 function PANEL:OnRemove()

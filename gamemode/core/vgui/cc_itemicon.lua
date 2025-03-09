@@ -58,8 +58,8 @@ function PANEL:DoDoubleClick()
 	GUI.Open("ItemPopup", self.Item)
 end
 
-function PANEL:DoRightClick(category)
-	self.Item:OpenActionMenu(category)
+function PANEL:DoRightClick()
+	self.Item:OpenActionMenu("RightClick")
 end
 
 function PANEL:ItemUpdated()

@@ -30,6 +30,15 @@ SLOT_BASIC   = 1
 SLOT_WEAPONS = 2
 SLOT_MISC    = 3
 
+CONTEXT_TOP = 0 -- Unused
+CONTEXT_ENTITY = 10 -- Interacting with other players/entities
+CONTEXT_IMPORTANT = 20 -- Important stuff like patching up armor
+CONTEXT_EQUIPMENT = 30 -- Equipped item actions
+CONTEXT_INVENTORY = 40 -- Inventory item actions
+CONTEXT_SELF = 50 -- Self actions e.g. gestures, animations
+CONTEXT_MISC = 60 -- Default
+CONTEXT_ADMIN = 70 -- Admin-only stuff
+
 WEAPONS_TOOLS = table.Lookup({
 	"weapon_physgun",
 	"gmod_tool"
