@@ -6,6 +6,8 @@ HUD.Setting = "Health"
 HUD.Width = 220
 HUD.Height = 14
 
+HUD.BackgroundColor = Color("cc_fill_dark", 200)
+
 HUD.HealthColor = Color(150, 20, 20, 255)
 HUD.ArmorColor = Color(37, 84, 158, 255)
 HUD.OverArmorColor = Color(255, 255, 255, 85)
@@ -31,12 +33,10 @@ function HUD:Paint(w, h)
 		y = y - 10
 	end
 
-	local background = Color("cc_fill_dark", 200)
-
 	do
 		local ratio = math.min(self.HP / lp:GetMaxHealth(), 1)
 
-		self:DrawAlignedRect(20, y, self.Width, self.Height, background, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		self:DrawAlignedRect(20, y, self.Width, self.Height, self.BackgroundColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.HealthColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
 		y = y - self.Height - 2
@@ -46,7 +46,7 @@ function HUD:Paint(w, h)
 		local max = lp:GetMaxArmor()
 		local ratio = math.min(self.Armor / max, 1)
 
-		self:DrawAlignedRect(20, y, self.Width, self.Height, background, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		self:DrawAlignedRect(20, y, self.Width, self.Height, self.BackgroundColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		self:DrawAlignedRect(22, y - 2, (self.Width - 4) * ratio, self.Height - 4, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
 		if self.Armor > max then

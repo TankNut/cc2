@@ -17,22 +17,18 @@ HUD.ExtraSettings = {
 	}}
 }
 
-HUD.WeaponClasses = {
-	"weapon_physcannon",
-	"weapon_physgun",
-	"gmod_tool"
-}
-
 HUD.Limits = {
 	"props",
 	"effects",
 	"ragdolls"
 }
 
+HUD.BoxColor = Color("cc_fill_dark", 200)
+
 function HUD:ShouldDraw()
 	local weapon = lp:GetActiveWeapon()
 
-	if not IsValid(weapon) or not table.HasValue(self.WeaponClasses, weapon:GetClass()) then
+	if not IsValid(weapon) or not WEAPONS_TOOLS[weapon:GetClass()] then
 		return false
 	end
 
@@ -51,7 +47,7 @@ function HUD:DrawWarning(w, h, baseOffset, rightOffset, margin)
 
 	local x, y = w - baseOffset - warningBoxW, h - baseOffset - rightOffset
 
-	self:DrawAlignedRect(x, y, warningBoxW, warningBoxH, Color("cc_fill_dark", 200), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	self:DrawAlignedRect(x, y, warningBoxW, warningBoxH, self.BoxColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
 	toolScribe:Draw(x + warningBoxW - margin, y - warningBoxH + margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
 	oocScribe:Draw(x + warningBoxW - margin, y - margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)

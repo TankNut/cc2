@@ -29,3 +29,8 @@ TOOLTRUST_DEVELOPER = 5 -- Blanket access
 SLOT_BASIC   = 1
 SLOT_WEAPONS = 2
 SLOT_MISC    = 3
+
+WEAPONS_TOOLS = table.Lookup({
+	"weapon_physgun",
+	"gmod_tool"
+})
