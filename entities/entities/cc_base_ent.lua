@@ -1,8 +1,8 @@
 AddCSLuaFile()
 
-ENT.Base 					= "base_anim"
-ENT.Type 					= "anim"
+ENT.Base = "base_anim"
+ENT.Type = "anim"
 
-ENT.CCEntity = true
+ENT.IsCCEntity = true
 
-ENT.DisableDuplicator 		= true
+ENT.DisableDuplicator = true

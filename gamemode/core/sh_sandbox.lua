@@ -65,11 +65,7 @@ function GM:CanTool(ply, tr, tool)
 			return false
 		end
 
-		if ent:IsProtectedEntity() then
-			return false
-		end
-
-		if ent.CanTool and not ent.CanTool(ply, tool) then
+		if ent:IsProtectedEntity() or (ent.CanTool and not ent:CanTool(ply, tool)) then
 			return false
 		end
 
