@@ -8,6 +8,7 @@ PlayerVar.Add("UserGroup", {
 })
 
 PlayerVar.Add("TempAdmin", {Default = false})
+PlayerVar.Add("EditMode", {Default = false})
 
 GlobalVar.Add("OOCDelay", {Default = 0})
 

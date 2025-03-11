@@ -36,11 +36,15 @@ end
 
 Action.Add("EditMode", {
 	Name = "Toggle Edit Mode",
-	ClientOnly = true,
 
+	Self = true,
 	Context = "Admin",
+
 	CanRun = isAdmin,
 	Client = function()
-		Settings.Set("EditMode", not Settings.Get("EditMode"))
+		lp:SetEditMode(not lp:EditMode())
+	end,
+	Callback = function(ply)
+		ply:SetEditMode(not ply:EditMode())
 	end
 })
