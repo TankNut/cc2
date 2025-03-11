@@ -16,8 +16,7 @@ ITEM.Actions.Open = {
 	Priority = 20,
 
 	Context = table.Lookup({
-		"RightClick", "Examine",
-		"InventoryContext"
+		"RightClick", "Examine"
 	}),
 
 	CanRun = function(self, ply)
