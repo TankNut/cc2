@@ -5,6 +5,27 @@ Cache = {}
 
 local ENTITY = FindMetaTable("Entity")
 
+--[[
+	Action.Add("name", {
+		Name = nil, -- Defaults to id, supports util.BuildMenu paths
+		ClientOnly = false, -- If set, never sends anything to the server
+		ServerOnly = false, -- If set, can only be ran from the server (client networks are ignored)
+		Priority = 0, -- Determines sort order in GetActionMenuData, higher numbers appear first
+
+		Self = false, -- If set, only lets players run this action on themselves
+		Interaction = false, -- If set, requires player to be in interaction range (rather than sight range) before they can execute this action
+		Context = nil, -- Used in GetActionMenuData to filter what actions to grab, doesn't actually prevent execution otherwise
+		Filter = function(class) end, -- Static filter for entity types, used for optimization
+
+		CanRun = function(self, ply) end, -- Additional check to see if this action can be run at all
+		SubOptions = function(self, ply) end, -- Lets you return a table of additional options {Name = "Foo", Value = "Bar"} that will generate as sub options with value being fed into RunAction as extra arguments
+		Progress = function(self, ply, ...) end, -- Lets you return progress bar data to automatically run one as part of the action
+		Validate = function(self, ply, ...) end, -- Used for validating user input either fed into RunAction or returned through Client
+		Client = function(self, ply, ...) end, -- Clientside code that is ran, return bool, value
+		Callback = function(self, ply, ...) end -- Main serverside code
+	})
+]]
+
 function Add(id, data)
 	data.Name = data.Name or id
 	data.ID = id
