@@ -10,7 +10,7 @@ Whitelist = {
 	["prop_effect"] = true
 }
 
-hook.Add("IsProtectedEntity", "plugins.permaprops", function(ent)
+hook.Add("IsProtectedEntity", "permaprops", function(ent)
 	if ent:PermaProp() then
 		return true
 	end
@@ -193,7 +193,7 @@ if SERVER then
 		end)
 	end
 
-	hook.Add("GetPropInfo", "plugins.permaprops", function(args, ply, ent)
+	hook.Add("GetPropInfo", "permaprops", function(args, ply, ent)
 		local data = args[2]
 		local info = ent:PermaPropInfo()
 
@@ -204,27 +204,27 @@ if SERVER then
 		end
 	end, POST_HOOK_RETURN)
 
-	hook.Add("EntityTakeDamage", "plugins.permaprops", function(ent)
+	hook.Add("EntityTakeDamage", "permaprops", function(ent)
 		if List[ent] then
 			return true
 		end
 	end)
 
-	hook.Add("EntityRemoved", "plugins.permaprops", function(ent)
+	hook.Add("EntityRemoved", "permaprops", function(ent)
 		if List[ent] then
 			List[ent] = nil
 		end
 	end)
 
 	local function runQueuedSave()
-		if timer.Exists("plugins.permaprops.save") then
+		if timer.Exists("permaprops.save") then
 			Save()
 		end
 	end
 
-	hook.Add("ShutDown", "plugins.permaprops", runQueuedSave)
-	hook.Add("PreCleanupMap", "plugins.permaprops", runQueuedSave)
+	hook.Add("ShutDown", "permaprops", runQueuedSave)
+	hook.Add("PreCleanupMap", "permaprops", runQueuedSave)
 
-	hook.Add("PostCleanupMap", "plugins.permaprops", Load)
-	hook.Add("InitPostEntity", "plugins.permaprops", Load)
+	hook.Add("PostCleanupMap", "permaprops", Load)
+	hook.Add("InitPostEntity", "permaprops", Load)
 end
