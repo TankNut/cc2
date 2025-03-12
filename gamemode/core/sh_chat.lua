@@ -104,6 +104,8 @@ function GetTargets(pos, range, muffledRange, withEntities)
 			table.insert(targets, ent)
 		end
 	end
+
+	return targets
 end
 
 function Parse(ply, str)
