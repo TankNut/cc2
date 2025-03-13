@@ -13,19 +13,19 @@ Log.AddType("admin_item_give", function(ply, item, target)
 	}
 end)
 
-Log.AddType("admin_misc_restart", function(ply)
+Log.AddType("admin_restart", function(ply)
 	return string.format("%s has restarted the server", ply:Nick()), {
 		Log.Admin(ply)
 	}
 end)
 
-Log.AddType("admin_misc_changelevel", function(ply, map)
+Log.AddType("admin_changelevel", function(ply, map)
 	return string.format("%s has changed the server's map to %s", ply:Nick(), map), {
 		Log.Admin(ply)
 	}
 end)
 
-Log.AddType("admin_misc_setvariable", function(ply, variable, value)
+Log.AddType("admin_setvariable", function(ply, variable, value)
 	return string.format("%s has set the %s variable to %s", ply:Nick(), variable, value), {
 		Log.Admin(ply),
 		VariableName = variable,
@@ -33,19 +33,19 @@ Log.AddType("admin_misc_setvariable", function(ply, variable, value)
 	}
 end)
 
-Log.AddType("admin_misc_yell", function(ply, message)
+Log.AddType("admin_yell", function(ply, message)
 	return string.format("%s has broadcasted the following message: %s", ply:Nick(), message), {
 		Log.Admin(ply)
 	}
 end)
 
-Log.AddType("admin_misc_stopsound", function(ply)
+Log.AddType("admin_stopsound", function(ply)
 	return string.format("%s has stopped sounds for all players", ply:Nick()), {
 		Log.Admin(ply)
 	}
 end)
 
-Log.AddType("admin_misc_togglesaved", function(ply, model, saved)
+Log.AddType("admin_togglesaved", function(ply, model, saved)
 	return string.format("%s has %s a %s", ply:Nick(), saved and "saved" or "unsaved", model), {
 		Log.Admin(ply),
 		Saved = saved and 1 or 0
@@ -71,5 +71,28 @@ Log.AddType("admin_teleport_send", function(ply, from, to)
 		Log.Admin(ply),
 		Log.Player(from),
 		Log.Player(to)
+	}
+end)
+
+Log.AddType("admin_character_setvariable", function(ply, from, variable, value)
+	return string.format("%s has updated %s's %s variable to %s", ply:Nick(), from:VisibleRPName(), variable, value), {
+		Log.Admin(ply),
+		Log.Character(from),
+		VariableName = variable,
+		VariableValue = value
+	}
+end)
+
+Log.AddType("admin_character_givelang", function(ply, from, lang, speak)
+	return string.format("%s gave %s the ability to %s %s", ply:Nick(), from:VisibleRPName(), speak and "speak" or "understand", lang), {
+		Log.Admin(ply),
+		Log.Character(from)
+	}
+end)
+
+Log.AddType("admin_character_takelang", function(ply, from, lang, speak)
+	return string.format("%s took %s's ability to %s %s", ply:Nick(), from:VisibleRPName(), speak and "speak" or "understand", lang), {
+		Log.Admin(ply),
+		Log.Character(from)
 	}
 end)

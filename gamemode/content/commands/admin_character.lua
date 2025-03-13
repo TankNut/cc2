@@ -10,6 +10,8 @@ local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, 
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target, mdl)
 	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
+
+	Log.Write("admin_character_setvariable", ply, target, "CharacterModel", mdl)
 end)
 
 setCharacterModel:SetCategory("Character Commands")
@@ -29,6 +31,8 @@ local setCharacterSkin = console.AddCommand("rpa_setcharskin", function (ply, ta
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, skin)
 	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
+
+	Log.Write("admin_character_setvariable", ply, target, "CharacterSkin", skin)
 end)
 
 setCharacterSkin:SetCategory("Character Commands")
@@ -48,6 +52,8 @@ local setCharacterName = console.AddCommand("rpa_setcharname", function (ply, ta
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target, name)
 	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
+
+	Log.Write("admin_character_setvariable", ply, target, "CharacterName", name)
 end)
 
 setCharacterName:SetCategory("Character Commands")
@@ -78,6 +84,8 @@ local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, 
 
 	console.Feedback(ply, "NOTICE", "You've set %s's %s scale to %d", target, persist and "character" or "", scale)
 	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)
+
+	Log.Write("admin_character_setvariable", ply, target, "CharacterScale", scale)
 end)
 
 setCharacterScale:SetCategory("Character Commands")
@@ -109,6 +117,8 @@ local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(pl
 
 	console.Feedback(ply, "NOTICE", "You've given %s the ability to %s %s", target:VisibleRPName(), accessType, languageName)
 	console.Feedback(target, "NOTICE", "%s has given you the ability to %s %s", ply, accessType, languageName)
+
+	Log.Write("admin_character_givelang", ply, target, languageName, speak)
 end)
 
 giveCharacterLanguage:SetCategory("Character Commands")
@@ -126,7 +136,8 @@ giveCharacterLanguage:AddOptional(console.Bool(), true)
 
 local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(ply, target, lang)
 	local languageName = Language.Get(lang).Name
-	local accessType = target:CanSpeakLanguage(lang) and "speak" or "understand"
+	local canSpeak = target:CanSpeakLanguage(lang)
+	local accessType = canSpeak and "speak" or "understand"
 
 	if not target:CanUnderstandLanguage(lang) then
 		console.Feedback(ply, "ERROR", "%s does not %s %s", target:VisibleRPName(), accessType, languageName)
@@ -138,6 +149,8 @@ local takeCharacterLanguage = console.AddCommand("rpa_takecharlang", function(pl
 
 	console.Feedback(ply, "NOTICE", "You've taken %s's ability to %s %s", target:VisibleRPName(), accessType, languageName)
 	console.Feedback(target, "NOTICE", "%s has taken your the ability to %s %s", ply, accessType, languageName)
+
+	Log.Write("admin_character_takelang", ply, target, languageName, canSpeak)
 end)
 
 takeCharacterLanguage:SetCategory("Character Commands")
@@ -170,6 +183,8 @@ local hideCharacter = console.AddCommand("rpa_charhidden", function(ply, targets
 		target:SetCharacterHidden(new)
 
 		console.Feedback(ply, "NOTICE", "%s has %s you from the scoreboard", ply, new == 1 and "hidden" or "unhidden")
+
+		Log.Write("admin_character_setvariable", ply, target, "CharacterHidden", new)
 	end
 
 	console.Feedback(ply, "NOTICE", "You've updated scoreboard visibility for %s", targetCount == 1 and targets[1] or (targetCount .. " players"))
@@ -190,6 +205,8 @@ local setCharacterFlag = console.AddCommand("rpa_setcharflag", function(ply, tar
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character flag to %s", target:VisibleRPName(), name)
 	console.Feedback(target, "NOTICE", "%s has set your character flag to %s", ply, name)
+
+	Log.Write("admin_character_setvariable", ply, target, "CharacterFlag", flag)
 end)
 
 setCharacterFlag:SetCategory("Character Commands")

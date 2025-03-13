@@ -22,7 +22,7 @@ ban:AddOptional(console.String({
 }), nil, "No reason specified")
 
 local unban = console.AddCommand("rpa_unban", function(ply, steamID)
-	Access.LiftBan(steamID)
+	Access.LiftBan(steamID, ply)
 end)
 
 unban:SetCategory("Bans")

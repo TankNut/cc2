@@ -101,7 +101,7 @@ function CheckBanned(steamid)
 	return false
 end
 
-function LiftBan(steamid)
+function LiftBan(steamid, admin)
 	local query = GAMEMODE.Database:Delete("rp_bans")
 		query:WhereEqual("SteamID", steamid)
 	async.Start(function()
