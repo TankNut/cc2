@@ -113,6 +113,14 @@ function GM:DoPlayerDeath(ply, attacker, dmg)
 	end
 
 	ply:RunCharFlag("OnDeath")
+
+	if IsValid(attacker) and attacker:IsPlayer() and attacker != ply then
+		local weapon = dmg:GetInflictor()
+
+		if IsValid(weapon) then
+			Log.Write("sandbox_kill", attacker, ply, weapon:GetClass())
+		end
+	end
 end
 
 function GM:ScaleNPCDamage(ply, hitgroup, dmginfo)

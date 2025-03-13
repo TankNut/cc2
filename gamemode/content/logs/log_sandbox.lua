@@ -33,3 +33,10 @@ Log.AddType("sandbox_tool", function(ply, tool, class)
 		Log.Player(ply)
 	}
 end)
+
+Log.AddType("sandbox_kill", function(ply, victim, weapon)
+	return string.format("%s killed %s using %s", ply:Nick(), victim:Nick(), weapon), {
+		Log.Player(ply),
+		Log.Player(victim)
+	}
+end)

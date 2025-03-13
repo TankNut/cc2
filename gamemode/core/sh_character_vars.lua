@@ -131,7 +131,7 @@ else
 			return
 		end
 
-		if id < 0 then
+		if id < 0 and Character.TempData[-id] then
 			Character.TempData[-id].Fields[var.Name] = value
 		else
 			async.Start(function()
