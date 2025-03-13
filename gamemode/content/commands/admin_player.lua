@@ -13,6 +13,8 @@ local setToolTrust = console.AddCommand("rpa_settooltrust", function (ply, targe
 
 	console.Feedback(ply, "NOTICE", "You've set %s's tool trust to %s", target, trust)
 	console.Feedback(target, "NOTICE", "%s has set your tool trust to %s", ply, trust)
+
+	Log.Write("admin_player_setvariable", ply, target, "ToolTrust", trust)
 end)
 
 setToolTrust:SetCategory("Player Commands")
@@ -40,6 +42,8 @@ local oocMute = console.AddCommand("rpa_oocmute", function (ply, target, bool)
 
 	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
 	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
+
+	Log.Write("admin_player_setvariable", ply, target, "OOCMuted", new)
 end)
 
 oocMute:SetCategory("Player Commands")
@@ -68,6 +72,8 @@ local heal = console.AddCommand("rpa_heal", function(ply, targets)
 		end
 
 		console.Feedback(target, "NOTICE", "%s has healed you", ply)
+
+		Log.Write("admin_player_heal", ply, target)
 	end
 
 	if #targets > 1 then
@@ -89,6 +95,8 @@ local setHealth = console.AddCommand("rpa_sethealth", function(ply, targets, hea
 		target:SetHealth(health)
 
 		console.Feedback(target, "NOTICE", "%s has set your health to %d", ply, health)
+
+		Log.Write("admin_player_setvariable", ply, target, "Health", health)
 	end
 
 	if #targets > 1 then
@@ -111,6 +119,8 @@ local setArmor = console.AddCommand("rpa_setarmor", function(ply, targets, armor
 		target:SetArmor(armor)
 
 		console.Feedback(target, "NOTICE", "%s has set your armor to %d", ply, armor)
+
+		Log.Write("admin_player_setvariable", ply, target, "Armor", armor)
 	end
 
 	if #targets > 1 then
@@ -132,6 +142,8 @@ local kill = console.AddCommand("rpa_kill", function(ply, target)
 	target:Kill()
 
 	console.Feedback(target, "NOTICE", "%s killed you", ply)
+
+	Log.Write("admin_player_kill", ply, target)
 end)
 
 kill:SetCategory("Player Commands")
@@ -151,6 +163,8 @@ local slap = console.AddCommand("rpa_slap", function(ply, target)
 
 	console.Feedback(target, "NOTICE", "%s has slapped you", ply)
 	console.Feedback(ply, "NOTICE", "You've slapped %s", target)
+
+	Log.Write("admin_player_slap", ply, target)
 end)
 
 slap:SetCategory("Player Commands")
@@ -239,7 +253,14 @@ local setAlias = console.AddCommand("rpa_setalias", function(ply, steamId, alias
 		query:Execute()
 	end
 
-	console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
+	Log.Write("admin_player_setvariable",
+		ply,
+		target or {
+			SteamID = function() return steamID end,
+			Nick = function() return name end,
+		},
+		"Alias",
+		alias == "" and "N/A" or alias)
 end)
 
 setAlias:SetCategory("Player Commands")
