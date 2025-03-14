@@ -12,6 +12,9 @@ local ENTITY = FindMetaTable("Entity")
 		ServerOnly = false, -- If set, can only be ran from the server (client networks are ignored)
 		Priority = 0, -- Determines sort order in GetActionMenuData, higher numbers appear first
 
+		Admin = false, -- If set, only admins can run this action
+		EditMode = false, -- If set, only admins in edit mode can run this action
+
 		Self = false, -- If set, only lets players run this action on themselves
 		Interaction = false, -- If set, requires player to be in interaction range (rather than sight range) before they can execute this action
 		Context = nil, -- Used in GetActionMenuData to filter what actions to grab, doesn't actually prevent execution otherwise
@@ -82,6 +85,38 @@ function ENTITY:GetActions()
 	return actions
 end
 
+local function check(self, action, ply)
+	if action.Admin and not ply:IsAdmin() then
+		return false
+	end
+
+	if action.EditMode and not ply:EditMode() then
+		return false
+	end
+
+	if action.Self then
+		if ply != self then
+			return false
+		end
+	else
+		local ent, canInteract = ply:GetContextEntity()
+
+		if ent != self or action.Interaction and not canInteract then
+			return false
+		end
+	end
+
+	if action.CanRun then
+		local ok = action.CanRun(self, ply)
+
+		if not ok then
+			return false
+		end
+	end
+
+	return true
+end
+
 if CLIENT then
 	-- Used for generating different listings based on what kind of UI is used, doesn't actually restrict anything
 	function ENTITY:GetActionMenuData(context)
@@ -96,23 +131,11 @@ if CLIENT then
 				continue
 			end
 
-			if action.Self and self != lp then
-				continue
-			end
-
-			if action.Interaction then
-				local _, canInteract = lp:GetContextEntity()
-
-				if not canInteract then
-					continue
-				end
-			end
-
 			if action.Context != context then
 				continue
 			end
 
-			if action.CanRun and not action.CanRun(self, lp) then
+			if not check(self, action, lp) then
 				continue
 			end
 
@@ -177,27 +200,7 @@ function ENTITY:CanRunAction(ply, name)
 		return false
 	end
 
-	if action.Self then
-		if ply != self then
-			return false
-		end
-	else
-		local ent, canInteract = ply:GetContextEntity()
-
-		if ent != self or action.Interaction and not canInteract then
-			return false
-		end
-	end
-
-	if action.CanRun then
-		local ok = action.CanRun(self, ply)
-
-		if not ok then
-			return false
-		end
-	end
-
-	return true
+	return check(self, action, ply)
 end
 
 function ENTITY:RunAction(ply, name, ...)
@@ -219,28 +222,8 @@ function ENTITY:RunAction(ply, name, ...)
 
 	local args = {...}
 
-	local function check()
-		if action.Self then
-			if ply != self then
-				return true
-			end
-		else
-			local ent, canInteract = ply:GetContextEntity()
-
-			if ent != self or action.Interaction and not canInteract then
-				return true
-			end
-		end
-
-		if action.CanRun then
-			local ok, err = action.CanRun(self, ply)
-
-			if not ok then
-				feedback(err)
-
-				return true
-			end
-		end
+	local function validate()
+		check(self, action, ply)
 
 		-- We only validate on the client if we're never running server code (ClientOnly), or we're not bothering with action.Client (which might pass different values along)
 		local shouldValidate = CLIENT and (action.ClientOnly or not action.Client) or SERVER
@@ -256,7 +239,7 @@ function ENTITY:RunAction(ply, name, ...)
 		end
 	end
 
-	if check() then
+	if validate() then
 		return
 	end
 
@@ -267,7 +250,7 @@ function ENTITY:RunAction(ply, name, ...)
 			if data then
 				data.Validate = data.Validate or {}
 
-				table.insert(data.Validate, check)
+				table.insert(data.Validate, validate)
 
 				local val = progress.Start(ply, data)
 
