@@ -19,6 +19,23 @@ if CLIENT then
 			Callback = callback
 		})
 	end
+
+	function Spacer(path, level, section)
+		assert(Cache, "Context.Add called outside of hook")
+
+		section = section or CONTEXT_MISC
+
+		if not Cache[section] then
+			Cache[section] = {}
+		end
+
+		local cache = Cache[section]
+
+		table.insert(cache, {
+			Name = path,
+			Spacer = level
+		})
+	end
 end
 
 function PLAYER:GetContextEntity()
@@ -79,7 +96,13 @@ if CLIENT then
 	end
 
 	function GM:BuildAdminContext()
-		for _, entry in ipairs(lp:GetActionMenuData("Admin")) do
+		local actions = lp:GetActionMenuData("Admin")
+
+		if #actions > 0 then
+			Context.Spacer("", true, CONTEXT_ADMIN)
+		end
+
+		for _, entry in ipairs(actions) do
 			Context.Add(entry.Name, entry.Callback, CONTEXT_ADMIN)
 		end
 	end

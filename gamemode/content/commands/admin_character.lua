@@ -80,7 +80,7 @@ local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, 
 		target:SetCharacterScale(scale)
 	end
 
-	target:SetScale(scale, false)
+	target:SetScale(scale)
 
 	console.Feedback(ply, "NOTICE", "You've set %s's %s scale to %d", target, persist and "character" or "", scale)
 	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)

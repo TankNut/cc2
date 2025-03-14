@@ -343,12 +343,15 @@ function SKIN:PaintMenu(panel, w, h)
 	local odd = true
 
 	for k, v in pairs(panel:GetCanvas():GetChildren()) do
-		if v:GetClassName() == "DPanel" then -- Spacer
-			continue
-		end
-
 		local x, y = panel:GetChildPosition(v)
 		local childWidth, childHeight = v:GetSize()
+
+		if v:GetClassName() == "Panel" then -- Spacer
+			surface.SetDrawColor(self.Colors.FillDark)
+			surface.DrawRect(x, y, childWidth, childHeight)
+
+			continue
+		end
 
 		if odd then
 			surface.SetDrawColor(40, 40, 40, 255)
