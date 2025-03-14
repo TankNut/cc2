@@ -22,7 +22,14 @@ local setUserGroup = console.AddCommand("rpa_setusergroup", function(ply, steamI
 	end
 
 	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
-	-- TODO: Log this, one of the logging system is setup.
+
+	Log.Write("superadmin_usergroup_set",
+		ply,
+		target or {
+			Nick = function() return steamID end,
+			SteamID = function() return steamID end,
+		},
+		usergroup)
 end)
 
 setUserGroup:SetCategory("Superadmin Commands")
@@ -144,6 +151,8 @@ local giveTempAdmin = console.AddCommand("rpa_givetempadmin", function(ply, targ
 		return
 	end
 
+	Log.Write("superadmin_tempadmin_give", ply, target)
+
 	target:SetTempAdmin(true)
 
 	Chat.Send("NOTICE", string.format("%s has given temporary admin to %s.", IsValid(ply) and ply:Nick() or "CONSOLE", target:Nick()), player.GetAdmins())
@@ -166,6 +175,8 @@ local takeTempAdmin = console.AddCommand("rpa_taketempadmin", function(ply, targ
 
 		return
 	end
+
+	Log.Write("superadmin_tempadmin_take", ply, target)
 
 	target:SetTempAdmin(false)
 
