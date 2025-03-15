@@ -94,7 +94,30 @@ function Read(name, data, offset, fromTime, toTime)
 	return GAMEMODE.Database:Query(string.format("SELECT UNIQUE `id`, `Log`, `Name`, `Timestamp`, `Data` FROM rp_logs LEFT JOIN rp_log_data USING (id)%s ORDER BY `id` DESC LIMIT %s OFFSET %s", where, Config.Get("LogLines"), offset or 0))
 end
 
-local colorCache = {}
+local colorCache
+
+function BuildColorCache()
+	colorCache = {}
+
+	local prefixes = {}
+	local lookup = {}
+
+	for name in SortedPairs(Types) do
+		local prefix = string.match(name, "^([%a]+_)") or "yes"
+
+		if not lookup[prefix] then
+			table.insert(prefixes, prefix)
+			lookup[prefix] = true
+		end
+	end
+
+	local interval = 360 / #prefixes
+
+	for k, prefix in ipairs(prefixes) do
+		colorCache[prefix] = HSVToColor((k - 1) * interval, 0.5, 1)
+	end
+end
+
 local baseColor = Color(200, 200, 200)
 
 function Write(name, ...)
@@ -108,16 +131,11 @@ function Write(name, ...)
 	end
 
 	do
-		local prefix = string.match(name, "^([%a]+_)") or "yes"
-
-		if not colorCache[prefix] then
-			math.randomseed(tonumber(util.CRC(prefix)))
-			math.random()
-
-			colorCache[prefix] = HSVToColor(math.random(360), 0.5, 1)
-
-			math.randomseed(os.time())
+		if not colorCache then
+			BuildColorCache()
 		end
+
+		local prefix = string.match(name, "^([%a]+_)") or "yes"
 
 		MsgC(baseColor, os.date("!%Y-%m-%dT%H:%M:%SZ "), "[", colorCache[prefix], name, baseColor, "] ", log, "\n")
 	end
