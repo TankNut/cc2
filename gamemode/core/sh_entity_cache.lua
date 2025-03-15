@@ -12,7 +12,7 @@ function Add(name, func)
 end
 
 function Get(name)
-	return List[name]
+	return assert(List[name], "No entity cache with name '" .. name .. "' exists")
 end
 
 function OnCreated(ent)
