@@ -111,6 +111,10 @@ if SERVER then
 	end
 
 	request.Hook("AdminRoster", function(ply)
+		if Access.SecureAdmin(ply, "AdminRoster") then
+			return
+		end
+
 		local query = GAMEMODE.Database:Select("rp_players")
 			query:Select("SteamID")
 			query:Select("UserGroup")
@@ -121,5 +125,14 @@ if SERVER then
 		local data = query:Execute()
 
 		return data
+	end)
+
+	netstream.Hook("QuickTeleport", function(ply, pos, angles)
+		if Access.SecureAdmin(ply, "QuickTeleport") then
+			return
+		end
+
+		ply:SetPos(pos)
+		ply:SetEyeAngles(Angle(ply:EyeAngles().p, angles.y, 0))
 	end)
 end

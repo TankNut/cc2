@@ -276,16 +276,16 @@ function GM:PreDrawHalos()
 	if Settings.Get("SeeAll") and IsValid(LocalPlayer():GetActiveWeapon()) and GAMEMODE.WeaponOutText[LocalPlayer():GetActiveWeapon():GetClass()] then
 		local tab = {}
 
-		for _, v in pairs(GAMEMODE.EntityTable.prop) do -- Only props can be permapropped so...
-			if not IsValid(v) then
+		for props in pairs(EntityCache.Get("props")) do
+			if not IsValid(props) then
 				continue
 			end
 
-			if v:IsProtectedEntity() then
-				if v:GetClass() == "prop_effect" then
-					table.insert(tab, v.AttachedEntity)
+			if props:IsProtectedEntity() then
+				if props:GetClass() == "prop_effect" then
+					table.insert(tab, props.AttachedEntity)
 				else
-					table.insert(tab, v)
+					table.insert(tab, props)
 				end
 			end
 		end
