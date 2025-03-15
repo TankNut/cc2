@@ -1,11 +1,3 @@
-GM.EntityTable = {
-	prop = { },
-	item = { },
-	paper = { },
-	npc = { },
-	door = { },
-}
-
 language.Add("npc_clawscanner", "Claw Scanner")
 language.Add("npc_combine_camera", "Combine Camera")
 language.Add("npc_helicopter", "Helicopter")

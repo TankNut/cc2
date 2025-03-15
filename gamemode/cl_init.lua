@@ -30,27 +30,10 @@ function GM:Initialize()
 end
 
 hook.Add("OnEntityCreated", "CL.Init.OnEntityCreated", function(ent)
-	if ent:IsPlayer() then
-		if ent != LocalPlayer() then
-
-			net.Start("nRequestPlayerData")
-				net.WriteEntity(ent)
-			net.SendToServer()
-		end
-	elseif ent:IsDoor() then
-		GAMEMODE.EntityTable.door[table.Count(GAMEMODE.EntityTable.door)] = ent
-	elseif ent:GetClass() == "prop_physics" or ent:GetClass() == "prop_effect" then
-		GAMEMODE.EntityTable.prop[table.Count(GAMEMODE.EntityTable.prop)] = ent
-	elseif ent:GetClass() == "cc_item" then
-		GAMEMODE.EntityTable.item[table.Count(GAMEMODE.EntityTable.item)] = ent
-	elseif ent:GetClass() == "cc_paper" then
-		GAMEMODE.EntityTable.paper[table.Count(GAMEMODE.EntityTable.paper)] = ent
-	elseif string.StartWith(ent:GetClass(), "npc_") then
-		GAMEMODE.EntityTable.npc[table.Count(GAMEMODE.EntityTable.npc)] = ent
-	end
-
-	if Settings.Get("Thirdperson") then
-		ctp:Enable()
+	if ent:IsPlayer() and ent != lp then
+		net.Start("nRequestPlayerData")
+			net.WriteEntity(ent)
+		net.SendToServer()
 	end
 end)
 

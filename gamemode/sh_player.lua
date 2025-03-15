@@ -4,8 +4,7 @@ GM.PlayerAccessors = {
 	{"Holstered", 			false, 	"Bit", 		true},
 	{"InAttack2",			false,	"Bit",		false},
 	{"PropProtection",		true,	"Table",	{}},
-	{"RagdollIndex",		false,	"Float",	-1},
-	{"LastPMSender",		true,	"String",	""}
+	{"RagdollIndex",		false,	"Float",	-1}
 }
 
 for k, v in pairs(GM.PlayerAccessors) do
@@ -99,14 +98,6 @@ for k, v in pairs(GM.PlayerAccessors) do
 		end)
 	end
 end
-
-hook.Add("OnEntityCreated", "SH.Player.OnEntityCreated", function(ent)
-	if ent:IsPlayer() then
-		ent.Augments = {}
-		ent.Equipment = {}
-		ent.Inventory = {}
-	end
-end)
 
 function PLAYER:SyncAllData(ply)
 	for _, v in pairs(GAMEMODE.PlayerAccessors) do
@@ -202,138 +193,4 @@ function GM:SetupMove(ply, move)
 	end
 
 	return self.BaseClass:SetupMove(ply, move)
-end
-
-function PLAYER:Ragdoll()
-	if self:RagdollIndex() == -1 then return NULL end
-
-	return ents.GetByIndex(self:RagdollIndex())
-end
-
-function PLAYER:SetRagdoll(ent)
-	self:SetRagdollIndex(ent:EntIndex())
-end
-
-GM.WalkSounds = {}
-
-GM.RunSounds = {}
-
-function GM:PlayerFootstep(ply, pos, foot, s, vol, rf)
-	if SERVER or ply:RunCharFlag("QuietSteps") then return end
-
-	local mdl = ply:GetModel()
-	local snd = ""
-
-	local data = self.WalkSounds[mdl]
-
-	if data then
-		if type(data) == "table" then
-			snd = foot == 0 and data[1] or data[2]
-		else
-			snd = data
-		end
-	end
-
-	data = self.RunSounds[mdl]
-
-	if data and ply:GetVelocity():Length2D() > 150 then
-		if type(data) == "table" then
-			snd = foot == 0 and data[1] or data[2]
-		else
-			snd = data
-		end
-	end
-
-	if #snd > 0 then
-		ply:EmitSound(snd, 75, 100, vol, CHAN_BODY)
-
-		return true
-	end
-
-	self.BaseClass:PlayerFootstep(ply, pos, foot, s, vol, rf)
-end
-
-function GM:PlayerStepSoundTime(ply, stepType, walking)
-	return self.BaseClass:PlayerStepSoundTime(ply, stepType, walking)
-end
-
-function player.GetByCharID(id)
-	for _, v in player.Iterator() do
-
-		if v:CharID() == id then
-			return v
-		end
-	end
-end
-
-function PLAYER:HasFaceCovered()
-	for k, v in pairs(self.Equipment) do
-		if v.CoversFace then
-			return true
-		end
-	end
-
-	return false
-end
-
-function PLAYER:IsGasImmune()
-	if self:GetMoveType() == MOVETYPE_NOCLIP or self:RunCharFlag("GasImmune", false) then
-		return true
-	end
-
-	local val = 0
-
-	for k, v in pairs(self.Equipment) do
-		local immunity = v:GetGasImmunity()
-
-		if immunity == true then
-			return true
-		end
-
-		if isnumber(immunity) then
-			val = math.max(val, immunity)
-		end
-	end
-
-	return val != 0 and val or false
-end
-
-function PLAYER:IsArmed()
-	local wep = self:GetActiveWeapon()
-
-	if IsValid(wep) then
-		local class = wep:GetClass()
-
-		if class != "weapon_cc_hands" and class != "weapon_physgun" and class != "gmod_tool" and class != "weapon_physcannon" then
-			return true
-		end
-	end
-
-	return false
-end
-
-function PLAYER:CanIgnoreTravelRestrictions(chardata)
-	return self:IsAdmin()
-	-- if self:IsAdmin() then return true end
-	-- if not chardata then return false end
-
-	-- if chardata.CharFlags and #chardata.CharFlags > 0 then
-	-- 	local charFlags = GAMEMODE:LookupCharFlag(chardata.CharFlags)
-
-	-- 	for _, v in pairs(charFlags) do
-	-- 		if v and v.IgnoreTravelRestriction then
-	-- 			return v.IgnoreTravelRestriction
-	-- 		end
-	-- 	end
-	-- end
-
-	-- return false
-end
-
-function GM:GetPlayerByCharID(id)
-	for _, v in player.Iterator() do
-		if v:CharID() == id then
-			return v
-		end
-	end
 end

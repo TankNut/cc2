@@ -13,6 +13,10 @@ function GM:InitPostEntity()
 		Settings.LoadClient()
 		RunConsoleCommand("spawnmenu_reload")
 
+		if Settings.Get("Thirdperson") then
+			ctp:Enable()
+		end
+
 		return
 	end
 
