@@ -3,6 +3,9 @@ AddCSLuaFile()
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 
+ENT.CCMainCategory = nil
+ENT.CCSubCategory = nil
+
 ENT.IsCCEntity = true
 
 ENT.DisableDuplicator = true

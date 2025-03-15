@@ -1,20 +1,104 @@
-local categoryIcons = {
-	Container = "icon16/package.png",
-	Weapons = "icon16/gun.png"
+local entityCategoryIcons = {
+	["Spawnpoints"] = "icon16/status_online.png",
+	["World Entities"] = "icon16/world.png"
 }
 
-function GM:PopulateCCSpawnmenu(content, tree, browseNode)
-	if not lp then
-		return
-	end
-
+function GM:PopulateCCEntities(content, tree, browseNode)
 	local entities = tree:AddNode("Entities", "icon16/folder.png")
 	entities:SetExpanded(true)
 
-	if not lp:IsAdmin() then
-		return
+	local categories = {}
+	local subCategories = {}
+
+	for class, ent in pairs(scripted_ents.GetList()) do
+		ent = ent.t
+
+		if ent.CCMainCategory then
+			if not categories[ent.CCMainCategory] then
+				categories[ent.CCMainCategory] = {}
+				subCategories[ent.CCMainCategory] = {}
+			end
+
+			if ent.CCSubCategory then
+				local subs = subCategories[ent.CCMainCategory]
+
+				if not subs[ent.CCSubCategory] then
+					subs[ent.CCSubCategory] = {}
+				end
+
+				subs[ent.CCSubCategory][class] = ent
+			else
+				categories[ent.CCMainCategory][class] = ent
+			end
+		end
 	end
 
+	for category, classes in SortedPairs(categories) do
+		local node = entities:AddNode(category, entityCategoryIcons[category] or "icon16/bricks.png")
+		node:SetExpanded(true)
+
+		node.DoPopulate = function(pnl)
+			if pnl.EntityPanel then
+				return
+			end
+
+			pnl.EntityPanel = content:Add("ContentContainer")
+			pnl.EntityPanel:SetVisible(false)
+			pnl.EntityPanel:SetTriggerSpawnlistChange(false)
+
+			for class, ent in SortedPairsByMemberValue(classes, "PrintName") do
+				spawnmenu.CreateContentIcon(ent.ScriptedEntityType or "entity", pnl.EntityPanel, {
+					nicename	= ent.PrintName or ent.ClassName,
+					spawnname	= class,
+					material	= ent.IconOverride or ("entities/" .. class .. ".png"),
+					admin		= ent.AdminOnly
+				})
+			end
+		end
+
+		node.DoClick = function(pnl)
+			pnl:DoPopulate()
+
+			content:SwitchPanel(pnl.EntityPanel)
+		end
+
+		for subCategory, filteredClasses in SortedPairs(subCategories[category]) do
+			local subNode = node:AddNode(subCategory, entityCategoryIcons[subCategory] or "icon16/bricks.png")
+
+			subNode.DoPopulate = function(pnl)
+				if pnl.EntityPanel then
+					return
+				end
+
+				pnl.EntityPanel = content:Add("ContentContainer")
+				pnl.EntityPanel:SetVisible(false)
+				pnl.EntityPanel:SetTriggerSpawnlistChange(false)
+
+				for class, ent in SortedPairsByMemberValue(filteredClasses, "PrintName") do
+					spawnmenu.CreateContentIcon(ent.ScriptedEntityType or "entity", pnl.EntityPanel, {
+						nicename	= ent.PrintName or ent.ClassName,
+						spawnname	= class,
+						material	= ent.IconOverride or ("entities/" .. class .. ".png"),
+						admin		= ent.AdminOnly
+					})
+				end
+			end
+
+			subNode.DoClick = function(pnl)
+				pnl:DoPopulate()
+
+				content:SwitchPanel(pnl.EntityPanel)
+			end
+		end
+	end
+end
+
+local itemCategoryIcons = {
+	["Container"] = "icon16/package.png",
+	["Weapons"] = "icon16/gun.png"
+}
+
+function GM:PopulateCCItems(content, tree, browseNode)
 	local items = tree:AddNode("Items", "icon16/folder.png")
 	items:SetExpanded(true)
 
@@ -51,7 +135,7 @@ function GM:PopulateCCSpawnmenu(content, tree, browseNode)
 	end
 
 	for category, rarities in SortedPairs(categories) do
-		local node = items:AddNode(category, categoryIcons[category] or "icon16/bricks.png")
+		local node = items:AddNode(category, itemCategoryIcons[category] or "icon16/bricks.png")
 
 		node.DoPopulate = function(pnl)
 			if pnl.ItemPanel then
@@ -106,7 +190,7 @@ function GM:PopulateCCSpawnmenu(content, tree, browseNode)
 				text = rarity.Name
 			})
 
-			for _, item in SortedPairs(tab) do
+			for _, item in SortedPairsByMemberValue(tab, "Name") do
 				spawnmenu.CreateContentIcon("cc_item", pnl.ItemPanel, item)
 			end
 		end
@@ -117,6 +201,20 @@ function GM:PopulateCCSpawnmenu(content, tree, browseNode)
 
 		content:SwitchPanel(pnl.ItemPanel)
 	end
+end
+
+function GM:PopulateCCSpawnmenu(content, tree, browseNode)
+	if not lp then
+		return
+	end
+
+	self:PopulateCCEntities(content, tree, browseNode)
+
+	if not lp:IsAdmin() then
+		return
+	end
+
+	self:PopulateCCItems(content, tree, browseNode)
 end
 
 spawnmenu.AddCreationTab("CombineControl", function()
