@@ -72,10 +72,6 @@ if SERVER then
 
 		badges[id] = nil
 
-		if table.IsEmpty(badges) then
-			self:SetCustomBadges({})
-		else
-			self:SetCustomBadges(badges)
-		end
+		self:SetCustomBadges(badges)
 	end
 end

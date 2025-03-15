@@ -28,8 +28,6 @@ function RegisterFolder(dir)
 	end)
 end
 
-hook.Add("Move", "buff", function(ply, mv)  end)
-
 if SERVER then
 	hook.Add("PlayerDeath", "buff", function(ply)
 		PlayerHook(ply, "OnDeath")
