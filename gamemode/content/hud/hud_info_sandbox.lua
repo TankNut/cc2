@@ -26,9 +26,7 @@ HUD.Limits = {
 HUD.BoxColor = Color("cc_fill_dark", 200)
 
 function HUD:ShouldDraw()
-	local weapon = lp:GetActiveWeapon()
-
-	if not IsValid(weapon) or not WEAPONS_TOOLS[weapon:GetClass()] then
+	if not lp:HasToolOut() then
 		return false
 	end
 

@@ -66,12 +66,10 @@ function HUD:PaintBackground(w, h)
 			continue
 		end
 
-		local weapon = lp:GetActiveWeapon()
-
-		if not IsValid(weapon) or not WEAPONS_TOOLS[weapon:GetClass()] then
-			self:DrawPropDescription(ent, cache)
-		else
+		if lp:HasToolOut() then
 			self:DrawOwnershipInfo(ent, cache)
+		else
+			self:DrawPropDescription(ent, cache)
 		end
 	end
 end

@@ -31,6 +31,16 @@ function PLAYER:GetSightRange()
 	return Config.Get("PlayerSight")
 end
 
+function PLAYER:HasToolOut()
+	local weapon = self:GetActiveWeapon()
+
+	if IsValid(weapon) and WEAPONS_TOOLS[weapon:GetClass()] then
+		return true
+	end
+
+	return false
+end
+
 function PLAYER:GetAlias()
 	local alias = self:Alias()
 
