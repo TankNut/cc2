@@ -1,8 +1,37 @@
+DEFINE_BASECLASS("cc_base_ent")
 AddCSLuaFile()
 
 ENT.Base = "cc_base_ent"
-
 ENT.IsWorldEntity = true
+
+ENT.Physical = true
+
+ENT.Actions = {}
+ENT.Actions.SaveWorldEnt = {
+	Name = "** Save **",
+	Priority = -10,
+
+	EditMode = true,
+	Interaction = true,
+
+	CanRun = function(self, ply) return self:CanSave() and not self:IsSaved() end,
+	Callback = function(self, ply)
+		WorldEnts.Save(self)
+	end
+}
+
+ENT.Actions.DeleteWorldEnt = {
+	Name = "** Delete **",
+	Priority = -10,
+
+	EditMode = true,
+	Interaction = true,
+
+	CanRun = function(self, ply) return self:IsSaved() end,
+	Callback = function(self, ply)
+		WorldEnts.Delete(self)
+	end
+}
 
 if SERVER then
 	function ENT:SpawnFunction(ply, tr, class)
@@ -17,7 +46,7 @@ if SERVER then
 end
 
 function ENT:SetupDataTables()
-	self:NetworkVar("Int", 0, "EntityID")
+	self:NetworkVar("Int", "EntityID")
 end
 
 function ENT:IsSaved()
@@ -32,7 +61,18 @@ function ENT:CanSave()
 	return true
 end
 
+function ENT:CanPhys(ply)
+	return not self:IsSaved()
+end
+
+function ENT:CanTool(ply, tr, tool)
+	return not self:IsSaved()
+end
+
 if SERVER then
+	function ENT:PreSaveEntity()
+	end
+
 	function ENT:GetSaveData()
 		return {}
 	end

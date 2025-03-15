@@ -24,7 +24,7 @@ function LoadEntities()
 	end
 
 	for _, priority in SortedPairs(loadOrder, true) do
-		for _, data in ipairs(tab) do
+		for _, data in ipairs(priority) do
 			Load(data)
 		end
 	end
@@ -52,6 +52,8 @@ function Load(data)
 end
 
 function Save(ent)
+	ent:PreSaveEntity()
+
 	local data = sfs.encode(ent:GetSaveData())
 	local mapData = sfs.encode({
 		Pos = ent:GetPos(),
@@ -63,10 +65,13 @@ function Save(ent)
 			local query = GAMEMODE.Database:Select("rp_worldents")
 				query:Update("MapData", mapData)
 				query:Update("CustomData", data)
-				query:WhereEqual("id", ent:EntityID())
+				query:WhereEqual("id", ent:GetEntityID())
 			query:Execute()
 		end)
 	else
+		undo.ReplaceEntity(ent, NULL)
+		cleanup.ReplaceEntity(ent, NULL)
+
 		async.Start(function()
 			local query = GAMEMODE.Database:Insert("rp_worldents")
 				query:Insert("Class", ent:GetClass())
@@ -90,7 +95,7 @@ function Delete(ent)
 
 	async.Start(function()
 		local query = GAMEMODE.Database:Delete("rp_worldents")
-			query:WhereEqual("id", ent:EntityID())
+			query:WhereEqual("id", ent:GetEntityID())
 		query:Execute()
 
 		ent:Remove()
