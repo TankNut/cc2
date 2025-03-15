@@ -5,15 +5,20 @@ ENT.Base = "cc_base_ent"
 ENT.AllowPhys = true -- Allow everyone to physgun us
 
 function ENT:Initialize()
-	if CLIENT then return end
-
-	self:PhysicsInit(SOLID_VPHYSICS)
-	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	self:SetUseType(SIMPLE_USE)
 	self:AddEFlags(EFL_KEEP_ON_RECREATE_ENTITIES)
 
-	if not IsValid(self:GetPhysicsObject()) then
+	if util.IsValidProp(self:GetModel()) then
+		if SERVER then
+			self:PhysicsInit(SOLID_VPHYSICS)
+		end
+	else
 		self:PhysicsInitCustom(self:GetModelBounds())
+	end
+
+	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
+
+	if SERVER then
+		self:SetUseType(SIMPLE_USE)
 	end
 end
 
