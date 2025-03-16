@@ -57,16 +57,11 @@ end
 function CONTROLLER:UpdateAnimation(ply, vel, max)
 	BaseClass.UpdateAnimation(self, ply, vel, max)
 
-	local len = vel:Length()
-	local rate = 1
-
-	if len > 0.2 then
-		rate = len / max
-	end
+	local rate = self:GetPlaybackRate(ply, vel, max)
 
 	if ply:WaterLevel() >= 2 then
 		rate = math.max(rate, 0.5)
-	elseif not ply:IsOnGround() and len >= 1000 then
+	elseif not ply:IsOnGround() and vel:Length() >= 1000 then
 		rate = 0.1
 	end
 
@@ -85,4 +80,60 @@ function CONTROLLER:UpdateAnimation(ply, vel, max)
 	end
 
 	self:UpdateRadioAnimation(ply)
+end
+
+local idle = ACT_HL2MP_IDLE
+local idleTranslate = {}
+
+idleTranslate[ACT_MP_STAND_IDLE]                = idle
+idleTranslate[ACT_MP_WALK]                      = idle + 1
+idleTranslate[ACT_MP_RUN]                       = idle + 2
+idleTranslate[ACT_MP_CROUCH_IDLE]               = idle + 3
+idleTranslate[ACT_MP_CROUCHWALK]                = idle + 4
+idleTranslate[ACT_MP_ATTACK_STAND_PRIMARYFIRE]  = idle + 5
+idleTranslate[ACT_MP_ATTACK_CROUCH_PRIMARYFIRE] = idle + 5
+idleTranslate[ACT_MP_RELOAD_STAND]              = idle + 6
+idleTranslate[ACT_MP_RELOAD_CROUCH]             = idle + 6
+idleTranslate[ACT_MP_JUMP]                      = ACT_HL2MP_JUMP_SLAM
+idleTranslate[ACT_MP_SWIM]                      = idle + 9
+idleTranslate[ACT_LAND]                         = ACT_LAND
+
+function CONTROLLER:TranslateActivity(ply, act)
+	local new = ply:TranslateWeaponActivity(act)
+
+	if act == new then
+		return idleTranslate[act]
+	end
+
+	return new
+end
+
+function CONTROLLER:DoAnimationEvent(ply, event, data)
+	if event == PLAYERANIMEVENT_ATTACK_PRIMARY then
+		if ply:IsFlagSet(FL_ANIMDUCKING) then
+			ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_CROUCH_PRIMARYFIRE, true)
+		else
+			ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_ATTACK_STAND_PRIMARYFIRE, true)
+		end
+
+		return ACT_VM_PRIMARYATTACK
+	elseif event == PLAYERANIMEVENT_ATTACK_SECONDARY then
+		return ACT_VM_SECONDARYATTACK
+	elseif event == PLAYERANIMEVENT_RELOAD then
+		if ply:IsFlagSet(FL_ANIMDUCKING) then
+			ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_CROUCH, true)
+		else
+			ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_MP_RELOAD_STAND, true)
+		end
+
+		return ACT_INVALID
+	elseif event == PLAYERANIMEVENT_JUMP then
+		ply:AnimRestartMainSequence()
+
+		return ACT_INVALID
+	elseif event == PLAYERANIMEVENT_CANCEL_RELOAD then
+		ply:AnimResetGestureSlot(GESTURE_SLOT_ATTACK_AND_RELOAD)
+
+		return ACT_INVALID
+	end
 end

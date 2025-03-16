@@ -72,6 +72,20 @@ function GM:UpdateAnimation(ply, vel, max)
 	Get(ply:GetModel()):UpdateAnimation(ply, vel, max)
 end
 
+function GM:TranslateActivity(ply, act)
+	return Get(ply:GetModel()):TranslateActivity(ply, act)
+end
+
+function GM:DoAnimationEvent(ply, event, data)
+	if event == PLAYERANIMEVENT_JUMP then
+		ply.m_bJumping = true
+		ply.m_bFirstJumpFrame = true
+		ply.m_flJumpStartTime = CurTime()
+	end
+
+	return Get(ply:GetModel()):DoAnimationEvent(ply, event, data)
+end
+
 function GM:PlayerShouldTaunt(ply, act)
 	return Get(ply:GetModel()).CanAct
 end
