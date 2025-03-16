@@ -11,7 +11,6 @@ include("sh_utils.lua")
 
 include("shared.lua")
 
-include("sh_animation.lua")
 include("sh_player.lua")
 include("sh_weapons.lua")
 
@@ -31,7 +30,6 @@ AddCSLuaFile("cl_skin.lua")
 
 AddCSLuaFile("shared.lua")
 
-AddCSLuaFile("sh_animation.lua")
 AddCSLuaFile("sh_player.lua")
 AddCSLuaFile("sh_weapons.lua")
 

@@ -3,6 +3,7 @@ local CLASS = {}
 CLASS.Name = "Unnamed Command"
 CLASS.Description = "No description set."
 CLASS.Typing = nil -- The text to display when someone is typing this command
+CLASS.Radio = false -- Whether to use the radio animation when typing
 
 CLASS.Commands = {}
 CLASS.Aliases = {}

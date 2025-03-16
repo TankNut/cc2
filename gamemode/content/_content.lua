@@ -11,6 +11,7 @@ GM:LoadFolder(ContentFolder .. "actions/")
 Badge.Load()
 Language.Load()
 
+Animation.RegisterFolder(ContentFolder .. "animations/")
 CharacterCreate.RegisterFolder(ContentFolder .. "chartypes/")
 CharacterFlag.RegisterFolder(ContentFolder .. "flags/")
 CharacterGen.RegisterFolder(ContentFolder .. "chargens/")

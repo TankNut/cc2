@@ -1,0 +1,77 @@
+module("Animation", package.seeall)
+
+List = List or {}
+Cache = {}
+
+function Register(name, controller)
+	List[name] = inherit.Register("animations", name, controller, controller.Base or "base")
+end
+
+function Get(mdl)
+	return Cache[mdl] or Find(mdl)
+end
+
+function RegisterFolder(dir)
+	file.Iterate(dir, "shared.lua", "LUA", function(path, folder)
+		local name = string.FileName(path)
+
+		if name == "shared" then
+			name = string.FileName(folder)
+		end
+
+		_G.CONTROLLER = {}
+
+		GM:IncludeShared(path)
+
+		Register(string.gsub(name, "^anim_", ""), CONTROLLER)
+
+		CONTROLLER = nil
+	end)
+end
+
+function Find(mdl)
+	local match
+	local matchLength = 0
+
+	for _, controller in pairs(List) do
+		local models = controller.Models
+
+		for _, model in ipairs(models) do
+			if model == mdl then
+				Cache[mdl] = controller
+
+				return controller
+			elseif string.find(model, mdl) and #model > matchLength then
+				match = controller
+				matchLength = #model
+			end
+		end
+	end
+
+	local controller = match or List[GAMEMODE.DefaultAnimationController]
+
+	Cache[mdl] = controller
+
+	return controller
+end
+
+function GM:CalcMainActivity(ply, vel)
+	local plyTable = ply:GetTable()
+
+	plyTable.CalcIdeal = ACT_INVALID
+	plyTable.CalcSeqOverride = -1
+
+	Get(ply:GetModel()):CalcMainActivity(ply, vel)
+
+	return ply.CalcIdeal, ply.CalcSeqOverride
+end
+
+function GM:UpdateAnimation(ply, vel, max)
+	max = max * ply:GetModelScale()
+
+	Get(ply:GetModel()):UpdateAnimation(ply, vel, max)
+end
+
+function GM:PlayerShouldTaunt(ply, act)
+	return Get(ply:GetModel()).CanAct
+end

@@ -195,10 +195,6 @@ function GM:PlayerCanHearPlayersVoice(targ, ply)
 	return false
 end
 
-function GM:PlayerShouldTaunt(ply, act)
-	return false
-end
-
 function GM:PlayerDeathSound()
 	return true
 end
