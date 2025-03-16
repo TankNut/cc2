@@ -117,7 +117,7 @@ if CLIENT then
 			render.SetBlend(1)
 		end
 
-		if halo.RenderedEntity() != self and self:ShouldDraw() then
+		if self:ShouldDraw() then
 			render.DrawWorldText(self:LocalToWorld(Vector(0, 0, self.MaxBounds.z + 2)), self:GetLabel())
 		end
 	end
