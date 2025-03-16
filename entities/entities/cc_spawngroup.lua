@@ -28,13 +28,15 @@ ENT.Actions = {}
 ENT.Actions.SetSpawngroup = {
 	Name = "Set Spawngroup",
 
-	EditMode = true,
-	Interaction = true,
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply) return not self:IsSaved() end,
+
 	Validate = function(self, ply, name)
 		return validate.Value(name, validation)
 	end,
+
 	Client = function(self, ply)
 		return true, GUI.Open("Input", "string", "Change Spawngroup", {
 			Default = self:GetGroup(),

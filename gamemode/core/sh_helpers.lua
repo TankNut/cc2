@@ -62,3 +62,5 @@ end
 
 ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 DataFolder = "combinecontrol/" .. Config.Get("InternalName") .. "/"
+
+function FILTER_PROPS(class) return tobool(PROP_CLASSES[class]) end

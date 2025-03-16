@@ -12,18 +12,17 @@ local ENTITY = FindMetaTable("Entity")
 		ServerOnly = false, -- If set, can only be ran from the server (client networks are ignored)
 		Priority = 0, -- Determines sort order in GetActionMenuData, higher numbers appear first
 
-		Admin = false, -- If set, only admins can run this action
-		EditMode = false, -- If set, only admins in edit mode can run this action
-
-		Self = false, -- If set, only lets players run this action on themselves
-		Interaction = false, -- If set, requires player to be in interaction range (rather than sight range) before they can execute this action
+		Access = nil -- ACTION_ADMIN | ACTION_EDITMODE
+		Target = nil -- ACTION_SELF | ACTION_LOOK | ACTION_INTERACT
 		Context = nil, -- Used in GetActionMenuData to filter what actions to grab, doesn't actually prevent execution otherwise
-		Filter = function(class) end, -- Static filter for entity types, used for optimization
 
+		Filter = function(class) end, -- Static filter for entity types, used for optimization
 		CanRun = function(self, ply) end, -- Additional check to see if this action can be run at all
+
 		SubOptions = function(self, ply) end, -- Lets you return a table of additional options {Name = "Foo", Value = "Bar"} that will generate as sub options with value being fed into RunAction as extra arguments
 		Progress = function(self, ply, ...) end, -- Lets you return progress bar data to automatically run one as part of the action
 		Validate = function(self, ply, ...) end, -- Used for validating user input either fed into RunAction or returned through Client
+
 		Client = function(self, ply, ...) end, -- Clientside code that is ran, return bool, value
 		Callback = function(self, ply, ...) end -- Main serverside code
 	})
@@ -51,7 +50,7 @@ function ENTITY:GetActions()
 			continue
 		end
 
-		if action.Self and ourClass != "player" then
+		if action.Target == ACTION_SELF and ourClass != "player" then
 			continue
 		end
 
@@ -89,26 +88,30 @@ function ENTITY:GetActions()
 	return actions
 end
 
+local access = {
+	[ACTION_ADMIN] = function(ply) return ply:IsAdmin() end,
+	[ACTION_EDITMODE] = function(ply) return ply:EditMode() end
+}
+
+local target = {
+	[ACTION_SELF] = function(ent, ply) return ent == ply end,
+	[ACTION_LOOK] = function(ent, ply) return ply:GetContextEntity() == ent end,
+	[ACTION_INTERACT] = function(ent, ply)
+		local context, interact = ply:GetContextEntity()
+
+		return interact and context == ent
+	end
+}
+
+local function checkTable(tab, var, ...)
+	if tab[var] and not tab[var](...) then
+		return true
+	end
+end
+
 local function check(self, action, ply)
-	if action.Admin and not ply:IsAdmin() then
-		return false
-	end
-
-	if action.EditMode and not ply:EditMode() then
-		return false
-	end
-
-	if action.Self then
-		if ply != self then
-			return false
-		end
-	else
-		local ent, canInteract = ply:GetContextEntity()
-
-		if ent != self or action.Interaction and not canInteract then
-			return false
-		end
-	end
+	if checkTable(access, action.Access, ply) then return false end
+	if checkTable(target, action.Target, self, ply) then return false end
 
 	if action.CanRun then
 		local ok = action.CanRun(self, ply)

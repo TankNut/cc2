@@ -16,10 +16,11 @@ ENT.Actions = {}
 ENT.Actions.SetSpawnTeam = {
 	Name = "Set Team",
 
-	EditMode = true,
-	Interaction = true,
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply) return not self:IsSaved() end,
+
 	SubOptions = function(self, ply)
 		local options = {}
 
@@ -35,6 +36,7 @@ ENT.Actions.SetSpawnTeam = {
 	Validate = function(self, ply, id)
 		return tobool(GAMEMODE.Teams[id])
 	end,
+
 	Callback = function(self, ply, id)
 		self:SetTeam(id)
 	end

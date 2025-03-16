@@ -47,3 +47,10 @@ WEAPONS_TOOLS = table.Lookup({
 	"weapon_physgun",
 	"gmod_tool"
 })
+
+ACTION_ADMIN = 1
+ACTION_EDITMODE = 2
+
+ACTION_SELF = 1
+ACTION_LOOK = 2
+ACTION_INTERACT = 3

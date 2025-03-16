@@ -5,8 +5,8 @@ local validation = {
 Action.Add("Describe", {
 	Name = "Describe...",
 
-	Interaction = true,
-	Filter = function(class) return tobool(PROP_CLASSES[class]) end,
+	Target = ACCESS_INTERACT,
+	Filter = FILTER_PROPS,
 
 	CanRun = function(self, ply)
 		return not self:IsProtectedEntity()

@@ -10,10 +10,11 @@ ENT.Actions.SaveWorldEnt = {
 	Name = "** Save **",
 	Priority = -10,
 
-	EditMode = true,
-	Interaction = true,
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply) return self:CanSave() and not self:IsSaved() end,
+
 	Callback = function(self, ply)
 		WorldEnts.Save(self)
 	end
@@ -23,10 +24,11 @@ ENT.Actions.DeleteWorldEnt = {
 	Name = "** Delete **",
 	Priority = -10,
 
-	EditMode = true,
-	Interaction = true,
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply) return self:IsSaved() end,
+
 	Callback = function(self, ply)
 		WorldEnts.Delete(self)
 	end

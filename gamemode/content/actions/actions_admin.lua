@@ -1,14 +1,12 @@
-local isAdmin = FindMetaTable("Player").IsAdmin
-
 Action.Add("SeeAll", {
 	Name = "Admin Utilities/Toggle SeeAll",
 	ClientOnly = true,
 	Priority = 10,
 
-	Self = true,
+	Access = ACTION_ADMIN,
+	Target = ACTION_SELF,
 	Context = "Admin",
 
-	CanRun = isAdmin,
 	Client = function()
 		Settings.Set("SeeAll", not Settings.Get("SeeAll"))
 	end
@@ -26,10 +24,10 @@ for k, setting in ipairs(settings) do
 		ClientOnly = true,
 		Priority = #settings - k,
 
-		Self = true,
+		Access = ACTION_ADMIN,
+		Target = ACTION_SELF,
 		Context = "Admin",
 
-		CanRun = isAdmin,
 		Client = function()
 			Settings.Set(setting[1], not Settings.Get(setting[1]))
 		end
@@ -39,10 +37,10 @@ end
 Action.Add("EditMode", {
 	Name = "Toggle Edit Mode",
 
-	Self = true,
+	Access = ACTION_ADMIN,
+	Target = ACTION_SELF,
 	Context = "Admin",
 
-	CanRun = isAdmin,
 	Client = function()
 		lp:SetEditMode(not lp:EditMode())
 	end,
