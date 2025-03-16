@@ -3,6 +3,8 @@ module("Animation", package.seeall)
 List = List or {}
 Cache = {}
 
+local PLAYER = FindMetaTable("Player")
+
 function Register(name, controller)
 	List[name] = inherit.Register("animations", name, controller, controller.Base or "base")
 end
@@ -55,6 +57,20 @@ function Find(mdl)
 	return controller
 end
 
+if SERVER then
+	function PLAYER:PlayGesture(name)
+		self:DoCustomAnimEvent(PLAYERANIMEVENT_CUSTOM, self:LookupSequence(name))
+	end
+
+	function PLAYER:PlayLoopingGesture(name)
+		self:DoCustomAnimEvent(PLAYERANIMEVENT_CUSTOM_GESTURE_SEQUENCE, self:LookupSequence(name))
+	end
+
+	function PLAYER:CancelGesture()
+		self:DoCustomAnimEvent(PLAYERANIMEVENT_CUSTOM, -1)
+	end
+end
+
 function GM:CalcMainActivity(ply, vel)
 	local plyTable = ply:GetTable()
 
@@ -81,6 +97,18 @@ function GM:DoAnimationEvent(ply, event, data)
 		ply.m_bJumping = true
 		ply.m_bFirstJumpFrame = true
 		ply.m_flJumpStartTime = CurTime()
+	elseif event == PLAYERANIMEVENT_CUSTOM then
+		if data == -1 then -- Cancel
+			ply:AnimResetGestureSlot(GESTURE_SLOT_CUSTOM)
+		else
+			ply:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, data, 0, true)
+		end
+
+		return ACT_INVALID
+	elseif event == PLAYERANIMEVENT_CUSTOM_GESTURE_SEQUENCE then
+		ply:AddVCDSequenceToGestureSlot(GESTURE_SLOT_CUSTOM, data, 0, false)
+
+		return ACT_INVALID
 	end
 
 	return Get(ply:GetModel()):DoAnimationEvent(ply, event, data)
