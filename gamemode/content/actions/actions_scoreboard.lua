@@ -6,7 +6,7 @@ Action.Add("ScoreboardGoto", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	CanRun = function(self, ply) return self != ply end,
+	--CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_goto", self:SteamID())
 	end
@@ -20,7 +20,7 @@ Action.Add("ScoreboardBring", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	CanRun = function(self, ply) return self != ply end,
+	--CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_bring", self:SteamID())
 	end
@@ -53,10 +53,40 @@ Action.Add("ScoreboardMuted", {
 	end
 })
 
+Action.Add("ScoreboardCharacterID", {
+	Name = "Copy CharID",
+	ClientOnly = true,
+	Priority = 60,
+
+	Access = ACTION_ADMIN,
+	Context = "Scoreboard",
+
+	Client = function(self, ply)
+		Chat.Receive("NOTICE", string.format("Copied %s's Character ID (%d) to your clipboard", self:Nick(), self:CharID()))
+
+		SetClipboardText(self:CharID())
+	end
+})
+
+Action.Add("ScoreboardSteamID", {
+	Name = "Copy SteamID",
+	ClientOnly = true,
+	Priority = 50,
+
+	Access = ACTION_ADMIN,
+	Context = "Scoreboard",
+
+	Client = function(self, ply)
+		Chat.Receive("NOTICE", string.format("Copied %s's Steam ID (%s) to your clipboard", self:Nick(), self:SteamID()))
+
+		SetClipboardText(self:SteamID())
+	end
+})
+
 Action.Add("ScoreboardCharacters", {
 	Name = "List Characters",
 	ClientOnly = true,
-	Priority = 60,
+	Priority = 40,
 
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
