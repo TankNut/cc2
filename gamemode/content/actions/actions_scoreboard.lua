@@ -3,9 +3,7 @@ Action.Add("ScoreboardGoto", {
 	ClientOnly = true,
 	Priority = 100,
 
-	Admin = true,
-
-	NoContextEntity = true,
+	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
 	CanRun = function(self, ply) return self != ply end,
@@ -19,9 +17,7 @@ Action.Add("ScoreboardBring", {
 	ClientOnly = true,
 	Priority = 90,
 
-	Admin = true,
-
-	NoContextEntity = true,
+	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
 	CanRun = function(self, ply) return self != ply end,
@@ -35,9 +31,7 @@ Action.Add("ScoreboardHidden", {
 	ClientOnly = true,
 	Priority = 80,
 
-	Admin = true,
-
-	NoContextEntity = true,
+	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
@@ -51,9 +45,7 @@ Action.Add("ScoreboardMuted", {
 	ClientOnly = true,
 	Priority = 70,
 
-	Admin = true,
-
-	NoContextEntity = true,
+	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
@@ -66,9 +58,7 @@ Action.Add("ScoreboardCharacters", {
 	ClientOnly = true,
 	Priority = 60,
 
-	Admin = true,
-
-	NoContextEntity = true,
+	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
