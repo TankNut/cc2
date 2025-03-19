@@ -53,7 +53,7 @@ SWEP.Settings = {
 	Firemodes = {-1}, -- -1 = automatic, 0 = semi, 1+ = burst
 
 	FireRate = 600, -- Rounds per minute, -1 = animation time
-	BurstDelay = -1, -- Delay between bursts, -1 = animation time
+	BurstDelay = 0, -- Delay between bursts, -1 = animation time
 
 	ClipSize = 30,
 	ReloadTime = -1, -- -1 = animation time
@@ -96,11 +96,11 @@ SWEP.Offsets = {
 	},
 	Holster = {
 		Vector(0, 0, 2),
-		Angle(15, -5, 0)
+		Angle(20, 15, 0)
 	},
 	Sprint = {
-		Vector(0, 0, 0),
-		Angle(10, 15, 0)
+		Vector(0, 0, 2),
+		Angle(15, 5, 0)
 	},
 	Aiming = {
 		Vector(-2, 2, 1),
@@ -134,15 +134,11 @@ end
 function SWEP:SetupDataTables()
 	self:NetworkVar("Bool", "Holstered")
 
-	self:NetworkVar("Float", "HolsterStart")
-	self:NetworkVar("Float", "HolsterEnd")
-
 	self:NetworkVar("Int", "FiremodeIndex")
 	self:NetworkVar("Int", "BurstIndex")
 
 	self:NetworkVar("Float", "NextIdle")
 	self:NetworkVar("Float", "AimState")
-	self:NetworkVar("Float", "SprintState")
 
 	self:NetworkVar("Angle", "RecoilPunch")
 	self:NetworkVar("Angle", "RecoilVelocity")
@@ -160,16 +156,9 @@ function SWEP:Think()
 	end
 
 	self:DoRecoilDecay()
-
-	self:SetSprintState(math.Approach(self:GetSprintState(), self:ShouldLower() and 1 or 0, FrameTime() / self:GetSprintTime()))
 	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
 end
 
 function SWEP:ToggleHolster()
 	self:SetHolstered(not self:GetHolstered())
-
-	local time = self.UseHolsterAnimations and self:PlayAnimation("Holster") or self:GetHolsterTime()
-
-	self:SetHolsterStart(CurTime())
-	self:SetHolsterEnd(CurTime() + time)
 end

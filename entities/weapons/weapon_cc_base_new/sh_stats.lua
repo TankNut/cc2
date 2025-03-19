@@ -67,14 +67,6 @@ function SWEP:GetAimTime()
 	return self.Settings.AimTime
 end
 
-function SWEP:GetSprintTime()
-	return self.Settings.SprintTime
-end
-
-function SWEP:GetHolsterTime()
-	return self.Settings.HolsterTime
-end
-
 function SWEP:GetSelectedZoom()
 	return self.Settings.Zoom[1]
 end

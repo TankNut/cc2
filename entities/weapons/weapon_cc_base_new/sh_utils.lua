@@ -38,12 +38,6 @@ function SWEP:GetShootDir()
 	end
 end
 
-function SWEP:GetHolsterState()
-	local state = math.Clamp(math.TimeFraction(self:GetHolsterStart(), self:GetHolsterEnd(), CurTime()), 0, 1)
-
-	return self:GetHolstered() and state or 1 - state
-end
-
 function SWEP:IsSprinting()
 	local ply = self:GetOwner()
 
