@@ -59,6 +59,7 @@ function GM:PostLoadCharacter(ply)
 	if CLIENT then
 		GUI.Close("CharacterCreate")
 		GUI.Close("CharacterSelect")
+		GUI.Close("CharacterGen")
 
 		Hud.Rebuild()
 	end

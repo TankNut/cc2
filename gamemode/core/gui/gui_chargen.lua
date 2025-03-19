@@ -63,8 +63,9 @@ function PANEL:Populate(node)
 			if istable(val) then
 				self:Populate(val)
 			else
+				pnl:SetDisabled(true)
+
 				self.ChoiceMade = true
-				self:Close()
 
 				netstream.Send("GenCharacter", val)
 			end

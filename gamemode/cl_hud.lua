@@ -140,17 +140,6 @@ function GM:DrawAmmo()
 	end
 end
 
-function GM:DrawUnconnected()
-	if not lp:HasCharacter() and not vgui.CursorVisible() then
-		surface.SetDrawColor(0, 0, 0, 150)
-		surface.DrawRect(0, 0, ScrW(), ScrH())
-
-		draw.DrawBackgroundBlur(1)
-
-		draw.DrawText("Please wait...", "CombineControl.LabelGiant", ScrW() / 2, ScrH() / 2, Color(200, 200, 200, 255), 1)
-	end
-end
-
 net.Receive("nFlashRed", function(len)
 	GAMEMODE.FlashRedStart = CurTime()
 end)
@@ -182,8 +171,6 @@ function GM:HUDPaint()
 		self:DrawDamage()
 		self:DrawAmmo()
 	end
-
-	self:DrawUnconnected()
 
 	local wep = LocalPlayer():GetActiveWeapon()
 
