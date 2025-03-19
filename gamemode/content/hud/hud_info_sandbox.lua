@@ -2,10 +2,7 @@ local BaseClass = inherit.Get("hud", "base")
 
 HUD.Name = "Sandbox Info"
 
-HUD.Default = true
 HUD.Setting = "SandboxInfo"
-HUD.DrawOrder = 0
-
 HUD.ExtraSettings = {
 	{"ShowWarning", {
 		Name = "    Show Warning",
@@ -16,6 +13,8 @@ HUD.ExtraSettings = {
 		Dark = true
 	}}
 }
+
+HUD.DrawOrder = 0
 
 HUD.Limits = {
 	"props",

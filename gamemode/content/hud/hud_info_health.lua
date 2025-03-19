@@ -1,6 +1,5 @@
 HUD.Name = "Health"
 
-HUD.Default = true
 HUD.Setting = "Health"
 
 HUD.Width = 220

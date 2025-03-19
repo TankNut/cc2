@@ -1,6 +1,5 @@
 HUD.Name = "Prop Labels"
 
-HUD.Default = true
 HUD.Setting = "PropLabels"
 
 HUD.Offset = Vector(0, 0, 10)

@@ -1,6 +1,5 @@
 HUD.Name = "Character Info"
 
-HUD.Default = true
 HUD.Setting = "CharacterInfo"
 
 HUD.DrawOrder = 0

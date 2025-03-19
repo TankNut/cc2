@@ -2,7 +2,6 @@ local BaseClass = inherit.Get("hud", "base")
 
 HUD.Name = "Player Labels"
 
-HUD.Default = true
 HUD.Setting = "PlayerLabels"
 
 HUD.ExtraSettings = {

@@ -2,11 +2,10 @@ local HUD = {}
 
 HUD.Name = "Unnamed Hud Element"
 
-HUD.Default = nil -- Whether the element is added to the hud by default
 HUD.Setting = nil -- If set, will add a setting to enable-disable the hud element based on the value of CLASS.Default
-
 HUD.ExtraSettings = {}
 
+HUD.RequireCharacter = true -- Will only be added if the player has a valid character
 HUD.AlwaysDraw = nil -- Whether the element draws when the hud is disabled
 
 HUD.DrawOrder = 0
@@ -16,11 +15,15 @@ function HUD:IsValid()
 end
 
 function HUD:ShouldAddElement()
+	if self.RequireCharacter and not lp:HasCharacter() then
+		return false
+	end
+
 	if self.Setting then
 		return Settings.Get("Hud" .. self.Setting)
 	end
 
-	return self.Default
+	return true
 end
 
 function HUD:Initialize()
