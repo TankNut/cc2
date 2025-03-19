@@ -40,24 +40,6 @@ function draw.DrawBackgroundBlur(frac, x, y, w, h)
 	DisableClipping(false)
 end
 
-GM.ThirdCurPos = Vector()
-GM.ThirdCurAng = Angle()
-GM.ThirdDestPos = Vector()
-GM.ThirdDestAng = Angle()
-
-GM.NPCDrawBlacklist = {
-	"npc_antlion_grub",
-	"npc_barnacle_tongue_tip",
-	"npc_bullseye",
-	"monster_generic"
-}
-
-GM.TypeText = {
-	"Typing...",
-	"Radioing...",
-	"Requesting..."
-}
-
 function GM:DrawAmmo()
 	if LocalPlayer():InVehicle() then
 		return

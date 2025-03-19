@@ -188,7 +188,7 @@ function GM:CanPlayerSuicide(ply)
 end
 
 function GM:PlayerSpray(ply)
-	return false
+	return true
 end
 
 function GM:PlayerCanHearPlayersVoice(targ, ply)
