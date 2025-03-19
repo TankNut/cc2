@@ -40,33 +40,6 @@ function draw.DrawBackgroundBlur(frac, x, y, w, h)
 	DisableClipping(false)
 end
 
-function GM:DrawWorldText(pos, text, noz)
-	local ang = (pos - EyePos()):Angle()
-
-	cam.Start3D2D(pos, Angle(0, ang.y - 90, 90), 0.25)
-		if noz then
-			render.DepthRange(0, 0)
-		end
-
-		render.PushFilterMag(TEXFILTER.NONE)
-		render.PushFilterMin(TEXFILTER.NONE)
-			surface.SetFont("BudgetLabel")
-
-			local w, h = surface.GetTextSize(text)
-
-			surface.SetTextColor(255, 255, 255, 255)
-			surface.SetTextPos(-w * 0.5, -h * 0.5)
-
-			surface.DrawText(text)
-		render.PopFilterMin()
-		render.PopFilterMag()
-
-		if noz then
-			render.DepthRange(0, 1)
-		end
-	cam.End3D2D()
-end
-
 GM.ThirdCurPos = Vector()
 GM.ThirdCurAng = Angle()
 GM.ThirdDestPos = Vector()
@@ -84,11 +57,6 @@ GM.TypeText = {
 	"Radioing...",
 	"Requesting..."
 }
-
-GM.WeaponOutText = {}
-GM.WeaponOutText["weapon_physgun"] = "Your physgun is out! Switch to your hands when you're done building."
-GM.WeaponOutText["weapon_physcannon"] = "Your gravgun is out! Switch to your hands when you're done moving things."
-GM.WeaponOutText["gmod_tool"] = "Your toolgun is out! Switch to your hands when you're done building."
 
 function GM:DrawAmmo()
 	if LocalPlayer():InVehicle() then
@@ -112,14 +80,6 @@ function GM:DrawAmmo()
 
 			draw.RoundedBox(0, ScrW() - 24 - x1, ScrH() - 24 - y1, x1 + 4, y1 + 4, Color(30, 30, 30, 200))
 			draw.DrawTextShadow(w.UnholsterText, "CombineControl.LabelGiant", ScrW() - 22 - x1, ScrH() - 22 - y1, Color(200, 200, 200, 255), Color(0, 0, 0, 255), 0)
-
-			return
-		elseif self.WeaponOutText[w:GetClass()] then
-			surface.SetFont("CombineControl.LabelMassive")
-			local x1, y1 = surface.GetTextSize(self.WeaponOutText[w:GetClass()])
-
-			draw.RoundedBox(0, ScrW() - 24 - x1, ScrH() - 24 - y1, x1 + 4, y1 + 4, Color(30, 30, 30, 200))
-			draw.DrawTextShadow(self.WeaponOutText[w:GetClass()], "CombineControl.LabelMassive", ScrW() - 22 - x1, ScrH() - 22 - y1, Color(200, 0, 0, 255), Color(0, 0, 0, 255), 0)
 
 			return
 		end
@@ -258,22 +218,10 @@ function GM:PostRenderVGUI()
 	end
 end
 
-function GM:GetCursorEnt()
-	local trace = {}
-	trace.start = LocalPlayer():GetShootPos()
-	trace.endpos = trace.start + gui.ScreenToVector(gui.MousePos()) * 32768
-	trace.filter = LocalPlayer()
-	local tr = util.TraceLine(trace)
-
-	if IsValid(tr.Entity) then
-		return tr.Entity
-	end
-end
-
 local col = Color(255, 0, 255, 255)
 
 function GM:PreDrawHalos()
-	if Settings.Get("SeeAll") and IsValid(LocalPlayer():GetActiveWeapon()) and GAMEMODE.WeaponOutText[LocalPlayer():GetActiveWeapon():GetClass()] then
+	if Settings.Get("SeeAll") and lp:HasToolOut() then
 		local tab = {}
 
 		for props in pairs(EntityCache.Get("props")) do
