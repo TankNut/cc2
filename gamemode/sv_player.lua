@@ -135,10 +135,6 @@ end
 function GM:PlayerDisconnected(ply)
 	ply:SetLastSeen(os.time())
 	ply:SetCharacterLastSeen(os.time())
-
-	if ply:Ragdoll() and ply:Ragdoll():IsValid() then
-		ply:Ragdoll():Remove()
-	end
 end
 
 function GM:ShutDown()
