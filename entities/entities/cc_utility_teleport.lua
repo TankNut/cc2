@@ -20,7 +20,7 @@ ENT.MaxBounds = Vector(16, 16, 72)
 
 ENT.Color = Color(200, 60, 255)
 
-EntityCache.Add("quickteleports", function(ent) return ent:IsType("cc_utility_teleport") end)
+EntityCache.Add("worldents_quickteleports", function(ent) return ent:IsType("cc_utility_teleport") end)
 
 local validation = {
 	validate.Max(32)
@@ -66,7 +66,7 @@ Action.Add("QuickTeleport", {
 			Value = nil
 		})
 
-		for ent in pairs(EntityCache.Get("quickteleports")) do
+		for ent in pairs(EntityCache.Get("worldents_quickteleports")) do
 			if not ent:IsSaved() then
 				continue
 			end
@@ -131,7 +131,7 @@ function ENT:SetupDataTables()
 end
 
 function ENT:CanSave()
-	for ent in pairs(EntityCache.Get("quickteleports")) do
+	for ent in pairs(EntityCache.Get("worldents_quickteleports")) do
 		if self != ent and self:GetTeleportID() == ent:GetTeleportID() then
 			return false
 		end

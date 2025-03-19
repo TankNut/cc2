@@ -13,7 +13,7 @@ ENT.AdminOnly = true
 
 ENT.Color = Color(200, 60, 255)
 
-EntityCache.Add("quickbuttons", function(ent) return ent:IsType("cc_utility_button") end)
+EntityCache.Add("worldents_quickbuttons", function(ent) return ent:IsType("cc_utility_button") end)
 
 local validation = {
 	validate.Max(32)
@@ -57,7 +57,7 @@ Action.Add("QuickButton", {
 			Value = nil
 		})
 
-		for ent in pairs(EntityCache.Get("quickbuttons")) do
+		for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do
 			if not ent:IsSaved() then
 				continue
 			end
@@ -104,7 +104,7 @@ function ENT:CanSave()
 		return false
 	end
 
-	for ent in pairs(EntityCache.Get("quickbuttons")) do
+	for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do
 		if self != ent and self:GetButtonID() == ent:GetButtonID() then
 			return false
 		end
