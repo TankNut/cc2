@@ -22,25 +22,6 @@ function GM:PlayerSwitchFlashlight(ply, enable)
 	return true
 end
 
-if SERVER then
-	function nToggleHolster(len, ply)
-		local weapon = ply:GetActiveWeapon()
-
-		if IsValid(weapon) then
-			if weapon.Holsterable then
-				ply:SetHolstered(not ply:Holstered())
-			else
-				ply:SetHolstered(false)
-			end
-
-			if weapon.ToggleHolster then
-				weapon:ToggleHolster()
-			end
-		end
-	end
-	net.Receive("nToggleHolster", nToggleHolster)
-end
-
 function GM:IronsightsMul()
 	return FrameTime() / 1.5
 end

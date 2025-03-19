@@ -22,33 +22,6 @@ if CLIENT then
 
 		if Chat.Bind(bind, down) then return true end
 		if WeaponSelect.Bind(bind, down) then return true end
-
-		if down and string.find(bind, "rp_toggleholster") then
-			net.Start("nToggleHolster")
-			net.SendToServer()
-
-			local weapon = LocalPlayer():GetActiveWeapon()
-
-			if IsValid(weapon) then
-				if weapon.TRP then
-					RunConsoleCommand("impulse", 30)
-				end
-
-				if weapon.ToggleHolster then
-					weapon:ToggleHolster()
-				end
-
-				if weapon.Holsterable then
-					LocalPlayer():SetHolstered(not LocalPlayer():Holstered())
-				else
-					LocalPlayer():SetHolstered(false)
-				end
-			end
-
-			return true
-		end
-
-		return hook.Run("CC.CL.PlayerBindPress", ply, bind, down)
 	end
 
 	function GM:ScoreboardShow()

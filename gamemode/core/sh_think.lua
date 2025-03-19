@@ -8,10 +8,6 @@ function GM:Think()
 	self.BaseClass:Think()
 
 	if CLIENT then
-		-- Legacy code
-		self:ToggleHolsterThink()
-		-- Legacy code ends
-
 		if wheelSpeed:GetFloat() > 20 then
 			RunConsoleCommand("physgun_wheelspeed", "20")
 		end
