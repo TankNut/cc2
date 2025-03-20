@@ -148,6 +148,10 @@ function PLAYER:UnloadCharacter()
 
 	Inventory.Clear(self)
 
+	self:CloseGUI("HelpMenu")
+	self:CloseGUI("AdminMenu")
+	self:CloseGUI("PlayerMenu")
+
 	self:Spawn()
 end
 

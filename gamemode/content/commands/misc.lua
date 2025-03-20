@@ -21,7 +21,7 @@ what:SetDescription("Tells you the path of the current model you're looking at")
 what:SetExecutionContext(console.ClientOnly)
 
 local toggleHUD = console.AddCommand("rp_togglehud", function()
-	Settings.Set("HUD", not Settings.Get("HUD"))
+	Settings.Set("Hud", not Settings.Get("Hud"))
 end)
 
 toggleHUD:SetDescription("Toggles your HUD between active and disabled")
