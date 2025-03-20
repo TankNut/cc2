@@ -12,6 +12,19 @@ function GM:OnPlayerReady(ply)
 	end)
 end
 
+function PLAYER:SetUsingSpawnCamera(enabled)
+	local cameras = EntityCache.Get("worldents_spawncameras")
+
+	if not enabled or table.IsEmpty(cameras) then
+		self:SetViewEntity(self)
+
+		return
+	end
+
+	local _, camera = table.Random(cameras)
+	self:SetViewEntity(camera)
+end
+
 function PLAYER:FullRestore()
 	self:SetHealth(self:GetMaxHealth())
 	self:SetArmor(self:GetMaxArmor())
@@ -58,6 +71,8 @@ function GM:PlayerSpawn(ply)
 		ply:SetNotSolid(true)
 		ply:SetMoveType(MOVETYPE_NOCLIP)
 
+		ply:SetUsingSpawnCamera(true)
+
 		return
 	end
 
@@ -69,6 +84,8 @@ function GM:PlayerSpawn(ply)
 	ply:SetMoveType(MOVETYPE_WALK)
 
 	ply:UpdateLoadout()
+
+	ply:SetUsingSpawnCamera(false)
 end
 
 if not PLAYER._SetMaxArmor then
@@ -210,3 +227,4 @@ gameevent.Listen("player_changename")
 hook.Add("player_changename", "core/player", function(data)
 	Player(data.userid):SetLastNick(data.newname)
 end)
+
