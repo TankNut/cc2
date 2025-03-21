@@ -1,7 +1,13 @@
 AddCSLuaFile()
 
 function SWEP:CanFire()
-	if self:GetHolstered() or self:ShouldLower() then
+	if self:GetHolstered() then
+		self:ForceStopFire()
+
+		return false
+	end
+
+	if self:ShouldLower() then
 		return false
 	end
 
@@ -11,6 +17,7 @@ function SWEP:CanFire()
 		end
 
 		self:SetNextPrimaryFire(CurTime() + 0.2)
+		self:ForceStopFire()
 
 		return false
 	end
@@ -19,9 +26,7 @@ function SWEP:CanFire()
 end
 
 function SWEP:PrimaryAttack()
-	if self:GetHolstered() or not self:CanFire() then
-		self:ForceStopFire()
-
+	if not self:CanFire() then
 		return
 	end
 
