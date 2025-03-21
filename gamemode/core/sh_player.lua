@@ -94,7 +94,11 @@ function PLAYER:CanMove()
 end
 
 function GM:CanMove(ply)
-	return not ply:IsRagdolled()
+	if ply:IsRagdolled() or not ply:HasCharacter() then
+		return false
+	end
+
+	return true
 end
 
 function GM:StartCommand(ply, cmd)
@@ -106,12 +110,43 @@ function GM:StartCommand(ply, cmd)
 	end
 end
 
+local function handle(ply, index, ...)
+	local func = ply:RunCharFlag(index)
+
+	if func then
+		func(ply, ...)
+	end
+
+	local weapon = ply:GetActiveWeapon()
+
+	if IsValid(weapon) and weapon:IsType("weapon_cc_base_new") and weapon[index] then
+		weapon[index](weapon, ply, ...)
+	end
+end
+
+function GM:SetupMove(ply, mv, cmd)
+
+	handle(ply, "SetupMove", mv, cmd)
+
+	return self.BaseClass:SetupMove(ply, mv, cmd)
+end
+
+function GM:Move(ply, mv)
+	handle(ply, "Move", mv)
+
+	return self.BaseClass:Move(ply, mv)
+end
+
 function GM:FinishMove(ply, mv)
 	if ply:IsRagdolled() then
 		ply:SetNetworkOrigin(ply:GetRagdoll():GetNetworkOrigin())
 
 		return true
 	end
+
+	handle(ply, "FinishMove", mv)
+
+	return self.BaseClass:FinishMove(ply, mv)
 end
 
 function GM:PlayerSwitchWeapon(ply, old, new)

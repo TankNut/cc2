@@ -160,37 +160,3 @@ net.Receive("nRequestAllPlayerData", function(len, ply)
 
 	ply:SyncAllOtherData()
 end)
-
-function GM:FreezePlayer(ply, time)
-	ply.FreezeTime = math.max(ply.FreezeTime or 0, CurTime() + time)
-end
-
-function GM:Move(ply, move)
-	if not ply:HasCharacter() then
-		return true
-	end
-
-	if ply.FreezeTime and CurTime() < ply.FreezeTime then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-	end
-
-	local func = ply:RunCharFlag("Move")
-
-	if func then
-		func(ply, move)
-	end
-
-	return self.BaseClass:Move(ply, move)
-end
-
-function GM:SetupMove(ply, move)
-	if ply.FreezeTime and CurTime() < ply.FreezeTime then
-		move:SetMaxSpeed(0)
-		move:SetMaxClientSpeed(0)
-		move:SetVelocity(Vector())
-	end
-
-	return self.BaseClass:SetupMove(ply, move)
-end
