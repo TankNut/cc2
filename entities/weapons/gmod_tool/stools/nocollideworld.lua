@@ -1,121 +1,170 @@
-
-if CLIENT then
-
-	language.Add("tool.nocollideworld.name", "No Collide World")
-	language.Add("tool.nocollideworld.desc", "Disable collisions between a prop and the world.")
-	language.Add("tool.nocollideworld.0", "Click to disable collisions.")
-end
-
 TOOL.Category		= "Construction"
 TOOL.Name			= "#tool.nocollideworld.name"
 
+if CLIENT then
+	TOOL.Information = {
+		{ name = "left" },
+		{ name = "right" }
+	}
+
+	language.Add("tool.nocollideworld.name", "No Collide World")
+	language.Add("tool.nocollideworld.desc", "Disable collisions between a prop and the world.")
+	language.Add("tool.nocollideworld.left", "Click to disable collisions with the world.")
+	language.Add("tool.nocollideworld.right", "Click to enable collisions with the world.")
+end
+
+local function IsValidConstraintTarget(ent, bone)
+	if not IsValid(ent) or ent:IsPlayer() or ent:IsWorld() or ent:IsNPC() then
+		return false
+	end
+
+	if CLIENT then
+		return true
+	end
+
+	return util.IsValidPhysicsObject(ent, bone)
+end
+
+local function FindOrCreateConstraintSystem(parent, child)
+	local constaintSystem
+
+	if not parent:IsWorld() and parent:GetTable().ConstraintSystem and parent:GetTable().ConstraintSystem:IsValid() then
+		constaintSystem = parent:GetTable().ConstraintSystem
+
+		if constaintSystem:IsValid() and constaintSystem:GetVar("constraints", 0) > 100 then
+			constaintSystem = nil
+		end
+	end
+
+	if not constaintSystem and not child:IsWorld() and child:GetTable().ConstraintSystem and child:GetTable().ConstraintSystem:IsValid() then
+		constaintSystem = child:GetTable().ConstraintSystem
+
+		if constaintSystem:IsValid() and constaintSystem:GetVar("constraints", 0) > 100 then
+			constaintSystem = nil
+		end
+	end
+
+	if not constaintSystem or not constaintSystem:IsValid() then
+		constaintSystem = ents.Create("phys_constraintsystem")
+
+		constaintSystem:SetKeyValue("additionaliterations", GetConVar("gmod_physiterations"):GetInt())
+		constaintSystem:Spawn()
+		constaintSystem:Activate()
+	end
+
+	parent.ConstraintSystem = constaintSystem
+	child.ConstraintSystem = constaintSystem
+
+	constaintSystem.UsedEntities = constaintSystem.UsedEntities or {}
+	table.insert(constaintSystem.UsedEntities, parent)
+	table.insert(constaintSystem.UsedEntities, child)
+
+	constaintSystem:SetVar("constraints", constaintSystem:GetVar("constraints", 0) + 1)
+
+	return constaintSystem
+end
+
+local function CreateNoCollideWorldConstraint(ent, bone)
+	if not ent:IsValid() then
+		return false
+	end
+
+	local world = game.GetWorld()
+	local worldBone = 0
+
+	local entPhysicsObject = ent:GetPhysicsObjectNum(bone)
+	local worldPhysicsObject = world:GetPhysicsObjectNum(worldBone)
+
+	if not IsValid(entPhysicsObject) or not IsValid(worldPhysicsObject) then
+		return false
+	end
+
+	local constraints = ent:GetTable().Constraints
+
+	if constraints then
+		for _, link in pairs(constraints) do
+			if link:IsValid() or link == world then
+				local tab = link:GetTable()
+
+				if tab.Type == "NoCollideWorld" and tab.Ent1 == ent then
+					return false
+				end
+			end
+		end
+	end
+
+	SetPhysConstraintSystem(FindOrCreateConstraintSystem(ent, world))
+	local physicsEntity = ents.Create("phys_ragdollconstraint")
+		physicsEntity:SetKeyValue("xmin", -180)
+		physicsEntity:SetKeyValue("xmax", 180)
+		physicsEntity:SetKeyValue("ymin", -180)
+		physicsEntity:SetKeyValue("ymax", 180)
+		physicsEntity:SetKeyValue("zmin", -180)
+		physicsEntity:SetKeyValue("zmax", 180)
+		physicsEntity:SetKeyValue("spawnflags", 3)
+		physicsEntity:SetPhysConstraintObjects(entPhysicsObject, worldPhysicsObject)
+		physicsEntity:Spawn()
+		physicsEntity:Activate()
+	SetPhysConstraintSystem(NULL)
+
+	constraint.AddConstraintTable(ent, physicsEntity, world)
+
+	local tab = {
+		Type = "NoCollideWorld",
+		Ent1 = ent,
+		Bone1 = bone
+	}
+
+	physicsEntity:SetTable(tab)
+
+	return physicsEntity
+end
+duplicator.RegisterConstraint("NoCollideWorld", CreateNoCollideWorldConstraint, "Ent1", "Bone1")
+
 function TOOL:LeftClick(tr)
-	if not tr.Entity or not tr.Entity:IsValid() then return false end
-	if tr.Entity:IsPlayer() then return false end
-	if tr.Entity:IsWorld() then return false end
-
-	if SERVER and not util.IsValidPhysicsObject(tr.Entity, tr.PhysicsBone) then return false end
-
-	if CLIENT then return true end
-
 	local ent = tr.Entity
 	local bone = tr.PhysicsBone
+	local ply = self:GetOwner()
 
-	local const = constraint.NoCollideWorld(ent, bone)
+	if not IsValidConstraintTarget(ent, bone) or not ply:CheckLimit("constraints") then
+		return false
+	end
 
-	undo.Create("No Collide World")
-		undo.AddEntity(const)
-		undo.SetPlayer(self:GetOwner())
-	undo.Finish()
+	if SERVER then
+		local constr = CreateNoCollideWorldConstraint(ent, bone)
 
-	DoPropSpawnedEffect(tr.Entity)
+		if not constr then
+			return false
+		end
+
+		undo.Create("No Collide World")
+			undo.AddEntity(constr)
+			undo.SetPlayer(ply)
+		undo.Finish()
+
+		ply:AddCount("constraints", constr)
+
+		DoPropSpawnedEffect(ent)
+	end
 
 	return true
 end
 
 function TOOL:RightClick(tr)
-	return false
-end
+	local ent = tr.Entity
+	local bone = tr.PhysicsBone
 
-local function CreateConstraintSystem()
-
-	local ent = ents.Create("phys_constraintsystem")
-	ent:SetKeyValue("additionaliterations", GetConVarNumber("gmod_physiterations"))
-	ent:Spawn()
-	ent:Activate()
-
-	return ent
-end
-
-local function FindOrCreateConstraintSystem(Ent1, Ent2)
-	local System
-	if not Ent1:IsWorld() and Ent1:GetTable().ConstraintSystem and Ent1:GetTable().ConstraintSystem:IsValid() then System = Ent1:GetTable().ConstraintSystem end
-	if System and System:IsValid() and System:GetVar("constraints", 0) > 100 then System = nil end
-	if not System and not Ent2:IsWorld() and Ent2:GetTable().ConstraintSystem and Ent2:GetTable().ConstraintSystem:IsValid() then System = Ent2:GetTable().ConstraintSystem end
-	if System and System:IsValid() and System:GetVar("constraints", 0) > 100 then System = nil end
-	if not System or not System:IsValid() then System = CreateConstraintSystem() end
-	Ent1.ConstraintSystem = System
-	Ent2.ConstraintSystem = System
-	System.UsedEntities = System.UsedEntities or {}
-	table.insert(System.UsedEntities, Ent1)
-	table.insert(System.UsedEntities, Ent2)
-	System:SetVar("constraints", System:GetVar("constraints", 0)+1)
-	return System
-end
-
-function constraint.NoCollideWorld(ent, bone)
-	if not ent or not ent:IsValid() then return false end
-
-	local phys = ent:GetPhysicsObjectNum(bone)
-	local wphys = game.GetWorld():GetPhysicsObjectNum(0)
-
-	if not phys or not phys:IsValid() or not wphys or not wphys:IsValid() then return false end
-
-	if ent:GetTable().Constraints then
-
-		for _, v in pairs(ent:GetTable().Constraints) do
-
-			if v:IsValid() or v == game.GetWorld() then
-
-				local tab = v:GetTable()
-
-				if tab.Type == "NoCollideWorld" and tab.Ent1 == ent then return false end
-
-			end
-
-		end
-
+	if not IsValidConstraintTarget(ent, bone) then
+		return false
 	end
 
-	SetPhysConstraintSystem(FindOrCreateConstraintSystem(ent, game.GetWorld()))
+	if SERVER and constraint.FindConstraint(ent, "NoCollideWorld") ~= nil then
+		constraint.RemoveConstraints(ent, "NoCollideWorld")
+	end
 
-	local physent = ents.Create("phys_ragdollconstraint")
-
-	physent:SetKeyValue("xmin", -180)
-	physent:SetKeyValue("xmax", 180)
-	physent:SetKeyValue("ymin", -180)
-	physent:SetKeyValue("ymax", 180)
-	physent:SetKeyValue("zmin", -180)
-	physent:SetKeyValue("zmax", 180)
-	physent:SetKeyValue("spawnflags", 3)
-	physent:SetPhysConstraintObjects(phys, wphys)
-	physent:Spawn()
-	physent:Activate()
-
-	SetPhysConstraintSystem(NULL)
-
-	constraint.AddConstraintTable(ent, physent, game.GetWorld())
-
-	local tab = {
-		Type = "NoCollideWorld",
-		Ent1 = ent,
-		Ent2 = game.GetWorld(),
-		Bone1 = bone,
-		Bone2 = 0
-	}
-
-	physent:SetTable(tab)
-
-	return physent
+	return true
 end
-duplicator.RegisterConstraint("NoCollideWorld", constraint.NoCollideWorld, "Ent1", "Ent2", "Bone1", "Bone2")
+
+function TOOL:Reload(tr)
+	return false
+end

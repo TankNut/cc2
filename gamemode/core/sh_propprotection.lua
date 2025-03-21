@@ -44,7 +44,9 @@ if SERVER then
 	end
 
 	function cleanup.Add(ply, name, ent)
-		ent:SetCreator(ply)
+		if IsValid(ent) then
+			ent:SetCreator(ply)
+		end
 
 		return cleanup.ccAdd(ply, name, ent)
 	end
