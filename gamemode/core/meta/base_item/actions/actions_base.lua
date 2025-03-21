@@ -50,7 +50,7 @@ ITEM.Actions.Destroy = {
 		return hook.Run("CanDestroyItem", ply, self)
 	end,
 	Client = function(self, ply)
-		return (not Settings.Get("ConfirmItemDesctruction") or GUI.Open("Input", "confirm", "Destroy Item", {
+		return (not Settings.Get("ConfirmItemDestruction") or GUI.Open("Input", "confirm", "Destroy Item", {
 			Prompt = string.format("Are you sure you'd like to destroy your %s?", self:GetName()),
 		})), "Item destruction cancelled."
 	end,

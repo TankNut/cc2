@@ -28,7 +28,7 @@ Settings.Add("EquipTogglesMenu", {
 	Panel = "CC_Setting_Bool"
 }, "General")
 
-Settings.Add("ConfirmItemDesctruction", {
+Settings.Add("ConfirmItemDestruction", {
 	Name = "Request confirmation when destroying items",
 	ClientOnly = true,
 	Default = true,
