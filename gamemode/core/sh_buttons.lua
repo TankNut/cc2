@@ -17,6 +17,12 @@ function GM:OnIsMapButtonChanged(ent)
 	List[ent] = true
 end
 
+hook.Add("EntityRemoved", "buttons.EntityRemoved", function(ent)
+	if List[ent] then
+		List[ent] = nil
+	end
+end)
+
 if SERVER then
 	IsLoading = false
 
