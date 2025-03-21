@@ -163,3 +163,18 @@ end
 function SWEP:ToggleHolster()
 	self:SetHolstered(not self:GetHolstered())
 end
+
+function SWEP:SetupMove(ply, mv, cmd)
+	if not self:ShouldAim() then
+		return
+	end
+
+	local aimSlow = Lerp(self:GetAimState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75)
+
+	if mv:GetMaxSpeed() < aimSlow then
+		return
+	end
+
+	mv:SetMaxSpeed(aimSlow)
+	mv:SetMaxClientSpeed(aimSlow)
+end
