@@ -35,20 +35,24 @@ function SWEP:DoRecoilDecay()
 	end
 end
 
-function SWEP:GetRecoilMultiplier()
-	return math.tan(self:GetOwner():GetFOV() * (math.pi / 360)) * self:GetZoom()
+local TAPFIRE_THRESHOLD = 0.75
+
+function SWEP:IsTapFiring()
+	return math.abs(self:GetRecoilPunch().p) < self.Recoil.Value * TAPFIRE_THRESHOLD
 end
 
-local TAPFIRE_THRESHOLD = 0.75
+function SWEP:GetRecoilMultiplier()
+	local tapFire = self:IsTapFiring() and 0.5 or 1
+	local crouching =  math.Remap(self:GetOwner():GetCrouchState(), 0, 1, 1, 0.5)
+
+	return math.min(tapFire, crouching)
+end
 
 function SWEP:ApplyRecoil()
 	local recoil = self.Recoil
-	local value = recoil.Value * self:GetRecoilMultiplier()
-	local viewPunchMult = 1
-
-	if math.abs(self:GetRecoilPunch().p) < value * TAPFIRE_THRESHOLD then
-		viewPunchMult = 0.5
-	end
+	local zoomMultiplier = math.tan(self:GetOwner():GetFOV() * (math.pi / 360)) * self:GetZoom()
+	local value = recoil.Value * zoomMultiplier
+	local viewPunchMult = self:GetRecoilMultiplier()
 
 	math.randomseed(self:EntIndex() .. self:GetCommandNumber())
 
