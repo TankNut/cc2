@@ -289,3 +289,39 @@ function PANEL:UpdateToolDisabledStatus()
 		end
 	end
 end
+
+-- NPC weapon category
+hook.Add("PopulateMenuBar", "CombineControl", function(_, menuBar)
+	local npcMenu = menuBar:AddOrGetMenu("#menubar.npcs")
+	local weaponMenu = npcMenu:AddSubMenu("CombineControl Weapons")
+	weaponMenu:SetDeleteSelf(false)
+
+	weaponMenu:AddCVar("#menubar.npcs.defaultweapon", "gmod_npcweapon", "")
+	weaponMenu:AddCVar("#menubar.npcs.noweapon", "gmod_npcweapon", "none")
+	weaponMenu:AddSpacer()
+
+	local categories = {}
+
+	for _, weapon in pairs(weapons.GetList()) do
+		if weapon and weapon.Spawnable and weapons.IsBasedOn(weapon.ClassName, "weapon_cc_base_new") then
+			local category = weapon.NPCCategory or "Misc"
+
+			categories[category] = categories[category] or {}
+
+			table.insert(categories[category], {
+				["class"] = weapon.ClassName,
+				["title"] = weapon.PrintName or weapon.ClassName
+			})
+		end
+	end
+
+	for category, weaponList  in SortedPairs(categories) do
+		local subMenu = weaponMenu:AddSubMenu(category)
+
+		subMenu:SetDeleteSelf(false)
+
+		for _, weapon in SortedPairsByMemberValue(weaponList, "title") do
+			subMenu:AddCVar(weapon.title, "gmod_npcweapon", weapon.class)
+		end
+	end
+end, POST_HOOK_RETURN)

@@ -69,6 +69,27 @@ function GM:EntityRemoved(ent, fullUpdate)
 	end
 end
 
+function GM:PreRegisterSWEP(_, class)
+	if SERVER then
+		timer.Simple(0, function()
+			if not weapons.IsBasedOn(class, "weapon_cc_base_new") then
+				return
+			end
+
+			local weapon = weapons.Get(class)
+
+			if weapon.Settings.NoNPC then
+				return
+			end
+
+			list.Add("NPCUsableWeapons", {
+				title = weapon.PrintName,
+				class = class,
+			})
+		end)
+	end
+end
+
 if SERVER then
 	function GM:EntityTakeDamage(ent, dmg)
 		if ent:IsFakePlayer() and not dmg:IsDamageType(DMG_CRUSH) then
