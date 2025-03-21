@@ -171,16 +171,6 @@ function GM:PostDrawOpaqueRenderables()
 	end
 end
 
-function GM:PostDrawTranslucentRenderables()
-	for _, v in player.Iterator() do
-		local wep = v:GetActiveWeapon()
-
-		if IsValid(wep) and wep.PostDrawTranslucentRenderables then
-			wep:PostDrawTranslucentRenderables()
-		end
-	end
-end
-
 function GM:PostRenderVGUI()
 	if self.CursorItem and cookie.GetNumber("cc_tooltips", 1) == 1 then
 		self.CursorItem:DrawTooltip()

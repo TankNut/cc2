@@ -245,6 +245,22 @@ function GM:HUDPaintBackground()
 	DrawWorldLabels()
 end
 
+function GM:PostDrawTranslucentRenderables(depth, skybox)
+	for _, element in ipairs(Active) do
+		if element:ShouldDraw() then
+			element:PostDrawTranslucentRenderables(depth, skybox)
+		end
+	end
+
+	for _, ply in player.Iterator() do
+		local weapon = ply:GetActiveWeapon()
+
+		if IsValid(weapon) and weapon.PostDrawTranslucentRenderables then
+			weapon:PostDrawTranslucentRenderables(depth, skybox)
+		end
+	end
+end
+
 local disabled = table.Lookup({
 	"CHudWeaponSelection", "CHudAmmo", "CHudSecondaryAmmo",
 	"CHudHealth", "CHudBattery", "CHudHistoryResource",

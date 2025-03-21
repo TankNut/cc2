@@ -91,4 +91,7 @@ end
 function HUD:PaintBackground(w, h)
 end
 
+function HUD:PostDrawTranslucentRenderables(depth, skybox)
+end
+
 inherit.Register("hud", "base", HUD)
