@@ -38,11 +38,12 @@ Settings.Add("SeeAllNPCs", fallback({Name = "See NPC's", Dark = false}, toggle),
 
 HUD.Name = "SeeAll"
 
-function HUD:Initialize()
-end
-
 function HUD:ShouldAddElement()
-	return lp:IsAdmin()
+	if not lp:IsAdmin() then
+		return false
+	end
+
+	return BaseClass.ShouldAddElement(self)
 end
 
 function HUD:ShouldDraw()

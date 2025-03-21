@@ -5,7 +5,11 @@ HUD.Name = "Edit Mode"
 local colorButtonDisabled = Color(255, 0, 0)
 
 function HUD:ShouldAddElement()
-	return lp:IsAdmin()
+	if not lp:IsAdmin() then
+		return false
+	end
+
+	return BaseClass.ShouldAddElement(self)
 end
 
 function HUD:ShouldDraw()
