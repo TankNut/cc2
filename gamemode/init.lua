@@ -39,8 +39,11 @@ AddCSLuaFile("core/_core.lua")
 include("core/_core.lua")
 
 function GM:Initialize()
-	game.ConsoleCommand("sv_allowupload 0\n")
-	game.ConsoleCommand("sv_allowdownload 0\n")
+	RunConsoleCommand("sv_allowupload", 0)
+	RunConsoleCommand("sv_allowdownload", 0)
+
+	RunConsoleCommand("combine_spawn_health", 0)
+	RunConsoleCommand("combine_guard_spawn_health", 0)
 
 	concommand.Remove("gm_save")
 
