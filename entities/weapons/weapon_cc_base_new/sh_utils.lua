@@ -41,7 +41,7 @@ end
 function SWEP:IsSprinting()
 	local ply = self:GetOwner()
 
-	return ply:IsSprinting() and ply:GetVelocity():Length() >= Lerp(0.5, ply:GetWalkSpeed(), ply:GetRunSpeed())
+	return ply:IsSprinting() and ply:GetVelocity():Length2D() >= Lerp(0.5, ply:GetWalkSpeed(), ply:GetRunSpeed())
 end
 
 function SWEP:ShouldLower()
