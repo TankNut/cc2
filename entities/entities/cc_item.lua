@@ -36,7 +36,7 @@ function ENT:Think()
 
 	local item = self.Item
 
-	if item and not item:IsTemporary() and self:HasMoved() then
+	if item and not item:IsTemporaryItem() and self:HasMoved() then
 		self:SaveMoved()
 
 		async.Start(self.Item.SaveLocation, self.Item)
@@ -98,7 +98,7 @@ function ENT:OnRemove()
 		return
 	end
 
-	if self.EphemeralGroup then
+	if self.EphemeralGroup and Item.EphemeralCache[self.EphemeralGroup] then
 		Item.EphemeralCache[self.EphemeralGroup][self] = nil
 	end
 
@@ -132,7 +132,9 @@ function ENT:Use(ply)
 			return
 		end
 
-		ply:GiveItem(item.ClassName, item.Data)
+		async.Start(function()
+			Log.Write("item_pickup", ply, ply:GiveItem(item.ClassName, item.Data))
+		end)
 
 		item:Delete()
 	else
