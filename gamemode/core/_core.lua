@@ -118,6 +118,8 @@ GM:Include(baseFolder .. "content/_content.lua")
 function GM:Initialize()
 	if CLIENT then
 		RunConsoleCommand("cl_showhints", 0)
+
+		Chat.Create()
 	else
 		RunConsoleCommand("sv_allowupload", 0)
 		RunConsoleCommand("sv_allowdownload", 0)
@@ -151,13 +153,6 @@ function GM:OnReloaded()
 
 	if CLIENT then
 		derma.RefreshSkins()
-		Chat.Create()
-	end
-end
-
-
-function GM:OnGamemodeLoaded()
-	if CLIENT then
 		Chat.Create()
 	end
 end
