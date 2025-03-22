@@ -187,7 +187,8 @@ if SERVER then
 	end
 end
 
-function SWEP:UpdateHoldType()
+function SWEP:OnReloaded()
+	self:SetHoldType("pistol")
 end
 
 function SWEP:ToggleHolster()
