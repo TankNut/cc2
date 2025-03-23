@@ -92,10 +92,14 @@ function GM:PreRegisterSWEP(_, class)
 end
 
 if SERVER then
-	function GM:EntityTakeDamage(ent, dmg)
-		if ent:IsFakePlayer() and not dmg:IsDamageType(DMG_CRUSH) then
+	function GM:EntityTakeDamage(ent, dmginfo)
+		if ent:IsPlayer() then
+			return hook.Run("PlayerTakeDamage", ent, dmginfo)
+		end
+
+		if ent:IsFakePlayer() and not dmginfo:IsDamageType(DMG_CRUSH) then
 			RagdollDamage = true
-				ent:FakePlayer():TakeDamageInfo(dmg)
+				ent:FakePlayer():TakeDamageInfo(dmginfo)
 			RagdollDamage = nil
 
 			return true

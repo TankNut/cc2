@@ -29,13 +29,13 @@ end
 
 function BUFF:OnTick(index, data)
 	if SERVER then
-		local info = DamageInfo()
+		local dmginfo = DamageInfo()
 
-		info:SetDamageType(DMG_FALL) -- So we don't get viewpunch
-		info:SetDamage(data.Damage)
-		info:SetAttacker(self.Player)
+		dmginfo:SetDamageType(DMG_FALL) -- So we don't get viewpunch
+		dmginfo:SetDamage(data.Damage)
+		dmginfo:SetAttacker(self.Player)
 
-		self.Player:TakeDamageInfo(info)
+		self.Player:TakeDamageInfo(dmginfo)
 	end
 end
 

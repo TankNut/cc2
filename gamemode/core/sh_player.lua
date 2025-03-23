@@ -161,7 +161,7 @@ function GM:PlayerSwitchWeapon(ply, old, new)
 	return not ply:CanAct()
 end
 
-function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
+function GM:PlayerTakeDamage(ply, dmginfo)
 	if ply:IsEFlagSet(EFL_NOCLIP_ACTIVE) or not ply:HasCharacter() then
 		return true
 	end
@@ -169,4 +169,12 @@ function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
 	if ply:IsRagdolled() and not RagdollDamage then
 		return true
 	end
+
+	if ply:IsBlocking() and dmginfo:IsDamageType(DMG_CLUB + DMG_SLASH) then
+		dmginfo:ScaleDamage(ply:GetActiveWeapon().BlockMultiplier)
+	end
+end
+
+function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
+	-- Todo: Headshot multipliers?
 end
