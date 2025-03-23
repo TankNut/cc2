@@ -125,8 +125,10 @@ local function handle(ply, index, ...)
 end
 
 function GM:SetupMove(ply, mv, cmd)
-	if cmd:GetForwardMove() <= 0 then
-		local speed = Lerp(0.5, ply:GetWalkSpeed(), ply:GetRunSpeed())
+	local slow = Config.Get("SprintSlow")
+
+	if slow < 1 and cmd:GetForwardMove() <= 0 then
+		local speed = Lerp(slow, ply:GetWalkSpeed(), ply:GetRunSpeed())
 
 		mv:SetMaxSpeed(speed)
 		mv:SetMaxClientSpeed(speed)
