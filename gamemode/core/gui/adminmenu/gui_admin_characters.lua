@@ -118,14 +118,14 @@ function PANEL:Init()
 
 	self.EnterScale = self:CreateTextEntry(50)
 	self.EnterScale:SetNumeric(true)
-	self.ApplyScaleTemp = self:CreateButton("Apply Temporarily", 100, function(ply)
+	self.ApplyScaleTemp = self:CreateButton("Apply Temporarily", 105, function(ply)
 		local value = self.EnterScale:GetFloat()
 
 		if value then
 			RunConsoleCommand("rpa_setcharscale", ply:SteamID(), value)
 		end
 	end)
-	self.ApplyScalePerm = self:CreateButton("Apply Permanently", 100, function(ply)
+	self.ApplyScalePerm = self:CreateButton("Apply Permanently", 105, function(ply)
 		local value = self.EnterScale:GetFloat()
 
 		if value then
