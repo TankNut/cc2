@@ -61,10 +61,17 @@ function CONTROLLER:UpdateFistAnimation(ply)
 
 	plyTable.FistWeight = plyTable.FistWeight or 0
 
+	local weapon = ply:GetActiveWeapon()
+	local min = 0
+
+	if IsValid(weapon) and weapon:IsScripted() and weapon:GetHoldType() == "fist" then
+		min = 0.4
+	end
+
 	if ply:IsBlocking() then
 		plyTable.FistWeight = math.Approach(plyTable.FistWeight, 1, FrameTime() * 5.0)
 	else
-		plyTable.FistWeight = math.Approach(plyTable.FistWeight, 0, FrameTime() * 5.0)
+		plyTable.FistWeight = math.Approach(plyTable.FistWeight, min, FrameTime() * 5.0)
 	end
 
 	if plyTable.FistWeight > 0 then
