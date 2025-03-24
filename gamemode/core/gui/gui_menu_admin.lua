@@ -1,6 +1,3 @@
--- Used in both gui_admin_characters and gui_admin_players.
-gameevent.Listen("player_disconnect")
-
 local PANEL = {}
 
 function PANEL:Init()

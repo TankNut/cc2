@@ -12,6 +12,8 @@ function GM:GetGameDescription()
 	return self.Name
 end
 
+gameevent.Listen("player_disconnect")
+
 local function client(path) if CLIENT then return include(path) else AddCSLuaFile(path) end end
 local function server(path) if SERVER then return include(path) end end
 local function shared(path) AddCSLuaFile(path) return include(path) end
