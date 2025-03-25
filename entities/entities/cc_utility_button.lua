@@ -49,7 +49,7 @@ Action.Add("QuickButton", {
 	Context = "Admin",
 
 	CanRun = FindMetaTable("Player").IsAdmin,
-	SubOptions = function(self, ply)
+	SubOptions = function(self)
 		local options = {}
 
 		for ent in pairs(EntityCache.Get("worldents_quickbuttons")) do

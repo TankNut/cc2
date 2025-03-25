@@ -35,7 +35,7 @@ Action.Add("SetButtonType", {
 	CanRun = function(self, ply)
 		return self:IsMapButton()
 	end,
-	SubOptions = function(self, ply)
+	SubOptions = function(self)
 		return {
 			{Name = "Enabled", Value = false},
 			{Name = "Disabled", Value = true}

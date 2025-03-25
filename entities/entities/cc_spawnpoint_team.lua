@@ -21,7 +21,7 @@ ENT.Actions.SetSpawnTeam = {
 
 	CanRun = function(self, ply) return not self:IsSaved() end,
 
-	SubOptions = function(self, ply)
+	SubOptions = function(self)
 		local options = {}
 
 		for id, team in ipairs(Team.List) do

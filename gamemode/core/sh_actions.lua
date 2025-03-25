@@ -23,7 +23,7 @@ local ENTITY = FindMetaTable("Entity")
 		Filter = function(class) end, -- Static filter for entity types, used for optimization
 		CanRun = function(self, ply) end, -- Additional check to see if this action can be run at all
 
-		SubOptions = function(self, ply) end, -- Lets you return a table of additional options {Name = "Foo", Value = "Bar"} that will generate as sub options with value being fed into RunAction as extra arguments
+		SubOptions = function(self) end, -- Lets you return a table of additional options {Name = "Foo", Value = "Bar"} that will generate as sub options with value being fed into RunAction as extra arguments
 		Progress = function(self, ply, ...) end, -- Lets you return progress bar data to automatically run one as part of the action
 		Validate = function(self, ply, ...) end, -- Used for validating user input either fed into RunAction or returned through Client
 
