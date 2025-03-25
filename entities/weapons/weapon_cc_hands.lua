@@ -17,8 +17,6 @@ SWEP.Weight = 100
 SWEP.ViewModelFOV = 54
 SWEP.DrawCrosshair = false
 
-SWEP.Primary.Automatic = true
-
 SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/c_arms.mdl")
 SWEP.WorldModel = ""
@@ -84,8 +82,10 @@ function SWEP:PrimaryAttack()
 		-- Todo: Door check
 		if IsValid(ent) then
 			self:PlaySound("Knock", 70, math.random(95, 105))
-			self:SetNextPrimaryFire(CurTime() + 0.1)
+			self:SetNextPrimaryFire(CurTime() + 0.2)
 		end
+
+		self.Primary.Automatic = false
 	elseif self:GetBlockState() == 0 then
 		self:PlayAnimation("Primary")
 		self:PlayerAnimation(PLAYER_ATTACK1)
@@ -94,6 +94,8 @@ function SWEP:PrimaryAttack()
 
 		self:SetHitDelay(CurTime() + self.HitDelay)
 		self:SetNextPrimaryFire(math.huge)
+
+		self.Primary.Automatic = true
 	end
 end
 
