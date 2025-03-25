@@ -74,7 +74,7 @@ function SWEP:PerformSwing()
 		local phys = ent:GetPhysicsObject()
 
 		if IsValid(phys) then
-			phys:ApplyForceOffset(ply:GetAimVector() * damage * 10 * phys:GetMass() * scale, tr.HitPos)
+			phys:ApplyForceOffset(ply:GetAimVector() * damage * 300 * scale, tr.HitPos)
 		end
 	end
 

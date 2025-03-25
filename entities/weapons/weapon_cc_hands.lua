@@ -146,6 +146,8 @@ function SWEP:PerformSwing()
 	local scale = phys_pushscale:GetFloat()
 	local ent = tr.Entity
 
+	local damage = self:GetDamage()
+
 	if SERVER and IsValid(ent) and (ent:IsNPC() or ent:IsPlayer() or ent:Health() > 0) then
 		local dmginfo = DamageInfo()
 
@@ -159,7 +161,7 @@ function SWEP:PerformSwing()
 		force:Rotate(self:GetShootDir():Angle())
 
 		dmginfo:SetDamageForce(force)
-		dmginfo:SetDamage(self:GetDamage())
+		dmginfo:SetDamage(damage)
 		dmginfo:SetDamageType(DMG_CLUB)
 
 		SuppressHostEvents(NULL)
@@ -171,7 +173,7 @@ function SWEP:PerformSwing()
 		local phys = ent:GetPhysicsObject()
 
 		if IsValid(phys) then
-			phys:ApplyForceOffset(ply:GetAimVector() * self.HitForce * phys:GetMass() * scale, tr.HitPos)
+			phys:ApplyForceOffset(ply:GetAimVector() * damage * 250 * scale, tr.HitPos)
 		end
 	end
 
