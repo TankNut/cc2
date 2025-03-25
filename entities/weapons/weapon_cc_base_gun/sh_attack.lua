@@ -38,13 +38,11 @@ function SWEP:CanFire()
 end
 
 function SWEP:PrimaryAttack()
-	if not self:CanFire() then
+	if self:TryShove() or not self:CanFire() then
 		return
 	end
 
-	local owner = self:GetOwner()
-
-	if owner:IsPlayer() then
+	if self:GetOwner():IsPlayer() then
 		self:PrimaryPlayer()
 	else
 		self:PrimaryNPC()

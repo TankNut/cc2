@@ -9,6 +9,8 @@ SWEP.NPCCategory = nil
 SWEP.Slot = 2
 
 SWEP.InfoText = [[Primary: Fire Weapon
+Primary + Use: Shove
+
 Secondary: Aim Down Sights
 Secondary + Scroll: Zoom]]
 
@@ -118,6 +120,7 @@ SWEP.Offsets = {
 include("sh_attack.lua")
 include("sh_holdtype.lua")
 include("sh_recoil.lua")
+include("sh_reload.lua")
 include("sh_stats.lua")
 include("sh_view.lua")
 

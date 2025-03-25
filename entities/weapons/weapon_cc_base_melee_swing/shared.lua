@@ -7,7 +7,9 @@ SWEP.Slot = 2
 
 SWEP.InfoText = [[Primary: Light Attack
 Hold Primary: Heavy Attack
-Secondary: Block]]
+Primary + Use: Shove
+
+Hold Secondary: Block]]
 
 SWEP.ViewModelFOV = 54
 SWEP.DrawCrosshair = false

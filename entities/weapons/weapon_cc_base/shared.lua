@@ -114,6 +114,43 @@ end
 function SWEP:SecondaryAttack()
 end
 
+local phys_pushscale = GetConVar("phys_pushscale")
+
+function SWEP:TryShove()
+	local ply = self:GetOwner()
+
+	if not ply:IsPlayer() or not ply:KeyDown(IN_USE) then
+		return
+	end
+
+	local tr = self:GetMeleeTrace(48)
+	local ent = tr.Entity
+
+	if IsValid(ent) then
+		if ent:IsPlayer() then
+			local dir = ent:GetPos() - ply:GetPos()
+
+			dir.z = 0
+			dir:Normalize()
+
+			ent:SetVelocity(dir * 300)
+		else
+			local scale = phys_pushscale:GetFloat()
+			local phys = ent:GetPhysicsObject()
+
+			if IsValid(phys) then
+				phys:ApplyForceOffset(ply:GetAimVector() * 3000 * scale, tr.HitPos)
+			end
+		end
+
+		self:EmitSound("NPC_Metropolice.Shove")
+	end
+
+	self:SetNextPrimaryFire(CurTime() + 1)
+
+	return true
+end
+
 if SERVER then
 	function SWEP:OwnerChanged()
 		if self:GetOwner() == NULL then

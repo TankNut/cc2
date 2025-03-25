@@ -6,7 +6,9 @@ SWEP.Base = "weapon_cc_base"
 SWEP.Slot = 2
 
 SWEP.InfoText = [[Primary: Attack
-Secondary: Block]]
+Primary + Use: Shove
+
+Hold Secondary: Block]]
 
 SWEP.ViewModelFOV = 54
 SWEP.DrawCrosshair = false

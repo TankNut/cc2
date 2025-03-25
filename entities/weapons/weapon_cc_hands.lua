@@ -74,6 +74,10 @@ function SWEP:ShouldLower()
 end
 
 function SWEP:PrimaryAttack()
+	if self:TryShove() then
+		return
+	end
+
 	self:PrimeRandomSeed()
 
 	if self:GetHolstered() then
