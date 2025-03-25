@@ -49,7 +49,7 @@ holdTypes.passive[ACT_MP_CROUCHWALK] = ACT_HL2MP_WALK_CROUCH
 SWEP.HoldTypes = holdTypes
 
 function SWEP:SetWeaponHoldType(set)
-	self.ActivityTranslate = holdTypes[set] or holdTypes.normal
+	self.ActivityTranslateCC = holdTypes[set] or holdTypes.normal
 	self:SetupWeaponHoldTypeForAI(set)
 end
 
@@ -58,7 +58,7 @@ function SWEP:TranslateActivity(act)
 		return self.ActivityTranslateAI[act] or -1
 	end
 
-	return self.ActivityTranslate[act] or -1
+	return self.ActivityTranslateCC and self.ActivityTranslateCC[act] or -1
 end
 
 function SWEP:GetLoweredHoldType()

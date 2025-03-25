@@ -13,10 +13,12 @@ SWEP.UseHands   = true
 SWEP.ViewModel  = Model("models/weapons/c_irifle.mdl")
 SWEP.WorldModel = Model("models/weapons/w_irifle.mdl")
 
+SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = 0
 
+SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = ""
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -118,10 +120,6 @@ if SERVER then
 			self:Remove()
 		end
 	end
-end
-
-function SWEP:OnReloaded()
-	self:SetHoldType("pistol")
 end
 
 function SWEP:ToggleHolster()
