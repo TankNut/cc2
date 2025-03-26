@@ -1,6 +1,7 @@
 module("Settings", package.seeall)
 
-List = List or {}
+List = {}
+
 Categories = table.Map(Config.Get("SettingCategories"), function(name)
 	return {Name = name}
 end)
