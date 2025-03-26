@@ -47,20 +47,9 @@ Settings.Add("ToggleFreelook", {
 }, "Controls")
 
 Settings.Add("StickyAim", {
-	Name = "Toggle aim when tapped",
+	Name = "Smart Aiming",
 	Private = true,
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
-}, "Controls")
-
-Settings.Add("WeaponHolsteringKey", {
-	Name = "Weapon Holstering Key",
-	Private = true,
-	Default = KEY_B,
-	Validate = {
-		validate.Min(BUTTON_CODE_NONE),
-		validate.Max(BUTTON_CODE_LAST)
-	},
-	Panel = "CC_Setting_Keybind"
 }, "Controls")

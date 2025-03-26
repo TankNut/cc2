@@ -1,12 +1,32 @@
+module("Binds", package.seeall)
+
+List = {}
+
+function Add(index, name, default, callback)
+	table.insert(List, {
+		Setting = index .. "Keybind",
+		Callback = callback
+	})
+
+	Settings.Add(index .. "Keybind", {
+		Name = name,
+		Private = true,
+		Default = default,
+		Validate = {
+			validate.Min(BUTTON_CODE_NONE),
+			validate.Max(BUTTON_CODE_LAST)
+		},
+		Panel = "CC_Setting_Keybind"
+	}, "Keybinds")
+end
+
 function GM:PlayerButtonDown(ply, button)
-	if button == ply:GetSetting("WeaponHolsteringKey") then
-		local weapon = ply:GetActiveWeapon()
+	for _, data in ipairs(List) do
+		if button == ply:GetSetting(data.Setting) then
+			data.Callback(ply)
 
-		if weapon:IsType("weapon_cc_base") then
-			weapon:ToggleHolster()
+			return
 		end
-
-		return
 	end
 
 	if SERVER then
