@@ -47,6 +47,7 @@ if CLIENT then
 	function GM:CreateMove(cmd)
 		if Settings.Get("ToggleCrouch") then toggleKey(IN_DUCK, cmd) end
 		if Settings.Get("ToggleSprint") then toggleKey(IN_SPEED, cmd) end
+		if Settings.Get("ToggleFreelook") then toggleKey(IN_WALK, cmd) end
 
 		if Settings.Get("AutoWalk") then
 			local sensitivity = Settings.Get("AutoWalkSensitivity")

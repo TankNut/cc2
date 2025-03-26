@@ -38,6 +38,14 @@ Settings.Add("ToggleSprint", {
 	Panel = "CC_Setting_Bool"
 }, "Controls")
 
+Settings.Add("ToggleFreelook", {
+	Name = "Toggle Freelook (+walk)",
+	ClientOnly = true,
+	Default = false,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "Controls")
+
 Settings.Add("ToggleAim", {
 	Name = "Toggle Aim",
 	Private = true,

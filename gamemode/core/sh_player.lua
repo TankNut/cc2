@@ -30,6 +30,8 @@ PlayerVar.Add("LastSeen", {
 
 function PLAYER:SetupDataTables()
 	self:InstallDataTable()
+
+	self:NetworkVar("Angle", "SavedMoveAngles")
 end
 
 -- Todo: Implement weapon zoom as a multiplier
@@ -145,6 +147,12 @@ local function handle(ply, index, ...)
 end
 
 function GM:SetupMove(ply, mv, cmd)
+	if ply:KeyDown(IN_WALK) then
+		mv:SetMoveAngles(ply:GetSavedMoveAngles())
+	else
+		ply:SetSavedMoveAngles(mv:GetMoveAngles())
+	end
+
 	local slow = Config.Get("SprintSlow")
 
 	if slow < 1 and cmd:GetForwardMove() <= 0 then
