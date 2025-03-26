@@ -30,11 +30,8 @@ if CLIENT then
 	local toggleCrouch = false
 	local lastCrouch = false
 
-	local lastForward = 0
-	local forward = 0
-
-	local lastSide = 0
-	local side = 0
+	local dir = Vector()
+	local last = {0, 0, 0, 0}
 
 	function GM:CreateMove(cmd)
 		if Settings.Get("ToggleCrouch") then
@@ -66,44 +63,36 @@ if CLIENT then
 		end
 
 		if Settings.Get("AutoWalk") then
-			local commandNumber = cmd:CommandNumber()
 			local sensitivity = Settings.Get("AutoWalkSensitivity")
 			local curTime = CurTime()
+			local move = Vector(cmd:GetForwardMove(), cmd:GetSideMove())
 
-			if (lp:KeyPressed(IN_FORWARD) or lp:KeyPressed(IN_BACK)) and commandNumber != 0 then
-				local timeSince = curTime - lastForward
-				local lastForwardMove = forward
+			if cmd:CommandNumber() != 0 then
+				for k, v in ipairs({IN_MOVELEFT, IN_FORWARD, IN_MOVERIGHT, IN_BACK}) do
+					if not lp:KeyPressed(v) then
+						continue
+					end
 
-				if forward == 0 and timeSince < sensitivity then
-					forward = cmd:GetForwardMove()
-					lastForward = 0
-				else
-					forward = 0
-				end
+					local axis = (k % 2) + 1
 
-				if lastForwardMove == 0 and forward == 0 then
-					lastForward = curTime
-				end
-			end
+					local timeSince = curTime - last[k]
+					local lastMove = dir[axis]
 
-			if (lp:KeyPressed(IN_MOVELEFT) or lp:KeyPressed(IN_MOVERIGHT)) and commandNumber != 0 then
-				local timeSince = curTime - lastSide
-				local lastSideMove = side
+					if dir[axis] == 0 and timeSince < sensitivity then
+						dir[axis] = move[axis]
+						last[k] = 0
+					else
+						dir[axis] = 0
+					end
 
-				if side == 0 and timeSince < sensitivity then
-					side = cmd:GetSideMove()
-					lastSide = 0
-				else
-					side = 0
-				end
-
-				if lastSideMove == 0 and side == 0 then
-					lastSide = curTime
+					if lastMove == 0 and dir[axis] == 0 then
+						last[k] = curTime
+					end
 				end
 			end
 
-			if forward != 0 then cmd:SetForwardMove(forward) end
-			if side != 0 then cmd:SetSideMove(side) end
+			if dir.x != 0 then cmd:SetForwardMove(dir.x) end
+			if dir.y != 0 then cmd:SetSideMove(dir.y) end
 		end
 	end
 
