@@ -30,6 +30,12 @@ if CLIENT then
 	local toggleCrouch = false
 	local lastCrouch = false
 
+	local lastForward = 0
+	local forward = 0
+
+	local lastSide = 0
+	local side = 0
+
 	function GM:CreateMove(cmd)
 		if Settings.Get("ToggleCrouch") then
 			local down = cmd:KeyDown(IN_DUCK)
@@ -57,6 +63,47 @@ if CLIENT then
 			end
 
 			lastSprint = down
+		end
+
+		if Settings.Get("AutoWalk") then
+			local commandNumber = cmd:CommandNumber()
+			local sensitivity = Settings.Get("AutoWalkSensitivity")
+			local curTime = CurTime()
+
+			if (lp:KeyPressed(IN_FORWARD) or lp:KeyPressed(IN_BACK)) and commandNumber != 0 then
+				local timeSince = curTime - lastForward
+				local lastForwardMove = forward
+
+				if forward == 0 and timeSince < sensitivity then
+					forward = cmd:GetForwardMove()
+					lastForward = 0
+				else
+					forward = 0
+				end
+
+				if lastForwardMove == 0 and forward == 0 then
+					lastForward = curTime
+				end
+			end
+
+			if (lp:KeyPressed(IN_MOVELEFT) or lp:KeyPressed(IN_MOVERIGHT)) and commandNumber != 0 then
+				local timeSince = curTime - lastSide
+				local lastSideMove = side
+
+				if side == 0 and timeSince < sensitivity then
+					side = cmd:GetSideMove()
+					lastSide = 0
+				else
+					side = 0
+				end
+
+				if lastSideMove == 0 and side == 0 then
+					lastSide = curTime
+				end
+			end
+
+			if forward != 0 then cmd:SetForwardMove(forward) end
+			if side != 0 then cmd:SetSideMove(side) end
 		end
 	end
 
