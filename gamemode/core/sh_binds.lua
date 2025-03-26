@@ -30,7 +30,7 @@ if CLIENT then
 	local function toggleKey(key, cmd)
 		local down = cmd:KeyDown(key)
 
-		if down and not lastToggle[key] then
+		if not down and lastToggle[key] and system.HasFocus() then
 			toggle[key] = not toggle[key]
 		end
 
