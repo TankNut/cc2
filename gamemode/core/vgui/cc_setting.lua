@@ -28,9 +28,9 @@ end
 function PANEL:SetTitle(title, dark, hint)
 	self.Label:SetText(
 		"<font=DermaDefault>" ..
-		(dark and "<col=cc_dark>" or "") ..
+		(dark and "<dark>" or "") ..
 		title ..
-		(hint and "<col=cc_dark> (?)</col>" or ""))
+		(hint and "<dark> (?)</col>" or ""))
 end
 
 function PANEL:GetSetting()
