@@ -1,5 +1,9 @@
 AddCSLuaFile()
 
+function SWEP:GetAmmoCost()
+	return self.Stats.AmmoCost
+end
+
 function SWEP:GetBulletCount()
 	return self.Stats.Count
 end
