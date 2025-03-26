@@ -24,43 +24,29 @@ if CLIENT then
 		if WeaponSelect.Bind(bind, down) then return true end
 	end
 
-	local toggleSprint = false
-	local lastSprint = false
+	local toggle = {}
+	local lastToggle = {}
 
-	local toggleCrouch = false
-	local lastCrouch = false
+	local function toggleKey(key, cmd)
+		local down = cmd:KeyDown(key)
+
+		if down and not lastToggle[key] then
+			toggle[key] = not toggle[key]
+		end
+
+		if toggle[key] then
+			cmd:AddKey(key)
+		end
+
+		lastToggle[key] = down
+	end
 
 	local dir = Vector()
 	local last = {0, 0, 0, 0}
 
 	function GM:CreateMove(cmd)
-		if Settings.Get("ToggleCrouch") then
-			local down = cmd:KeyDown(IN_DUCK)
-
-			if down and not lastCrouch then
-				toggleCrouch = not toggleCrouch
-			end
-
-			if toggleCrouch then
-				cmd:AddKey(IN_DUCK)
-			end
-
-			lastCrouch = down
-		end
-
-		if Settings.Get("ToggleSprint") then
-			local down = cmd:KeyDown(IN_SPEED)
-
-			if down and not lastSprint then
-				toggleSprint = not toggleSprint
-			end
-
-			if toggleSprint then
-				cmd:AddKey(IN_SPEED)
-			end
-
-			lastSprint = down
-		end
+		if Settings.Get("ToggleCrouch") then toggleKey(IN_DUCK, cmd) end
+		if Settings.Get("ToggleSprint") then toggleKey(IN_SPEED, cmd) end
 
 		if Settings.Get("AutoWalk") then
 			local sensitivity = Settings.Get("AutoWalkSensitivity")
