@@ -54,6 +54,7 @@ if SERVER then
 		self:SetInventory(nil)
 
 		local ent = self.Entity
+		local description = self:GetData("CustomDescription")
 
 		if not IsValid(self.Entity) then
 			ent = ents.Create("cc_item")
@@ -65,6 +66,7 @@ if SERVER then
 
 			ent:SetItemName(self:GetName())
 			ent:SetItemWeight(self:GetWeight())
+			ent:SetCustomDescription(description and #description > 0)
 			ent:SetRarity(self:GetRarity())
 
 			ent:Spawn()

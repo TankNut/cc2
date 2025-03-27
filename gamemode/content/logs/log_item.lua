@@ -32,3 +32,17 @@ Log.AddType("item_unequip", function(ply, item)
 		Log.Item(item)
 	}
 end)
+
+Log.AddType("item_set_name", function(ply, item, name)
+	return string.format("%s has renamed their %s to %s", ply:VisibleRPName(), item.ClassName, name), {
+		Log.Player(ply),
+		Log.Item(item)
+	}
+end)
+
+Log.AddType("item_set_description", function(ply, item, description)
+	return string.format("%s has described their %s as '%s'", ply:VisibleRPName(), item.ClassName, description), {
+		Log.Player(ply),
+		Log.Item(item)
+	}
+end)

@@ -198,7 +198,7 @@ function PANEL:SelectPlayer(ply)
 	self.ApplyModel:SetDisabled(false)
 	self.EnterSkin:SetValue(ply:GetSkin())
 	self.ApplySkin:SetDisabled(false)
-	self.EnterScale:SetValue(ply:CharacterScale())
+	self.EnterScale:SetValue(ply:RunCharFlag("PlayerScale"))
 	self.ApplyScaleTemp:SetDisabled(false)
 	self.ApplyScalePerm:SetDisabled(false)
 end

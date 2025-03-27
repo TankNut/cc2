@@ -64,7 +64,7 @@ function GM:PostLoadCharacter(ply)
 		Hud.Rebuild()
 	end
 
-	ply:SetScale(0, true)
+	ply:SetScale(1, true)
 
 	hook.Run("PlayerApplyFlag", ply)
 

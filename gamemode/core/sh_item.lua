@@ -290,3 +290,18 @@ function GM:CanStoreItem(ply, item, inventory)
 
 	return item:CanStore(ply, inventory)
 end
+
+function GM:CanCustomizeItem(ply, item)
+	if not item.Customizable then
+		return false
+	end
+
+	local config = Config.Get("ToolTrust")
+	local trust = ply:GetToolTrust()
+
+	if trust < config.ItemCustomization then
+		return false
+	end
+
+	return true
+end

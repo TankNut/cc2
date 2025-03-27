@@ -15,6 +15,7 @@ ITEM.Category = "Misc"
 ITEM.Tags = {}
 
 ITEM.Unique = false -- Don't collapse duplicate entries for item actions
+ITEM.Customizable = true -- Allow players with ItemCustomization access to edit this item
 
 -- Appearance
 ITEM.Model = Model("models/props_lab/cactus.mdl")
@@ -56,6 +57,7 @@ GM:Include("sv_database.lua")
 GM:Include("sv_networking.lua")
 
 GM:Include("actions/actions_base.lua")
+GM:Include("actions/actions_customization.lua")
 GM:Include("actions/actions_equipment.lua")
 GM:Include("actions/actions_store.lua")
 

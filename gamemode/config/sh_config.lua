@@ -93,6 +93,8 @@ GM.Config.ToolTrust = {
 	PhysgunPlayers = TOOLTRUST_ADMIN, -- Can physgun other players
 	FlingEntities = TOOLTRUST_TRUSTED, -- Can fling entities (entity velocity doesn't get reset on physgun drop)
 
+	ItemCustomization = TOOLTRUST_TRUSTED, -- Can customize the name or description of an item
+
 	ToolFallback = TOOLTRUST_ADVANCED, -- Default tooltrust level for tools not listed below
 	Tools = { -- Per-tool tooltrust level requirements
 		-- Constraints
