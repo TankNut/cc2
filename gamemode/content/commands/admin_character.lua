@@ -67,29 +67,17 @@ setCharacterName:AddParameter(console.Player({
 
 setCharacterName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
-local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale, persist)
-	if persist then
-		local flag = target:RunCharFlag("Scale")
-
-		if flag != 0 then
-			console.Feedback(ply, "ERROR", "%s has a character flag overriding scale, cannot persist", target)
-
-			return
-		end
-
-		target:SetCharacterScale(scale)
-	end
-
+local setCharacterScale = console.AddCommand("rpa_setcharscale", function (ply, target, scale)
 	Log.Write("admin_character_set", ply, target, "Scale", scale)
 
-	target:SetScale(scale)
+	target:SetCharacterScale(scale)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's %s scale to %d", target, persist and "character" or "", scale)
-	console.Feedback(target, "NOTICE", "%s has set your %s scale to %d", ply, persist and "character" or "", scale)
+	console.Feedback(ply, "NOTICE", "You've set %s's character scale to %d", target, scale)
+	console.Feedback(target, "NOTICE", "%s has set your character scale to %d", ply, scale)
 end)
 
 setCharacterScale:SetCategory("Character Commands")
-setCharacterScale:SetDescription("Updates a player's current character scale")
+setCharacterScale:SetDescription("Updates a player's permanent character size, a size of 0 resets to flag default")
 setCharacterScale:SetExecutionContext(console.Server)
 setCharacterScale:SetAccess(console.IsAdmin)
 
@@ -98,11 +86,9 @@ setCharacterScale:AddParameter(console.Player({
 }))
 
 setCharacterScale:AddParameter(console.Number({
-	validate.Min(0.1),
+	validate.Min(0),
 	validate.Max(10),
 }))
-
-setCharacterScale:AddOptional(console.Bool({}, "Persist"), nil, "false")
 
 local giveCharacterLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name

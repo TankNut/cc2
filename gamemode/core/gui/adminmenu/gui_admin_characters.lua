@@ -118,18 +118,11 @@ function PANEL:Init()
 
 	self.EnterScale = self:CreateTextEntry(50)
 	self.EnterScale:SetNumeric(true)
-	self.ApplyScaleTemp = self:CreateButton("Apply Temporarily", 105, function(ply)
+	self.ApplyScale = self:CreateButton("Apply", 50, function(ply)
 		local value = self.EnterScale:GetFloat()
 
 		if value then
 			RunConsoleCommand("rpa_setcharscale", ply:SteamID(), value)
-		end
-	end)
-	self.ApplyScalePerm = self:CreateButton("Apply Permanently", 105, function(ply)
-		local value = self.EnterScale:GetFloat()
-
-		if value then
-			RunConsoleCommand("rpa_setcharscale", ply:SteamID(), value, "true")
 		end
 	end)
 
@@ -198,9 +191,8 @@ function PANEL:SelectPlayer(ply)
 	self.ApplyModel:SetDisabled(false)
 	self.EnterSkin:SetValue(ply:GetSkin())
 	self.ApplySkin:SetDisabled(false)
-	self.EnterScale:SetValue(ply:RunCharFlag("PlayerScale"))
-	self.ApplyScaleTemp:SetDisabled(false)
-	self.ApplyScalePerm:SetDisabled(false)
+	self.EnterScale:SetValue(ply:CharacterScale())
+	self.ApplyScale:SetDisabled(false)
 end
 
 function PANEL:UnselectPlayer(ply)
@@ -223,8 +215,7 @@ function PANEL:UnselectPlayer(ply)
 	self.EnterSkin:SetValue("")
 	self.ApplySkin:SetDisabled(true)
 	self.EnterScale:SetValue("")
-	self.ApplyScaleTemp:SetDisabled(true)
-	self.ApplyScalePerm:SetDisabled(true)
+	self.ApplyScale:SetDisabled(true)
 
 	self.SelectedPlayer = nil
 	self.SelectedCharID = nil
@@ -328,11 +319,8 @@ function PANEL:PerformLayout(w, h)
 	self.EnterScale:MoveRightOf(self.ScaleLabel, 0)
 	self.EnterScale:MoveBelow(self.SkinLabel, 5)
 
-	self.ApplyScaleTemp:MoveRightOf(self.EnterScale, 5)
-	self.ApplyScaleTemp:MoveBelow(self.SkinLabel, 5)
-
-	self.ApplyScalePerm:MoveRightOf(self.ApplyScaleTemp, 5)
-	self.ApplyScalePerm:MoveBelow(self.SkinLabel, 5)
+	self.ApplyScale:MoveRightOf(self.EnterScale, 5)
+	self.ApplyScale:MoveBelow(self.SkinLabel, 5)
 end
 
 derma.DefineControl("CC_AdminMenu_Characters", "", PANEL, "Panel")

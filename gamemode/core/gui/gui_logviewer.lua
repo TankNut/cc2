@@ -204,7 +204,7 @@ function PANEL:SendRequest()
 			line:SetTooltip(string.format([[<b>Log:</b> <dark>%s</dark>
 <b>Type:</b> <dark>%s</dark>
 <dark>%s ago
-]], log.Log, log.Name, string.NiceTime(os.time() - log.Timestamp)))
+]], string.Escape(log.Log), log.Name, string.NiceTime(os.time() - log.Timestamp)))
 		end
 
 		if #logs == Config.Get("LogLines") then

@@ -101,6 +101,7 @@ function PANEL:Init()
 	self.TeleportLabel = self:CreateLabel("Teleporting", false, 80)
 	self.ActionsLabel = self:CreateLabel("Actions", false, 80)
 	self.MiscellaniousLabel = self:CreateLabel("Miscellaneous", false, 80)
+	self.ScaleLabel = self:CreateLabel("Scale", false, 80)
 
 	self.GotoButton = self:CreateButton("Goto Player", 105, function(ply)
 		RunConsoleCommand("rpa_goto", ply:SteamID())
@@ -126,6 +127,16 @@ function PANEL:Init()
 	end)
 	self.ListCharactersButton = self:CreateButton("List Characters", 105, function(ply)
 		RunConsoleCommand("rpa_listcharacters", ply:SteamID())
+	end)
+
+	self.EnterScale = self:CreateTextEntry(50)
+	self.EnterScale:SetNumeric(true)
+	self.ApplyScaleButton = self:CreateButton("Apply", 50, function(ply)
+		local value = self.EnterScale:GetFloat()
+
+		if value then
+			RunConsoleCommand("rpa_setscale", ply:SteamID(), value)
+		end
 	end)
 
 	-- Permissions
@@ -217,6 +228,8 @@ function PANEL:SelectPlayer(ply)
 	self.HealButton:SetDisabled(false)
 	self.CopySteamIDButton:SetDisabled(false)
 	self.ListCharactersButton:SetDisabled(false)
+	self.EnterScale:SetValue(ply:Scale())
+	self.ApplyScaleButton:SetDisabled(false)
 
 	if lp:CanTarget(ply) then
 		self.ToolTrustDropdown:ChooseOptionID(ply:ToolTrust() + 1)
@@ -240,6 +253,8 @@ function PANEL:UnselectPlayer(ply)
 
 	self.MutedCheckBox:SetChecked(false)
 	self.MutedCheckBox:SetDisabled(true)
+
+	self.EnterScale:SetValue("")
 
 	self.SelectedPlayer = nil
 end
@@ -345,9 +360,18 @@ function PANEL:PerformLayout(w, h)
 	self.ListCharactersButton:MoveRightOf(self.CopySteamIDButton, 5)
 	self.ListCharactersButton:MoveBelow(self.ActionsLabel, 5)
 
+	self.ScaleLabel:MoveRightOf(self.List, 10)
+	self.ScaleLabel:MoveBelow(self.MiscellaniousLabel, 5)
+
+	self.EnterScale:MoveRightOf(self.ScaleLabel, 5)
+	self.EnterScale:MoveBelow(self.MiscellaniousLabel, 5)
+
+	self.ApplyScaleButton:MoveRightOf(self.EnterScale, 5)
+	self.ApplyScaleButton:MoveBelow(self.MiscellaniousLabel, 5)
+
 	-- Permissions
 	self.PermissionsLabel:MoveRightOf(self.List, 10)
-	self.PermissionsLabel:MoveBelow(self.MiscellaniousLabel, 10)
+	self.PermissionsLabel:MoveBelow(self.ScaleLabel, 10)
 
 	self.MutedLabel:MoveRightOf(self.List, 10)
 	self.MutedLabel:MoveBelow(self.PermissionsLabel, 5)

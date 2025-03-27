@@ -275,3 +275,26 @@ setAlias:AddParameter(console.SteamID({
 setAlias:AddParameter(console.String({
 	validate.Max(32),
 }))
+
+local setScale = console.AddCommand("rpa_setscale", function (ply, target, scale)
+	Log.Write("admin_player_set", ply, target, "Scale", scale)
+
+	target:SetScale(scale)
+
+	console.Feedback(ply, "NOTICE", "You've set %s's character scale to %d", target, scale)
+	console.Feedback(target, "NOTICE", "%s has set your character scale to %d", ply, scale)
+end)
+
+setScale:SetCategory("Player Commands")
+setScale:SetDescription("Updates a player's current size")
+setScale:SetExecutionContext(console.Server)
+setScale:SetAccess(console.IsAdmin)
+
+setScale:AddParameter(console.Player({
+	SingleTarget = true
+}))
+
+setScale:AddParameter(console.Number({
+	validate.Min(0.1),
+	validate.Max(10),
+}))
