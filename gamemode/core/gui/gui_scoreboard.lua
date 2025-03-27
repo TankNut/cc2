@@ -51,7 +51,7 @@ function PANEL:IsInvalid()
 		return true
 	end
 
-	if not lp:IsAdmin() and self.Hidden then
+	if self.Hidden and not (lp == self.Player or (lp:IsAdmin() and Settings.Get("SeeHiddenCharacters"))) then
 		return true
 	end
 
@@ -123,7 +123,7 @@ function PANEL:Think()
 	local alt = true
 
 	for k, ply in ipairs(players) do
-		if not lp:IsAdmin() and hook.Run("ShouldHidePlayer", ply) then
+		if hook.Run("ShouldHidePlayer", ply) and not (lp == ply or (lp:IsAdmin() and Settings.Get("SeeHiddenCharacters"))) then
 			continue
 		end
 
