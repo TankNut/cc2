@@ -30,7 +30,7 @@ Settings.Add("UnderstandLanguages", {
 
 Settings.Add("SeeHiddenCharacters", {
 	Name = "See hidden characters on the scoreboard",
-	Hint = "Prevents charactes marked as hidden from appearing on the scoreboard except for yourself.",
+	Hint = "Prevents characters marked as hidden, except for your own, from appearing on the scoreboard.",
 	Default = true,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
