@@ -10,10 +10,11 @@ FLAG.Armor = 0
 
 FLAG.Scale = 1
 
--- Last weapon on the list is selected on spawn
+-- First weapon on the list is selected on spawn
 FLAG.Loadout = {}
-
 FLAG.EquipmentSlots = {}
+
+FLAG.UseClothing = false
 
 FLAG.BloodColor = BLOOD_COLOR_RED
 

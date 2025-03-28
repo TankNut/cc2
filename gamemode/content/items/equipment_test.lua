@@ -14,13 +14,13 @@ ITEM.Buffs = {
 ITEM.IconAngle = Angle(-80, -175, 90)
 ITEM.IconFOV = 14
 
-function ITEM:GetModelData(ply)
-	if not self:IsEquipped() then
+function ITEM:GetModelData(ply, addClothing)
+	if not self:IsEquipped() or not addClothing then
 		return
 	end
 
 	return {
-		head = {
+		Head = {
 			Model = Model("models/nova/w_headcrab.mdl")
 		}
 	}

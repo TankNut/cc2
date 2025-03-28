@@ -36,16 +36,46 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 end
 
 if SERVER then
-	function PLAYER:UpdateAppearance()
-		local appearance = {}
+	function PLAYER:UsesClothing()
+		return hook.Run("ShouldUseClothing", self)
+	end
 
-		if not self:HasCharacter() then
-			appearance._base = {
-				Model = table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"})
+	function GM:ShouldUseClothing(ply)
+		if #ply:CharacterModelOverride() > 0 then
+			return false
+		end
+
+		return ply:RunCharFlag("UseClothing")
+	end
+
+	function GM:GetBaseAppearance(ply, addClothing)
+		if not ply:HasCharacter() then
+			return {
+				_base = {
+					Model = table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"})
+				}
 			}
-		else
-			appearance = self:RunCharFlag("GetModelData")
+		end
 
+		local override = ply:CharacterModelOverride()
+
+		if #override > 0 then
+			return {
+				_base = {
+					Model = override,
+					Skin = ply:CharacterSkin()
+				}
+			}
+		end
+
+		return ply:RunCharFlag("GetModelData", addClothing)
+	end
+
+	function PLAYER:UpdateAppearance()
+		local addClothing = self:UsesClothing()
+		local appearance = hook.Run("GetBaseAppearance", self, addClothing)
+
+		if self:HasCharacter() then
 			local items = self:GetItems()
 
 			for _, item in pairs(items) do
@@ -53,7 +83,7 @@ if SERVER then
 					continue
 				end
 
-				local data = item:GetModelData(self)
+				local data = item:GetModelData(self, addClothing)
 
 				if data then
 					table.Merge(appearance, data)
@@ -67,7 +97,7 @@ if SERVER then
 					continue
 				end
 
-				item:PostModelData(self, appearance)
+				item:PostModelData(self, appearance, addClothing)
 			end
 		end
 

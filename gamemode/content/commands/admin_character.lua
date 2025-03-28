@@ -24,13 +24,44 @@ setModel:AddParameter(console.Player({
 
 setModel:AddParameter(console.String())
 
-	Log.Write("admin_character_set", ply, target, "Skin", skin)
+local setModelOverride = console.AddCommand("rpa_setcharmodel_override", function (ply, target, mdl)
+	if #mdl > 0 and not util.IsValidModel(mdl) then
+		console.Feedback(ply, "ERROR", "The given model is not mounted on the server", target)
 
-	target:SetCharacterSkin(skin)
+		return
+	end
+
+	Log.Write("admin_character_set", ply, target, "ModelOverride", mdl)
+
+	target:SetCharacterModelOverride(mdl)
+
+	if #mdl > 0 then
+		console.Feedback(ply, "NOTICE", "You've set %s's character model override to %s", target, mdl)
+		console.Feedback(target, "NOTICE", "%s has set your character model override to %s", ply, mdl)
+	else
+		console.Feedback(ply, "NOTICE", "You've removed %s's character model override", target)
+		console.Feedback(target, "NOTICE", "%s has removed your character model override", ply)
+	end
+end)
+
+setModelOverride:SetCategory("Character Commands")
+setModelOverride:SetDescription("Overrides a player's current character model and disables clothing")
+setModelOverride:SetExecutionContext(console.Server)
+setModelOverride:SetAccess(console.IsAdmin)
+
+setModelOverride:AddParameter(console.Player({
+	SingleTarget = true
+}))
+
+setModelOverride:AddOptional(console.String(), "")
+
 local setSkin = console.AddCommand("rpa_setcharskin", function (ply, target, num)
+	Log.Write("admin_character_set", ply, target, "Skin", num)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, skin)
-	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
+	target:SetCharacterSkin(num)
+
+	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, num)
+	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, num)
 end)
 
 setSkin:SetCategory("Character Commands")
