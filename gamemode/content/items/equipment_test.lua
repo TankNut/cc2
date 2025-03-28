@@ -14,8 +14,8 @@ ITEM.Buffs = {
 ITEM.IconAngle = Angle(-80, -175, 90)
 ITEM.IconFOV = 14
 
-function ITEM:GetModelData(ply, addClothing)
-	if not self:IsEquipped() or not addClothing then
+function ITEM:GetModelData(ply, clothing)
+	if not self:IsEquipped() or clothing < CLOTHING_PARTIAL then
 		return
 	end
 

@@ -14,7 +14,7 @@ FLAG.Scale = 1
 FLAG.Loadout = {}
 FLAG.EquipmentSlots = {}
 
-FLAG.UseClothing = false
+FLAG.Clothing = CLOTHING_NONE
 
 FLAG.BloodColor = BLOOD_COLOR_RED
 

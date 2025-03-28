@@ -36,25 +36,13 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 end
 
 if SERVER then
-	function PLAYER:UsesClothing()
-		return hook.Run("ShouldUseClothing", self)
-	end
-
-	function GM:ShouldUseClothing(ply)
-		if #ply:CharacterModelOverride() > 0 then
-			return false
-		end
-
-		return ply:RunCharFlag("UseClothing")
-	end
-
-	function GM:GetBaseAppearance(ply, addClothing)
+	function GM:GetBaseAppearance(ply)
 		if not ply:HasCharacter() then
 			return {
 				_base = {
 					Model = table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"})
 				}
-			}
+			}, false
 		end
 
 		local override = ply:CharacterModelOverride()
@@ -65,39 +53,41 @@ if SERVER then
 					Model = override,
 					Skin = ply:CharacterSkin()
 				}
-			}
+			}, true
 		end
 
-		return ply:RunCharFlag("GetModelData", addClothing)
+		return ply:RunCharFlag("GetModelData"), false
 	end
 
 	function PLAYER:UpdateAppearance()
-		local addClothing = self:UsesClothing()
-		local appearance = hook.Run("GetBaseAppearance", self, addClothing)
+		local appearance, hasOverride = hook.Run("GetBaseAppearance", self)
 
 		if self:HasCharacter() then
+			local clothing = self:RunCharFlag("Clothing")
 			local items = self:GetItems()
 
 			for _, item in pairs(items) do
-				if not item.GetModelData then
+				if not item.GetModelData or (hasOverride and not item.IgnoreModelOverride) then
 					continue
 				end
 
-				local data = item:GetModelData(self, addClothing)
+				local data = item:GetModelData(self, clothing)
 
 				if data then
 					table.Merge(appearance, data)
 				end
 			end
 
-			self:RunCharFlag("PostModelData", appearance)
-
 			for _, item in pairs(items) do
-				if not item.PostModelData then
+				if not item.PostModelData or (hasOverride and not item.IgnoreModelOverride) then
 					continue
 				end
 
-				item:PostModelData(self, appearance, addClothing)
+				item:PostModelData(self, appearance, clothing)
+			end
+
+			if not hasOverride then
+				self:RunCharFlag("PostModelData", appearance)
 			end
 		end
 

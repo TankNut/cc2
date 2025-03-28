@@ -7,25 +7,20 @@ FLAG.EquipmentSlots = {
 	"test"
 }
 
-FLAG.UseClothing = true
+FLAG.Clothing = CLOTHING_FULL
 
 util.PrecacheModel("models/tnb/clothing/trp/body/male_survivor.mdl")
 util.PrecacheModel("models/tnb/clothing/trp/body/female_survivor.mdl")
 
-function FLAG:GetModelData(ply, addClothing)
+function FLAG:GetModelData(ply)
 	local mdl = ply:CharacterModel()
-	local appearance = {
+
+	return {
 		_base = {
 			Model = mdl,
 			Skin = ply:CharacterSkin()
-		}
-	}
-
-	if addClothing then
-		appearance.Body = {
+		}, Body = {
 			Model = string.format("models/tnb/clothing/trp/body/%s_survivor.mdl", util.GetModelGender(mdl))
 		}
-	end
-
-	return appearance
+	}
 end

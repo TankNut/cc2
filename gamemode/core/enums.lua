@@ -58,3 +58,7 @@ ACTION_INTERACT = 3
 KEYMODE_HOLD   = 1
 KEYMODE_TOGGLE = 2
 KEYMODE_SMART  = 3
+
+CLOTHING_NONE = 0 -- We don't support any type of clothing e.g. antlions and zombies
+CLOTHING_PARTIAL = 1 -- We support _some_ clothing, weapons/exos for combine soldiers
+CLOTHING_FULL = 2 -- The whole nine yards

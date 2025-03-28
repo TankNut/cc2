@@ -53,7 +53,7 @@ setModelOverride:AddParameter(console.Player({
 	SingleTarget = true
 }))
 
-setModelOverride:AddOptional(console.String(), "")
+setModelOverride:AddOptional(console.String(), "", "none")
 
 local setSkin = console.AddCommand("rpa_setcharskin", function (ply, target, num)
 	Log.Write("admin_character_set", ply, target, "Skin", num)
