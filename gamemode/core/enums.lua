@@ -59,11 +59,6 @@ KEYMODE_HOLD   = 1
 KEYMODE_TOGGLE = 2
 KEYMODE_SMART  = 3
 
-CLOTHING_NONE = 0 -- We don't support any type of clothing e.g. antlions and zombies
-CLOTHING_PARTIAL = 1 -- We support _some_ clothing, weapons/exos for combine soldiers
-CLOTHING_FULL = 2 -- The whole nine yards
-
-FIREMODE_AUTO = -1
-FIREMODE_SEMI = 0
-FIREMODE_SAFE = 1
-FIREMODE_BURST = 3
+SCOREBOARD_SHOW   = 1 -- Normal display on the scoreboard
+SCOREBOARD_HIDDEN = 2 -- Red background on the scoreboard
+SCOREBOARD_SKIP   = 3 -- Skip display on the scoreboard

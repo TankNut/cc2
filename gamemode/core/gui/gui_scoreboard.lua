@@ -51,7 +51,7 @@ function PANEL:IsInvalid()
 		return true
 	end
 
-	if self.Hidden and not (lp == self.Player or (lp:IsAdmin() and not Settings.Get("SeeHiddenCharacters"))) then
+	if self.State == SCOREBOARD_SKIP then
 		return true
 	end
 
@@ -76,7 +76,7 @@ function PANEL:OpenScoreboardCommands()
 end
 
 function PANEL:Think()
-	self.Hidden = hook.Run("ShouldHidePlayer", self.Player)
+	self.State = hook.Run("ShouldHidePlayer", self.Player)
 
 	if self:IsInvalid() then
 		self:Remove()
@@ -114,8 +114,6 @@ function PANEL:Think()
 
 	if (#players == 0 and not self.Empty) or (#players > 0 and self.Empty) then
 		self:InvalidateLayout()
-
-		return
 	end
 
 	table.sort(players, function(a, b) return a:VisibleRPName() < b:VisibleRPName() end)
@@ -123,7 +121,7 @@ function PANEL:Think()
 	local alt = true
 
 	for k, ply in ipairs(players) do
-		if hook.Run("ShouldHidePlayer", ply) and not (lp == ply or (lp:IsAdmin() and not Settings.Get("SeeHiddenCharacters"))) then
+		if hook.Run("ShouldHidePlayer", ply) == SCOREBOARD_SKIP then
 			continue
 		end
 
@@ -156,7 +154,7 @@ function PANEL:OnChildRemoved(child)
 end
 
 function PANEL:PerformLayout(w, h)
-	self.Empty = #team.GetPlayers(self.Team) == 0
+	self.Empty = table.Count(self.Players) == 0
 
 	if self.Empty then
 		self:SetTall(0)
@@ -173,11 +171,17 @@ function PANEL:PerformLayout(w, h)
 	self:SetTall(h)
 end
 
+local backgroundColor = ColorAlpha(Color("cc_primary"), 10)
+local textColor = Color("cc_normal")
+
 function PANEL:Paint(w, h)
-	local color = Color("cc_normal")
+	if Team.IsHidden(self.Team) then
+		surface.SetDrawColor(backgroundColor)
+		surface.DrawRect(0, 0, w, 50)
+	end
 
 	draw.SimpleText(team.GetName(self.Team), "CombineControl.LabelGiant", 10, 25, color, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - 10, 25, color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - 10, 25, textColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 end
 
 derma.DefineControl("CC_ScoreboardTeam", "", PANEL, "Panel")

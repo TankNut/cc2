@@ -282,3 +282,19 @@ console.Parser("CharacterFlag", function(ply, args, last, options)
 
 	return true, val
 end)
+
+console.Parser("Team", function(ply, args, last, options)
+	local val = console.ReadArg(args, last)
+
+	if not val or #val < 1 then
+		return false, "Must be a valid team"
+	end
+
+	for index, data in ipairs(Team.List) do
+		if data.ID == val then
+			return true, index
+		end
+	end
+
+	return false, "Must be a valid team"
+end)

@@ -400,7 +400,7 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 		surface.DrawRect(0, 0, w, h)
 	end
 
-	if panel.Hidden then
+	if panel.State == SCOREBOARD_HIDDEN then
 		surface.SetDrawColor(ColorAlpha(self.Colors.Primary, 10))
 		surface.DrawRect(0, 0, w, h)
 	end

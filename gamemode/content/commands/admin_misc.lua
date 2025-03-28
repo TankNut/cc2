@@ -210,3 +210,20 @@ end)
 seeAll:SetDescription("Toggles SeeAll on or off")
 seeAll:SetExecutionContext(console.ClientOnly)
 seeAll:SetAccess(console.IsAdmin)
+
+local teamHidden = console.AddCommand("rpa_setteamhidden", function(ply, enum, hidden)
+	Chat.Send("NOTICE", console.FormatMessage("%s has %s the %s team from the scoreboard", ply, hidden and "hidden" or "unhidden", Team.Get(enum).Name), player.GetAdmins())
+
+	Team.SetHidden(enum, hidden)
+
+	Log.Write("admin_hideteam", ply, enum, hidden)
+end)
+
+teamHidden:SetCategory("Server Commands")
+teamHidden:SetDescription("Toggles a team's hidden state on the scoreboard")
+teamHidden:SetExecutionContext(console.Server)
+teamHidden:SetAccess(console.IsAdmin)
+
+teamHidden:AddParameter(console.Team())
+
+teamHidden:AddParameter(console.Bool())

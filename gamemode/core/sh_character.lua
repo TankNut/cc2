@@ -97,7 +97,24 @@ end
 
 if CLIENT then
 	function GM:ShouldHidePlayer(ply)
-		return ply:CharacterHidden() == 1 or ply:RunCharFlag("ShouldHidePlayer")
+		local flag = ply:RunCharFlag("ShouldHidePlayer")
+
+		if flag != nil then
+			return flag
+		end
+
+		local characterHidden = ply:CharacterHidden() == 1
+		local teamHidden = Team.IsHidden(ply:Team())
+
+		if not characterHidden and not teamHidden then
+			return SCOREBOARD_SHOW
+		end
+
+		if --[[(lp == ply) or ]](lp:IsAdmin() and Settings.Get("ShowHiddenCharacters")) or (not characterHidden and lp:Team() == ply:Team()) then
+			return SCOREBOARD_HIDDEN
+		end
+
+		return SCOREBOARD_SKIP
 	end
 
 	netstream.Hook("PostLoadCharacter", function()

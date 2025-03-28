@@ -5,7 +5,7 @@ GM.EquipmentNames = {
 	test = "Test Slot"
 }
 
-TEAM_CITIZEN = Team.Add("Citizens", Color(0, 120, 0))
+TEAM_CITIZEN = Team.Add("citizens", "Citizens", Color(0, 120, 0))
 
 local function Lang(command, name, unknown, default, override)
 	return {
@@ -64,7 +64,8 @@ GM.Badges = {
 
 	Badge("bannedtt",   "Banned Tooltrust",    "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
 	Badge("advancedtt", "Advanced Tooltrust",  "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
-	Badge("oocmuted",   "Muted from OOC Chat", "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() == 1 end),
+	Badge("oocmuted",   "OOC Muted",           "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() == 1 end),
+	Badge("hidden",     "Manually Hidden",     "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() == 1 end),
 
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
 	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png"),

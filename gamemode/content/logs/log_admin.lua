@@ -33,6 +33,12 @@ Log.AddType("admin_variable_set", function(ply, variable, value)
 	}
 end)
 
+Log.AddType("admin_hideteam", function(ply, enum, hidden)
+	return string.format("%s has %s the %s team from the scoreboard", ply:Nick(), hidden and "hidden" or "unhidden", Team.Get(enum).Name), {
+		Log.Admin(ply)
+	}
+end)
+
 Log.AddType("admin_yell", function(ply, message)
 	return string.format("%s has broadcasted the following message: %s", ply:Nick(), message), {
 		Log.Admin(ply)

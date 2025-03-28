@@ -2,20 +2,43 @@ module("Team", package.seeall)
 
 List = {}
 
-function Add(name, color, hidden)
+GlobalVar.Add("HiddenTeams", {
+	Default = {},
+	Persist = true
+})
+
+function Add(id, name, color)
 	return table.insert(List, {
+		ID = id,
 		Name = name,
-		Color = color,
-		Hidden = tobool(hidden)
+		Color = color
 	})
 end
 
-function Team.IsHidden(id)
-	return List[id] and List[id].Hidden or false
+function Get(enum)
+	return List[enum]
+end
+
+function IsHidden(enum)
+	return GAMEMODE:HiddenTeams()[enum] or false
 end
 
 function GM:CreateTeams()
-	for id, data in ipairs(List) do
-		team.SetUp(id, data.Name, data.Color, false)
+	for enum, data in ipairs(List) do
+		team.SetUp(enum, data.Name, data.Color, false)
+	end
+end
+
+if SERVER then
+	function SetHidden(enum, shouldHide)
+		local hidden = GAMEMODE:HiddenTeams()
+
+		if shouldHide then
+			hidden[enum] = true
+		else
+			hidden[enum] = nil
+		end
+
+		GAMEMODE:SetHiddenTeams(hidden)
 	end
 end
