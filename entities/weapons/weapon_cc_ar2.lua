@@ -41,7 +41,7 @@ SWEP.Settings = {
 	LowerHoldType = "passive",
 	BaseHoldType = "ar2",
 
-	Firemodes = {-1},
+	Firemodes = {FIREMODE_AUTO},
 
 	FireRate = 600,
 	BurstDelay = 0,

@@ -49,7 +49,7 @@ SWEP.Settings = {
 	NPCHoldType = nil, -- If set, overrides the NPC hold type
 
 	AutoBurst = false, -- Automatic cycling between bursts
-	Firemodes = {-1}, -- -1 = automatic, 0 = semi, 1+ = burst
+	Firemodes = {-1}, -- See enums.lua
 
 	FireRate = 600, -- Rounds per minute, -1 = animation time
 	BurstDelay = 0, -- Delay between bursts, -1 = animation time
