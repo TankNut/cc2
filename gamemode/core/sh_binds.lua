@@ -44,33 +44,70 @@ if CLIENT then
 		if WeaponSelect.Bind(bind, down) then return true end
 	end
 
-	local toggle = {}
-	local lastToggle = {}
+	local states = {}
 
-	local function toggleKey(key, cmd)
-		local down = cmd:KeyDown(key)
+	local function initMode(mode)
+		if mode == KEYMODE_HOLD then
+			return {}
+		elseif mode == KEYMODE_TOGGLE then
+			return {Toggle = false, Last = false}
+		elseif mode == KEYMODE_SMART then
+			return {Toggle = false, Start = 0, Last = false}
+		end
+	end
 
-		if not down and lastToggle[key] and system.HasFocus() then
-			toggle[key] = not toggle[key]
+	local function updateKeymode(key, cmd, mode)
+		local state = states[key]
+
+		if not state or state.Mode != mode then
+			states[key] = initMode(mode)
+			state = states[key]
+			state.Mode = mode
 		end
 
-		if toggle[key] then
+		if mode == KEYMODE_HOLD then
+			return
+		elseif mode == KEYMODE_TOGGLE then
+			local down = cmd:KeyDown(key)
+
+			if not down and state.Last then
+				state.Toggle = not state.Toggle
+			end
+
+			state.Last = down
+		elseif mode == KEYMODE_SMART then
+			local down = cmd:KeyDown(key)
+			local last = state.Last
+
+			-- Pressed
+			if down and not last then
+				state.Start = CurTime()
+				state.Toggle = not state.Toggle
+			end
+
+			-- Released
+			if (not down and last) and (CurTime() - state.Start >= Settings.Get("KeySensitivity") or not system.HasFocus()) then
+				state.Toggle = false
+			end
+
+			state.Last = down
+		end
+
+		if state.Toggle then
 			cmd:AddKey(key)
 		end
-
-		lastToggle[key] = down
 	end
 
 	local dir = Vector()
 	local last = {0, 0, 0, 0}
 
 	function GM:CreateMove(cmd)
-		if Settings.Get("ToggleCrouch") then toggleKey(IN_DUCK, cmd) end
-		if Settings.Get("ToggleSprint") then toggleKey(IN_SPEED, cmd) end
-		if Settings.Get("ToggleFreelook") then toggleKey(IN_WALK, cmd) end
+		updateKeymode(IN_DUCK, cmd, Settings.Get("CrouchKeymode"))
+		updateKeymode(IN_SPEED, cmd, Settings.Get("SprintKeymode"))
+		updateKeymode(IN_WALK, cmd, Settings.Get("FreelookKeymode"))
 
 		if Settings.Get("AutoWalk") then
-			local sensitivity = Settings.Get("StickyKeySensitivity")
+			local sensitivity = Settings.Get("KeySensitivity")
 			local curTime = CurTime()
 			local move = Vector(cmd:GetForwardMove(), cmd:GetSideMove())
 

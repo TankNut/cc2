@@ -1,5 +1,5 @@
-Settings.Add("StickyKeySensitivity", {
-	Name = "Sticky key sensitivity",
+Settings.Add("KeySensitivity", {
+	Name = "Key sensitivity",
 	Private = true,
 	Default = 0.4,
 	Validate = {
@@ -15,39 +15,56 @@ Settings.Add("StickyKeySensitivity", {
 }, "Controls")
 
 Settings.Add("AutoWalk", {
-	Name = "Double-tap sticky directional keys",
+	Name = "Enable Auto-walk",
+	Hint = "Double-tap any movement key to automatically walk in that direction",
 	ClientOnly = true,
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "Controls")
 
-Settings.Add("ToggleCrouch", {
-	Name = "Toggle Crouch",
+local keymodes = {
+	[KEYMODE_HOLD] = "Hold",
+	[KEYMODE_TOGGLE] = "Toggle",
+	[KEYMODE_SMART] = "Smart"
+}
+
+local keymodeValidate = validate.InList(table.GetKeys(keymodes))
+local keymodeArgs = table.Map(keymodes, function(...) return {...} end)
+
+Settings.Add("CrouchKeymode", {
+	Name = "Crouch Behavior",
+	Hint = "Smart mode toggles crouch on a short press, otherwise it acts as normal",
 	ClientOnly = true,
-	Default = false,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
+	Default = KEYMODE_HOLD,
+	Validate = keymodeValidate,
+	Panel = "CC_Setting_Dropdown",
+	Args = keymodeArgs
 }, "Controls")
 
-Settings.Add("ToggleSprint", {
-	Name = "Toggle Sprint",
+Settings.Add("SprintKeymode", {
+	Name = "Sprint Behavior",
+	Hint = "Smart mode toggles sprint on a short press, otherwise it acts as normal",
 	ClientOnly = true,
-	Default = false,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
+	Default = KEYMODE_HOLD,
+	Validate = keymodeValidate,
+	Panel = "CC_Setting_Dropdown",
+	Args = keymodeArgs
 }, "Controls")
 
-Settings.Add("ToggleFreelook", {
-	Name = "Toggle Freelook (+walk)",
+Settings.Add("FreelookKeymode", {
+	Name = "Freelook Behavior (+walk)",
+	Hint = "Smart mode toggles freelook on a short press, otherwise it acts as normal",
 	ClientOnly = true,
-	Default = false,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool"
+	Default = KEYMODE_HOLD,
+	Validate = keymodeValidate,
+	Panel = "CC_Setting_Dropdown",
+	Args = keymodeArgs
 }, "Controls")
 
-Settings.Add("StickyAim", {
+Settings.Add("SmartAim", {
 	Name = "Smart Aiming",
+	Hint = "Toggles aiming on a short press, otherwise it acts as normal",
 	Private = true,
 	Default = false,
 	Validate = validate.Bool(),

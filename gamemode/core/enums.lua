@@ -30,14 +30,14 @@ SLOT_BASIC   = 1
 SLOT_WEAPONS = 2
 SLOT_MISC    = 3
 
-CONTEXT_TOP = 0 -- Unused
-CONTEXT_ENTITY = 10 -- Interacting with other players/entities
+CONTEXT_TOP       = 0 -- Unused
+CONTEXT_ENTITY    = 10 -- Interacting with other players/entities
 CONTEXT_IMPORTANT = 20 -- Important stuff like patching up armor
 CONTEXT_EQUIPMENT = 30 -- Equipped item actions
 CONTEXT_INVENTORY = 40 -- Inventory item actions
-CONTEXT_SELF = 50 -- Self actions e.g. gestures, animations
-CONTEXT_MISC = 60 -- Default
-CONTEXT_ADMIN = 70 -- Admin-only stuff
+CONTEXT_SELF      = 50 -- Self actions e.g. gestures, animations
+CONTEXT_MISC      = 60 -- Default
+CONTEXT_ADMIN     = 70 -- Admin-only stuff
 
 PROP_CLASSES = table.Lookup({
 	"prop_physics", "prop_effect"
@@ -48,9 +48,13 @@ WEAPONS_TOOLS = table.Lookup({
 	"gmod_tool"
 })
 
-ACTION_ADMIN = 1
+ACTION_ADMIN    = 1
 ACTION_EDITMODE = 2
 
-ACTION_SELF = 1
-ACTION_LOOK = 2
+ACTION_SELF     = 1
+ACTION_LOOK     = 2
 ACTION_INTERACT = 3
+
+KEYMODE_HOLD   = 1
+KEYMODE_TOGGLE = 2
+KEYMODE_SMART  = 3

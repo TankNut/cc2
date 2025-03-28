@@ -160,7 +160,7 @@ function SWEP:Think()
 
 	local ply = self:GetOwner()
 
-	if ply:GetSetting("StickyAim") and ply:KeyReleased(IN_ATTACK2) then
+	if ply:GetSetting("SmartAim") and ply:KeyReleased(IN_ATTACK2) then
 		if self:GetToggleAim() then
 			self:SetToggleAim(false)
 		elseif CurTime() - self:GetAimStart() < 0.4 then
