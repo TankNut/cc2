@@ -8,7 +8,6 @@ local setCharacterModel = console.AddCommand("rpa_setcharmodel", function (ply, 
 	Log.Write("admin_character_set", ply, target, "Model", mdl)
 
 	target:SetCharacterModel(mdl)
-	target:UpdateAppearance()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target, mdl)
 	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
@@ -29,7 +28,6 @@ local setCharacterSkin = console.AddCommand("rpa_setcharskin", function (ply, ta
 	Log.Write("admin_character_set", ply, target, "Skin", skin)
 
 	target:SetCharacterSkin(skin)
-	target:UpdateAppearance()
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, skin)
 	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, skin)
