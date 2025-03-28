@@ -38,12 +38,8 @@ function BUFF:Move(mv)
 
 	local fraction = data:TimeFraction()
 	local crouchSpeed = self.Player:GetWalkSpeed() * self.Player:GetCrouchedWalkSpeed()
-	local maxSpeed = Lerp(fraction, crouchSpeed, self.Player:GetRunSpeed())
 
-	local speed = math.min(mv:GetMaxSpeed(), maxSpeed)
-
-	mv:SetMaxSpeed(speed)
-	mv:SetMaxClientSpeed(speed)
+	mv:LimitSpeed(Lerp(fraction, crouchSpeed, self.Player:GetRunSpeed()))
 end
 
 if SERVER then

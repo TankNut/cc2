@@ -156,21 +156,14 @@ function GM:SetupMove(ply, mv, cmd)
 	local slow = Config.Get("SprintSlow")
 
 	if slow < 1 and cmd:GetForwardMove() <= 0 then
-		local speed = Lerp(slow, ply:GetWalkSpeed(), ply:GetRunSpeed())
-
-		mv:SetMaxSpeed(speed)
-		mv:SetMaxClientSpeed(speed)
+		mv:LimitSpeed(Lerp(slow, ply:GetWalkSpeed(), ply:GetRunSpeed()))
 	end
 
 	handle(ply, "SetupMove", mv, cmd)
-
-	return self.BaseClass:SetupMove(ply, mv, cmd)
 end
 
 function GM:Move(ply, mv)
 	handle(ply, "Move", mv)
-
-	return self.BaseClass:Move(ply, mv)
 end
 
 function GM:FinishMove(ply, mv)

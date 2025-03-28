@@ -162,12 +162,5 @@ function SWEP:SetupMove(ply, mv, cmd)
 		state = math.max(state, self:GetSwingTime())
 	end
 
-	local slow = Lerp(state, ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75)
-
-	if mv:GetMaxSpeed() < slow then
-		return
-	end
-
-	mv:SetMaxSpeed(slow)
-	mv:SetMaxClientSpeed(slow)
+	mv:LimitSpeed(Lerp(state, ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75))
 end

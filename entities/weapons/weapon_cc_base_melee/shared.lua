@@ -121,14 +121,7 @@ function SWEP:SetupMove(ply, mv, cmd)
 		return
 	end
 
-	local slow = Lerp(self:GetBlockState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75)
-
-	if mv:GetMaxSpeed() < slow then
-		return
-	end
-
-	mv:SetMaxSpeed(slow)
-	mv:SetMaxClientSpeed(slow)
+	mv:LimitSpeed(Lerp(self:GetBlockState(), ply:GetWalkSpeed(), ply:GetWalkSpeed() * 0.75))
 end
 
 if CLIENT then
