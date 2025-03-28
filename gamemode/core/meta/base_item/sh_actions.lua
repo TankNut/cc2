@@ -214,8 +214,10 @@ if CLIENT then
 			if action.Client then
 				local args = {action.Client(self, ply, ...)}
 
-				if not table.remove(args, 1) and args[1] then
-					lp:SendChat("ERROR", args[1])
+				if not table.remove(args, 1) then
+					if args[1] then
+						lp:SendChat("ERROR", args[1])
+					end
 
 					return
 				end
