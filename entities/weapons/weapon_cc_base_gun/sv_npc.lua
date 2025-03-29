@@ -3,7 +3,7 @@ function SWEP:GetCapabilities()
 end
 
 function SWEP:GetNPCBulletSpread(prof)
-	return 5 - prof
+	return math.Remap(prof, 0, 4, 10, 5)
 end
 
 function SWEP:GetNPCBurstSettings()
