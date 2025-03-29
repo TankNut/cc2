@@ -42,6 +42,7 @@ function GM:OnEntityCreated(ent)
 	if SERVER then
 		if ent:IsNPC() then
 			ent:SetKeyValue("spawnflags", bit.band(ent:GetSpawnFlags(), SF_NPC_NO_WEAPON_DROP))
+			ent:SetLagCompensated(true)
 		elseif ent:IsRagdoll() then
 			ent:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		end
