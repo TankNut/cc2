@@ -35,20 +35,6 @@ function GM:CalcView(ply, pos, ang, fov, znear, zfar)
 		return view
 	end
 
-	local weapon = ply:GetActiveWeapon()
-
-	if IsValid(weapon) then
-		local func = weapon.CalcView
-
-		if func then
-			local weaponPos, weaponAng, weaponFov = func(weapon, ply, Vector(view.origin), Vector(view.angles), view.fov)
-
-			view.origin = weaponPos or view.origin
-			view.angles = weaponAng or view.angles
-			view.fov = weaponFov or view.fov
-		end
-	end
-
 	return view
 end
 

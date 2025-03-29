@@ -44,7 +44,6 @@ ctp.BoneList = {
 
 ctp.DisabledHooks = {
 	"CalcView",
-	--"ShouldDrawLocalPlayer",
 	"CalcVehicleThirdPersonView",
 }
 
@@ -62,18 +61,6 @@ local function UNHOOK(name)
 	end
 end
 
-local function FindPlayerByName(str)
-	if str == "" or not str then return LocalPlayer() end
-
-	for key, ply in player.Iterator() do
-		if ply:Nick():lower():find(str:lower()) then
-			return ply
-		end
-	end
-
-	return LocalPlayer()
-end
-
 function ctp:Initialize()
 	self.SmoothOrigin = self.SmoothOrigin or Vector(0, 0, 0)
 	self.SmoothDirection = self.SmoothDirection or Vector(0, 0, 0)
@@ -81,7 +68,7 @@ function ctp:Initialize()
 
 	local vectors = {}
 
-	for i=1, self.HistoryCount do
+	for i = 1, self.HistoryCount do
 		table.insert(vectors, vector_origin)
 	end
 
@@ -141,8 +128,8 @@ do -- luadata
 		end,
 	}
 
-	function luadata.SetModifier(type, callback)
-		luadata.Types[type] = callback
+	function luadata.SetModifier(luaType, callback)
+		luadata.Types[luaType] = callback
 	end
 
 	function luadata.Type(var)
@@ -158,10 +145,8 @@ do -- luadata
 			t = type(var)
 		end
 
-		if t == "table" then
-			if var.LuaDataType then
-				t = var.LuaDataType
-			end
+		if t == "table" and var.LuaDataType then
+			t = var.LuaDataType
 		end
 
 		return t
@@ -242,7 +227,6 @@ do -- CVars
 
 		self:RegisterCVar("smoother_origin", "OriginSmoother", "float")
 		self:RegisterCVar("smoother_direction", "DirectionSmoother", "float")
-		self:RegisterCVar("smoother_nodes_direction", "float")
 		self:RegisterCVar("smoother_fov", "FOVSmoother", "float")
 
 		self:RegisterCVar("lerp_aim", "AimLerp", "float")
@@ -256,30 +240,7 @@ do -- CVars
 		self:RegisterCVar("angles_yaw", "UserYaw", "float")
 		self:RegisterCVar("angles_roll", "UserRoll", "float")
 
-		self:RegisterCVar("target_enable", "TargettingEnabled", "boolean")
-		self:RegisterCVar("target_radius", "TargetRadius", "float")
-		self:RegisterCVar("target_lerp", "TargetLerp", "float")
-		self:RegisterCVar("target_fov", "TargetFOV", "float")
-
 		self:RegisterCVar("movement_lock_pitch", "LockPitchEnabled", "boolean")
-
-		self:RegisterCVar("movement_rtc_enable", "RTCEnabled", "boolean")
-		self:RegisterCVar("movement_rtc_yaw_offset", "RTCYawOffset", "float")
-		self:RegisterCVar("movement_rtc_turn_time", "RTCTurnTime", "float")
-		self:RegisterCVar("movement_rtc_walk_focus", "WalkFocusEnabled", "boolean")
-
-		--self:RegisterCVar("hud_crosshair_enable", "CrosshairEnabled", "boolean") -- No crossairs.
-		--self:RegisterCVar("hud_crosshair_distance", "CrosshairDistance", "float")
-		self:RegisterCVar("hud_hide", "HUDHidden", "boolean")
-		self:RegisterCVar("hud_hide_all", "AllHUDHidden", "boolean")
-		self:RegisterCVar("hud_black_bars_enable", "BlackBarsEnabled", "boolean")
-		self:RegisterCVar("hud_black_bars_amount", "BlackBarAmount", "float")
-
-		self:RegisterCVar("nodes_place_enable", "NodePlacerEnabled", "boolean")
-		self:RegisterCVar("nodes_enable", "NodesEnabled", "boolean")
-		self:RegisterCVar("nodes_draw", "DrawingNodesEnabled", "boolean")
-		self:RegisterCVar("nodes_draw_spheres", "DrawingNodeSpheresEnabled", "boolean")
-		self:RegisterCVar("nodes_load_by_map_name", "LoadByMapNameEnabled", "boolean")
 
 		self:RegisterCVar("center_offset_forward", "CenterOffsetForward", "float")
 		self:RegisterCVar("center_offset_right", "CenterOffsetRight", "float")
@@ -316,40 +277,37 @@ do -- CVars
 		return math.Clamp(num, min, max)
 	end
 
-	function ctp:RegisterCVar(name, namefunc, type, dontsave, min, max)
-
-
+	function ctp:RegisterCVar(name, namefunc, luaType, dontsave, min, max)
 		name = name:lower()
-		type = type or "float"
+		luaType = luaType or "float"
+
 		local default = ctp.DefaultPresets[2].cvars[name] -- CombineControl Third person
 
 		if not default then
 			print("ctp missing default value for", name)
+
 			default = 0
 		end
 
-		self.CVars[name] = {cvar = CreateClientConVar("cl_ctp_" .. name, default, not dontsave), type = type, dontsave = dontsave}
+		self.CVars[name] = {cvar = CreateClientConVar("cl_ctp_" .. name, default, not dontsave), type = luaType, dontsave = dontsave}
 
 		local function GetVar()
 			return
-				type == "boolean" and self.CVars[name].cvar:GetBool() or
-				type == "integer" and clamp(self.CVars[name].cvar:GetInt(), min, max) or
-				type == "float" and clamp(self.CVars[name].cvar:GetFloat(), min, max) or
-				type == "string" and self.CVars[name].cvar:GetString()
+				luaType == "boolean" and self.CVars[name].cvar:GetBool() or
+				luaType == "integer" and clamp(self.CVars[name].cvar:GetInt(), min, max) or
+				luaType == "float" and clamp(self.CVars[name].cvar:GetFloat(), min, max) or
+				luaType == "string" and self.CVars[name].cvar:GetString()
 		end
 
 		self.CVars[name].GetVar = GetVar
 
-		self[(type == "boolean" and "Is" or "Get") .. namefunc] = function()
+		self[(luaType == "boolean" and "Is" or "Get") .. namefunc] = function()
 			return GetVar()
 		end
-
 	end
-
 end
 
 do -- Enable
-
 	CreateClientConVar("ctp_enabled", "0", false, true)
 
 	local META = FindMetaTable("Player")
@@ -359,13 +317,12 @@ do -- Enable
 	end
 
 	function ctp:Enable()
-
 		-- For shit like ctp.Enable() to match gmod's way.
 		self = self or ctp
 
-		if self:IsEnabled() then return end
-
-		--MsgN("Enabling ctp")
+		if self:IsEnabled() then
+			return
+		end
 
 		self:ResetSmoothers()
 
@@ -386,41 +343,21 @@ do -- Enable
 		HOOK("CalcView", function(...) return ctp:CalcView(...) end)
 		HOOK("CalcVehicleThirdPersonView", function(_, ...) return ctp:CalcView(...) end)
 		HOOK("CreateMove", function(ucmd) return ctp:CreateMove(ucmd) end)
-		HOOK("HUDPaintBackground", function() ctp:HUDPaintBackground() end)
-		HOOK("HUDPaint", function() return ctp:HUDPaint() end)
-		HOOK("HUDShouldDraw", function(element) return ctp:HUDShouldDraw(element) end)
-		--HOOK("ShouldDrawLocalPlayer", function() if ctp:IsEnabled() then return true end end) -- We need to comment this out so our scopes work okay.
-		--HOOK("PlayerStepSoundTime", function(...) return ctp:PlayerStepSoundTime(...) end)
 		HOOK("GUIMousePressed", function(...) return ctp:GUIMousePressed(...) end)
 		HOOK("GUIMouseReleased", function(...) return ctp:GUIMouseReleased(...) end)
 		HOOK("PreventScreenClicks", function(...) return ctp:PreventScreenClicks(...) end)
 
-		self:SetPlayer(FindPlayerByName(self:GetPlayerName()))
-
 		self.Enabled = true
 
-		if self:IsLoadByMapNameEnabled() then
-			self:LoadNodePreset(game.GetMapOverride())
-		end
-
 		RunConsoleCommand("ctp_enabled", "1")
-
-		local ply = FindPlayerByName(self:GetPlayerName())
-
-		if IsValid(self.__player_text_entry)  then
-			self.__player_text_entry:SetValue(ply:Nick())
-		end
-
-		self:SetPlayer(ply)
 	end
 
 	function ctp:Disable()
-
 		self = self or ctp
 
-		if not self:IsEnabled() then return end
-
-		--MsgN("Disabling ctp")
+		if not self:IsEnabled() then
+			return
+		end
 
 		if self.OldHooks then
 			for event, hooks in pairs(self.OldHooks) do
@@ -435,21 +372,15 @@ do -- Enable
 		UNHOOK("Think")
 		UNHOOK("CalcVehicleThirdPersonView")
 		UNHOOK("CreateMove")
-		UNHOOK("HUDPaintBackground")
-		UNHOOK("HUDPaint")
-		UNHOOK("HUDShouldDraw")
-		--UNHOOK("ShouldDrawLocalPlayer") --We don't use this anymore.
-		--UNHOOK("PlayerStepSoundTime")
 		UNHOOK("GUIMousePressed")
 		UNHOOK("GUIMouseReleased")
 		UNHOOK("PreventScreenClicks")
 
 		self.OldHooks = nil
 
-		self:GetPlayer():SetEyeAngles(self:GetDirection():Angle())
+		lp:SetEyeAngles(self:GetDirection():Angle())
 
 		self.Enabled = false
-		self.NodeView = false
 
 		RunConsoleCommand("ctp_enabled", "0")
 	end
@@ -459,60 +390,22 @@ do -- Enable
 	end
 
 	function ctp:Toggle()
-		self = self or ctp
-
-		if ctp:IsEnabled() then
-			ctp:Disable()
-		else
-			ctp:Enable()
-		end
-	end
-
-	function ctp:ShowMenu()
-		if IsValid(ctp.Frame) then return end
-
-		ctp.Frame = vgui.Create("ctp_MainFrame")
-	end
-
-	function ctp:CloseMenu()
-		if IsValid(ctp.Frame) then ctp.Frame:Close() end
-	end
-
-	function ctp:IsMenuVisible()
-		return IsValid(self.Frame)
-	end
-
-	function ctp:ToggleMenu()
-		if ctp:IsMenuVisible() then
-			ctp:CloseMenu()
-		else
-			ctp:ShowMenu()
-		end
+		Settings.Set("Thirdperson", not Settings.Get("Thirdperson"))
 	end
 
 	concommand.Add("ctp", function()
 		ctp:Toggle()
 	end)
 
-	concommand.Add("ctp_toggle_menu", function()
-		ctp:ToggleMenu()
-	end)
-
 	hook.Add("PopulateToolMenu", "ctp_PopulateToolMenu", function()
-		spawnmenu.AddToolMenuOption("Options",
-			"Visuals",
-			"CTP",
-			"CTP Options",    "",    "",
-			function(panel)
-				panel:AddPanel(vgui.Create("ctp_ContextMenu"))
-			end
-		)
+		spawnmenu.AddToolMenuOption("Options", "Visuals", "CTP", "CTP Options", "", "", function(panel)
+			panel:AddPanel(vgui.Create("ctp_ContextMenu"))
+		end)
 	end)
 
 end
 
 do -- Presets
-
 	do -- default
 		ctp.DefaultPresets =
 		{
@@ -522,109 +415,71 @@ do -- Presets
 				["cvars"] = {
 					["offset_fov_zoom_distance"] = 1200,
 					["smoother_origin"] = 40,
-					["nodes_load_by_map_name"] = 0,
-					["hud_hide"] = 0,
-					["movement_rtc_walk_focus"] = 0,
-					["nodes_enable"] = 0,
 					["center_offset_forward"] = 0,
-					--["hud_crosshair_enable"] = 1,
-					["hud_black_bars_enable"] = 0,
 					["offset_right"] = 0,
 					["trace_forward"] = 20,
 					["lerp_aim"] = 100,
 					["offset_up"] = 52,
-					["target_radius"] = 0,
-					["smoother_nodes_direction"] = 50,
 					["threshold_radius"] = 0,
 					["bone_name"] = "none",
-					--["hud_crosshair_distance"] = 32000,
-					["movement_rtc_yaw_offset"] = 0,
 					["angles_pitch"] = 0,
 					["angles_roll_amount"] = 0,
 					["movement_lock_pitch"] = 0,
 					["trace_smooth"] = 1,
 					["angles_yaw"] = 0,
 					["threshold_enabled"] = 0,
-					["nodes_draw"] = 0,
-					["nodes_draw_spheres"] = 0,
 					["smoother_direction"] = 40,
 					["offset_fov_zoom_distance_enabled"] = 0,
 					["offset_fov"] = 90,
 					["offset_fov_zoom_distance_min"] = 7,
 					["offset_relative"] = 1,
 					["trace_down"] = 0,
-					["target_lerp"] = 0.3,
 					["offset_lock_z"] = 1,
 					["offset_forward"] = -100,
-					["nodes_place_enable"] = 0,
 					["angles_roll"] = 0,
 					["center_offset_up"] = 0,
 					["angles_limit"] = 0,
-					["movement_rtc_turn_time"] = 0,
-					["movement_rtc_enable"] = 0,
-					["target_fov"] = 40,
 					["center_offset_right"] = 0,
-					["hud_black_bars_amount"] = 0,
 					["trace_enable"] = 1,
-					["target_enable"] = 0,
 					["angles_limit_smooth"] = 0,
 					["near_z"] = 3,
-					["hud_hide_all"] = 0,
 					["smoother_fov"] = 40,
 				},
 			},
 			{
-				["name"] = "Combine Control Third Person",
-				["description"] = "This preset mimics CombineControl's thirdperson camera",
+				["name"] = "CombineControl Legacy Third Person",
+				["description"] = "This preset mimics CombineControl's original thirdperson camera",
 				["cvars"] = {
 					["offset_fov_zoom_distance"] = 0,
 					["smoother_origin"] = 6,
-					["nodes_load_by_map_name"] = 0,
-					["hud_hide"] = 0,
-					["movement_rtc_walk_focus"] = 0,
-					["nodes_enable"] = 0,
 					["center_offset_forward"] = 0,
-					["hud_black_bars_enable"] = 0,
 					["offset_right"] = 0,
 					["trace_forward"] = 1,
 					["lerp_aim"] = 85,
 					["offset_up"] = 0,
-					["target_radius"] = 0,
-					["smoother_nodes_direction"] = 50,
 					["threshold_radius"] = 10,
 					["bone_name"] = "head",
-					["movement_rtc_yaw_offset"] = 0,
 					["angles_pitch"] = 0,
 					["angles_roll_amount"] = 0,
 					["movement_lock_pitch"] = 0,
 					["trace_smooth"] = 0,
 					["angles_yaw"] = 0,
 					["threshold_enabled"] = 0,
-					["nodes_draw"] = 0,
-					["nodes_draw_spheres"] = 0,
 					["smoother_direction"] = 6,
 					["offset_fov_zoom_distance_enabled"] = 0,
 					["offset_fov"] = 75,
 					["offset_fov_zoom_distance_min"] = 0,
 					["offset_relative"] = 1,
 					["trace_down"] = 1,
-					["target_lerp"] = 0.30000001192093,
 					["offset_lock_z"] = 1,
 					["offset_forward"] = -50,
-					["nodes_place_enable"] = 0,
 					["angles_roll"] = 0,
 					["center_offset_up"] = 0,
 					["angles_limit"] = 0,
-					["movement_rtc_turn_time"] = 0,
-					["movement_rtc_enable"] = 0,
-					["target_fov"] = 40,
 					["center_offset_right"] = 0,
-					["hud_black_bars_amount"] = 0,
 					["trace_enable"] = 1,
-					["target_enable"] = 0,
 					["angles_limit_smooth"] = 0,
 					["near_z"] = 3,
-					["hud_hide_all"] = 0,
 					["smoother_fov"] = 40,
 				},
 			},
@@ -634,51 +489,32 @@ do -- Presets
 				["cvars"] = {
 					["offset_fov_zoom_distance"] = 800,
 					["smoother_origin"] = 1,
-					["nodes_load_by_map_name"] = 0,
-					["hud_hide"] = 1,
-					["movement_rtc_walk_focus"] = 0,
-					["nodes_enable"] = 0,
 					["center_offset_forward"] = 0,
-					--["hud_crosshair_enable"] = 1,
-					["hud_black_bars_enable"] = 0,
 					["offset_right"] = 0,
 					["trace_forward"] = 20,
 					["lerp_aim"] = 100,
 					["offset_up"] = 0,
-					["target_radius"] = 400,
-					["smoother_nodes_direction"] = 50,
 					["threshold_radius"] = 250,
 					["bone_name"] = "none",
-					["hud_crosshair_distance"] = 32000,
-					["movement_rtc_yaw_offset"] = 0,
 					["angles_pitch"] = 0,
 					["angles_roll_amount"] = 0,
 					["movement_lock_pitch"] = 0,
 					["trace_smooth"] = 1,
 					["angles_yaw"] = 0,
 					["threshold_enabled"] = 1,
-					["nodes_draw"] = 0,
-					["nodes_draw_spheres"] = 0,
 					["smoother_direction"] = 5,
 					["offset_fov_zoom_distance_enabled"] = 0,
 					["offset_fov"] = 50,
 					["offset_fov_zoom_distance_min"] = 7,
 					["offset_relative"] = 1,
 					["trace_down"] = 30,
-					["target_lerp"] = 100,
 					["offset_lock_z"] = 1,
 					["offset_forward"] = 0,
-					["nodes_place_enable"] = 0,
 					["angles_roll"] = 0,
 					["center_offset_up"] = 0,
 					["angles_limit"] = 1,
-					["movement_rtc_turn_time"] = 10,
-					["movement_rtc_enable"] = 0,
-					["target_fov"] = 40,
 					["center_offset_right"] = 0,
-					["hud_black_bars_amount"] = 0,
 					["trace_enable"] = 1,
-					["target_enable"] = 0,
 					["angles_limit_smooth"] = 1,
 					["smoother_fov"] = 3,
 				},
@@ -687,7 +523,6 @@ do -- Presets
 	end
 
 	function ctp:SaveCVarPreset(name, description)
-
 		local tbl = {}
 
 		tbl.name = name
@@ -707,13 +542,21 @@ do -- Presets
 	end
 
 	function ctp:LoadCVarPreset(name)
-
 		local tbl = self.CurrentPresets[name] or ctp.luadata.ReadFile("ctp/cvar_presets/" .. name .. ".txt")
 
-		if not tbl.cvars then MsgN("CTP tried to load cvar preset '" .. name .. "' but it doesn't exist!") return end
+		if not tbl.cvars then
+			MsgN("CTP tried to load cvar preset '" .. name .. "' but it doesn't exist!")
+			return
+		end
 
 		for key, value in pairs(tbl.cvars) do
-			RunConsoleCommand("cl_ctp_" .. key, tostring(value))
+			key = "cl_ctp_" .. key
+
+			if not ConVarExists(key) then
+				continue
+			end
+
+			RunConsoleCommand(key, tostring(value))
 		end
 
 		self.CurrentCVarPreset = tbl
@@ -737,85 +580,26 @@ do -- Presets
 		local files = file.Find(folder .. "*", "DATA")
 
 		for key, preset in pairs(files) do
-			local preset = ctp.luadata.ReadFile(folder .. preset, "DATA")
-			if preset.cvars then
-				tbl[preset.name] = preset.description != "none" and preset.description or ""
-				self.CurrentPresets[preset.name] = preset
+			local presetData = ctp.luadata.ReadFile(folder .. preset, "DATA")
+
+			if presetData.cvars then
+				tbl[presetData.name] = presetData.description != "none" and presetData.description or ""
+
+				self.CurrentPresets[presetData.name] = presetData
 			end
 		end
 
 		for key, preset in pairs(ctp.DefaultPresets) do
 			tbl[preset.name] = preset.description != "none" and preset.description or ""
-			ctp.CurrentPresets[preset.name] = preset
+
+			self.CurrentPresets[preset.name] = preset
 		end
 
 		return tbl
 	end
-
-
-	--Nodes are disabled, but we're keeping the code here in case we want to use it later.
-	function ctp:SaveNodePreset(name, description)
-
-		local tbl = {}
-
-		tbl.name = name
-		tbl.description = description or "none"
-		tbl.nodes = table.Sanitise(self.Nodes)
-
-		file.CreateDir("ctp")
-		file.CreateDir("ctp/node_presets")
-
-		ctp.luadata.WriteFile("ctp/node_presets/" .. name .. ".txt", tbl, "DATA")
-
-	end
-
-	function ctp:LoadNodePreset(name)
-		local tbl = ctp.luadata.ReadFile(file.Read("ctp/node_presets/" .. name .. ".txt", "DATA"))
-
-		if not tbl.nodes then MsgN("CTP tried to load node preset '" .. name .. "' but it doesn't exist!") return end
-
-		for key, value in pairs(tbl.nodes) do
-			table.insert(self.Nodes, value)
-		end
-
-		self.CurrentNodePreset = tbl
-	end
-
-	function ctp:GetCurrentNodePreset()
-		return self.CurrentNodePreset
-	end
-
-	function ctp:DeleteNodePreset(name)
-		file.Delete("ctp/node_presets/" .. name .. ".txt", "DATA")
-	end
-
-	function ctp:GetNodePresets(folder)
-		folder = folder or "ctp/node_presets/"
-
-		local tbl = {}
-
-		local files = file.Find(folder .. "*", "DATA")
-
-		for key, preset in pairs(files) do
-			local preset = ctp.luadata.ReadFile(folder .. preset, "DATA")
-			if preset.nodes then
-				tbl[preset.name] = preset.description != "none" and preset.description or ""
-			end
-		end
-
-		return tbl
-	end
-	-- /Node
 end
 
 do -- Meta
-	AccessorFunc(ctp, "PlayerName", "PlayerName")
-	AccessorFunc(ctp, "Player", "Player")
-
-	function ctp:GetPlayer()
-		return IsValid(self.Player) and self.Player or LocalPlayer()
-	end
-
 	AccessorFunc(ctp, "Origin", "Origin")
 	AccessorFunc(ctp, "PrevOrigin", "PrevOrigin")
 
@@ -827,17 +611,13 @@ do -- Meta
 	AccessorFunc(ctp, "Direction", "Direction")
 	AccessorFunc(ctp, "PrevDirection", "PrevDirection")
 	AccessorFunc(ctp, "DesiredDirection", "DesiredDirection")
+
 	function ctp:SetDirection(a)
---[[ 		local info = debug.getinfo(2, "Sln")
-		if info then
-			Msg(string.format("\t%i: Line %d\t\"%s\"\t%s\n", 0, info.currentline, info.name, info.short_src))
-		end ]]
 		self.Direction = Vector(math.Clamp(a.x, -1, 1), math.Clamp(a.y, -1, 1), math.Clamp(a.z, -1, 1))
 	end
 
-
-
 	AccessorFunc(ctp, "Angles", "Angles")
+
 	function ctp:GetAngles()
 		return self:GetDirection():Angle()
 	end
@@ -856,14 +636,13 @@ do -- Meta
 	end
 
 	function ctp:GetPlayerPos()
-
-		if false and self:GetPlayer():GetVehicle():IsVehicle() then
-			local ent = self:GetPlayer():GetVehicle()
+		if false and lp:GetVehicle():IsVehicle() then
+			local ent = lp:GetVehicle()
 			local pos = ent:GetPos() + Vector(0,0,36)
 
-			pos = pos + ((Angle(0, ent:GetAngles().p, 0):Forward() * -self:GetCenterOffsetRight()))
-			pos = pos  + ((Angle(0, ent:GetAngles().y, 0):Forward() * self:GetCenterOffsetForward()))
-			pos = pos  + ((ent:GetAngles():Up() * self:GetCenterOffsetUp()))
+			pos = pos + (Angle(0, ent:GetAngles().p, 0):Forward() * -self:GetCenterOffsetRight())
+			pos = pos + (Angle(0, ent:GetAngles().y, 0):Forward() * self:GetCenterOffsetForward())
+			pos = pos + (ent:GetAngles():Up() * self:GetCenterOffsetUp())
 
 			return pos
 		else
@@ -871,42 +650,30 @@ do -- Meta
 			local pos
 
 			if bone != "none" and ctp.BoneList[bone] then
-				local id = self:GetPlayer():LookupBone(ctp.BoneList[bone])
+				local id = lp:LookupBone(ctp.BoneList[bone])
 				if id then
-					pos = self:GetPlayer():GetBonePosition(id)
+					pos = lp:GetBonePosition(id)
 				else
-					pos = self:GetPlayer():GetPos() + Vector(0, 0, self:GetPlayer():GetCurrentViewOffset().z)
+					pos = lp:GetPos() + Vector(0, 0, lp:GetCurrentViewOffset().z)
 				end
 			end
 
 			if not pos then
-				pos = self:GetPlayer():GetPos() + Vector(0,0,36)
+				pos = lp:GetPos() + Vector(0,0,36)
 			end
 
-			pos = pos + ((Angle(0, self:GetPlayer():EyeAngles().p, 0):Forward() * -self:GetCenterOffsetRight()))
-			pos = pos  + ((Angle(0, self:GetPlayer():EyeAngles().y, 0):Forward() * self:GetCenterOffsetForward()))
-			pos = pos  + ((self:GetPlayer():EyeAngles():Up() * self:GetCenterOffsetUp()))
+			pos = pos + (Angle(0, lp:EyeAngles().p, 0):Forward() * -self:GetCenterOffsetRight())
+			pos = pos  + (Angle(0, lp:EyeAngles().y, 0):Forward() * self:GetCenterOffsetForward())
+			pos = pos  + (lp:EyeAngles():Up() * self:GetCenterOffsetUp())
 
 			return pos
 		end
 	end
 
-	function ctp:IsTargeting()
-		return self.IsTargeting
-	end
-
-	function ctp:IsViewingFromNode()
-		return self.NodeView
-	end
-
 	function ctp:ResetSmoothers()
-		local ply = self:GetPlayer()
-
-		if IsValid(ply) then
-			self.SmoothOrigin = ply:EyePos()
-			self.SmoothDirection = ply:EyeAngles():Forward()
-			self.SmoothFOV = ply:GetFOV()
-		end
+		self.SmoothOrigin = lp:EyePos()
+		self.SmoothDirection = lp:EyeAngles():Forward()
+		self.SmoothFOV = lp:GetFOV()
 	end
 
 	function ctp:GetDirectionVelocity()
@@ -918,29 +685,30 @@ do -- Meta
 	end
 
 	function ctp:GetFOV()
-		local wep = self:GetPlayer():GetActiveWeapon()
+		local wep = lp:GetActiveWeapon()
+
 		if wep:IsValid() and wep:GetClass() == "gmod_camera" then
-			return self:GetPlayer():GetFOV()
+			return lp:GetFOV()
 		end
 
 		return self.FOV
 	end
 end
 
-function ctp:ShouldDoThirdPerson( ply )
+function ctp:ShouldDoThirdPerson(ply)
 	return hook.Run("ShouldDoThirdPerson", ply)
 end
 
 do -- CalcView
 
 	function ctp:CalcView()
-		if GetViewEntity() != LocalPlayer() then return end
+		if GetViewEntity() != lp then return end
 
-		if ctp:ShouldDoThirdPerson(LocalPlayer()) then
+		if ctp:ShouldDoThirdPerson(lp) then
 
 			self:PreCalcView()
 
-			table.insert(self.PlyPosHistory, self:GetPlayer():GetPos())
+			table.insert(self.PlyPosHistory, lp:GetPos())
 
 			if #self.PlyPosHistory > self.HistoryCount then
 				table.remove(self.PlyPosHistory, 1)
@@ -950,14 +718,20 @@ do -- CalcView
 			local ang = self.Direction:Angle() + Angle(-self:GetUserPitch(), self:GetUserYaw(), self:GetUserRoll() + self.Roll) + LocalPlayer():GetViewPunchAngles()
 			local fov = math.Clamp(self:GetFOV() or 0, 1, 150)
 
-			local tbl =
-			{
+			local weapon = lp:GetActiveWeapon()
+
+			if IsValid(weapon) and weapon.GetZoom then
+				fov = fov / weapon:GetZoom()
+			end
+
+			local tbl = {
 				origin = pos,
 				angles = ang,
 				fov = fov,
 
 				znear = math.max(self:GetNearZ(), 0.1),
 			}
+
 			return tbl
 		end
 	end
@@ -1011,7 +785,7 @@ do -- CalcView
 
 		self.Origin = self:GetPlayerPos()
 		self.Direction = vector_origin
-		self.Angles = self:GetPlayer():EyeAngles()
+		self.Angles = lp:EyeAngles()
 		self.FOV = 0
 
 		if self:IsZoomDistanceEnabled() then
@@ -1027,37 +801,19 @@ do -- CalcView
 		end
 
 		self:CalcDirection()
-
 		self:CalcRoll()
-
-		--self:CalcNoise() it doesn't look good
-
-		if self:IsTargettingEnabled() then
-			self:CalcTargetting()
-		end
-
----		print(self:IsTraceBlockEnabled(), self:IsTraceBlockSmoothEnabled())
 
 		if self:IsTraceBlockEnabled() and self:IsTraceBlockSmoothEnabled() then
 			self:CalcTraceBlock()
 		end
 
-
 		if self:GetTraceDown() > 0 then
 			self:CalcDownTrace()
-		end
-
-		self.NodeView = false
-
-		if self:IsNodesEnabled() then
-			self:CalcNodes()
 		end
 
 		if self:IsAngleLimitEnabled() and self:IsAngleLimitSmoothEnabled() then
 			self:CalcAngleLimit()
 		end
-
-		self:CalcShortcuts()
 
 		self:CalcSmoothing()
 
@@ -1069,8 +825,6 @@ do -- CalcView
 			self:CalcTraceBlock()
 		end
 
-		self:CalcDrag()
-
 		self.PrevOrigin = self.Origin
 		self.PrevDirection = self.Direction
 		self.PrevFOV = self.FOV
@@ -1081,22 +835,18 @@ do -- CalcView
 	end
 
 	function ctp:CalcOffsets()
-
-		local offset = vector_origin
-		local right = self:GetRight()
+		local offset
 
 		if self:IsOffsetRelative() then
-			if self:IsZLockEnabled() then
-				offset = offset + (self:GetPlayer():EyeAngles():Right() * right)
-				offset = offset + (self:GetPlayer():EyeAngles():Forward() * self:GetForward())
-				offset = offset + (self:GetPlayer():EyeAngles():Up() * self:GetUp())
-			else
-				offset = offset + (Angle(0, self:GetPlayer():EyeAngles().p, 0):Forward() * -right)
-				offset = offset + (Angle(0, self:GetPlayer():EyeAngles().y, 0):Forward() * self:GetForward())
-				offset = offset + (self:GetPlayer():EyeAngles():Up() * self:GetUp())
+			local ang = lp:EyeAngles()
+
+			if not self:IsZLockEnabled() then
+				ang.p = 0
 			end
+
+			offset = LocalToWorld(Vector(self:GetForward(), -self:GetRight(), self:GetUp()), angle_zero, vector_origin, ang)
 		else
-			offset = offset + Vector(-self:GetForward(), -right, self:GetUp())
+			offset = Vector(-self:GetForward(), -self:GetRight(), self:GetUp())
 		end
 
 		self:SetOrigin(self:GetOrigin() + offset)
@@ -1105,12 +855,11 @@ do -- CalcView
 	end
 
 	function ctp:CalcDirection(origin)
-
-		local lerp = self:GetAimLerp()/100*2
+		local lerp = self:GetAimLerp() / 100 * 2
 
 		local player = ((origin or self:GetPlayerPos()) - self:GetPrevOrigin()):GetNormalized()
-		local hitpos = (self:GetPlayer():GetEyeTraceNoCursor().HitPos - self:GetOrigin()):GetNormalized()
-		local aim = self:GetPlayer():EyeAngles():Forward()
+		local hitpos = (lp:GetEyeTraceNoCursor().HitPos - self:GetOrigin()):GetNormalized()
+		local aim = lp:EyeAngles():Forward()
 
 		local direction = Vector(0, 0, 0)
 
@@ -1120,7 +869,7 @@ do -- CalcView
 			direction = LerpVector(lerp - 1, hitpos, aim)
 		end
 
-		if false and self:GetPlayer():GetVehicle():IsVehicle() or self:IsViewingFromNode() or self:IsRTCEnabled() and self:IsWalkFocusEnabled() and (self:GetPlayer():KeyDown(IN_MOVELEFT) or self:GetPlayer():KeyDown(IN_MOVERIGHT) or self:GetPlayer():KeyDown(IN_BACK) or self:GetPlayer():KeyDown(IN_FORWARD)) then
+		if false and lp:GetVehicle():IsVehicle() and self:IsWalkFocusEnabled() and (lp:KeyDown(IN_MOVELEFT) or lp:KeyDown(IN_MOVERIGHT) or lp:KeyDown(IN_BACK) or lp:KeyDown(IN_FORWARD)) then
 			direction = player
 		end
 
@@ -1131,7 +880,7 @@ do -- CalcView
 	end
 
 	function ctp:CalcRoll()
-		self:SetRoll(math.Clamp(WorldToLocal(self:GetPlayer():GetVelocity(), Angle(0, 0, 0), Vector(0, 0, 0), self:GetAngles()).y * (-self:GetRollAmount() / 500), -90, 90))
+		self:SetRoll(math.Clamp(WorldToLocal(lp:GetVelocity(), Angle(0, 0, 0), Vector(0, 0, 0), self:GetAngles()).y * (-self:GetRollAmount() / 500), -90, 90))
 	end
 
 	function ctp:CalcNoise()
@@ -1150,78 +899,21 @@ do -- CalcView
 		self:SetRelativeOriginSpeed(distance)
 	end
 
-	local function FindValueInTable(tbl, target)
-		for key, value in pairs(tbl) do
-			if string.find(target, value) then
-				return true
-			end
-		end
-	end
-
-	local distance = 300
-
-	local function DistanceFromCenter(vec)
-		local vec2 = vec:ToScreen()
-		return math.Clamp((Vector(ScrW()/2, ScrH()/2, 0) - Vector(vec2.x, vec2.y, 0)):Length2D() / 1000, 0, 1)
-	end
-
-	local function CheckAim(vec)
-		return ctp:GetPlayer():EyeAngles():Forward():DotProduct((vec - ctp:GetPlayer():EyePos()):GetNormalized())
-	end
-
-	function ctp:CalcTargetting()
-
-		local positions = Vector(0, 0, 0)
-		local count = 0
-
-		for key, entity in ipairs(ents.FindInSphere(self:GetPlayerPos(), self:GetTargetRadius())) do
-			if
-				entity != self:GetPlayer() and
-				entity != self:GetPlayer():GetVehicle() and
-				entity:GetMoveType() == MOVETYPE_VPHYSICS and
-				(entity:BoundingRadius() > 30 and
-				FindValueInTable(self.AllowedClasses, entity:GetClass())) and
-				hook.Call("PhysgunPickup", GAMEMODE, self:GetPlayer(), entity)
-			then
-				local point = entity:IsPlayer() and entity:GetShootPos() or entity:OBBCenter() + entity:GetPos()
-				--if CheckAim(point) > 0.8 then
-					positions = positions + point
-					count = count + 1
-				--end
-			end
-		end
-
-		self.IsTargeting = false
-
-		if count == 0 then return end
-
-		self.IsTargeting = true
-
-		local point = positions / count
-
-		local multiplier = math.Clamp((DistanceFromCenter(point) * CheckAim(point)) + 0.5, 0.5, 1)
-
-		self:SetDirection(LerpVector(multiplier * self:GetTargetLerp() / 100, self:GetDirection(), (point - self:GetOrigin()):GetNormalized()))
-
-		self:SetFOV(self:GetTargetFOV() * multiplier)
-	end
-
 	--Thanks to ralle for telling me how to do this!
 	--I'm kind of hacking the jump it makes by doing a lerp
 
 	function ctp:CalcAngleLimit()
-
 		local pos = self:GetPlayerPos()
 
 		local a1 = self:GetDirection():Angle()
 		local a2 = (pos - self:GetPrevOrigin()):Angle()
 		local FOV = self:GetFOV() / 3
-		local dir = a2:Forward() *-1
+		local dir = a2:Forward() * -1
 
-		local dot = math.Clamp(Angle(0, a1.y, 0):Forward():DotProduct(dir), 0, 1)
+		local dot = math.Clamp(Angle(0, a1.y, 0):Forward():Dot(dir), 0, 1)
 
 		a1.p = a2.p + math.Clamp(math.AngleDifference(a1.p, a2.p), -FOV, FOV)
-		FOV = FOV / (ScrH()/ScrW())
+		FOV = FOV / (ScrH() / ScrW())
 		a1.y = a2.y + math.Clamp(math.AngleDifference(a1.y, a2.y), -FOV, FOV)
 
 		a1.p = math.NormalizeAngle(a1.p)
@@ -1230,23 +922,8 @@ do -- CalcView
 		self:SetDirection(LerpVector(dot, a1:Forward(), dir * -1))
 	end
 
-	function ctp:CalcShortcuts()
-		self.IsCTRLE = false
-		if self:GetPlayer():KeyDown(IN_WALK) and self:GetPlayer():KeyDown(IN_USE) then
-			self:SetOrigin(self:GetPlayerPos() + self:GetPlayer():EyeAngles():Forward() * -150)
-			self:SetDirection((self:GetPlayerPos() - self:GetOrigin()):GetNormalized())
-			self:SetFOV(75)
-
-			self.SmoothDirection = self:GetDirection()
-			self.SmoothOrigin = self:GetOrigin()
-			self.SmoothFOV = self:GetFOV()
-
-			self.IsCTRLE = true
-		end
-	end
-
 	function ctp:CalcTraceBlock()
-		local ply = self:GetPlayer()
+		local ply = lp
 		local veh = ply:GetVehicle()
 
 		local filter
@@ -1263,7 +940,7 @@ do -- CalcView
 			filter = filter,
 		})
 
-		if trace_forward.Hit and trace_forward.Entity != self:GetPlayer() and not trace_forward.Entity:IsPlayer() and not trace_forward.Entity:IsVehicle() then
+		if trace_forward.Hit and trace_forward.Entity != lp and not trace_forward.Entity:IsPlayer() and not trace_forward.Entity:IsVehicle() then
 			self:SetOrigin(trace_forward.HitPos + (self:GetDirection() * self:GetTraceForward()))
 			self.SmoothOrigin = self:GetOrigin()
 		end
@@ -1280,23 +957,15 @@ do -- CalcView
 	end
 
 	function ctp:CalcSmoothing()
-		if self.IsCTRLE then return end
-
-		if self:IsViewingFromNode() then
-			self.SmoothOrigin = self:GetOrigin()
+		if self:IsThresholdEnabled() then
+			self.SmoothOrigin = LerpVector(self:GetFrameTime() * (self:GetOriginSmoother() / (self:GetThresholdRadius() / 500)) * self:GetRelativeOriginSpeed(), self.SmoothOrigin, self:GetOrigin())
+		elseif self:GetOriginSmoother() < 35 then
+			self.SmoothOrigin = LerpVector(self:GetFrameTime() * self:GetOriginSmoother(), self.SmoothOrigin, self:GetOrigin())
 		else
-			if self:IsThresholdEnabled() then
-				self.SmoothOrigin = LerpVector(self:GetFrameTime() * (self:GetOriginSmoother() / (self:GetThresholdRadius() / 500)) * self:GetRelativeOriginSpeed(), self.SmoothOrigin, self:GetOrigin())
-			elseif self:GetOriginSmoother() < 35 then
-				self.SmoothOrigin = LerpVector(self:GetFrameTime() * self:GetOriginSmoother(), self.SmoothOrigin, self:GetOrigin())
-			else
-				self.SmoothOrigin = self:GetOrigin()
-			end
+			self.SmoothOrigin = self:GetOrigin()
 		end
 
-		if self:IsViewingFromNode() and self:GetNodeDirectionSmoother() < 35 then
-			self.SmoothDirection = LerpVector(self:GetFrameTime() * self:GetNodeDirectionSmoother(), self.SmoothDirection, self:GetDirection())
-		elseif not self:IsViewingFromNode() and self:GetDirectionSmoother() < 35 then
+		if self:GetDirectionSmoother() < 35 then
 			self.SmoothDirection = LerpVector(self:GetFrameTime() * self:GetDirectionSmoother(), self.SmoothDirection, self:GetDirection())
 			self.SmoothRoll = Lerp(self:GetFrameTime() * self:GetDirectionSmoother(), self.SmoothRoll, self:GetRoll())
 		else
@@ -1345,199 +1014,11 @@ do -- Dragging
 
 	ctp.CornerDistance = 10
 	ctp.MousePos = vector_origin
-
-	local xdelta = 0
-	local ydelta = 0
-
-	function ctp:CalcDrag()
-
-		return
-
-	end
-end
-
-do -- Nodes
-
-	ctp.Nodes = ctp.Nodes or {}
-
-	function ctp:CreateNode(point, size)
-		MsgN("Adding node: " .. tostring(point))
-		table.insert(self.Nodes, {size = size or 0, point = point})
-	end
-
-	function ctp:RemoveNode(point)
-		for key, value in pairs(self.Nodes) do
-			if value.point:Distance(point) < 100 then
-				MsgN("Removing node: " .. tostring(value))
-				self.Nodes[key] = nil
-				return true
-			end
-		end
-	end
-
-	ctp.trail_material = Material("cable/redlaser")
-
-	ctp.sphere_model = ClientsideModel("models/Combine_Helicopter/helicopter_bomb01.mdl")
-	ctp.sphere_model:SetNoDraw(true)
-	ctp.sphere_model:SetMaterial("models/debug/debugwhite")
-
-	ctp.camera_model = ClientsideModel("models/Tools/camera/camera.mdl")
-	ctp.camera_model:SetNoDraw(true)
-
-	function ctp:DrawSphere(point, size, color)
-
-		color = color or color_white
-
-		self.sphere_model:SetRenderOrigin(point)
-			render.SetBlend(0.2)
-				render.SuppressEngineLighting(true)
-					render.SetColorModulation(color.r/255, color.g/255, color.b/255)
-						render.CullMode(MATERIAL_CULLMODE_CW)
-						self.sphere_model:DrawModel()
-						render.CullMode(MATERIAL_CULLMODE_CCW)
-						self.sphere_model:DrawModel()
-					render.SetColorModulation(1, 1, 1)
-				render.SuppressEngineLighting(false)
-			render.SetBlend(1)
-		self.sphere_model:SetupBones()
-
-		self.sphere_model:SetModelScale(1/15*size, 0)
-	end
-
-	function ctp:DrawEye(point, color)
-		self.camera_model:SetRenderOrigin(point)
-		self.camera_model:SetRenderAngles((self:GetPlayer():GetShootPos() - point):Angle())
-		render.SetColorModulation(color.r/255, color.g/255, color.b/255)
-		render.SuppressEngineLighting(true)
-		self.camera_model:DrawModel()
-		render.SuppressEngineLighting(false)
-		self.camera_model:SetupBones()
-	end
-
-	function ctp:PostDrawOpaqueRenderables()
-		if self:IsViewingFromNode() then return end
-
-		if self.TempNode then
-			local startpos = self.TempNode
-			local endpos =  self:GetPlayer():GetEyeTraceNoCursor().HitPos
-
-			render.SetMaterial(self.trail_material)
-			render.DrawBeam(startpos, endpos, 10, 0, 1)
-
-			self:DrawSphere(self.TempNode, (startpos-endpos):Length())
-			self:DrawEye(self.TempNode, color_white)
-		end
-
-		if self:IsDrawingNodesEnabled() or self:IsNodePlacerEnabled() then
-			for key, data in pairs(self.Nodes) do
-				local color = self:GetPlayer():GetShootPos():Distance(data.point)-1 < data.size and Color(0, 255, 0, 255) or Color(255, 0, 0, 255)
-				self:DrawEye(data.point, color)
-				if self:IsDrawingNodeSpheresEnabled() then
-					self:DrawSphere(data.point, data.size, color)
-				end
-			end
-		end
-	end
-	hook.Add("PostDrawOpaqueRenderables", "ctp_PostDrawOpaqueRenderables", function() return ctp:PostDrawOpaqueRenderables() end)
-
-	function ctp:CalcNodes()
-
-		if #self.Nodes == 0 then return end
-
-		table.sort(self.Nodes,function(a,b)
-			if a and b then return a.point:Distance(self:GetPlayer():EyePos()) < b.point:Distance(self:GetPlayer():EyePos()) end
-		end)
-
-		local closest
-
-		for i = 1, #self.Nodes do
-			local node = self.Nodes[i]
-			if
-				node and
-				node.point:Distance(self:GetPlayer():EyePos()) < node.size and
-				not util.TraceLine{start = node.point, endpos = self:GetPlayer():EyePos()}.HitWorld
-			then
-				closest = self.Nodes[i]
-			break end
-		end
-
-		if closest then
-			self:SetOrigin(closest.point)
-			self:SetDirection((self:GetPlayerPos() - closest.point):GetNormalized())
-
-			self.NodeView = true
-		end
-
-	end
-
-	ctp.press_hack = false
-
-	function ctp:KeyPress(ply, key)
-
-		if key == IN_BACK or key == IN_FORWARD or key == IN_MOVELEFT or key == IN_MOVERIGHT then
-			self.Walking = true
-		end
-
-		if self.press_hack then return end
-
-		if not self:IsNodePlacerEnabled() then return end
-
-		if key == IN_ATTACK then
-			self.TempNode = nil
-
-			local trace = util.QuickTrace(self:GetPlayer():GetShootPos(), self:GetPlayer():EyeAngles():Forward() * 32000, self:GetPlayer())
-			self.TempNode = trace.HitPos + (trace.HitNormal * 20)
-			self:GetPlayer():EmitSound("buttons/button17.wav")
-		end
-
-		if key == IN_ATTACK2 then
-			self.TempNode = nil
-
-			if self:RemoveNode(self:GetPlayer():GetEyeTraceNoCursor().HitPos) then
-				self:GetPlayer():EmitSound("buttons/button16.wav")
-			end
-		end
-
-		self.press_hack = true
-		timer.Create("ctp_PressHack", 0.05, 1, function() self.press_hack = false end)
-	end
-	hook.Add("KeyPress", "ctp_KeyPress", function(ply, key) ctp:KeyPress(ply, key) end)
-
-	ctp.release_hack = false
-
-	function ctp:KeyRelease(ply, key)
-
-		if key == IN_BACK or key == IN_FORWARD or key == IN_MOVELEFT or key == IN_MOVERIGHT then
-			self.Walking = false
-		end
-
-		if self.release_hack then return end
-
-		if not self:IsNodePlacerEnabled() then return end
-
-		if self.TempNode and key == IN_ATTACK then
-			self:CreateNode(self.TempNode, (self:GetPlayer():GetEyeTraceNoCursor().HitPos - self.TempNode):Length())
-
-			self.TempNode = nil
-
-			self:GetPlayer():EmitSound("buttons/button17.wav")
-		end
-
-		self.release_hack = true
-		timer.Create("ctp_ReleaseHack", 0.05, 1, function() self.release_hack = false end)
-	end
-	hook.Add("KeyRelease", "ctp_KeyRelease", function(ply, key) ctp:KeyRelease(ply, key) end)
-
 end
 
 do -- Move
-
 	function ctp:CreateMove(ucmd)
 		self.UCMD = ucmd
-
-		if self:IsRTCEnabled() then self:CalcRelativeMovement() end
-
-		--self:MouseToWorld()
 
 		if self:IsLockPitchEnabled() then
 			self:GetUCMD():SetViewAngles(Angle(0, self:GetUCMD():GetViewAngles().y, 0))
@@ -1545,204 +1026,16 @@ do -- Move
 	end
 
 	function ctp:GetUCMD()
-		return self.UCMD or self:GetPlayer():GetCurrentCommand()
+		return self.UCMD or lp:GetCurrentCommand()
 	end
-
-	ctp.smooth_yaw = 0
-	ctp.moved_behind = false
-	ctp.pitch = 0
-	ctp.angle = Angle(0,0,0)
-
-	function ctp:CalcRelativeMovement()
-		local cmd = self:GetUCMD()
-
-		if self.Walking and self:IsViewingFromNode() then
-			self.TempYaw = self.smooth_yaw
-		end
-
-		if self:GetPlayer():KeyPressed(IN_BACK) then
-			moved_behind = false
-		end
-
-		if self:GetPlayer():KeyDown(IN_BACK) then
-			self.angle = (self:GetPrevAngles():Forward() *-1):Angle()
-		end
-
-		if self:GetPlayer():KeyDown(IN_FORWARD) or moved_behind then
-			self.angle = self:GetPrevAngles():Forward():Angle()
-		end
-
-		if self:GetPlayer():KeyDown(IN_MOVELEFT) then
-			self.angle = (self:GetPrevAngles():Right() *-1):Angle()
-		end
-
-		if self:GetPlayer():KeyDown(IN_MOVERIGHT) then
-			self.angle = self:GetPrevAngles():Right():Angle()
-		end
-
-		self.pitch = math.Clamp(self.pitch + (cmd:GetMouseY() / (self:GetPlayer():GetInfo("sensitivity") * self:GetPlayer():GetInfo("m_pitch") < 0 and -50 or 50)),-89,89)
-		self.smooth_yaw = math.ApproachAngle(self.smooth_yaw, self.angle.y, self:GetRTCTurnTime())
-
-		if self:GetPlayer():KeyDown(IN_MOVELEFT) or self:GetPlayer():KeyDown(IN_MOVERIGHT) or self:GetPlayer():KeyDown(IN_BACK) or self:GetPlayer():KeyDown(IN_FORWARD) then
-			cmd:SetForwardMove(1000)
-			cmd:SetSideMove(0)
-
-			if self:GetPlayerPos():Distance(self:GetPrevOrigin()) < 10 and self:GetPlayer():KeyDown(IN_BACK) then
-				self.moved_behind = true
-			end
-
-			if moved_behind and self:GetPlayer():KeyDown(IN_FORWARD) then
-				self.moved_behind = false
-			end
-
-			local ang = Angle(math.NormalizeAngle(self.pitch), math.NormalizeAngle(self.smooth_yaw+self:GetRTCYawOffset()), 0)
-			cmd:SetViewAngles(ang)
-		end
-	end
-
 end
-
-do -- HUD
-
-	function ctp:HUDPaint()
-		if self:IsAllHUDHidden() then
-			return false
-		end
-	end
-
-	function ctp:HUDPaintBackground()
-
-		--Crosshairs can never be enabled.
-		-- if self:IsCrosshairEnabled() then
-		-- 	self:DrawCrosshair()
-		-- end
-
-		if self:IsBlackBarsEnabled() then
-			self:DrawBlackBars()
-		end
-
-	end
-
-	function ctp:DrawBlackBars()
-
-		local amount = (-self:GetFOV() + 75) * self:GetBlackBarAmount()
-
-		surface.SetDrawColor(0, 0, 0, 255)
-
-		surface.DrawRect(0, -1, ScrW(), amount)
-		surface.DrawRect(0, ScrH()-amount+1, ScrW(), amount)
-
-	end
-
-	--[[function ctp:DrawCrosshair()
-
-		local weapon = self:GetPlayer():GetActiveWeapon()
-		local trace = util.QuickTrace(self:GetPlayer():GetShootPos(), self:GetPlayer():EyeAngles():Forward() * (IsValid(weapon) and weapon:GetClass() == "weapon_physgun" and math.min(self:GetCrosshairDistance(), 2500) or self:GetCrosshairDistance()), self:GetPlayer())
-
-		local vec2 = trace.HitPos:ToScreen()
-
-		if util.TraceLine({start = self:GetPrevOrigin(), endpos = trace.HitPos}).Fraction < 0.96 then
-			surface.SetDrawColor(255, 100, 100, 255)
-		else
-			surface.SetDrawColor(255, 255, 255, 255)
-		end
-
-		local distance = 9 --* (-(trace.StartPos:Distance(trace.HitPos) / self:GetCrosshairDistance()) + 1)
-
-		--EpoePrint(distance)
-		local fatness = 2
-
-		surface.DrawRect(vec2.x, vec2.y, fatness, fatness)
-
-		surface.DrawRect(vec2.x, vec2.y + distance, fatness, fatness)
-		surface.DrawRect(vec2.x, vec2.y - distance, fatness, fatness)
-
-		surface.DrawRect(vec2.x + distance, vec2.y, fatness, fatness)
-		surface.DrawRect(vec2.x - distance, vec2.y, fatness, fatness)
-	end ]] --Don't need to draw crossairs
-
-	function ctp:HUDShouldDraw(element)
-		if element == "CHudCrosshair" then
-			return false
-		end
-
-		if self:IsHUDHidden() and table.HasValue(self.DisabledElements, element) then
-			return false
-		end
-	end
-
-end
-
-do -- Mouse To World
-	function ctp:MouseToWorld()
-		local eye = self:GetPrevAngles()
-		local fov = self:GetPrevFOV()
-		local mousex = gui.MouseX()
-		local mousey = gui.MouseY()
-		local screenwidth = ScrW()
-		local screenheight = ScrH()
-
-		local yaw = eye.y+fov/2-(mousex/screenwidth)*fov
-		local pitch = eye.p-(fov/2-(mousey/screenheight)*fov)*screenheight/screenwidth
-
-		local hitpos = util.QuickTrace(self:GetPrevOrigin(), Angle(pitch, yaw, 0):Forward() * 1000, ply).HitPos
-
-		--print(hitpos:Distance(self:GetPlayerPos()))
-
-		debugoverlay.Cross(hitpos, 100, 0.1)
-
-		return hitpos
-	end
-
-end
-
---[[do --Misc hooks
-	function ctp:PlayerStepSoundTime(ply, type, running)
-		if ply != self:GetPlayer() then return end
-
-		local running = self:GetPlayer():KeyDown(IN_SPEED)
-		local walking = self:GetPlayer():KeyDown(IN_WALK)
-		local sideways = not self:IsRTCEnabled() and (self:GetPlayer():KeyDown(IN_MOVELEFT) or self:GetPlayer():KeyDown(IN_MOVERIGHT))
-		local forward = self:GetPlayer():KeyDown(IN_FORWARD)
-		local back = not self:IsRTCEnabled() and self:GetPlayer():KeyDown(IN_BACK)
-
-		local time = 240
-
-		if running then
-			time = 140
-			if sideways then
-				time = 200
-			end
-		end
-		if walking then
-			time = 285
-			if forward then
-				time = 390
-			end
-			if back then
-				time = 330
-			end
-		end
-		if sideways and not forward then
-			time = time * 0.75
-		end
-
-		if not walking and not running and back then
-			time = 200
-		end
-
-		return time
-	end
-end]]
 
 ctp:Initialize()
 
 hook.Add("InitPostEntity", "ctp_InitPostEntity", function() ctp:Initialize() end)
 
 do -- GUI
-
 	ctp.Spacing = 7
-
 	ctp.FormFont = "DermaDefault"
 
 	do -- ctp_Preset
@@ -1762,7 +1055,7 @@ do -- GUI
 			self.choice.OnSelect = function(_,_,value)
 				self.presetname = value
 
-				self.currentdata = self:GetType() == "cvar" and ctp:GetCVarPresets()[value] or self:GetType() == "nodes" and ctp:GetNodePresets()[value]
+				self.currentdata = self:GetType() == "cvar" and ctp:GetCVarPresets()[value]
 
 				if self.currentdata then
 					self.choice:SetTooltip(self.currentdata)
@@ -1788,8 +1081,6 @@ do -- GUI
 					description = description or self.currentdata
 					if self:GetType() == "cvar" then
 						ctp:SaveCVarPreset(name, description)
-					elseif self:GetType() == "nodes" then
-						ctp:SaveNodePreset(name, description)
 					end
 					self.choice:Clear()
 					self:Refresh()
@@ -1805,8 +1096,6 @@ do -- GUI
 					MsgN("Deleting preset '" .. self.presetname .. "'")
 					if self:GetType() == "cvar" then
 						ctp:DeleteCVarPreset(self.presetname)
-					elseif self:GetType() == "nodes" then
-						ctp:DeleteNodePreset(self.presetname)
 					end
 					self.choice:Clear()
 					self:Refresh()
@@ -1818,15 +1107,12 @@ do -- GUI
 		AccessorFunc(PANEL, "Type", "Type")
 
 		function PANEL:Refresh()
-
 		end
 
 		function PANEL:AddTable(tbl)
 			for name, description in pairs(tbl) do
 				self.choice:AddChoice(name, description != "" and description)
 				if self:GetType() == "cvar" and ctp:GetCurrentCVarPreset() and ctp:GetCurrentCVarPreset().name == name then
-					self.choice:ChooseOption(name)
-				elseif self:GetType() == "nodes" and ctp:GetCurrentNodePreset() and ctp:GetCurrentNodePreset().name == name  then
 					self.choice:ChooseOption(name)
 				end
 			end
@@ -1856,6 +1142,7 @@ do -- GUI
 
 		function PANEL:Init()
 			self:CopyHeight(self.Wang)
+			self:SetDark(true)
 
 			self.Slider:SetTall(13)
 
@@ -1944,7 +1231,6 @@ do -- GUI
 	end
 
 	do -- ctp_MainFrame
-
 		local NumSlider = function(self, strLabel, strConVar, numMin, numMax, dec)
 			local left = vgui.Create( "ctp_Slider", self )
 			left:SetText( strLabel )
@@ -2102,302 +1388,47 @@ do -- GUI
 			local PANEL = vgui.Register("ctp_SheetMisc", {}, "ctp_SheetBase")
 
 			function PANEL:Init()
-				-- self.player = vgui.Create("DForm")
-				-- 	self:AddItem(self.player)
-				-- 	self.player:SetName("Player")
-
-				-- 	local entry = self.player:TextEntry("Player Name", "_")
-				-- 	entry:SetTooltip(
-				-- 	[[Type in the player's name partially here to change the player used for thirdperson.
-				-- 	The camera needs to be retoggled.
-				-- 	To use self, leave blank.]])
-				-- 	entry.OnEnter = function()
-				-- 		ctp:SetPlayer(FindPlayerByName(entry:GetValue()))
-				-- 	end
-				-- 	entry.OnTextChanged = entry.OnEnter
-				-- 	ctp.__player_text_entry = entry
-
-				-- 	local ply = ctp:GetPlayer()
-				-- 	if ply:IsPlayer() then
-				-- 		entry:SetValue(ply:Nick())
-				-- 	end
-
-				-- 	entry.UpdateConvarValue = function() end
-				-- // The whole above portion can be abused to watch other players. Let's disable its functionality.
-
 				self.smoothers = vgui.Create("DForm")
-					self:AddItem(self.smoothers)
-					self.smoothers:SetName("Stiffness")
-					self.smoothers.NumSlider = NumSlider
+				self.smoothers:SetName("Stiffness")
+				self.smoothers.NumSlider = NumSlider
 
-					self.smoothers:NumSlider("Position", "cl_ctp_smoother_origin", 0, 40, 2):SetTooltip(
-					[[Low values equal slow movement, while high values equal fast movement]])
+				self.smoothers:NumSlider("Position", "cl_ctp_smoother_origin", 0, 40, 2):SetTooltip(
+				[[Low values equal slow movement, while high values equal fast movement]])
 
-					self.smoothers:NumSlider("Aim", "cl_ctp_smoother_direction", 0, 40, 2):SetTooltip(
-					[[Low values equal slow movement, while high values equal fast movement]])
+				self.smoothers:NumSlider("Aim", "cl_ctp_smoother_direction", 0, 40, 2):SetTooltip(
+				[[Low values equal slow movement, while high values equal fast movement]])
 
-					self.smoothers:NumSlider("Zoom", "cl_ctp_smoother_fov", 0, 40, 2):SetTooltip(
-					[[Low values equal slow movement, while high values equal fast movement]])
+				self.smoothers:NumSlider("Zoom", "cl_ctp_smoother_fov", 0, 40, 2):SetTooltip(
+				[[Low values equal slow movement, while high values equal fast movement]])
+
+				self:AddItem(self.smoothers)
 
 				self.center = vgui.Create("ctp_VectorSliders", self)
-					self:AddItem(self.center)
-					self.center:SetMinMax(100)
-					self.center:SetCVars("center_offset_right", "center_offset_forward", "center_offset_up")
-					self.center:SetText("Center Offset", "X", "Y", "Z",
-					[[This controls where the center of the player is for the camera.]])
+				self.center:SetMinMax(100)
+				self.center:SetCVars("center_offset_right", "center_offset_forward", "center_offset_up")
+				self.center:SetText("Center Offset", "X", "Y", "Z",
+				[[This controls where the center of the player is for the camera.]])
 
-					local choice = self.center:ComboBox("Bone", "cl_ctp_bone_name")
-					self:AddItem(self.misc)
+				local choice = self.center:ComboBox("Bone", "cl_ctp_bone_name")
 
-					choice:SetTooltip([[This controls the bone the camera will think where the
-					player is.]])
+				choice:SetTooltip([[This controls the bone the camera will think where the
+				player is.]])
 
-					for key in SortedPairs(ctp.BoneList) do
-						choice:AddChoice(key)
-					end
+				for key in SortedPairs(ctp.BoneList) do
+					choice:AddChoice(key)
+				end
 
-					choice:ChooseOption(GetConVarString("cl_ctp_bone_name"))
+				choice:ChooseOption(GetConVarString("cl_ctp_bone_name"))
 
-				-- self.target = vgui.Create("DForm")
-				-- 	self:AddItem(self.target)
-				-- 	self.target:SetName("Targetting")
-				-- 	self.target.NumSlider = NumSlider
+				-- Pain
+				choice:GetParent():SetTall(35)
+				choice:SetTall(35)
 
-				-- 	self.target:CheckBox("Enable", "cl_ctp_target_enable"):SetTooltip(
-				-- 	[[Targetting makes it so the camera target props, players and npcs
-				-- 	If it finds more than one target it will get the center of all found targets
-				-- 	It's a cinematic effect]])
-
-				-- 	self.target:NumSlider("Radius", "cl_ctp_target_radius", 0, 3000, 0):SetTooltip(
-				-- 	[[The search radius for finding targets]])
-
-				-- 	self.target:NumSlider("Blend", "cl_ctp_target_lerp", 0, 100, 2):SetTooltip(
-				-- 	[[A blend between target and normal aim.
-
-				-- 	0 = aim
-				-- 	100 = target
-
-				-- 	so 50 would be in between]])
-
-				-- 	self.target:NumSlider("FOV", "cl_ctp_target_fov", 0, 150, 2):SetTooltip(
-				-- 	[[When targetting is on, it will zoom by this amount]])
-
-				-- self.rtc = vgui.Create("DForm")
-				-- 	self:AddItem(self.rtc)
-				-- 	self.rtc:SetName("Relative Movement")
-				-- 	self.rtc.NumSlider = NumSlider
-
-				-- 	self.rtc:CheckBox("Enable", "cl_ctp_movement_rtc_enable"):SetTooltip(
-				-- 	[[This will make it so you automatically turn relatively to the camera angle]])
-
-				-- 	self.rtc:CheckBox("Lock Pitch", "cl_ctp_movement_lock_pitch"):SetTooltip(
-				-- 	[[This will constantly make your pitch 0]])
-
-				-- 	self.rtc:CheckBox("Walk Focus", "cl_ctp_movement_rtc_walk_focus"):SetTooltip(
-				-- 	[[Enabling this will make the camera aim at the player when walking]])
-
-				-- 	self.rtc:NumSlider("Yaw Offset", "cl_ctp_movement_rtc_yaw_offset", -180, 180, 2):SetTooltip(
-				-- 	[[Offsets the yaw by this angle]])
-
-				-- 	self.rtc:NumSlider("Turn Time", "cl_ctp_movement_rtc_turn_time", 0, 15, 3):SetTooltip(
-				-- 	[[Makes it so you turn this much per frame. Lower is slower, higher is faster.]])
-
-				-- // Targetting and relative movement are used for locked viewpoints only. We don't need them for obvious reasons.
-
-				self.hud = vgui.Create("DForm")
-					self:AddItem(self.hud)
-					self.hud:SetName("HUD")
-					self.hud.NumSlider = NumSlider
-
-					self.hud:CheckBox("Hide", "cl_ctp_hud_hide"):SetTooltip(
-					[[Hides uneeded hud elements. Good for machinimas]])
-
-					self.hud:CheckBox("Hide All", "cl_ctp_hud_hide_all"):SetTooltip(
-					[[Hides all hud elements.]])
-
-					self.hud:CheckBox("Black Bars", "cl_ctp_hud_black_bars_enable"):SetTooltip(
-					[[Enables black bars which are tied to zoom]])
-
-					self.hud:NumSlider("Black Bars Amount", "cl_ctp_hud_black_bars_amount", 0, 5, 4):SetTooltip(
-					[[Controls how much the black bars should lower with zoom]])
-
+				self:AddItem(self.center)
 
 				self.BaseClass.Init(self)
 			end
 
-		end
-
-		do -- MainFrame
-			local PANEL = vgui.Register("ctp_MainFrame", {}, "DFrame")
-
-			function PANEL:Init()
-
-				ctp.DraggingAllowed = false
-
-				self.preset = vgui.Create("ctp_Preset", self)
-				self.preset:SetType("cvar")
-				self.preset:AddTable(ctp:GetCVarPresets())
-				self.preset.Refresh = function()
-					self.preset:AddTable(ctp:GetCVarPresets())
-				end
-
-
-				self.enable = vgui.Create("DButton", self)
-				self.enable:SetText("Toggle")
-				self.enable.DoClick = function()
-					ctp:Toggle()
-				end
-
-				self.sheet = vgui.Create("DPropertySheet", self)
-				self.sheet:SetShowIcons(false)
-
-				self.sheet:AddSheet(
-					"Position",
-					vgui.Create("ctp_SheetOrigin", self),
-					nil,
-					false,
-					false,
-					"This sheet is for controlling the position offsets such as where the camera is oriented around the player"
-				)
-
-				self.sheet:AddSheet(
-					"Aim",
-					vgui.Create("ctp_SheetDirection", self),
-					nil,
-					false,
-					false,
-					"This sheet is for controlling the aim settings such as where the camera is pointing or/and at what"
-				)
-
-				self.sheet:AddSheet(
-					"Misc",
-					vgui.Create("ctp_SheetMisc", self),
-					nil,
-					false,
-					false,
-					"This sheet is for misc options"
-				)
-
-				hook.Add("GUIMousePressed", "ctp_gui_GUIMousePressed", function(code)
-					local x, y = self:LocalToScreen()
-
-					if
-						(
-							x + self:GetWide() < gui.MouseX() or
-							y + self:GetTall() < gui.MouseY() or
-							gui.MouseX() < x or
-							gui.MouseY() < y
-						) and
-						code == MOUSE_LEFT and
-						not ctp.not_focused
-					then
-						self:KillFocus()
-						self:SetMouseInputEnabled(false)
-						self:SetKeyBoardInputEnabled(false)
-						gui.EnableScreenClicker(false)
-						ctp.not_focused = true
-						self:AlphaTo(50, 0.1, 0)
-
-						self.allowclick = false
-
-						timer.Simple(0.2, function()
-							self.allowclick = true
-							ctp.DraggingAllowed = true
-						end)
-
-					end
-				end)
-
-				hook.Add("StartChat", "ctp_StartChat", function()
-					self.ChatEnabled = true
-				end)
-
-				hook.Add("FinishChat", "ctp_FinishChat", function()
-					timer.Simple(0.1, function() self.ChatEnabled = false end)
-				end)
-
-				self.fixbutton = vgui.Create("DButton", self)
-				self.fixbutton.DoClick = function ()
-					self:SetSize(250, 400)
-					self:SetSizable(true)
-					self:AlignTop(ctp.Spacing)
-					self:AlignRight(ctp.Spacing)
-					self:SetTall(ScrH() - (ctp.Spacing * 2))
-				end
-				self.fixbutton:SetDrawBorder(false)
-				self.fixbutton:SetDrawBackground(false)
-				self.fixbutton:SetTooltip("Defaults the window position and size")
-
-				self.fixbutton:SetSize(15, 15)
-				self.btnClose:SetSize(15, 15)
-
-				self:SetSize(250, 400)
-				self:SetSizable(true)
-				self:AlignTop(ctp.Spacing)
-				self:AlignRight(ctp.Spacing)
-				self:SetTall(ScrH() - (ctp.Spacing * 2))
-				self:SetTitle("CTP Options")
-				self:MakePopup()
-
-				self:SetCookieName("ctp_OptionsMenu")
-
-				local x = self:GetCookieNumber("x")
-				local y = self:GetCookieNumber("y")
-				local w = self:GetCookieNumber("w")
-				local h = self:GetCookieNumber("h")
-
-				if x and y and w and h then
-					self:SetPos(x,y)
-					self:SetWide(w,h)
-				end
-
-			end
-
-			function PANEL:PerformLayout()
-				DFrame.PerformLayout(self)
-				self.sheet:StretchToParent(ctp.Spacing, ctp.Spacing + 90, ctp.Spacing, ctp.Spacing)
-
-				self.enable:MoveAbove(self.sheet, ctp.Spacing)
-				self.enable:StretchBottomTo(self.sheet, ctp.Spacing)
-				self.enable:AlignLeft(ctp.Spacing)
-				self.enable:CopyWidth(self.sheet)
-
-				self.preset:CopyWidth(self.sheet)
-				self.preset:AlignTop(ctp.Spacing + 20)
-				self.preset:AlignLeft(ctp.Spacing)
-				self.preset:StretchBottomTo(self.enable, ctp.Spacing)
-
-				self.fixbutton:AlignTop(2)
-				self.fixbutton:MoveLeftOf(self.btnClose, ctp.Spacing)
-			end
-
-			function PANEL:Close()
-				local x,y = self:GetPos()
-
-				self:SetCookie("x", x)
-				self:SetCookie("y", y)
-				self:SetCookie("w", self:GetWide())
-				self:SetCookie("h", self:GetTall())
-
-				hook.Remove("GUIMousePressed", "ctp_gui_GUIMousePressed")
-				hook.Remove("StartChat", "ctp_StartChat")
-				hook.Remove("FinishChat", "ctp_FinishChat")
-
-				ctp.DraggingAllowed = true
-
-				self:Remove()
-			end
-
-			function PANEL:Think()
-				DFrame.Think(self)
-
-				if self.allowclick and ctp.not_focused and vgui.CursorVisible() and not self.ChatEnabled then
-					self:MakePopup()
-					ctp.not_focused = false
-					self:AlphaTo(255, 0.1, 0)
-					ctp.DraggingAllowed = false
-				end
-			end
 		end
 
 		do -- ContextMenu
@@ -2410,7 +1441,6 @@ do -- GUI
 				self.preset.Refresh = function()
 					self.preset:AddTable(ctp:GetCVarPresets())
 				end
-
 
 				self.enable = vgui.Create("DButton", self)
 				self.enable:SetText("Toggle Thirdperson")
@@ -2448,11 +1478,12 @@ do -- GUI
 					"This sheet is for misc options"
 				)
 
-				self:StretchToParent(ctp.Spacing, ctp.Spacing - 350, ctp.Spacing, ctp.Spacing)
+				self:StretchToParent(ctp.Spacing, ctp.Spacing, ctp.Spacing, ctp.Spacing)
+				self:SetTall(600)
 			end
 
 			function PANEL:PerformLayout()
-				self.sheet:StretchToParent(ctp.Spacing, ctp.Spacing + 90, ctp.Spacing, ctp.Spacing)
+				self.sheet:StretchToParent(ctp.Spacing, ctp.Spacing + 70, ctp.Spacing, ctp.Spacing)
 
 				self.enable:MoveAbove(self.sheet, ctp.Spacing)
 				self.enable:StretchBottomTo(self.sheet, ctp.Spacing)
@@ -2460,7 +1491,7 @@ do -- GUI
 				self.enable:CopyWidth(self.sheet)
 
 				self.preset:CopyWidth(self.sheet)
-				self.preset:AlignTop(ctp.Spacing + 20)
+				self.preset:AlignTop(ctp.Spacing)
 				self.preset:AlignLeft(ctp.Spacing)
 				self.preset:StretchBottomTo(self.enable, ctp.Spacing)
 			end
