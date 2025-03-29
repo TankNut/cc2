@@ -42,8 +42,14 @@ function SWEP:IsTapFiring()
 end
 
 function SWEP:GetRecoilMultiplier()
+	local ply = self:GetOwner()
+
+	if not ply:OnGround() and not ply:IsInNoClip() then
+		return 2
+	end
+
 	local tapFire = self:IsTapFiring() and 0.5 or 1
-	local crouching =  math.Remap(self:GetOwner():GetCrouchState(), 0, 1, 1, 0.5)
+	local crouching =  math.Remap(ply:GetCrouchState(), 0, 1, 1, 0.5)
 
 	return math.min(tapFire, crouching)
 end
