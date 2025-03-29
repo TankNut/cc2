@@ -49,9 +49,15 @@ function HUD:SetCache(key, val)
 	Hud.Cache[key] = val
 end
 
+local convar = GetConVar("cl_drawhud")
+
 function HUD:ShouldDraw()
 	if self.AlwaysDraw then
 		return true
+	end
+
+	if not convar:GetBool() then
+		return false
 	end
 
 	return Settings.Get("Hud")
