@@ -1,3 +1,85 @@
+local mat = Material("VGUI/gradient-r")
+
+local function DrawLine(x, y, rot, size, alpha)
+	surface.SetMaterial(mat)
+
+	surface.SetDrawColor(0, 0, 0, alpha * 220)
+	surface.DrawTexturedRectRotated(x, y, size + 2, 4, rot)
+
+	surface.SetDrawColor(255, 255, 255, alpha * 220)
+	surface.DrawTexturedRectRotated(x, y, size, 2, rot)
+end
+
+function SWEP:ShouldDrawCrosshair()
+	if self:GetHolstered() or self:ShouldLower() then
+		return false
+	end
+
+	if self:IsReloading() then
+		return false
+	end
+
+	return true
+end
+
+local alpha = 0
+local fadeTime = 0.1
+
+function SWEP:DoDrawCrosshair(x, y)
+	if self:GetDeployed() then
+		alpha = 0
+	end
+
+	if self:ShouldDrawCrosshair() then
+		alpha = math.Approach(alpha, 1, FrameTime() / fadeTime)
+	else
+		alpha = math.Approach(alpha, 0, FrameTime() / fadeTime)
+	end
+
+	if alpha == 0 then
+		return true
+	end
+
+	local ply = self:GetOwner()
+
+	local tr = util.TraceLine({
+		start = ply:GetShootPos(),
+		endpos = ply:GetShootPos() + self:GetShootDir() * 56756,
+		mask = MASK_SHOT,
+		filter = ply
+	})
+
+	local dist = tr.Fraction * 56756
+	local range = self:GetRange()
+	local accuracy = self:GetAccuracy()
+
+	local offset = accuracy * (dist / range)
+
+	local pos = tr.HitPos:ToScreen()
+
+	if ply:ShouldDrawLocalPlayer() then
+		x = math.Truncate(pos.x)
+		y = math.Truncate(pos.y)
+	end
+
+	local normal = tr.Normal:Angle():Right()
+	local gap = math.abs(pos.x - (tr.HitPos + normal * offset):ToScreen().x) - math.NormalizeAngle(self:GetRecoilVelocity().p)
+
+	local ang = Angle(0, 0, 0)
+
+	local size = 12
+
+	for i = 0, 359, 360 / 4 do
+		ang.r = i
+
+		local up = ang:Up() * (gap + size * 0.5)
+
+		DrawLine(math.Round(x + up.y), math.Round(y + up.z), 270 - ang.r, size, alpha)
+	end
+
+	return true
+end
+
 local firemodes = {
 	[FIREMODE_AUTO] = "Automatic",
 	[FIREMODE_SEMI] = "Semi-Automatic",
