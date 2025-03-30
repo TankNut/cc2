@@ -36,7 +36,7 @@ function SWEP:GetAccuracy()
 	local val = self.Stats.Accuracy
 
 	if istable(val) then
-		return Lerp(self:GetAimState(), val[1], val[2])
+		return Lerp(math.ease.InOutSine(self:GetAimState()), val[1], val[2])
 	end
 
 	return val
