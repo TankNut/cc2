@@ -66,6 +66,7 @@ function GM:PlayerSpawn(ply)
 		ply:UpdateAppearance()
 
 		ply:SetNotSolid(true)
+		ply:SetNoTarget(true)
 		ply:SetMoveType(MOVETYPE_NOCLIP)
 
 		ply:SetUsingSpawnCamera(true)
@@ -76,6 +77,7 @@ function GM:PlayerSpawn(ply)
 	ply:FullRestore()
 
 	ply:SetNotSolid(false)
+	ply:SetNoTarget(false)
 	ply:SetMoveType(MOVETYPE_WALK)
 
 	ply:UpdateLoadout(true)
