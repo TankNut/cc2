@@ -64,13 +64,12 @@ Settings.Add("ChatFontScale", {
 	},
 	Panel = "CC_Setting_Slider",
 	Args = {
-		Min = 0.5,
+		Min = 1.0,
 		Max = 2.0,
 		Decimals = 2,
 		Notches = 16
 	}
 }, "General")
-
 
 Settings.Add("ChatScale", {
 	Name = "Chat Scale",
