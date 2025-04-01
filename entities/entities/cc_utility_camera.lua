@@ -34,11 +34,11 @@ end
 
 function ENT:Initialize()
 	self:SetModel(self.Model)
+	self:PhysicsInitCustom(self:GetModelBounds())
 
-	local minBound, maxBound = self:GetModelBounds()
-
-	self:PhysicsInitCustom(minBound, maxBound)
-	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	if SERVER then
+		self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	end
 end
 
 if CLIENT then

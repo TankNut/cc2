@@ -33,9 +33,12 @@ end
 function ENT:Initialize()
 	self:SetModel(self.Model)
 	self:PhysicsInitCustom(self.MinBounds, self.MaxBounds)
-	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 
 	self:SetSubMaterial(0, "models/shiny")
+
+	if SERVER then
+		self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+	end
 end
 
 function ENT:GetSpawnTrace()

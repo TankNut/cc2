@@ -48,11 +48,11 @@ function ENT:Initialize()
 		if IsValid(phys) then
 			phys:EnableMotion(false)
 		end
+
+		self:SetCollisionGroup(COLLISION_GROUP_WORLD)
 	end
 
 	self:DrawShadow(false)
-	self:SetCollisionGroup(COLLISION_GROUP_WORLD)
-
 	self:SetMaterial("models/shiny")
 end
 
