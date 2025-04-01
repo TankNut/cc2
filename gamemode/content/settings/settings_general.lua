@@ -53,3 +53,38 @@ Settings.Add("ChatFont", {
 	Panel = "CC_Setting_Dropdown",
 	Args = fontArgs
 }, "General")
+
+Settings.Add("ChatFontScale", {
+	Name = "Chat Font Size",
+	ClientOnly = true,
+	Default = 1.0,
+	Validate = {
+		validate.Min(0.5),
+		validate.Max(2.0)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Min = 0.5,
+		Max = 2.0,
+		Decimals = 2,
+		Notches = 16
+	}
+}, "General")
+
+
+Settings.Add("ChatScale", {
+	Name = "Chat Scale",
+	ClientOnly = true,
+	Default = 1.0,
+	Validate = {
+		validate.Min(0.8),
+		validate.Max(1.5)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Min = 0.8,
+		Max = 1.5,
+		Decimals = 2,
+		Notches = 8
+	}
+}, "General")

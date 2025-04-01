@@ -61,22 +61,23 @@ local fonts = {
 
 function GM:CreateChatFonts()
 	local preset = fonts[Settings.Get("ChatFont")]
+	local size = Settings.Get("ChatFontScale")
 
 	surface.CreateFont("CombineControl.ChatFont", {
 		font = preset.Face,
-		size = preset.Size,
+		size = preset.Size * size,
 		weight = preset.Weight
 	})
 
 	surface.CreateFont("CombineControl.ChatFontBold", {
 		font = preset.Face,
-		size = preset.Size,
+		size = preset.Size * size,
 		weight = 1600
 	})
 
 	surface.CreateFont("CombineControl.ChatFontItalic", {
 		font = preset.Face,
-		size = preset.Size,
+		size = preset.Size * size,
 		weight = preset.Weight,
 		italic = true
 	})
@@ -85,6 +86,10 @@ function GM:CreateChatFonts()
 end
 
 function GM:OnChatFontSettingChanged(ply, old, new)
+	self:CreateChatFonts()
+end
+
+function GM:OnChatFontScaleSettingChanged(ply, old, new)
 	self:CreateChatFonts()
 end
 
