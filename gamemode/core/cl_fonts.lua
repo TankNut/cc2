@@ -41,6 +41,53 @@ for name, size in pairs({Stupid = 50, Massive = 30, Giant = 22, Big = 18, Medium
 	scribe.Register(COMPONENT)
 end
 
+local fonts = {
+	[CHAT_FONT_DEFAULT] = {
+		Face = GM.FontFace,
+		Size = 18,
+		Weight = 500
+	},
+	[CHAT_FONT_LEGACY] = {
+		Face = "Myriad Pro",
+		Size = 18,
+		Weight = 500
+	},
+	[CHAT_FONT_TACOSCRIPT] = {
+		Face = "Verdana",
+		Size = 14,
+		Weight = 800
+	}
+}
+
+function GM:CreateChatFonts()
+	local preset = fonts[Settings.Get("ChatFont")]
+
+	surface.CreateFont("CombineControl.ChatFont", {
+		font = preset.Face,
+		size = preset.Size,
+		weight = preset.Weight
+	})
+
+	surface.CreateFont("CombineControl.ChatFontBold", {
+		font = preset.Face,
+		size = preset.Size,
+		weight = 1600
+	})
+
+	surface.CreateFont("CombineControl.ChatFontItalic", {
+		font = preset.Face,
+		size = preset.Size,
+		weight = preset.Weight,
+		italic = true
+	})
+
+	surface.GetFontSize:Clear()
+end
+
+function GM:OnChatFontSettingChanged(ply, old, new)
+	self:CreateChatFonts()
+end
+
 surface.CreateFont("CombineControl.PlayerFont", {
 	font = GM.FontFace,
 	size = 17,
@@ -80,7 +127,7 @@ surface.CreateFont("CombineControl.WepSelectInfo", {
 scribe.Register({
 	Name = {"chat"},
 	Components = {
-		{"big"},
+		{"font", "CombineControl.ChatFont"},
 		{"outline", "1"}
 	}
 }, "compound")

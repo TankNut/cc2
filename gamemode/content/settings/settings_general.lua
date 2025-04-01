@@ -36,19 +36,20 @@ Settings.Add("ConfirmItemDestruction", {
 	Panel = "CC_Setting_Bool"
 }, "General")
 
-Settings.Add("ChatScale", {
-	Name = "Chat Scale",
+local fonts = {
+	[CHAT_FONT_DEFAULT] = "Default",
+	[CHAT_FONT_LEGACY] = "Legacy",
+	[CHAT_FONT_TACOSCRIPT] = "TacoScript 2"
+}
+
+local fontValidate = validate.InList(table.GetKeys(fonts))
+local fontArgs = table.Map(fonts, function(...) return {...} end)
+
+Settings.Add("ChatFont", {
+	Name = "Chat Font",
 	ClientOnly = true,
-	Default = 1.0,
-	Validate = {
-		validate.Min(0.8),
-		validate.Max(1.5)
-	},
-	Panel = "CC_Setting_Slider",
-	Args = {
-		Min = 0.8,
-		Max = 1.5,
-		Decimals = 2,
-		Notches = 8
-	}
+	Default = CHAT_FONT_DEFAULT,
+	Validate = fontValidate,
+	Panel = "CC_Setting_Dropdown",
+	Args = fontArgs
 }, "General")

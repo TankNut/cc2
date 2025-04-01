@@ -13,6 +13,9 @@ end
 function GM:InitPostEntity()
 	if CLIENT then
 		Settings.LoadClient()
+
+		self:CreateChatFonts()
+
 		RunConsoleCommand("spawnmenu_reload")
 
 		if Settings.Get("Thirdperson") then
