@@ -26,10 +26,17 @@ function PANEL:PerformLayout()
 	if self.IsOpen then
 		self.VBar:SetUp(self:GetTall(), self.BufferSize + 1)
 	end
+
+	local width = self:GetWide() - self.VBar:GetWide() - 5
+
+	for _, buffer in pairs(self.Buffer) do
+		buffer.Scribe.MaxWidth = width
+	end
 end
 
 function PANEL:AddMessage(message, consoleMessage, tabs)
 	local data = {
+		Message = message,
 		Scribe = scribe.Parse("<chat>" .. message, self:GetWide() - self.VBar:GetWide()),
 		ReceiveTime = CurTime(),
 		Tabs = tabs

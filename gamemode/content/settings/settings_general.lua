@@ -35,3 +35,20 @@ Settings.Add("ConfirmItemDestruction", {
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "General")
+
+Settings.Add("ChatScale", {
+	Name = "Chat Scale",
+	ClientOnly = true,
+	Default = 1.0,
+	Validate = {
+		validate.Min(0.8),
+		validate.Max(1.5)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Min = 0.8,
+		Max = 1.5,
+		Decimals = 2,
+		Notches = 8
+	}
+}, "General")

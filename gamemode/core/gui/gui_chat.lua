@@ -1,3 +1,5 @@
+DEFINE_BASECLASS("EditablePanel")
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -6,7 +8,7 @@ function PANEL:Init()
 
 	self:SetCloseOnPause(true)
 
-	self:SetSize(600, 300)
+	self:SetSize(600, 300, 1.0)
 	self:MakePopup()
 
 	self.Scroll = self:Add("CC_ChatScroll")
@@ -68,6 +70,19 @@ function PANEL:Init()
 	self.CloseButton.DoClick = function(pnl)
 		self:Close()
 	end
+
+	hook.Add("OnChatScaleSettingChanged", self, function(_, _, old, new)
+		self:SetSize(600, 300, new)
+	end)
+end
+
+function PANEL:SetSize(width, height, multiplier)
+	local scaleW, scaleH = 200,	133 -- Magic values from TankNut :smilecat:
+	multiplier = multiplier or 1.0
+
+	BaseClass.SetSize(self, ScreenScale(scaleW) * multiplier, ScreenScaleH(scaleH) * multiplier)
+
+	self:SetPos(20, ScrH() - self:GetTall() - 200)
 end
 
 function PANEL:Close()
@@ -191,7 +206,6 @@ derma.DefineControl("GUI_Chat", "", PANEL, "EditablePanel")
 GUI.Register("Chat", function()
 	local panel = vgui.Create("GUI_Chat")
 
-	panel:SetPos(20, ScrH() - panel:GetTall() - 200)
 	panel:Hide()
 
 	return panel
