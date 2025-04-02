@@ -43,11 +43,7 @@ function SWEP:GetAccuracy()
 end
 
 function SWEP:GetSpread()
-	if self.Stats.FixedRange then
-		return self:GetAccuracy()
-	end
-
-	local range = self:GetRange()
+	local range = self.Stats.FixedRange and 1000 or self:GetRange()
 	local accuracy = self:GetAccuracy()
 
 	local inches = accuracy / 0.75
