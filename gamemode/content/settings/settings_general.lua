@@ -21,7 +21,7 @@ Settings.Add("UITransparency", {
 }, "General")
 
 Settings.Add("EquipTogglesMenu", {
-	Name = "Hide the player menu when equipping items.",
+	Name = "Hide the player menu when equipping items",
 	Private = true,
 	Default = true,
 	Validate = validate.Bool(),
@@ -29,9 +29,17 @@ Settings.Add("EquipTogglesMenu", {
 }, "General")
 
 Settings.Add("ConfirmItemDestruction", {
-	Name = "Request confirmation when destroying items.",
+	Name = "Request confirmation when destroying items",
 	ClientOnly = true,
 	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool"
+}, "General")
+
+Settings.Add("AimCrosshairOnly", {
+	Name = "Only show weapon crosshairs when aiming",
+	ClientOnly = true,
+	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "General")

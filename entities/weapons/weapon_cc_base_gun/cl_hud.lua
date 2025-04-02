@@ -30,10 +30,14 @@ function SWEP:DoDrawCrosshair(x, y)
 		alpha = 0
 	end
 
-	if self:ShouldDrawCrosshair() then
-		alpha = math.Approach(alpha, 1, FrameTime() / fadeTime)
+	if Settings.Get("AimCrosshairOnly") then
+		alpha = self:GetAimState()
 	else
-		alpha = math.Approach(alpha, 0, FrameTime() / fadeTime)
+		if self:ShouldDrawCrosshair() then
+			alpha = math.Approach(alpha, 1, FrameTime() / fadeTime)
+		else
+			alpha = math.Approach(alpha, 0, FrameTime() / fadeTime)
+		end
 	end
 
 	if alpha == 0 then
