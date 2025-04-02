@@ -43,7 +43,7 @@ if CLIENT then
 		local crouch = ply:GetCrouchState()
 
 		pos:SubX(crouch)
-		pos:SubZ(crouch)
+		pos:SubZ(crouch * 1.5)
 
 		ang:SubPitch(crouch)
 		ang:SubRoll(crouch * 5)

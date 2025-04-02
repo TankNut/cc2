@@ -137,8 +137,8 @@ if CLIENT then
 		lerpMod(self.VMPos, targetPos, speed)
 		lerpMod(self.VMAng, targetAng, speed)
 
-		approachMod(self.VMPos, targetPos, speed * 0.1)
-		approachMod(self.VMAng, targetAng, speed * 0.1)
+		-- approachMod(self.VMPos, targetPos, speed * 0.1)
+		-- approachMod(self.VMAng, targetAng, speed * 0.1)
 
 		local addPos, addAng = self:GetStaticViewModelOffset()
 
