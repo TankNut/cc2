@@ -42,18 +42,11 @@ SWEP.Settings = {
 	BaseHoldType = "ar2",
 
 	Firemodes = {FIREMODE_AUTO},
-
 	FireRate = 600,
-	BurstDelay = 0,
 
 	ClipSize = 30,
-	ReloadTime = -1,
-	ReloadAmount = -1,
 
 	Range = 400,
-
-	AimTime = 0.35,
-
 	Zoom = {1.25},
 }
 
@@ -67,15 +60,15 @@ SWEP.Offsets = {
 		Angle(0, 0, 0)
 	},
 	Holster = {
-		Vector(0, -2, 2),
+		Vector(0, -2, 1),
 		Angle(20, 15, 0)
 	},
 	Sprint = {
-		Vector(0, 0, 1),
+		Vector(0, 0, 0),
 		Angle(15, 5, 0)
 	},
 	Aiming = {
-		Vector(-2, 1, 1),
+		Vector(-2, 1, 0),
 		Angle(-1, 0, -5)
 	}
 }
