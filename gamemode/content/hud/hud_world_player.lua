@@ -7,6 +7,7 @@ HUD.Setting = "PlayerLabels"
 HUD.ExtraSettings = {
 	{"Legacy", {
 		Name = "    Use Legacy Mode",
+		Hint = "Show labels for every player in range, not just the one you're looking at.",
 		ClientOnly = true,
 		Default = false,
 		Validate = validate.Bool(),

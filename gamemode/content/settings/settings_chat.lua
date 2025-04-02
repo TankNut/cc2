@@ -52,6 +52,7 @@ Settings.Add("ChatScale", {
 
 Settings.Add("ExpandChatInput", {
 	Name = "Multi-line Input Box",
+	Hint = "Expands the chat input box if your message doesn't fit on a single line.",
 	ClientOnly = true,
 	Default = true,
 	Validate = validate.Bool(),

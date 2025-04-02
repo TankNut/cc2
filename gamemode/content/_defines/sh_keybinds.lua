@@ -4,7 +4,7 @@ Binds.Add("ToggleHud", "Toggle Hud", KEY_NONE, function(ply)
 	end
 
 	Settings.Set("Hud", not Settings.Get("Hud"))
-end)
+end, "<b>Console Command:</b> rp_togglehud")
 
 Binds.Add("ToggleHolster", "Holster/Unholster Weapon", KEY_B, function(ply)
 	local weapon = ply:GetActiveWeapon()
@@ -20,4 +20,4 @@ Binds.Add("Thirdperson", "Toggle Thirdperson", KEY_NONE, function(ply)
 	end
 
 	Settings.Set("Thirdperson", not Settings.Get("Thirdperson"))
-end)
+end, "<b>Console Command:</b> rp_thirdperson")

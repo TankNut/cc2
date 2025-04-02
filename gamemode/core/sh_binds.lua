@@ -2,7 +2,7 @@ module("Binds", package.seeall)
 
 List = {}
 
-function Add(index, name, default, callback)
+function Add(index, name, default, callback, hint)
 	table.insert(List, {
 		Setting = index .. "Keybind",
 		Callback = callback
@@ -10,6 +10,7 @@ function Add(index, name, default, callback)
 
 	Settings.Add(index .. "Keybind", {
 		Name = name,
+		Hint = hint,
 		Private = true,
 		Default = default,
 		Validate = {

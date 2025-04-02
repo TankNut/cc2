@@ -1,5 +1,6 @@
 Settings.Add("KeySensitivity", {
 	Name = "Key sensitivity",
+	Hint = "Determines the time window for double-tapping or short presses.",
 	Private = true,
 	Default = 0.4,
 	Validate = {
@@ -16,7 +17,7 @@ Settings.Add("KeySensitivity", {
 
 Settings.Add("AutoWalk", {
 	Name = "Enable Auto-walk",
-	Hint = "Double-tap any movement key to automatically walk in that direction",
+	Hint = "Double-tap any movement key to continuously walk in that direction.",
 	ClientOnly = true,
 	Default = false,
 	Validate = validate.Bool(),
@@ -32,9 +33,13 @@ local keymodes = {
 local keymodeValidate = validate.InList(table.GetKeys(keymodes))
 local keymodeArgs = table.Map(keymodes, function(...) return {...} end)
 
+local keymodeHint = [[<b>Hold:</b> Hold to activate.
+<b>Toggle:</b> Press to activate, press again to release.
+<b>Smart:</b> Acts as Toggle on a short press, otherwise acts as Hold.]]
+
 Settings.Add("CrouchKeymode", {
 	Name = "Crouch Behavior",
-	Hint = "Smart mode toggles crouch on a short press, otherwise it acts as normal",
+	Hint = keymodeHint,
 	ClientOnly = true,
 	Default = KEYMODE_HOLD,
 	Validate = keymodeValidate,
@@ -44,7 +49,7 @@ Settings.Add("CrouchKeymode", {
 
 Settings.Add("SprintKeymode", {
 	Name = "Sprint Behavior",
-	Hint = "Smart mode toggles sprint on a short press, otherwise it acts as normal",
+	Hint = keymodeHint,
 	ClientOnly = true,
 	Default = KEYMODE_HOLD,
 	Validate = keymodeValidate,
@@ -54,7 +59,7 @@ Settings.Add("SprintKeymode", {
 
 Settings.Add("FreelookKeymode", {
 	Name = "Freelook Behavior (+walk)",
-	Hint = "Smart mode toggles freelook on a short press, otherwise it acts as normal",
+	Hint = keymodeHint,
 	ClientOnly = true,
 	Default = KEYMODE_HOLD,
 	Validate = keymodeValidate,
@@ -64,7 +69,7 @@ Settings.Add("FreelookKeymode", {
 
 Settings.Add("SmartAim", {
 	Name = "Smart Aiming",
-	Hint = "Toggles aiming on a short press, otherwise it acts as normal",
+	Hint = "Toggles aiming on a short press, otherwise it acts as normal.",
 	Private = true,
 	Default = false,
 	Validate = validate.Bool(),

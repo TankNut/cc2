@@ -33,6 +33,6 @@ Settings.Add("WorldLabelBackgrounds", {
 	Panel = "CC_Setting_Slider",
 	Args = {
 		Max = 100,
-		Notches = 1
+		Notches = 10
 	}
 }, "Hud")

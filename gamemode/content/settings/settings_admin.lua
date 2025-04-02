@@ -2,7 +2,7 @@ local isAdmin = FindMetaTable("Player").IsAdmin
 
 Settings.Add("HideAdminBadge", {
 	Name = "Hide admin badge from players",
-	Hint = "Prevents your admin badge from appearing next to your name on the scoreboard for all players except for other admins.",
+	Hint = "Hides your admin badge from the scoreboard for everyone except for other admins.",
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
@@ -11,7 +11,7 @@ Settings.Add("HideAdminBadge", {
 
 Settings.Add("ShowItemClass", {
 	Name = "Show item class on examine",
-	Hint = "Shows the spawnable item class (e.g., bag_developer) next to an item's given or custom name when examining an item.",
+	Hint = "Shows the spawnable item class (e.g. bag_developer) next to an item's name when examining it.",
 	ClientOnly = true,
 	Default = false,
 	Validate = validate.Bool(),
@@ -21,7 +21,7 @@ Settings.Add("ShowItemClass", {
 
 Settings.Add("UnderstandLanguages", {
 	Name = "Understand all character languages",
-	Hint = "Allows you to read all chat messages regardless of their language, but does not allow you to speak with all language commands.",
+	Hint = "Lets your character understand all languages, but not speak them.",
 	Default = false,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
@@ -30,7 +30,7 @@ Settings.Add("UnderstandLanguages", {
 
 Settings.Add("ShowHiddenCharacters", {
 	Name = "Show hidden characters on the scoreboard",
-	Hint = "Show characters other than your own on the scoreboard with a red background if they or their team are marked as hidden.",
+	Hint = "Show characters that are normally hidden from you on the scoreboard.",
 	Default = true,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
