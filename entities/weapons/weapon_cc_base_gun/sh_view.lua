@@ -7,8 +7,8 @@ if CLIENT then
 		local offsets = self.Offsets
 
 		if self:ShouldAim() then
-			targetPos:Add(offsets.Aiming[1])
-			targetAng:Add(offsets.Aiming[2])
+			targetPos:Set(offsets.Aiming[1])
+			targetAng:Set(offsets.Aiming[2])
 		end
 
 		self:AddComputedOffsets(targetPos, targetAng)

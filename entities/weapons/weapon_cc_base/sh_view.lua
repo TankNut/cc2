@@ -38,11 +38,11 @@ if CLIENT then
 		local targetAng = Angle(offsets.Default[2])
 
 		if self:GetHolstered() then
-			targetPos:Add(offsets.Holster[1])
-			targetAng:Add(offsets.Holster[2])
+			targetPos:Set(offsets.Holster[1])
+			targetAng:Set(offsets.Holster[2])
 		elseif self:IsSprinting() then
-			targetPos:Add(offsets.Sprint[1])
-			targetAng:Add(offsets.Sprint[2])
+			targetPos:Set(offsets.Sprint[1])
+			targetAng:Set(offsets.Sprint[2])
 		end
 
 		return targetPos, targetAng
