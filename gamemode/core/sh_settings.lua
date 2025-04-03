@@ -65,12 +65,14 @@ function Add(name, data, category)
 	local mode = ""
 
 	if data.ClientOnly then
-		mode = " client"
-	elseif data.Private then
-		mode = " private"
+		mode = "client"
+	else
+		mode = "server"
 	end
 
-	logger:Info("Registered%s setting: %s", mode, name)
+	local private = data.Private and " (private)" or ""
+
+	logger:Info("Registered %s setting: %s%s", mode, name, private)
 
 	List[name] = data
 
@@ -102,45 +104,50 @@ if CLIENT then
 	end
 
 	function LoadClient()
-		local sqlData = sql.Query("SELECT * FROM cc_settings")
+		local path = DataFolder .. "settings.dat"
 
-		if not sqlData then
+		if not file.Exists(path, "DATA") then
+			logger:Info("Skipping load: No file found at garrysmod/data/%s", path)
+
 			return
 		end
 
+		local rawData = file.Read(path, "DATA")
+
+		logger:Debug("Read %s from garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
+
+		local data = sfs.decode(rawData)
 		local i = 0
 
-		for _, row in pairs(sqlData) do
-			local key = row.key
-			local data = List[key]
+		for key, value in pairs(data) do
+			local define = List[key]
 
-			if not data then
+			if not define then
 				continue
 			end
 
-			local value = sfs.decode(row.value)
-			local ok, err = validate.Value(value, data.Validate)
+			local ok, err = validate.Value(value, define.Validate)
 
 			if not ok then
-				logger:Warning("Skipping sqlite row: [%s] = '%s' (%s)",  key, value, err)
+				logger:Warning("Skipping setting: [%s] = '%s' (%s)",  key, value, err)
 
 				continue
 			end
 
 			i = i + 1
 
-			logger:Debug("Load sqlite: [%s] = '%s'", key, value)
+			logger:Debug("Load setting: [%s] = '%s'", key, value)
 
-			local old = get(data)
+			local old = get(define)
 			Cache[key] = value
-			local new = get(data)
+			local new = get(define)
 
 			if istable(old) or new != old then
-				hook.Run("On" .. data.VarName .. "Changed", lp, old, new, true)
+				hook.Run("On" .. define.VarName .. "Changed", lp, old, new, true)
 			end
 		end
 
-		logger:Info("Loaded %s settings from sqlite", i)
+		logger:Info("Loaded %s settings from disk", i)
 	end
 
 	function Get(key)
@@ -172,7 +179,7 @@ if CLIENT then
 			local new = get(data)
 
 			if istable(old) or new != old then
-				Save(key, value)
+				deferred.Call("settings.save", 10, Save)
 
 				hook.Run("On" .. data.VarName .. "Changed", lp, old, new)
 			end
@@ -182,18 +189,12 @@ if CLIENT then
 		end
 	end
 
-	function Save(key, value)
-		logger:Debug("Sqlite write: [%s] = %s", key, value)
+	function Save()
+		local path = DataFolder .. "settings.dat"
 
-		if value == nil then
-			sql.Query(string.format("DELETE FROM cc_settings where key = %s",
-				SQLStr(key)
-			))
-		else
-			sql.Query(string.format("REPLACE INTO cc_settings (key, value) VALUES (%s, %s)",
-				SQLStr(key), SQLStr(sfs.encode(value))
-			))
-		end
+		file.Write(path, sfs.encode(Cache))
+
+		logger:Debug("Wrote %s to garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
 	end
 
 	netstream.Hook("ForceSetting", Set)
