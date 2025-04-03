@@ -50,7 +50,7 @@ if SERVER then
 
 		GAMEMODE:SetButtonData(data)
 
-		timer.Remove("buttons.save")
+		deferred.Cancel("buttons.save")
 	end
 
 	function Load()
@@ -76,7 +76,7 @@ if SERVER then
 			end
 		end
 
-		timer.Remove("buttons.save")
+		deferred.Cancel("buttons.save")
 
 		IsLoading = false
 	end
@@ -108,22 +108,11 @@ if SERVER then
 			return
 		end
 
-		timer.Create("buttons.save", 60, 1, function()
-			Save()
-		end)
+		deferred.Call("buttons.save", 60, Save)
 	end
 
 	hook.Add("OnButtonNameChanged", "buttons.OnButtonNameChanged", queueSave)
 	hook.Add("OnButtonDisabledChanged", "buttons.OnButtonDisabledChanged", queueSave)
-
-	local function runQueuedSave()
-		if timer.Exists("buttons.save") then
-			Save()
-		end
-	end
-
-	hook.Add("ShutDown", "buttons", runQueuedSave)
-	hook.Add("PreCleanupMap", "buttons", runQueuedSave)
 
 	hook.Add("PostCleanupMap", "buttons", Load)
 end

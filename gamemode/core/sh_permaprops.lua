@@ -79,7 +79,7 @@ if SERVER then
 
 		file.Write(dir .. game.GetMapOverride() .. ".txt", sfs.encode(data))
 
-		timer.Remove("permaprops.save")
+		deferred.Cancel("permaprops.save")
 	end
 
 	function GM:ReadPermaPropData(data)
@@ -142,7 +142,7 @@ if SERVER then
 			hook.Run("ReadPermaPropData", data)
 		end
 
-		timer.Remove("plugins.permaprops.save")
+		deferred.Cancel("permaprops.save")
 	end
 
 	function GM:OnPermaPropChanged(ent, old, new, loaded)
@@ -180,9 +180,7 @@ if SERVER then
 			ent:PhysFreeze()
 		end
 
-		timer.Create("permaprops.save", 60, 1, function()
-			Save()
-		end)
+		deferred.Call("permaprops.save", 60, Save)
 	end
 
 	hook.Add("GetPropInfo", "permaprops", function(args, ply, ent)
@@ -207,15 +205,6 @@ if SERVER then
 			List[ent] = nil
 		end
 	end)
-
-	local function runQueuedSave()
-		if timer.Exists("permaprops.save") then
-			Save()
-		end
-	end
-
-	hook.Add("ShutDown", "permaprops", runQueuedSave)
-	hook.Add("PreCleanupMap", "permaprops", runQueuedSave)
 
 	hook.Add("PostCleanupMap", "permaprops", Load)
 	hook.Add("InitPostEntity", "permaprops", Load)
