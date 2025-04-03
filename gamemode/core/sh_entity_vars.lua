@@ -72,7 +72,7 @@ function Add(name, data, metatable)
 		end
 
 		if SERVER and not serverOnly and ent:EntIndex() > 0 then
-			netstream.Send(nil, index, ent, value, loading)
+			netstream.Broadcast(index, ent, value, loading)
 		end
 	end
 
