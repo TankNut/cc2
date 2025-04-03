@@ -77,7 +77,7 @@ Action.Add("QuickTeleport", {
 		end)
 
 		if lp:EditMode() then
-			table.insert(options, 1, {
+			table.insert(options, {
 				Name = "Create Quick Teleport...",
 				Value = nil
 			})
