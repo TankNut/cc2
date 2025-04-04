@@ -116,7 +116,14 @@ if CLIENT then
 
 		logger:Debug("Read %s from garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
 
-		local data = sfs.decode(rawData)
+		local data, decodeError = sfs.decode(rawData)
+
+		if not data and decodeError then
+			logger:Warning("Failed to load file: " .. decodeError)
+
+			return
+		end
+
 		local i = 0
 
 		for key, value in pairs(data) do
