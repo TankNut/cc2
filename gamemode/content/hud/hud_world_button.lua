@@ -6,7 +6,7 @@ function HUD:PaintBackground(w, h)
 	local eye = EyePos()
 
 	for button in pairs(Buttons.List) do
-		if button:IsDormant() or #button:ButtonName() == 0 then
+		if not IsValid(button) or button:IsDormant() or #button:ButtonName() == 0 then
 			continue
 		end
 
