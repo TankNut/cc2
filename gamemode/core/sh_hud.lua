@@ -277,3 +277,9 @@ function GM:HUDShouldDraw(str)
 
 	return true
 end
+
+function GM:PostRenderVGUI()
+	if self.CursorItem then
+		self.CursorItem:DrawTooltip()
+	end
+end
