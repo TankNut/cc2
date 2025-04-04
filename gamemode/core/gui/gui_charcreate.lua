@@ -6,7 +6,7 @@ function PANEL:Init()
 	self:SetSize(700, 400)
 	self:DockPadding(10, 10, 10, 10)
 
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 
 	self.Left = self:Add("Panel")
 	self.Left:DockMargin(0, 0, 5, 0)

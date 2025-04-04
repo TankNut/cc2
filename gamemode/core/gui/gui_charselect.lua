@@ -6,7 +6,7 @@ function PANEL:Init()
 
 	if lp:HasCharacter() then
 		self:SetToggleKey("gm_showteam")
-		self:SetCloseOnPause(true)
+		self:SetCloseOnPause()
 	end
 
 	self:SetTopBar("Character Selection")

@@ -181,7 +181,7 @@ GUI.Register("Input", function(subtype, title, data)
 		panel = vgui.Create("GUI_Input_Confirm")
 	end
 
-	panel:SetCloseOnPause(true)
+	panel:SetCloseOnPause()
 
 	panel:SetTopBar(title)
 	panel:Setup(data)

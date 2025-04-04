@@ -6,7 +6,7 @@ function PANEL:Init()
 	-- Not CC_Frame derived so we have to manually set this
 	self:SetSkin("CombineControl")
 
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 
 	self:ResizeWithScale(1.0)
 	self:MakePopup()

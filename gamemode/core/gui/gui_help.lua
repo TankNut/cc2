@@ -5,7 +5,7 @@ function PANEL:Init()
 
 	self:SetToggleKey("gm_showhelp")
 	self:SetDraggable(true)
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetTopBar("Help Menu")
 
 	self.LeftBar = self:Add("Panel")

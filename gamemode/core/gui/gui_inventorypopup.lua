@@ -7,7 +7,7 @@ function PANEL:Init()
 	self:DockPadding(10, 10, 10, 10)
 
 	self:SetDraggable(true)
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 
 	self:MakePopup()
 	self:Center()

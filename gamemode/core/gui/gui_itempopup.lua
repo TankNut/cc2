@@ -6,7 +6,7 @@ function PANEL:Init()
 	self:DockPadding(10, 10, 10, 10)
 
 	self:SetDraggable(true)
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 
 	self.ModelPanel = self:Add("CC_ItemModelPanel")
 	self.ModelPanel:Dock(TOP)

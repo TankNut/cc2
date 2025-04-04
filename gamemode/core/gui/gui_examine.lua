@@ -4,7 +4,7 @@ function PANEL:Init()
 	self:SetSize(800, 500)
 	self:DockPadding(10, 10, 10, 10)
 
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetDraggable(true)
 
 	self.Preview = self:Add("CC_CharacterModel")

@@ -4,7 +4,7 @@ function PANEL:Init()
 	self:SetSize(800, 500)
 
 	self:SetToggleKey("gm_showspare1")
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetTopBar("Player Menu")
 
 	self:MakePopup()

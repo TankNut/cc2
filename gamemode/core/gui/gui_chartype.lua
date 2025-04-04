@@ -5,7 +5,7 @@ function PANEL:Init()
 	self:DockPadding(10, 10, 10, 10)
 
 	if lp:HasCharacter() then
-		self:SetCloseOnPause(true)
+		self:SetCloseOnPause()
 	end
 
 	self:SetTopBar("Character Type")

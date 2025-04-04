@@ -5,7 +5,7 @@ function PANEL:Init()
 	self:SetSize(500, 600)
 	self:DockPadding(10, 10, 10, 10)
 
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetTopBar("MOTD")
 
 	self:Populate()

@@ -4,7 +4,7 @@ function PANEL:Init()
 	self:SetSize(200, 200)
 	self:DockPadding(10, 10, 10, 10)
 
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetTopBar("Badges")
 	self:SetDraggable(true)
 

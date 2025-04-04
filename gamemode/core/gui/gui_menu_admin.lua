@@ -4,7 +4,7 @@ function PANEL:Init()
 	self:SetSize(800, 500)
 
 	self:SetToggleKey("gm_showspare2")
-	self:SetCloseOnPause(true)
+	self:SetCloseOnPause()
 	self:SetTopBar("Admin Menu")
 
 	self:MakePopup()
