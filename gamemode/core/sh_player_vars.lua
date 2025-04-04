@@ -5,6 +5,7 @@ Fields = Fields or {}
 Store = Store or {}
 
 local PLAYER = FindMetaTable("Player")
+local logger = log.Create("vars")
 
 function Add(name, data)
 	local databaseType = data.DataType or BLOB()
@@ -61,8 +62,12 @@ function Add(name, data)
 
 	local set = function(ply, value, loading)
 		if not IsValid(ply) then
+			logger:Warning("Attempt to set player var %s on a NULL player!", name)
+
 			return
 		end
+
+		logger:Debug("Set: %s.Player.%s", ply, name)
 
 		local old = get(ply)
 		cache[ply] = value
@@ -113,6 +118,8 @@ end
 
 if CLIENT then
 	netstream.Hook("BulkPlayerVars", function(ply, data)
+		logger:Info("Received bulk player vars for %s", ply)
+
 		for name, value in pairs(data) do
 			ply["Set" .. name](ply, value, true)
 		end

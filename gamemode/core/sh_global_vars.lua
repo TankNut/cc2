@@ -4,6 +4,8 @@ Vars = Vars or {}
 Fields = Fields or {}
 Store = Store or {}
 
+local logger = log.Create("vars")
+
 function Add(name, data)
 	data = {
 		Name = name,
@@ -46,6 +48,8 @@ function Add(name, data)
 	end
 
 	local set = function(value, loading)
+		logger:Debug("Set: Global.%s", name)
+
 		local old = get()
 		Store[name] = value
 		local new = get()
@@ -85,6 +89,8 @@ end
 
 if CLIENT then
 	netstream.Hook("BulkGlobalVars", function(data)
+		logger:Info("Received %s bulk global vars", table.Count(data))
+
 		for name, value in pairs(data) do
 			GAMEMODE["Set" .. name](GAMEMODE, value, true)
 		end

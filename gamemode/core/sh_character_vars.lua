@@ -4,6 +4,7 @@ Vars = Vars or {}
 Store = Store or {}
 
 local PLAYER = FindMetaTable("Player")
+local logger = log.Create("vars")
 
 function Add(name, data)
 	local databaseType = data.DataType or BLOB()
@@ -55,8 +56,12 @@ function Add(name, data)
 
 	local set = function(ply, value, loading)
 		if not IsValid(ply) then
+			logger:Warning("Attempt to set character var %s on a NULL player!", name)
+
 			return
 		end
+
+		logger:Debug("Set: %s.Character.%s", ply, name)
 
 		local old = get(ply)
 		cache[ply] = value
@@ -107,6 +112,8 @@ end
 
 if CLIENT then
 	netstream.Hook("BulkCharacterVars", function(ply, data)
+		logger:Info("Received bulk character vars for %s", ply)
+
 		for name, value in pairs(data) do
 			ply["Set" .. name](ply, value, true)
 		end

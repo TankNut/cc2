@@ -4,6 +4,7 @@ Vars = Vars or {}
 Store = Store or {}
 
 local ENTITY = FindMetaTable("Entity")
+local logger = log.Create("vars")
 
 function Add(name, data, metatable)
 	metatable = metatable or "Entity"
@@ -49,8 +50,12 @@ function Add(name, data, metatable)
 
 	local set = function(ent, value, loading)
 		if not IsValid(ent) then
+			logger:Warning("Attempt to set entity var %s on a NULL ent!", name)
+
 			return
 		end
+
+		logger:Debug("Set: %s.Entity.%s", ent, name)
 
 		local old = get(ent)
 		cache[ent] = value
@@ -91,6 +96,8 @@ end
 
 if CLIENT then
 	netstream.Hook("BulkEntityVars", function(ent, data)
+		logger:Info("Received bulk entity vars for %s", ent)
+
 		for name, value in pairs(data) do
 			ent["Set" .. name](ent, value, true)
 		end

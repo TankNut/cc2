@@ -114,7 +114,7 @@ if CLIENT then
 
 		local rawData = file.Read(path, "DATA")
 
-		logger:Debug("Read %s from garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
+		logger:Debug("Read %s from garrysmod/data/%s", string.NiceSize(file.Size(path, "DATA")), path)
 
 		local data, decodeError = sfs.decode(rawData)
 
@@ -201,7 +201,7 @@ if CLIENT then
 
 		file.WriteSafe(path, sfs.encode(Cache))
 
-		logger:Debug("Wrote %s to garrysmod/data/%s", string.lower(string.NiceSize(file.Size(path, "DATA"))), path)
+		logger:Debug("Wrote %s to garrysmod/data/%s", string.NiceSize(file.Size(path, "DATA")), path)
 	end
 
 	netstream.Hook("ForceSetting", Set)
