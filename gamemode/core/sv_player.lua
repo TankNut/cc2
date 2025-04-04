@@ -243,6 +243,18 @@ function GM:AllowPlayerPickup(ply, ent)
 	return false
 end
 
+function GM:PlayerUse(ply, ent)
+	for _, func in ipairs({Buttons.OnUse}) do
+		local val = func(ply, ent)
+
+		if val != nil then
+			return val
+		end
+	end
+
+	return true
+end
+
 function GM:PlayerSetHandsModel(ply, ent)
 	ent:SetModel("models/weapons/c_arms_citizen.mdl")
 	ent:SetSkin(0)

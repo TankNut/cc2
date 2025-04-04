@@ -36,12 +36,16 @@ Action.Add("SetButtonType", {
 		return self:IsMapButton()
 	end,
 	SubOptions = function(self)
-		return {
-			{Name = "Enabled", Value = false},
-			{Name = "Disabled", Value = true}
-		}
+		local tab = table.Map(Buttons.AccessTypes, function(define, index)
+			return {Name = define.Name, Value = index}
+		end)
+
+		return table.Collapse(tab)
+	end,
+	Validate = function(self, ply, index)
+		return validate.Value(index, validate.InLookup(Buttons.AccessTypes))
 	end,
 	Callback = function(self, ply, value)
-		self:SetButtonDisabled(value)
+		self:SetButtonType(value)
 	end
 })

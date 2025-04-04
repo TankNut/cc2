@@ -2,8 +2,6 @@ local BaseClass = inherit.Get("hud", "base")
 
 HUD.Name = "Edit Mode"
 
-local colorButtonDisabled = Color(255, 0, 0)
-
 function HUD:ShouldAddElement()
 	if not lp:IsAdmin() then
 		return false
@@ -20,16 +18,24 @@ function HUD:ShouldDraw()
 	return BaseClass.ShouldDraw(self)
 end
 
+local offset = Vector(0.1, 0.1, 0.1)
+
 function HUD:DrawButtons()
 	for button in pairs(Buttons.List) do
 		if not IsValid(button) or button:IsDormant() then
 			continue
 		end
 
-		local color = button:ButtonDisabled() and colorButtonDisabled or color_white
+		local color = Buttons.GetAccessType(button).Color
+
+		local mins = button:OBBMins()
+		local maxs = button:OBBMaxs()
+
+		mins:Sub(offset)
+		maxs:Add(offset)
 
 		render.SetColorMaterial()
-		render.DrawBox(button:GetPos(), button:GetAngles(), button:OBBMins() - Vector(0.1, 0.1, 0.1), button:OBBMaxs() + Vector(0.1, 0.1, 0.1), ColorAlpha(color, 50), true)
+		render.DrawBox(button:GetPos(), button:GetAngles(), mins, maxs, color, true)
 	end
 end
 

@@ -45,6 +45,8 @@ function GM:OnEntityCreated(ent)
 	end
 
 	if SERVER then
+		Buttons.OnCreated(ent)
+
 		if ent:IsNPC() then
 			Npc.OnCreated(ent)
 		elseif ent:IsRagdoll() then
@@ -66,6 +68,7 @@ function GM:EntityRemoved(ent, fullUpdate)
 		PlayerVar.Clear(ent)
 	else
 		EntityVar.Clear(ent)
+		Buttons.OnRemoved(ent)
 
 		if SERVER and ent:IsFakePlayer() then
 			local ply = ent:GetFakePlayer()
@@ -95,6 +98,10 @@ function GM:PreRegisterSWEP(_, class)
 			})
 		end)
 	end
+end
+
+function GM:PostCleanupMap()
+	Buttons.Load()
 end
 
 if SERVER then

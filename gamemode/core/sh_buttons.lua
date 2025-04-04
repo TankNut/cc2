@@ -1,10 +1,11 @@
 module("Buttons", package.seeall)
 
 List = List or {}
+AccessTypes = AccessTypes or {}
 
 EntityVar.Add("IsMapButton", {Default = false})
 EntityVar.Add("ButtonName", {Default = ""})
-EntityVar.Add("ButtonDisabled", {Default = false})
+EntityVar.Add("ButtonType", {Default = "default"})
 
 GlobalVar.Add("ButtonData", {
 	Default = {},
@@ -13,19 +14,34 @@ GlobalVar.Add("ButtonData", {
 	MapBased = true
 })
 
+function AddAccessType(name, data)
+	local color = Color(data.Color) or util.GetSeededColor(name, 0.5, 1)
+	color.a = 50
+
+	AccessTypes[name] = {
+		Name = data.Name or name,
+		Color = color,
+		CanAccess = data.CanAccess or function(ent, ply) return true end,
+		OnAccessGranted = data.OnAccessGranted or function(ent, ply) end,
+		OnAccessDenied = data.OnAccessDenied or function(ent, ply, reason) end,
+		PreUseCallback = data.PreUseCallback or function(ent, ply) end,
+		PostUseCallback = data.PostUseCallback or function(ent, ply) end
+	}
+end
+
 function GM:OnIsMapButtonChanged(ent)
 	List[ent] = true
 end
 
-hook.Add("EntityRemoved", "buttons.EntityRemoved", function(ent)
-	if List[ent] then
-		List[ent] = nil
-	end
-end)
+function GetAccessType(ent)
+	return AccessTypes[ent:ButtonType()]
+end
+
+function OnRemoved(ent)
+	List[ent] = nil
+end
 
 if SERVER then
-	IsLoading = false
-
 	function Save()
 		local data = {}
 
@@ -37,8 +53,8 @@ if SERVER then
 			end
 
 			local props = {
-				ButtonName = button:ButtonName() != "" and button:ButtonName() or nil,
-				ButtonDisabled = button:ButtonDisabled() and true or nil
+				Name = button:ButtonName(true),
+				Type = button:ButtonType(true)
 			}
 
 			if table.IsEmpty(props) then
@@ -49,13 +65,9 @@ if SERVER then
 		end
 
 		GAMEMODE:SetButtonData(data)
-
-		deferred.Cancel("buttons.save")
 	end
 
 	function Load()
-		IsLoading = true
-
 		local data = GAMEMODE:ButtonData()
 
 		for button in pairs(List) do
@@ -66,19 +78,17 @@ if SERVER then
 			local entData = data[button:MapCreationID()]
 
 			if entData then
-				if entData.ButtonName then
-					button:SetButtonName(entData.ButtonName)
+				if entData.Name then
+					button:SetButtonName(entData.Name, true)
 				end
 
-				if entData.ButtonDisabled then
-					button:SetButtonDisabled(true)
+				if entData.Type and AccessTypes[entData.Type] then
+					button:SetButtonType(entData.Type, true)
 				end
 			end
 		end
 
 		deferred.Cancel("buttons.save")
-
-		IsLoading = false
 	end
 
 	function GM:OnButtonDataChanged(old, new, loaded)
@@ -89,30 +99,44 @@ if SERVER then
 		Load()
 	end
 
-	hook.Add("OnEntityCreated", "buttons.OnEntityCreated", function(ent)
+	function OnCreated(ent)
 		if not IsValid(ent) or ent:GetClass() != "func_button" then
 			return
 		end
 
 		ent:SetIsMapButton(true)
-	end)
-
-	hook.Add("PlayerUse", "buttons.PlayerUse", function(ply, ent)
-		if ent:ButtonDisabled() then
-			return false
-		end
-	end)
-
-	local function queueSave()
-		if IsLoading then
-			return
-		end
-
-		deferred.Call("buttons.save", 60, Save)
 	end
 
-	hook.Add("OnButtonNameChanged", "buttons.OnButtonNameChanged", queueSave)
-	hook.Add("OnButtonDisabledChanged", "buttons.OnButtonDisabledChanged", queueSave)
+	function OnUse(ply, ent)
+		local define = GetAccessType(ent)
+		local allowed, reason = define.CanAccess(ent, ply)
 
-	hook.Add("PostCleanupMap", "buttons", Load)
+		if not allowed then
+			define.OnAccessDenied(ent, ply, reason)
+
+			return false
+		end
+
+		define.OnAccessGranted(ent, ply)
+		define.PreUseCallback(ent, ply)
+
+		-- Bit jank but it should work
+		ply:Use(ent)
+
+		define.PostUseCallback(ent, ply)
+
+		return false
+	end
+
+	function GM:OnButtonNameChanged(ent, old, new, loaded)
+		if not loaded then
+			deferred.Call("buttons.save", 60, Save)
+		end
+	end
+
+	function GM:OnButtonTypeChanged(ent, old, new, loaded)
+		if not loaded then
+			deferred.Call("buttons.save", 60, Save)
+		end
+	end
 end
