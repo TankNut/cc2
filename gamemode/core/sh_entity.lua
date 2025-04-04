@@ -58,18 +58,21 @@ end
 function GM:EntityRemoved(ent, fullUpdate)
 	EntityCache.OnRemoved(ent)
 
+	if ent:IsPlayer() then
+		CharacterVar.Clear(ent)
+		PlayerVar.Clear(ent)
+	else
+		EntityVar.Clear(ent)
+		Buttons.OnRemoved(ent)
+	end
+
 	if fullUpdate then
 		return
 	end
 
 	if ent:IsPlayer() then
 		Inventory.Clear(ent, true)
-		CharacterVar.Clear(ent)
-		PlayerVar.Clear(ent)
 	else
-		EntityVar.Clear(ent)
-		Buttons.OnRemoved(ent)
-
 		if SERVER and ent:IsFakePlayer() then
 			local ply = ent:GetFakePlayer()
 

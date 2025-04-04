@@ -31,17 +31,21 @@ function PLAYER:IsTemporaryCharacter()
 end
 
 function GM:OnCharacterListChanged(ply, old, new, loaded)
-	if CLIENT and (loaded or GUI.Get("CharacterSelect")) then
-		GUI.Open("CharacterSelect")
+	if CLIENT then
+		jank(function()
+			if not ply:HasCharacter() or GUI.Get("CharacterSelect") then
+				GUI.Open("CharacterSelect")
+			end
+		end)
 	end
 end
 
 function GM:OnCharIDChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
+		Hud.Rebuild()
+
 		if new == 0 then
 			GUI.Open("CharacterSelect")
-
-			Hud.Rebuild()
 
 			return
 		end
