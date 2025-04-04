@@ -116,10 +116,12 @@ if CLIENT then
 
 		logger:Debug("Read %s from garrysmod/data/%s", string.NiceSize(file.Size(path, "DATA")), path)
 
-		local data, decodeError = sfs.decode(rawData)
+		local ok, data, err
 
-		if not data and decodeError then
-			logger:Warning("Failed to load file: " .. decodeError)
+		ok, data = sfs.decode_from_hex(rawData)
+
+		if not ok then
+			logger:Warning("Failed to load from disk: " .. data)
 
 			return
 		end
@@ -133,7 +135,7 @@ if CLIENT then
 				continue
 			end
 
-			local ok, err = validate.Value(value, define.Validate)
+			ok, err = validate.Value(value, define.Validate)
 
 			if not ok then
 				logger:Warning("Skipping setting: [%s] = '%s' (%s)",  key, value, err)
@@ -199,7 +201,7 @@ if CLIENT then
 	function Save()
 		local path = DataFolder .. "settings.dat"
 
-		file.WriteSafe(path, sfs.encode(Cache))
+		file.WriteSafe(path, sfs.encode_to_hex(Cache))
 
 		logger:Debug("Wrote %s to garrysmod/data/%s", string.NiceSize(file.Size(path, "DATA")), path)
 	end
