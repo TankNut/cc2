@@ -6,6 +6,7 @@ CLASS.Commands = {"reply"}
 
 CLASS.Tabs = TAB_PM
 CLASS.Log = "ooc"
+CLASS.ClientLogs = {"ooc", "pm"}
 
 CLASS.Color = Color(160, 255, 160)
 
@@ -26,7 +27,7 @@ if SERVER then
 	function CLASS:Parse(ply, lang, cmd, text)
 		local target = ply.ReplyTarget
 
-		if not target then
+		if not IsValid(target) then
 			ply:SendChat("ERROR", "No targets found")
 
 			return

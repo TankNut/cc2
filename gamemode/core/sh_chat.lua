@@ -175,6 +175,24 @@ if CLIENT then
 
 		if isstring(message) then
 			GUI.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
+
+			if command.ClientLogs then
+				WriteLog(consoleMessage and consoleMessage or message, command.ClientLogs)
+			end
+		end
+	end
+
+	function WriteLog(message, categories)
+		local date = os.date("%Y-%m-%d")
+		local path = DataFolder .. "logs/" .. date .. "/"
+		local time = os.date("%H:%M:%S")
+
+		message = string.format("[%s] %s\n", time, scribe.Parse(message):GetText())
+
+		file.AppendSafe(path .. "all.txt", message)
+
+		for _, category in pairs(categories) do
+			file.AppendSafe(path .. category .. ".txt", message)
 		end
 	end
 

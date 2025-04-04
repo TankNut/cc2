@@ -9,6 +9,7 @@ CLASS.Range = 400
 
 CLASS.Tabs = TAB_LOOC
 CLASS.Log = "ooc"
+CLASS.ClientLogs = {"ooc"}
 
 CLASS.Color = Color(138, 185, 209)
 

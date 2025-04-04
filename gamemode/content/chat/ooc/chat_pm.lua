@@ -6,6 +6,7 @@ CLASS.Commands = {"pm"}
 
 CLASS.Tabs = TAB_PM
 CLASS.Log = "ooc"
+CLASS.ClientLogs = {"ooc", "pm"}
 
 CLASS.Color = Color(160, 255, 160)
 
