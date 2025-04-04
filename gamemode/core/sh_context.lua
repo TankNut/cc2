@@ -144,7 +144,7 @@ if CLIENT then
 	end
 
 	function GM:OnContextMenuOpen()
-		if false then
+		if lp:HasToolOut() then
 			self.BaseClass:OnContextMenuOpen(self)
 
 			return
