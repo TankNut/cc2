@@ -178,27 +178,6 @@ slap:AddParameter(console.Player({
 	CheckImmunity = true
 }))
 
-local function printCharacterList(data)
-	local defaultFlag = CharacterFlag.Get(GAMEMODE.DefaultFlag).Name
-
-	MsgC(Color(214, 172, 19), string.format("Character list for: %s (%d character%s)\n", data.Name, #data.Characters, #data.Characters > 1 and "s" or ""))
-
-	for _, character in pairs(data.Characters) do
-		MsgC(Color(229, 201, 98, 255), "\t", string.format("CharID %d: %s%s - %s",
-				character.id,
-				character.Name,
-				character.NameOverride and " (" .. character.NameOverride .. ")" or "",
-				character.Flag and (CharacterFlag.Get(flag).Name or flag) or defaultFlag),
-			"\n")
-	end
-end
-
-if CLIENT then
-	netstream.Hook("ListCharacters", function(data)
-		printCharacterList(data)
-	end)
-end
-
 local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamId)
 	local target = player.GetBySteamID(steamId)
 	local name = target and target:Nick() or steamId
@@ -217,18 +196,19 @@ local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, st
 		return
 	end
 
-	local data = {
-		Name = name,
-		Characters = characters
-	}
+	local defaultFlag = CharacterFlag.Get(GAMEMODE.DefaultFlag).Name
+	local lines = {string.format("<c=white>-- Character list for: %s (%d character%s) --</c>", name, #characters, #characters > 1 and "s" or "")}
 
-	if IsValid(ply) then
-		console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
-
-		netstream.Send(ply, "ListCharacters", data)
-	else
-		printCharacterList(data)
+	for _, character in pairs(characters) do
+		table.insert(lines, string.format("  CharID %d: %s%s - %s",
+			character.id,
+			character.Name,
+			character.NameOverride and " (" .. character.NameOverride .. ")" or "",
+			character.Flag and (CharacterFlag.Get(flag).Name or flag) or defaultFlag))
 	end
+
+	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
+	console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
 end)
 
 listCharacters:SetCategory("Player Commands")

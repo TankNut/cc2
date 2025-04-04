@@ -16,29 +16,17 @@ restart:SetDescription("Restarts the server on the current map")
 restart:SetExecutionContext(console.Server)
 restart:SetAccess(console.IsAdmin)
 
-local function printMaps(maps)
-	MsgC(Color(214, 172, 19), "Valid Maps:\n")
-	for _, map in ipairs(maps) do
-		MsgC(Color(229, 201, 98, 255), "\t", map, "\n")
-	end
-end
-
-if CLIENT then
-	netstream.Hook("MapList", function(data)
-		printMaps(data.Maps)
-	end)
-end
-
 local changeLevel = console.AddCommand("rpa_changelevel", function(ply, map)
 	local maps = game.GetMapList()
 	if not table.HasValue(maps, map) then
-		if IsValid(ply) then
-			netstream.Send(ply, "MapList", {
-				Maps = maps
-			})
-		else
-			printMaps(maps)
+		local lines = {"<c=white>-- Valid Maps --</c>"}
+
+		for _, name in ipairs(maps) do
+			table.insert(lines, "  " .. name)
 		end
+
+		console.Feedback(ply, "NOTICE", "Sent all valid maps to your console")
+		console.Feedback(ply, "CONSOLE", table.concat(lines, "\n"))
 
 		return
 	end
