@@ -66,11 +66,7 @@ if CLIENT then
 		end
 
 		if not colorTable[group] then
-			local crc = util.CRC(group)
-
-			math.randomseed(crc)
-			colorTable[group] = HSVToColor(math.random(360), 0.5, 1)
-			math.randomseed(os.time())
+			colorTable[group] = util.GetSeededColor(group, 0.5, 1)
 		end
 
 		return colorTable[group]
