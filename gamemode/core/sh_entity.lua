@@ -104,7 +104,9 @@ function GM:PreRegisterSWEP(_, class)
 end
 
 function GM:PostCleanupMap()
-	Buttons.Load()
+	if SERVER then
+		Buttons.Load()
+	end
 end
 
 if SERVER then

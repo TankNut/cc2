@@ -49,7 +49,7 @@ if SERVER then
 	function Save()
 		local data = {}
 
-		for button in pairs(List) do
+		for button in Iterator() do
 			local mapCreationId = button:MapCreationID()
 
 			if mapCreationId == -1 then
