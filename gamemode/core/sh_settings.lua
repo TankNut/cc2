@@ -116,11 +116,12 @@ if CLIENT then
 
 		logger:Debug("Read %s from garrysmod/data/%s", string.NiceSize(file.Size(path, "DATA")), path)
 
+		-- We do a bit of variable re-use so we're defining them all in one go
 		local ok, data, err
 
-		ok, data = sfs.decode_from_hex(rawData)
+		data, err = sfs.decode_from_hex(rawData)
 
-		if not ok then
+		if err then
 			logger:Warning("Failed to load from disk: " .. data)
 
 			return
