@@ -22,6 +22,10 @@ function PLAYER:GetToolTrust()
 end
 
 function GM:IsProtectedEntity(ent)
+	if ent:IsMapButton() then
+		return true
+	end
+
 	local class = ent:GetClass()
 
 	for _, v in ipairs(Config.Get("ProtectedEntities")) do
