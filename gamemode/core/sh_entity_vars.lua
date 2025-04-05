@@ -50,7 +50,7 @@ function Add(name, data, metatable)
 
 	local set = function(ent, value, loading)
 		if not IsValid(ent) then
-			logger:Warning("Attempt to set entity var %s on a NULL ent!", name)
+			logger:Debug("Ignoring attempt to set entity var %s on a NULL entity", name)
 
 			return
 		end

@@ -62,7 +62,7 @@ function Add(name, data)
 
 	local set = function(ply, value, loading)
 		if not IsValid(ply) then
-			logger:Warning("Attempt to set player var %s on a NULL player!", name)
+			logger:Debug("Ignoring attempt to set player var %s on a NULL player", name)
 
 			return
 		end
