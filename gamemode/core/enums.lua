@@ -83,3 +83,7 @@ CLASSIFY_ANTLION  = "antlion"
 CHAT_FONT_DEFAULT    = 1
 CHAT_FONT_LEGACY     = 2
 CHAT_FONT_TACOSCRIPT = 3
+
+DOOR_SEPARATE = 1 -- Each door can be separately configured
+DOOR_MASTER   = 2 -- Only the master door gets configured
+DOOR_BOTH     = 3 -- Both doors get configured together

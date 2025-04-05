@@ -106,6 +106,7 @@ end
 function GM:PostCleanupMap()
 	if SERVER then
 		Buttons.Load()
+		Doors.Load()
 	end
 end
 
@@ -127,6 +128,20 @@ if SERVER then
 	function GM:PostEntityTakeDamage(ent, dmginfo, wasTaken)
 		if ent:IsNPC() then
 			Npc.OnDamaged(ent, dmginfo)
+		end
+	end
+
+	function GM:AcceptInput(ent, name, activator, caller, value)
+		if Doors.AcceptInput(ent, name, activator, caller, value) then
+			return true
+		end
+	end
+
+	function GM:EntityKeyValue(ent, key, value)
+		local override = Doors.EntityKeyValue(ent, key, value)
+
+		if override != nil then
+			return override
 		end
 	end
 
