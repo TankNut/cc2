@@ -129,6 +129,14 @@ function SecureAdmin(ply, endpoint)
 	end
 end
 
+function SecureDeveloper(ply, endpoint)
+	if not ply:IsDeveloper() then
+		Access.AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: Developer ACL bypass attempt (%s)", endpoint))
+
+		return true
+	end
+end
+
 function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	local steamid = util.SteamIDFrom64(steam64)
 	local banned, ban = CheckBanned(steamid)
