@@ -13,7 +13,7 @@ CLASS.Fields = {
 
 CLASS.Pages = {
 	{Name = "Basic Information", Options = {"Name", "Description"}},
-	{Name = "Appearance", Options = {"Model", "Skin"}},
+	{Name = "Appearance", Options = {"Model", "Skin", "Height"}},
 	{Name = "Options", Options = {"Language"}}
 }
 
@@ -42,8 +42,27 @@ CLASS.Options = {
 		Field = "CharacterSkin",
 		Args = "Model"
 	},
+	Height = {
+		Name = "Height", Panel = "CC_CharCreate_Slider",
+		Field = "CharacterScale",
+		Args = {
+			Min = 0.95,
+			Max = 1.05,
+			Notches = 16,
+			Decimals = 3,
+			Default = 1,
+			TranslateLabel = function(val)
+				local remap = math.ClampedRemap(val, 0.95, 1.05, 60, 76)
+
+				return string.format("%scm (%s'%s)",
+					math.floor(remap * 2.54),
+					math.floor(remap / 12),
+					math.floor(remap % 12))
+			end
+		}
+	},
 	Language = {
-		Name = "Extra language", Panel = "CC_CharCreate_Dropdown",
+		Name = "Extra Language", Panel = "CC_CharCreate_Dropdown",
 		Args = table.Add({
 			{Name = "None", Value = nil},
 		}, table.Map(CLASS.OptionalLanguages, function(lang)
@@ -67,6 +86,12 @@ CLASS.Validate = {
 		validate.Callback(function(val)
 			return val < util.GetModelSkins(validate.Cache.Model), "Skin index out of bounds"
 		end)
+	},
+	Height = {
+		validate.Required(),
+		validate.Number(),
+		validate.Min(0.95),
+		validate.Max(1.05),
 	},
 	Language = {
 		validate.String(),
@@ -104,6 +129,10 @@ else
 
 		if options.Language then
 			fields.Languages[options.Language] = true
+		end
+
+		if options.Height then
+			options.Height = math.Round(options.Height, 2)
 		end
 	end
 end

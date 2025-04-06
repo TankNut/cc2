@@ -1,7 +1,11 @@
+DEFINE_BASECLASS("CC_CharCreate")
+
 local PANEL = {}
 
 function PANEL:Init()
-	self.Layout = self.Canvas:Add("DTileLayout")
+	self.Scroll = self.Canvas:Add("DScrollPanel")
+
+	self.Layout = self.Scroll:Add("DTileLayout")
 	self.Layout:SetBaseSize(56)
 	self.Layout:Dock(TOP)
 end
@@ -47,6 +51,13 @@ function PANEL:OnOptionChanged(key, val)
 		self:SetOption(0)
 		self:Populate(val)
 	end
+end
+
+function PANEL:PerformLayout(w, h)
+	BaseClass.PerformLayout(self, w, h)
+
+	self.Scroll:StretchToParent(nil, nil, 0, nil)
+	self.Scroll:SetTall(56)
 end
 
 derma.DefineControl("CC_CharCreate_Skin", "", PANEL, "CC_CharCreate")
