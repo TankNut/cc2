@@ -1,14 +1,15 @@
-local text = [[<massive><b><c=cc_primary>CombineControl</c></b></massive>
+local text = [[<massive><b><ol=1><c=white>Combine</c><c=red>Control</c></ol></b></massive>
 <iset=3><dark>Built for Taco N Banana</dark>
 
 <giant><b>Credits</b></giant>
 	TankNut:	<dark>Lead Developer</dark>
-	Drewerth:	<dark>Code</dark>
-	Hoplite:	<dark>Technical Design</dark>
+	Drewerth:	<dark>Developer</dark>
+	Hoplite:	<dark>Developer</dark>
 
 <giant><b>Special Thanks</b></giant>
-	Dave Brown:	<dark>For keeping TnB alive over the years by shooting cops and bots alike</dark>
-	Gangleider:	<dark>For taking over the mantle from Dave and getting this project off the ground</dark>
+	Dave Brown:	<dark>You might have not have created TnB but you were always at the heart of it</dark>
+	Gangleider:	<dark>For keeping the lights on all these years and inadvertedly getting this project started</dark>
+	Rowtree:	<dark>Responsible for dragging me into TnB, clearly this is all your fault</dark>
 
 <dark>Based on a gamemode by Disseminate</dark>]]
 
