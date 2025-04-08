@@ -3,7 +3,7 @@ HUD.Name = "Button Labels"
 HUD.Setting = "ButtonLabels"
 
 function HUD:PaintBackground(w, h)
-	local eye = EyePos()
+	local eye = lp:EyePos()
 
 	for button in Buttons.Iterator() do
 		if button:IsDormant() or #button:ButtonName() == 0 then
