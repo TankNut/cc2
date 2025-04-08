@@ -1,3 +1,5 @@
+CLASS.Base = "Say"
+
 CLASS.Name = "Whisper"
 CLASS.Description = "Quietly whisper to people close to you."
 CLASS.Typing = "Whispering..."
@@ -39,41 +41,6 @@ if SERVER then
 		end
 
 		return "whispers something in " .. Language.Get(lang).Unknown
-	end
-
-	function CLASS:Parse(ply, lang, cmd, text)
-		local targets = self:GetTargets(ply)
-
-		local valid = {}
-		local invalid = {}
-
-		for _, target in pairs(targets) do
-			if target == ply or target:CanUnderstandLanguage(lang) then
-				table.insert(valid, target)
-			else
-				table.insert(invalid, target)
-			end
-		end
-
-		if self.Log then
-			Log.Write("chat_" .. self.Log, self, ply, Language.Get(lang).Name, text)
-		end
-
-		-- No reason to check for an empty table since we're always sending the valid version to ourselves
-		Chat.Send(self.Name, {
-			Name = ply:VisibleRPName(),
-			Lang = lang,
-			Text = text
-		}, valid)
-
-		if not table.IsEmpty(invalid) then
-			local form = self:FormatUnknownLanguage(text, lang)
-
-			Chat.Send(self.Name, {
-				Name = ply:VisibleRPName(),
-				Form = form
-			}, invalid)
-		end
 	end
 
 	function CLASS:WriteLog(ply, lang, text)
