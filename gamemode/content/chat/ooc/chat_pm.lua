@@ -51,7 +51,7 @@ if SERVER then
 		text = string.Trim(string.sub(text, endIndex + 1))
 		target.ReplyTarget = ply
 
-		Log.Write("chat_" .. self.Log, self, {
+		Log.Write("chat_" .. self.LogCategory, self, {
 			Target = target,
 			Text = text
 		}, ply)

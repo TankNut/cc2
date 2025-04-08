@@ -34,7 +34,7 @@ if SERVER then
 
 		target.ReplyTarget = ply
 
-		Log.Write("chat_" .. self.Log, self, {
+		Log.Write("chat_" .. self.LogCategory, self, {
 			Target = target,
 			Text = text
 		}, ply)
