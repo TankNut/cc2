@@ -165,6 +165,10 @@ if SERVER then
 			end
 
 			door.InitialValues = initial
+
+			if not door:IsPropDoor() then
+				door:SetDoorUsable(false)
+			end
 		end
 	end
 
