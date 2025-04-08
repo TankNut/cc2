@@ -36,11 +36,16 @@ Action.Add("SetButtonType", {
 		return self:IsMapButton()
 	end,
 	SubOptions = function(self)
-		local tab = table.Map(Buttons.AccessTypes, function(define, index)
-			return {Name = define.Name, Value = index}
-		end)
+		local tab = {}
 
-		return table.Collapse(tab)
+		for _, index in ipairs(Buttons.TypeList) do
+			table.insert(tab, {
+				Name = Buttons.AccessTypes[index].Name,
+				Value = index
+			})
+		end
+
+		return tab
 	end,
 	Validate = function(self, ply, index)
 		return validate.Value(index, validate.InLookup(Buttons.AccessTypes))

@@ -2,6 +2,7 @@ module("Buttons", package.seeall)
 
 All = All or {}
 AccessTypes = AccessTypes or {}
+TypeList = {}
 
 EntityVar.Add("IsMapButton", {Default = false})
 EntityVar.Add("ButtonName", {Default = ""})
@@ -31,6 +32,8 @@ function AddAccessType(name, data)
 		PreUseCallback = data.PreUseCallback or function(ent, ply) end,
 		PostUseCallback = data.PostUseCallback or function(ent, ply) end
 	}
+
+	table.insert(TypeList, name)
 end
 
 function GM:OnIsMapButtonChanged(ent)
