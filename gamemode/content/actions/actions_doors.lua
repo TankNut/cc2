@@ -1,13 +1,12 @@
 Action.Add("SetDoorType", {
 	Name = "Set Door Type...",
-
-	Priority = 2,
+	Priority = 3,
 
 	Access = ACTION_EDITMODE,
 	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply)
-		return self:IsDoor() and self:CreatedByMap()
+		return door.Is(self) and self:CreatedByMap()
 	end,
 	SubOptions = function(self)
 		local tab = {}
@@ -35,14 +34,13 @@ local validation = {
 
 Action.Add("SetDoorGroup", {
 	Name = "Set Door Group...",
-
-	Priority = 1,
+	Priority = 2,
 
 	Access = ACTION_EDITMODE,
 	Target = ACTION_INTERACT,
 
 	CanRun = function(self, ply)
-		return self:IsDoor() and self:CreatedByMap()
+		return door.Is(self) and self:CreatedByMap()
 	end,
 	Validate = function(self, ply, name)
 		return validate.Value(name, validation)
@@ -58,3 +56,34 @@ Action.Add("SetDoorGroup", {
 		self:SetDoorGroup(name)
 	end
 })
+
+Action.Add("LockDoor", {
+	Name = "Lock",
+	Priority = 1,
+
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply)
+		return door.Is(self) and not self:IsDoorLocked() and hook.Run("CanLockDoor", ply, ent)
+	end,
+	Callback = function(self, ply)
+		self:SetDoorLocked(true)
+		ply:EmitSound("DoorHandles.Locked1")
+	end
+})
+
+Action.Add("UnlockDoor", {
+	Name = "Unlock",
+	Priority = 1,
+
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply)
+		return door.Is(self) and self:IsDoorLocked() and hook.Run("CanLockDoor", ply, ent)
+	end,
+	Callback = function(self, ply)
+		self:SetDoorLocked(false)
+		ply:EmitSound("DoorHandles.Unlocked1")
+	end
+})
+
