@@ -24,7 +24,10 @@ Doors.AddVar("Locked", {
 	Mode = DOOR_MASTER,
 	Saved = true,
 	Get = function(self) return self:_DoorLocked() end,
-	Set = function(self, val) door.SetLocked(self, val) end
+	Set = function(self, val)
+		door.SetLocked(self, val)
+		self:Set_DoorLocked(val)
+	end
 })
 
 Doors.AddVar("Touchable", {
