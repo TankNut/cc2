@@ -1,6 +1,8 @@
 Action.Add("SetDoorType", {
 	Name = "Set Door Type...",
 
+	Priority = 2,
+
 	Access = ACTION_EDITMODE,
 	Target = ACTION_INTERACT,
 
@@ -24,5 +26,35 @@ Action.Add("SetDoorType", {
 	end,
 	Callback = function(self, ply, value)
 		self:SetDoorType(value)
+	end
+})
+
+local validation = {
+	validate.Max(32)
+}
+
+Action.Add("SetDoorGroup", {
+	Name = "Set Door Group...",
+
+	Priority = 1,
+
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
+
+	CanRun = function(self, ply)
+		return self:IsDoor() and self:CreatedByMap()
+	end,
+	Validate = function(self, ply, name)
+		return validate.Value(name, validation)
+	end,
+	Client = function(self)
+		return true, GUI.Open("Input", "string", "Change Door Group", {
+			Default = self:DoorGroup(),
+			Validate = validation,
+			Name = "Door groups"
+		})
+	end,
+	Callback = function(self, ply, name)
+		self:SetDoorGroup(name)
 	end
 })

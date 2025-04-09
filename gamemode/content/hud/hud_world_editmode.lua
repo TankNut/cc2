@@ -93,6 +93,7 @@ function HUD:DrawDoors()
 				render.DrawLine(vec, pos, lineColor, true)
 			end
 
+			render.SetColorMaterial()
 			render.DrawBox(pos, Angle(), groupMin, groupMax, groupColor, true)
 			render.DrawWorldText(pos + Vector(0, 0, 5), group)
 		render.DepthRange(0, 1)

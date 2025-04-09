@@ -8,7 +8,6 @@ TypeList = {}
 EntityVar.Add("IsDoorOpen", {Default = false})
 
 EntityVar.Add("_DoorLocked", {Default = false})
-EntityVar.Add("_DoorUsable", {Default = false})
 EntityVar.Add("_DoorTouchable", {Default = false})
 EntityVar.Add("_DoorToggle", {Default = false})
 EntityVar.Add("_DoorAutoClose", {Default = -1})
@@ -18,6 +17,7 @@ EntityVar.Add("_DoorDamage", {Default = 0})
 
 EntityVar.Add("_DoorGroup", {Default = ""})
 EntityVar.Add("_DoorType", {Default = "default"})
+EntityVar.Add("_DoorStartOpen", {Default = false})
 
 GlobalVar.Add("DoorData", {
 	Default = {},
@@ -71,7 +71,7 @@ function AddVar(name, data)
 	end
 
 	if SERVER then
-		ENTITY["SetDoor" .. name] = function(self, value)
+		ENTITY["SetDoor" .. name] = function(self, value, noSave)
 			assert(not data.NoProp or not self:IsPropDoor(), "Attempt to set NoProp var on a prop_door_rotating")
 
 			if data.Mode == DOOR_SEPARATE then
@@ -88,7 +88,7 @@ function AddVar(name, data)
 				end
 			end
 
-			if data.Saved then
+			if data.Saved and not noSave then
 				deferred.Call("doors.save", 60, Save)
 			end
 		end
@@ -136,34 +136,35 @@ function ENTITY:DoorAutoCloses()
 end
 
 if SERVER then
-	local function wrap(ent, force, name, param, activator)
-		ent = ent:GetMasterDoor()
+	function ENTITY:DoorGroupCall(func, ...)
+		local group = self:DoorGroup()
 
-		if force and ent:DoorLocked() then
-			ent:SetDoorLocked(false)
-			ent:Fire(name, param, 0, activator)
-			ent:SetDoorLocked(true)
+		if #group > 0 then
+			for door in Iterator() do
+				if door:DoorGroup() == group then
+					func(door, ...)
+				end
+			end
 		else
-			ent:Fire(name, param, 0, activator)
+			func(self, ...)
 		end
 	end
 
-	function ENTITY:SetDoorOpen(bool, force, awayFrom) if bool then self:OpenDoor(force, awayFrom) else self:CloseDoor(force) end end
-	function ENTITY:OpenDoor(ply, force) wrap(self, force, "open", nil, ply) end
-	function ENTITY:CloseDoor(ply, force) wrap(self, force, "close", nil, ply) end
-	function ENTITY:ToggleDoor(ply, force) wrap(self, force, "toggle", nil, ply) end
-
-	function ENTITY:LockDoor() self:SetDoorLocked(true) end
-	function ENTITY:UnlockDoor() self:SetDoorLocked(false) end
-	function ENTITY:ToggleDoorLocked() self:SetDoorLocked(not self:DoorLocked()) end
-
-	function ENTITY:ResetDoor()
-		for key in pairs(Vars) do
+	function ENTITY:ResetDoor(initial)
+		for key, data in pairs(Vars) do
 			if key == "Usable" then
 				continue
 			end
 
-			self["SetDoor" .. key](self, self.InitialValues[key])
+			if door.IsProp(self) and data.NoProp then
+				continue
+			end
+
+			if initial then
+				self["SetDoor" .. key](self, self.InitialValues[key])
+			else
+				self["SetDoor" .. key](self, self["Door" .. key](self), true)
+			end
 		end
 	end
 
@@ -175,11 +176,25 @@ if SERVER then
 		Load()
 	end
 
+	function OnCreated(ent)
+		if not ent:IsDoor() or not ent:IsPropDoor() then
+			return
+		end
+
+		jank(function()
+			local owner = ent:GetOwner()
+
+			if IsValid(owner) then
+				owner:SetNWEntity("DoorChild", ent)
+			end
+		end)
+	end
+
 	function Load()
 		local doorData = GAMEMODE:DoorData()
 
-		for door in Iterator() do
-			local id = door:MapCreationID()
+		for ent in Iterator() do
+			local id = ent:MapCreationID()
 
 			if id == -1 then
 				continue
@@ -189,21 +204,25 @@ if SERVER then
 			local data = doorData[id]
 
 			for key in pairs(Vars) do
-				initial[key] = door["Door" .. key](door)
+				initial[key] = ent["Door" .. key](ent)
 			end
 
 			if data then
 				for key in pairs(Vars) do
 					if data[key] then
-						door["SetDoor" .. key](door, data[key])
+						ent["SetDoor" .. key](ent, data[key])
 					end
 				end
 			end
 
-			door.InitialValues = initial
+			ent.InitialValues = initial
 
-			if not door:IsPropDoor() then
-				door:SetDoorUsable(false)
+			if not ent:IsPropDoor() then
+				door.SetUsable(ent, false)
+			end
+
+			if ent:DoorStartOpen() then
+				door.LockOpen(ent)
 			end
 		end
 	end
@@ -211,25 +230,25 @@ if SERVER then
 	function Save()
 		local doorData = {}
 
-		for door in Iterator() do
-			if not door:CreatedByMap() then
+		for ent in Iterator() do
+			if not ent:CreatedByMap() then
 				continue
 			end
 
-			local master = door:GetMasterDoor()
+			local master = door.GetMaster(ent)
 
 			for name, data in pairs(Vars) do
 				if not data.Saved then
 					continue
 				end
 
-				local ent = (data.Mode == DOOR_MASTER or data.Mode == DOOR_BOTH) and master or door
+				local targetEnt = (data.Mode == DOOR_MASTER or data.Mode == DOOR_BOTH) and master or door
 
-				if data.Saved and ent:CreatedByMap() then
-					local get = ent["Door" .. name](ent)
-					local id = ent:MapCreationID()
+				if data.Saved and targetEnt:CreatedByMap() then
+					local get = targetEnt["Door" .. name](ent)
+					local id = targetEnt:MapCreationID()
 
-					if get != ent.InitialValues[name] then
+					if get != targetEnt.InitialValues[name] then
 						if not doorData[id] then
 							doorData[id] = {}
 						end
@@ -250,11 +269,11 @@ if SERVER then
 	}
 
 	function UpdateOpenDoors()
-		for door in Iterator() do
-			local open = isOpenCallbacks[door:GetClass()](door)
+		for ent in Iterator() do
+			local open = isOpenCallbacks[ent:GetClass()](ent)
 
-			if door:IsDoorOpen() != open then
-				door:SetIsDoorOpen(open)
+			if ent:IsDoorOpen() != open then
+				ent:SetIsDoorOpen(open)
 			end
 		end
 	end
@@ -263,6 +282,8 @@ if SERVER then
 		if not ent:IsDoor() or ent:IsPropDoor() then
 			return
 		end
+
+		ply:ConCommand("-use")
 
 		local define = GetAccessType(ent)
 		local allowed, reason = define.CanAccess(ent, ply)
@@ -283,38 +304,14 @@ if SERVER then
 		define.PreUseCallback(ent, ply)
 
 		if ent:DoorToggle() then
-			ent:ToggleDoor(ply)
+			ent:DoorGroupCall(door.SetOpen, ply, not ent:IsDoorOpen())
 		else
-			ent:OpenDoor(ply)
+			ent:DoorGroupCall(door.Open, ply)
 		end
 
 		define.PostUseCallback(ent, ply)
 
 		return false
-	end
-
-	function AcceptInput(ent, name, activator, caller, value)
-		if not ent:IsDoor() then
-			return
-		end
-
-		name = string.lower(name)
-
-		if name == "lock" or name == "unlock" then
-			ent:Set_DoorLocked(name == "lock")
-		elseif name == "use" and not ent:IsPropDoor() and value != true then
-			local group = ent:DoorGroup()
-
-			if group != "" then
-				for door in Iterator() do
-					if door != ent and door:DoorGroup() == group then
-						door:Fire("Use", true, 0, activator, caller)
-					end
-				end
-			end
-		elseif name == "setspeed" then
-			ent:Set_DoorSpeed(tonumber(value))
-		end
 	end
 
 	function EntityKeyValue(ent, key, value)
@@ -325,21 +322,20 @@ if SERVER then
 		key = string.lower(key)
 
 		if key == "spawnflags" then
-			ent:Set_DoorLocked(bit.Check(value, 2048))
-			ent:Set_DoorUsable(ent:IsPropDoor() or bit.Check(value, 256))
-			ent:Set_DoorToggle(ent:IsPropDoor() and bit.Check(value, 8192) or bit.Check(value, 32))
+			ent:Set_DoorLocked(bit.Check(value, DOOR_SF_LOCKED), true)
+			ent:Set_DoorToggle(ent:IsPropDoor() and bit.Check(value, DOOR_SF_TOGGLE_PROP) or bit.Check(value, DOOR_SF_TOGGLE), true)
 
 			if not ent:IsPropDoor() then
-				ent:Set_DoorTouchable(bit.Check(value, 1024))
+				ent:Set_DoorTouchable(bit.Check(value, DOOR_SF_TOUCHABLE), true)
 			end
 		elseif key == "returndelay" or key == "wait" then
-			ent:Set_DoorAutoClose(tonumber(value))
+			ent:Set_DoorAutoClose(tonumber(value), true)
 		elseif key == "speed" then
-			ent:Set_DoorSpeed(tonumber(value))
+			ent:Set_DoorSpeed(tonumber(value), true)
 		elseif key == "forceclosed" then
-			ent:Set_DoorForceClose(tobool(value))
+			ent:Set_DoorForceClose(tobool(value), true)
 		elseif key == "dmg" then
-			ent:Set_DoorDamage(tonumber(value))
+			ent:Set_DoorDamage(tonumber(value), true)
 		end
 	end
 end

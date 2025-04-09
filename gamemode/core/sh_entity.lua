@@ -46,6 +46,7 @@ function GM:OnEntityCreated(ent)
 
 	if SERVER then
 		Buttons.OnCreated(ent)
+		Doors.OnCreated(ent)
 
 		if ent:IsNPC() then
 			Npc.OnCreated(ent)
@@ -128,12 +129,6 @@ if SERVER then
 	function GM:PostEntityTakeDamage(ent, dmginfo, wasTaken)
 		if ent:IsNPC() then
 			Npc.OnDamaged(ent, dmginfo)
-		end
-	end
-
-	function GM:AcceptInput(ent, name, activator, caller, value)
-		if Doors.AcceptInput(ent, name, activator, caller, value) then
-			return true
 		end
 	end
 
