@@ -43,3 +43,39 @@ Settings.Add("AimCrosshairOnly", {
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool"
 }, "General")
+
+Settings.Add("PlayMusicVolume", {
+	Name = "Played Music Volume",
+	Hint = "Modifies the volume of music played by administrators.",
+	ClientOnly = true,
+	Default = 1,
+	Validate = {
+		validate.Min(0),
+		validate.Max(2)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Min = 0,
+		Max = 2,
+		Decimals = 2,
+		Notches = 20
+	}
+}, "General")
+
+Settings.Add("PlayEffectVolume", {
+	Name = "Played Effect Volume",
+	Hint = "Modifies the volume of sound effects played by administrators.",
+	ClientOnly = true,
+	Default = 1,
+	Validate = {
+		validate.Min(0),
+		validate.Max(2)
+	},
+	Panel = "CC_Setting_Slider",
+	Args = {
+		Min = 0,
+		Max = 2,
+		Decimals = 2,
+		Notches = 20
+	}
+}, "General")

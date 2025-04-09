@@ -1,5 +1,5 @@
 Settings.Add("KeySensitivity", {
-	Name = "Key sensitivity",
+	Name = "Key Sensitivity",
 	Hint = "Determines the time window for double-tapping or short presses.",
 	Private = true,
 	Default = 0.4,

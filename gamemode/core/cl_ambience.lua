@@ -2,12 +2,14 @@ module("Ambience", package.seeall)
 
 Songs = {}
 
-MusicChannel = MusicChannel or nil
-MusicEndTime = MusicEndTime or nil
+MusicChannel  = MusicChannel or nil
+MusicVolume   = MusicVolume or nil
+MusicEndTime  = MusicEndTime or nil
 MusicPriority = MusicPriority or AMBIENCE_GLOBAL
 
-EffectChannel = EffectChannel or nil
-EffectEndTime = EffectEndTime or nil
+EffectChannel  = EffectChannel or nil
+EffectVolume   = EffectVolume or nil
+EffectEndTime  = EffectEndTime or nil
 EffectPriority = EffectPriority or AMBIENCE_GLOBAL
 
 local logger = log.Create("ambience")
@@ -19,6 +21,16 @@ function AddSong(type, name, path)
 		Path = path,
 		Length = math.Round(SoundDuration(path))
 	})
+end
+
+function LogEvent(hint, source, command)
+	Log.WriteHint(hint)
+
+	Chat.Receive("CONSOLE", table.concat({
+		"<c=white>-- " .. hint .. " --</c>",
+		"\tFrom: " .. source,
+		"\tStop: " .. command
+	}, "\n"))
 end
 
 function CreateChannel(path, cb)
@@ -35,63 +47,75 @@ function CreateChannel(path, cb)
 	end)
 end
 
-function PlayMusic(priority, source, volume, path)
+function PlayMusic(priority, path, volume, source)
 	if MusicPriority > priority then
 		return
 	end
 
-	-- TODO: Implement fade-out if one track is played over another.
+-- TODO: Implement fade-out if one track is played over another.
 	StopMusic()
 	CreateChannel(path, function(channel)
-		channel:SetVolume(volume or 0)
+		channel:SetVolume((volume or 1) * Settings.Get("PlayMusicVolume"))
 		channel:Play()
 
 		MusicChannel = channel
+		MusicVolume = volume or 1
 		MusicEndTime = CurTime() + channel:GetLength()
 		MusicPriority = priority
 
-		print(string.format("%s has played a music (%s), you can stop this with rp_stopmusic", source, path))
+		LogEvent("Played Music: " .. path, source, "rp_stopmusic")
 	end)
 end
 
-function StopMusic()
+function StopMusic(priority)
 	logger:Debug("Clearing music channel")
 
 	if IsValid(MusicChannel) then
+		if priority and MusicPriority > priority then
+			return
+		end
+
 		MusicChannel:Stop()
 	end
 
 	MusicChannel = nil
+	MusicVolume = nil
 	MusicEndTime = nil
 	MusicPriority = AMBIENCE_GLOBAL
 end
 
-function PlayEffect(priority, source, volume, path)
+function PlayEffect(priority, path, volume, source)
 	if EffectPriority > priority then
 		return
 	end
 
 	StopEffect()
 	CreateChannel(path, function(channel)
-		channel:SetVolume(volume or 0)
+		channel:SetVolume((volume or 1) * Settings.Get("PlayEffectVolume"))
 		channel:Play()
 
 		EffectChannel = channel
+		EffectVolume = volume or 1
 		EffectEndTime = CurTime() + channel:GetLength()
 		EffectPriority = priority
 
-		print(string.format("%s has played an effect (%s), you can stop this with rp_stopeffect", source, path))
+		LogEvent("Played Effect: " .. path, source, "rp_stopeffect")
 	end)
 end
 
-function StopEffect()
+function StopEffect(priority)
 	logger:Debug("Clearing effect channel")
 
 	if IsValid(EffectChannel) then
+		if priority and EffectPriority > priority then
+			return
+		end
+
 		EffectChannel:Stop()
 	end
 
 	EffectChannel = nil
+	EffectVolume = nil
 	EffectEndTime = nil
 	EffectPriority = AMBIENCE_GLOBAL
 end
@@ -104,5 +128,23 @@ function Think()
 	-- TODO: Implement fade-out for music tracks when they near their conclusion.
 	if IsValid(MusicChannel) and (MusicChannel:GetState() == GMOD_CHANNEL_STOPPED or MusicEndTime < CurTime()) then
 		StopMusic()
+	end
+end
+
+function GM:OnPlayMusicVolumeSettingChanged(ply, old, new)
+	if IsValid(MusicChannel) then
+		new = MusicVolume * new
+
+		logger:Debug("Updating active music volume: %s", new)
+		MusicChannel:SetVolume(new)
+	end
+end
+
+function GM:OnPlayEffectVolumeSettingChanged(ply, old, new)
+	if IsValid(EffectChannel) then
+		new = EffectVolume * new
+
+		logger:Debug("Updating active effect volume: %s", new)
+		EffectChannel:SetVolume(new)
 	end
 end
