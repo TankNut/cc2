@@ -91,3 +91,11 @@ DOOR_BOTH     = 3 -- Both doors get configured together
 GLOBALVAR_ALWAYS          = 1 -- Always load
 GLOBALVAR_MAP             = 2 -- Load based on game.GetMapOverride()
 GLOBALVAR_MAP_NO_OVERRIDE = 3 -- Load based on game.GetMap()
+
+AMBIENT_PRIORITY_GLOBAL = 0
+AMBIENT_PRIORITY_LOCAL  = 1
+
+SONG_IDLE    = 0
+SONG_ALERT   = 1
+SONG_ACTION  = 2
+SONG_STINGER = 3

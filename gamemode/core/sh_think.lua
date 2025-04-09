@@ -17,6 +17,8 @@ function GM:Think()
 
 			self.VarSyncCache = {}
 		end
+
+		Ambience.Think()
 	else
 		for _, ply in player.Iterator() do
 			ply:UpdatePhysgunColor()

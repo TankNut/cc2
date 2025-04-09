@@ -61,6 +61,7 @@ GM:Include("sh_settings.lua")
 GM:Include("sh_entity_cache.lua")
 GM:Include("cl_fonts.lua")
 
+GM:Include("cl_ambience.lua")
 GM:Include("cl_spawnmenu.lua")
 GM:Include("cl_vgui.lua")
 GM:Include("cl_view.lua")

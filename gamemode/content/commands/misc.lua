@@ -78,3 +78,17 @@ roll:SetExecutionContext(console.Server)
 roll:SetNoConsole()
 
 roll:AddParameter(console.String())
+
+local stopEffect = console.AddCommand("rp_stopeffect", function()
+	Ambience.StopEffect()
+end)
+
+stopEffect:SetDescription("Halts playback of the current ambient-effect file.")
+stopEffect:SetExecutionContext(console.ClientOnly)
+
+local stopMusic = console.AddCommand("rp_stopmusic", function()
+	Ambience.StopMusic()
+end)
+
+stopMusic:SetDescription("Halts playback of the current ambient-music file.")
+stopMusic:SetExecutionContext(console.ClientOnly)
