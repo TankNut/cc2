@@ -176,20 +176,6 @@ if SERVER then
 		Load()
 	end
 
-	function OnCreated(ent)
-		if not ent:IsDoor() or not ent:IsPropDoor() then
-			return
-		end
-
-		jank(function()
-			local owner = ent:GetOwner()
-
-			if IsValid(owner) then
-				owner:SetNWEntity("DoorChild", ent)
-			end
-		end)
-	end
-
 	function Load()
 		local doorData = GAMEMODE:DoorData()
 
@@ -242,7 +228,7 @@ if SERVER then
 					continue
 				end
 
-				local targetEnt = (data.Mode == DOOR_MASTER or data.Mode == DOOR_BOTH) and master or door
+				local targetEnt = (data.Mode == DOOR_MASTER or data.Mode == DOOR_BOTH) and master or ent
 
 				if data.Saved and targetEnt:CreatedByMap() then
 					local get = targetEnt["Door" .. name](ent)

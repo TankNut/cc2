@@ -46,7 +46,6 @@ function GM:OnEntityCreated(ent)
 
 	if SERVER then
 		Buttons.OnCreated(ent)
-		Doors.OnCreated(ent)
 
 		if ent:IsNPC() then
 			Npc.OnCreated(ent)
