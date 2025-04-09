@@ -140,9 +140,9 @@ if SERVER then
 		local group = self:DoorGroup()
 
 		if #group > 0 then
-			for door in Iterator() do
-				if door:DoorGroup() == group then
-					func(door, ...)
+			for ent in Iterator() do
+				if ent:DoorGroup() == group then
+					func(ent, ...)
 				end
 			end
 		else

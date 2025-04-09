@@ -50,32 +50,32 @@ function HUD:DrawDoors()
 
 	render.SetColorMaterial()
 
-	for door in Doors.Iterator() do
-		local group = door:DoorGroup()
+	for ent in Doors.Iterator() do
+		local group = ent:DoorGroup()
 
 		if #group > 0 then
 			groups[group] = groups[group] or {}
 
-			table.insert(groups[group], door:WorldSpaceCenter())
+			table.insert(groups[group], ent:WorldSpaceCenter())
 		end
 
-		if door:IsDormant() then
+		if ent:IsDormant() then
 			continue
 		end
 
-		local color = Doors.GetAccessType(door).Color
+		local color = Doors.GetAccessType(ent).Color
 
-		local mins = door:OBBMins()
-		local maxs = door:OBBMaxs()
+		local mins = ent:OBBMins()
+		local maxs = ent:OBBMaxs()
 
 		mins:Sub(offset)
 		maxs:Add(offset)
 
-		render.DrawBox(door:GetPos(), door:GetAngles(), mins, maxs, color, true)
+		render.DrawBox(ent:GetPos(), ent:GetAngles(), mins, maxs, color, true)
 	end
 
 	for group, positions in pairs(groups) do
-		-- Don't draw groups of 1 door
+		-- Don't draw groups that only contain one door
 		if #positions <= 1 then
 			continue
 		end
