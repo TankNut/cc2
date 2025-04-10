@@ -48,7 +48,6 @@ Doors.AddVar("Touchable", {
 })
 
 Doors.AddVar("Toggle", {
-	NoProp = true,
 	Saved = true,
 	Define = true,
 	Default = false,
