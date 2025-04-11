@@ -19,15 +19,19 @@ Doors.AddAccessType("disabled", {
 	end
 })
 
--- Door vars
-
+-- You shouldn't touch these, they contain most of the source features doors have and are tracked/updated manually within the doors library itself
 Doors.AddVar("Title", {
 	Saved = true,
 	Define = true,
 	Default = "",
 })
 
--- You shouldn't touch these, they contain most of the source features doors have and are tracked/updated manually within the doors library itself
+Doors.AddVar("Subtitle", {
+	Saved = true,
+	Define = true,
+	Default = "",
+})
+
 Doors.AddVar("Locked", {
 	Saved = true,
 	Define = true,

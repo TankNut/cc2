@@ -1,3 +1,57 @@
+local validation = {
+	validate.Max(32)
+}
+
+local canRun = function(self, ply)
+	return door.Is(self) and self:CreatedByMap()
+end
+
+Action.Add("SetDoorTitle", {
+	Name = "Configure Door/Set Title...",
+	Priority = 5,
+
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
+
+	CanRun = canRun,
+	Validate = function(self, ply, name)
+		return validate.Value(name, validation)
+	end,
+	Client = function(self)
+		return true, GUI.Open("Input", "string", "Change Door Title", {
+			Default = self:DoorTitle(),
+			Validate = validation,
+			Name = "Door titles"
+		})
+	end,
+	Callback = function(self, ply, name)
+		self:SetDoorTitle(name)
+	end
+})
+
+Action.Add("SetDoorSubtitle", {
+	Name = "Configure Door/Set Subtitle...",
+	Priority = 4,
+
+	Access = ACTION_EDITMODE,
+	Target = ACTION_INTERACT,
+
+	CanRun = canRun,
+	Validate = function(self, ply, name)
+		return validate.Value(name, validation)
+	end,
+	Client = function(self)
+		return true, GUI.Open("Input", "string", "Change Door Subtitle", {
+			Default = self:DoorSubtitle(),
+			Validate = validation,
+			Name = "Door subtitles"
+		})
+	end,
+	Callback = function(self, ply, name)
+		self:SetDoorSubtitle(name)
+	end
+})
+
 Action.Add("SetDoorType", {
 	Name = "Configure Door/Set Type...",
 	Priority = 3,
@@ -5,9 +59,7 @@ Action.Add("SetDoorType", {
 	Access = ACTION_EDITMODE,
 	Target = ACTION_INTERACT,
 
-	CanRun = function(self, ply)
-		return door.Is(self) and self:CreatedByMap()
-	end,
+	CanRun = canRun,
 	SubOptions = function(self)
 		local tab = {}
 
@@ -23,14 +75,10 @@ Action.Add("SetDoorType", {
 	Validate = function(self, ply, index)
 		return validate.Value(index, validate.InLookup(Doors.AccessTypes))
 	end,
-	Callback = function(self, ply, value)
-		self:SetDoorType(value)
+	Callback = function(self, ply, index)
+		self:SetDoorType(index)
 	end
 })
-
-local validation = {
-	validate.Max(32)
-}
 
 Action.Add("SetDoorGroup", {
 	Name = "Configure Door/Set Group...",
@@ -39,11 +87,9 @@ Action.Add("SetDoorGroup", {
 	Access = ACTION_EDITMODE,
 	Target = ACTION_INTERACT,
 
-	CanRun = function(self, ply)
-		return door.Is(self) and self:CreatedByMap()
-	end,
-	Validate = function(self, ply, name)
-		return validate.Value(name, validation)
+	CanRun = canRun,
+	Validate = function(self, ply, group)
+		return validate.Value(group, validation)
 	end,
 	Client = function(self)
 		return true, GUI.Open("Input", "string", "Change Door Group", {
@@ -52,8 +98,8 @@ Action.Add("SetDoorGroup", {
 			Name = "Door groups"
 		})
 	end,
-	Callback = function(self, ply, name)
-		self:SetDoorGroup(name)
+	Callback = function(self, ply, group)
+		self:SetDoorGroup(group)
 	end
 })
 

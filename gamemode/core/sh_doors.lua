@@ -26,11 +26,18 @@ function AddAccessType(name, data)
 	AccessTypes[name] = {
 		Name = data.Name or name,
 		Color = color,
+
+		Title = data.Title or function(ent) return ent:DoorTitle() end,
+		Subtitle = data.Subtitle or function(ent) return ent:DoorSubtitle() end,
+
 		CanAccess = data.CanAccess or function(ent, ply) return true end,
 		CanLock = data.CanLock or function(ent, ply) return false end,
+
 		OnAccessGranted = data.OnAccessGranted or function(ent, ply) end,
 		OnAccessDenied = data.OnAccessDenied or function(ent, ply, reason) end,
+
 		OnDoorLocked = data.OnDoorLocked or function(ent, ply) end,
+
 		PreUseCallback = data.PreUseCallback or function(ent, ply) end,
 		PostUseCallback = data.PostUseCallback or function(ent, ply) end
 	}
@@ -76,7 +83,7 @@ function AddVar(name, data)
 				local master = door.GetMaster(self)
 
 				if not data.Set(master, val) then
-					master["Set" .. var](self, val)
+					master["Set" .. var](master, val)
 				end
 			else
 				if not data.Set(self, val) then
@@ -93,6 +100,12 @@ end
 
 function GetAccessType(ent)
 	return AccessTypes[ent:DoorType()]
+end
+
+function GetText(ent)
+	local accessType = GetAccessType(ent)
+
+	return accessType.Title(ent), accessType.Subtitle(ent)
 end
 
 function Iterator()
