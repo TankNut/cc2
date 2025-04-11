@@ -22,7 +22,7 @@ function AddSong(type, name, path)
 	table.insert(Songs, {
 		Type = type,
 		Name = name,
-		Path = path,
+		Path = "sound/" .. path,
 		Length = math.Round(SoundDuration(path))
 	})
 end
@@ -51,12 +51,30 @@ function CreateChannel(path, cb)
 	end)
 end
 
+function PlayPreview(path, volume)
+	StopMusic()
+	CreateChannel(path, function(channel)
+		channel:SetVolume((volume or 1) * getVolume("PlayMusicVolume"))
+		channel:Play()
+
+		MusicChannel = channel
+		MusicVolume = volume or 1
+		MusicEndTime = CurTime() + channel:GetLength()
+		MusicPriority = AMBIENCE_PREVIEW
+
+		Chat.Receive("CONSOLE", table.concat({
+			"<c=white>Played Preview: " .. path .. "</c>",
+			"  Stop: rp_stopmusic"
+		}, "\n"))
+	end)
+end
+
 function PlayMusic(priority, path, volume, source)
 	if MusicPriority > priority then
 		return
 	end
 
--- TODO: Implement fade-out if one track is played over another.
+	-- TODO: Implement fade-out if one track is played over another.
 	StopMusic()
 	CreateChannel(path, function(channel)
 		channel:SetVolume((volume or 1) * getVolume("PlayMusicVolume"))

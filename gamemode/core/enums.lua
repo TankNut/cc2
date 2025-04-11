@@ -92,10 +92,11 @@ GLOBALVAR_ALWAYS          = 1 -- Always load
 GLOBALVAR_MAP             = 2 -- Load based on game.GetMapOverride()
 GLOBALVAR_MAP_NO_OVERRIDE = 3 -- Load based on game.GetMap()
 
-AMBIENCE_GLOBAL = 0
-AMBIENCE_LOCAL  = 1
+AMBIENCE_PREVIEW = 0
+AMBIENCE_GLOBAL  = 1
+AMBIENCE_LOCAL   = 2
 
-SONG_IDLE    = 0
-SONG_ALERT   = 1
-SONG_ACTION  = 2
-SONG_STINGER = 3
+SONG_IDLE     = 0
+SONG_ALERT    = 1
+SONG_ACTION   = 2
+SONG_STINGER  = 3

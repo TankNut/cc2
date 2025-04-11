@@ -82,8 +82,8 @@ playMusic:AddParameter(console.String({
 playMusic:AddParameter(console.String({}, "path"))
 
 playMusic:AddOptional(console.Number({
-	Min = 0.01,
-	Max = 2,
+	validate.Min(0.01),
+	validate.Max(2)
 }, "volume"), 1)
 
 local stopMusic = console.AddCommand("rpa_stopmusic", function(ply, level)
@@ -122,8 +122,8 @@ playEffect:AddParameter(console.String({
 playEffect:AddParameter(console.String({}, "path"))
 
 playEffect:AddOptional(console.Number({
-	Min = 0.01,
-	Max = 2,
+	validate.Min(0.01),
+	validate.Max(2)
 }, "volume"), 1)
 
 local stopEffect = console.AddCommand("rpa_stopeffect", function(ply, level)
