@@ -270,7 +270,9 @@ function GM:CanTakeItem(ply, item)
 end
 
 function GM:CanStoreItem(ply, item, inventory)
-	if inventory.StoreType == INV_ITEM then
+	if inventory.StoreType == INV_PLAYER or inventory.StoreType == INV_STASH then
+		return inventory:GetPlayer() == ply, "You cannot store things in other people's inventories!"
+	elseif inventory.StoreType == INV_ITEM then
 		local container = inventory:GetItem()
 
 		if container == item then
@@ -292,6 +294,12 @@ function GM:CanStoreItem(ply, item, inventory)
 end
 
 function GM:CanCustomizeItem(ply, item)
+	local ok, err = hook.Run("CanInteractWithItem", ply, item)
+
+	if not ok then
+		return false, err
+	end
+
 	if not item.Customizable then
 		return false
 	end
