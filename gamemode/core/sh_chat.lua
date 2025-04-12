@@ -220,8 +220,14 @@ else
 		return ""
 	end
 
-	function PLAYER:VisibleMessage(messageType, text)
-		Chat.Send(messageType, text, GetTargets(self:EyePos(), 450, 450, false))
+	function PLAYER:VisibleMessage(messageType, text, force)
+		if self:IsInNoClip() and not force then
+			Send(messageType, text, {self})
+
+			return
+		end
+
+		Send(messageType, text, GetTargets(self:EyePos(), 450, 450, false))
 	end
 end
 
