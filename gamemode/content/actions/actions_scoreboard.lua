@@ -53,10 +53,24 @@ Action.Add("ScoreboardMuted", {
 	end
 })
 
+Action.Add("ScoreboardEditInventory", {
+	Name = "Edit Inventory",
+	ClientOnly = true,
+	Priority = 60,
+
+	Access = ACTION_ADMIN,
+	Context = "Scoreboard",
+
+	-- CanRun = function(self, ply) return self != ply end,
+	Client = function(self, ply)
+		RunConsoleCommand("rpa_editinventory", self:SteamID())
+	end
+})
+
 Action.Add("ScoreboardCharacterID", {
 	Name = "Copy CharID",
 	ClientOnly = true,
-	Priority = 60,
+	Priority = 50,
 
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
@@ -71,7 +85,7 @@ Action.Add("ScoreboardCharacterID", {
 Action.Add("ScoreboardSteamID", {
 	Name = "Copy SteamID",
 	ClientOnly = true,
-	Priority = 50,
+	Priority = 40,
 
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
@@ -86,7 +100,7 @@ Action.Add("ScoreboardSteamID", {
 Action.Add("ScoreboardCharacters", {
 	Name = "List Characters",
 	ClientOnly = true,
-	Priority = 40,
+	Priority = 30,
 
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",

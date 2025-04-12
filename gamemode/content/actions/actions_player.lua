@@ -8,6 +8,8 @@ Action.Add("Patdown", {
 		local endTime = CurTime() + 5
 
 		if SERVER then
+			ply:VisibleMessage("NOTICE", string.format("%s starts patting down %s", ply:VisibleRPName(), target:VisibleRPName()))
+
 			netstream.Send(target, "InformPatdown", ply, endTime)
 		end
 
