@@ -215,6 +215,10 @@ else
 	end
 
 	function GM:PlayerSay(ply, text, t)
+		if not ply:HasCharacter() then
+			return ""
+		end
+
 		Parse(ply, text)
 
 		return ""
