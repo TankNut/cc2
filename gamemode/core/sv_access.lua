@@ -150,7 +150,7 @@ function GM:CheckPassword(steam64, ip, sv, cl, nick)
 	if #sv > 0 and cl != sv then
 		Log.Write("access_deny", nick, steamid, "bad password")
 
-		return false, "#GameUI_ServerRejectBadPassword"
+		return false
 	end
 
 	return true
