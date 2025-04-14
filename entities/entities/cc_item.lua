@@ -117,12 +117,6 @@ function ENT:Use(ply)
 	end
 
 	if self.Ephemeral then
-		if ply:IsTemporaryCharacter() then
-			ply:SendChat("ERROR", "You can't pick up normal items as a temporary character!")
-
-			return
-		end
-
 		local ok, err = hook.Run("CanPickupItem", ply, item)
 
 		if not ok then

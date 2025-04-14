@@ -46,7 +46,7 @@ local give = console.AddCommand("rpa_giveitem", function(ply, targets, item)
 	end
 
 	for _, target in ipairs(targets) do
-		if not target:HasCharacter() or target:IsTemporaryCharacter() then
+		if not target:HasCharacter() then
 			continue
 		end
 

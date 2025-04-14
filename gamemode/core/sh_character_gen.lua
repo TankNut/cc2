@@ -33,15 +33,15 @@ function Get(id)
 end
 
 if SERVER then
-	function Run(ply, id, temp)
+	function Run(ply, id, event)
 		local generator = Get(id)
 		local fields = generator:GetFields(ply)
 
-		if temp then
-			ply:CreateTempCharacter(fields)
-		else
-			ply:CreateCharacter(fields)
+		if event then
+			fields.IsEventCharacter = true
 		end
+
+		ply:CreateCharacter(fields)
 
 		generator:PostCreateCharacter(ply)
 	end

@@ -22,11 +22,11 @@ function PANEL:Populate()
 	local characters = {}
 	local temp = {}
 
-	for id, name in pairs(lp:CharacterList()) do
-		if id < 0 then
-			temp[id] = name
+	for id, data in pairs(lp:CharacterList()) do
+		if data.Event then
+			temp[id] = data.Name
 		else
-			characters[id] = name
+			characters[id] = data.Name
 		end
 	end
 
@@ -112,7 +112,7 @@ function PANEL:Populate()
 		self.GenCharacter = self:Add("DButton")
 		self.GenCharacter:DockMargin(0, 5, 0, 0)
 		self.GenCharacter:Dock(TOP)
-		self.GenCharacter:SetText("Generate temporary character")
+		self.GenCharacter:SetText("Create event character")
 
 		self.GenCharacter.DoClick = function(pnl)
 			self:Remove()

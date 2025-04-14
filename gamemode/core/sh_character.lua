@@ -5,6 +5,8 @@ PlayerVar.Add("VisibleRPName", {Default = "Unconnected"})
 PlayerVar.Add("VisibleDescription", {Default = "", Private = true})
 PlayerVar.Add("ShortDescription", {Default = ""})
 
+CharacterVar.Add("IsEventCharacter", {Default = false, Field = "EventCharacter", DataType = BOOL()})
+
 CharacterVar.Add("CharacterName", {Default = "Unknown", Private = true, Field = "Name", DataType = VARCHAR(64)})
 CharacterVar.Add("CharacterNameOverride", {Default = "", Private = true, Field = "NameOverride", DataType = VARCHAR(64)})
 
@@ -24,10 +26,6 @@ local PLAYER = FindMetaTable("Player")
 
 function PLAYER:HasCharacter()
 	return self:CharID() != 0
-end
-
-function PLAYER:IsTemporaryCharacter()
-	return self:CharID() < 0
 end
 
 function GM:OnCharacterListChanged(ply, old, new, loaded)

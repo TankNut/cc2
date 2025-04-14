@@ -1,14 +1,20 @@
 module("Character", package.seeall)
 
-TempData = TempData or {}
-
 local PLAYER = FindMetaTable("Player")
+
+function Delete(id)
+	local query = GAMEMODE.Database:Update("rp_characters")
+		query:UpdateRaw("Deleted_At", os.time())
+		query:WhereEqual("id", id)
+	query:Execute()
+end
 
 function PLAYER:LoadCharacterList()
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:Select("id")
 		query:Select("Name")
 		query:Select("NameOverride")
+		query:Select("EventCharacter")
 		query:WhereEqual("SteamID", self:SteamID())
 		query:WhereNull("Deleted_At")
 	local data = query:Execute()
@@ -16,13 +22,10 @@ function PLAYER:LoadCharacterList()
 	local characters = {}
 
 	for _, row in pairs(data) do
-		characters[row.id] = row.NameOverride or row.Name or "Unknown"
-	end
-
-	for id, temp in ipairs(TempData) do
-		if temp.SteamID == self:SteamID() then
-			characters[-id] = temp.Fields.CharacterNameOverride or temp.Fields.CharacterName or "Unknown"
-		end
+		characters[row.id] = {
+			Name = row.NameOverride or row.Name or "Unknown",
+			Event = tobool(row.EventCharacter)
+		}
 	end
 
 	self:SetCharacterList(characters, true)
@@ -49,25 +52,14 @@ function PLAYER:CreateCharacter(fields)
 	local _, id = query:Execute()
 
 	local characters = self:CharacterList()
-	characters[id] = fields.CharacterNameOverride or fields.CharacterName or "Unknown"
+
+	characters[id] = {
+		Name = fields.CharacterNameOverride or fields.CharacterName or "Unknown",
+		Event = tobool(fields.IsEventCharacter)
+	}
 
 	self:SetCharacterList(characters)
 	self:LoadCharacter(id)
-
-	return id
-end
-
-function PLAYER:CreateTempCharacter(fields)
-	local id = -table.insert(TempData, {
-		SteamID = self:SteamID(),
-		Fields = fields
-	})
-
-	local characters = self:CharacterList()
-	characters[id] = fields.CharacterNameOverride or fields.CharacterName or "Unknown"
-
-	self:SetCharacterList(characters)
-	self:LoadTempCharacter(id)
 
 	return id
 end
@@ -76,32 +68,6 @@ function GM:PreLoadCharacter(ply, id)
 	if ply:HasCharacter() then
 		ply:SetCharacterLastSeen(os.time())
 	end
-end
-
-function PLAYER:LoadTempCharacter(id)
-	hook.Run("PreLoadCharacter", self, id)
-
-	local data = TempData[-id].Fields
-
-	self:SetCharID(id)
-
-	for _, var in pairs(CharacterVar.Vars) do
-		local val = data[var.Name]
-
-		if not val then
-			self["Set" .. var.Name](self, nil, true)
-
-			continue
-		end
-
-		self["Set" .. var.Name](self, val, true)
-	end
-
-	Inventory.LoadTemp(self)
-
-	netstream.Send(self, "PostLoadCharacter")
-
-	hook.Run("PostLoadCharacter", self)
 end
 
 function PLAYER:LoadCharacter(id)
@@ -166,11 +132,7 @@ netstream.Hook("DeleteCharacter", function(ply, id)
 end)
 
 function PLAYER:DeleteCharacter(id)
-	if id < 0 then
-		DeleteTemp(id)
-	else
-		Delete(id)
-	end
+	Delete(id)
 
 	local characters = self:CharacterList()
 	characters[id] = nil
@@ -182,34 +144,12 @@ function PLAYER:DeleteCharacter(id)
 	end
 end
 
-function DeleteTemp(id)
-	local data = TempData[-id]
-
-	if data.Inventory then
-		Inventory.Get(data.Inventory):Remove()
-		Inventory.Get(data.Stash):Remove()
-	end
-
-	TempData[-id] = nil
-end
-
-function Delete(id)
-	local query = GAMEMODE.Database:Update("rp_characters")
-		query:UpdateRaw("Deleted_At", os.time())
-		query:WhereEqual("id", id)
-	query:Execute()
-end
-
 netstream.Hook("SelectCharacter", function(ply, id)
 	if not ply:CharacterList()[id] then
 		return
 	end
 
-	if id < 0 then
-		ply:LoadTempCharacter(id)
-	else
-		ply:LoadCharacter(id)
-	end
+	ply:LoadCharacter(id)
 end)
 
 netstream.Hook("ChangeCharacterName", function(ply, new)
@@ -258,12 +198,40 @@ netstream.Hook("ChangeCharacterNotes", function(ply, new)
 	ply:SetCharacterNotes(new)
 end)
 
-function GM:OnCharacterNameChanged(ply, old, new)
-	ply:UpdateVisibleName()
+local function updateCharacterListing(ply)
+	local charList = ply:CharacterList()
+
+	local name = ply:CharacterName()
+	local override = ply:CharacterNameOverride()
+
+	charList[ply:CharID()] = {
+		Name = #override > 0 and override or name or "*UNKNOWN*",
+		Event = ply:IsEventCharacter()
+	}
+
+	ply:SetCharacterList(charList)
 end
 
-function GM:OnCharacterNameOverrideChanged(ply, old, new)
-	ply:UpdateVisibleName()
+function GM:OnCharacterNameChanged(ply, old, new, loaded)
+	if not loaded then
+		ply:UpdateVisibleName()
+
+		updateCharacterListing(ply)
+	end
+end
+
+function GM:OnCharacterNameOverrideChanged(ply, old, new, loaded)
+	if not loaded then
+		ply:UpdateVisibleName()
+
+		updateCharacterListing(ply)
+	end
+end
+
+function GM:OnIsEventCharacterChanged(ply, old, new, loaded)
+	if not loaded then
+		updateCharacterListing(ply)
+	end
 end
 
 function GM:OnCharacterDescriptionChanged(ply, old, new)

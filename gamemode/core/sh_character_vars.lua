@@ -140,23 +140,19 @@ else
 			return
 		end
 
-		if id < 0 and Character.TempData[-id] then
-			Character.TempData[-id].Fields[var.Name] = value
-		else
-			async.Start(function()
-				local query = GAMEMODE.Database:Update("rp_characters")
+		async.Start(function()
+			local query = GAMEMODE.Database:Update("rp_characters")
 
-				if value == nil then
-					query:UpdateRaw(var.Field, "NULL")
-				else
-					value = var.Encode and var.Encode(value) or value
+			if value == nil then
+				query:UpdateRaw(var.Field, "NULL")
+			else
+				value = var.Encode and var.Encode(value) or value
 
-					query:Update(var.Field, value)
-				end
+				query:Update(var.Field, value)
+			end
 
-				query:WhereEqual("id", id)
-				query:Execute()
-			end)
-		end
+			query:WhereEqual("id", id)
+			query:Execute()
+		end)
 	end
 end

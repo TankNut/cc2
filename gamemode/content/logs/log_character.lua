@@ -12,14 +12,14 @@ Log.AddType("character_create", function(ply, charType)
 end)
 
 Log.AddType("character_generate", function(ply, generator)
-	return string.format("%s has generated a %s%s character: %s", ply:Nick(), ply:IsTemporaryCharacter() and "temporary " or "", generator.Name, ply:VisibleRPName()), {
+	return string.format("%s has generated a %s character: %s", ply:Nick(), generator.Name, ply:VisibleRPName()), {
 		Log.Character(ply),
 		Generator = generator.ClassName
 	}
 end)
 
 Log.AddType("character_delete", function(ply, id)
-	return string.format("%s has deleted a %scharacter with ID: %s", ply:Nick(), id < 0 and "temporary " or "", id), {
+	return string.format("%s has deleted a character with ID: %s", ply:Nick(), id), {
 		Log.Player(ply),
 		CharID = id
 	}

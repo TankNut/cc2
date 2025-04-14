@@ -62,13 +62,14 @@ GM.Badges = {
 	Badge("admin",      "Admin",           "icon16/shield.png",        function(ply) return canSeeAdminBadge(ply) and ply:GetUserGroup() == "admin" end),
 	Badge("tempadmin",  "Temporary Admin", "icon16/shield_delete.png", function(ply) return ply:TempAdmin() end),
 
-	Badge("bannedtt",   "Banned Tooltrust",    "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
-	Badge("advancedtt", "Advanced Tooltrust",  "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
-	Badge("oocmuted",   "OOC Muted",           "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() == 1 end),
-	Badge("hidden",     "Manually Hidden",     "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() == 1 end),
+	Badge("bannedtt",   "Banned Tooltrust",   "icon16/key_delete.png",    function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_BANNED end),
+	Badge("advancedtt", "Advanced Tooltrust", "icon16/key_add.png",       function(ply) return canSeePrivateBadge(ply) and ply:GetToolTrust() == TOOLTRUST_ADVANCED end),
+	Badge("oocmuted",   "OOC Muted",          "icon16/keyboard_mute.png", function(ply) return canSeePrivateBadge(ply) and ply:OOCMuted() == 1 end),
+	Badge("hidden",     "Manually Hidden",    "icon16/contrast_low.png",  function(ply) return canSeePrivateBadge(ply) and ply:CharacterHidden() == 1 end),
 
 	Badge("betatest",   "Beta Tester", "icon16/controller.png"),
 	Badge("bughunter",  "Bug Hunter",  "icon16/bug.png"),
 
-	Badge("newbie",     "Inexperienced Roleplayer", "icon16/new.png", function(ply) return ply:GetSetting("Newbie") end)
+	Badge("event",      "Event Character",          "icon16/vcard.png", function(ply) return ply:IsEventCharacter() end),
+	Badge("newbie",     "Inexperienced Roleplayer", "icon16/new.png",   function(ply) return ply:GetSetting("Newbie") end)
 }

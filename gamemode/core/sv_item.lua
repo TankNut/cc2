@@ -81,8 +81,6 @@ function LoadWorld()
 end
 
 function PLAYER:GiveItem(class, data)
-	assert(not self:IsTemporaryCharacter(), "Attempt to give a normal item to a temp character")
-
 	local item = Create(class, data)
 
 	item:SetInventory(self:GetInventory())
@@ -101,10 +99,6 @@ end
 function GM:CanPickupItem(ply, item)
 	if not item:IsDropped() then
 		return false, "You cannot pick up items that aren't on the ground!"
-	end
-
-	if ply:IsTemporaryCharacter() and not item:IsTemporaryItem() then
-		return false, "You can't pick up normal items as a temporary character!"
 	end
 
 	if ply:InventoryWeight() > ply:MaxInventoryWeight() then

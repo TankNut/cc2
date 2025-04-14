@@ -1,3 +1,12 @@
+function BOOL()
+	return {
+		DataType = "TINYINT(1)",
+		Validate = function(val) return isbool(val) end,
+		Encode = function(val) return val and 1 or 0 end,
+		Decode = function(val) return tobool(val) end
+	}
+end
+
 function INT()
 	return {
 		DataType = "INT(11)",
