@@ -9,6 +9,33 @@ function Delete(id)
 	query:Execute()
 end
 
+function Fetch(id, deleted)
+	local query = GAMEMODE.Database:Select("rp_characters")
+		query:WhereEqual("id", id)
+
+	if not deleted then
+		query:WhereNull("Deleted_At")
+	end
+
+	local data = assert(query:Execute()[1], string.format("No character with id %s exists", id))
+
+	local fields = {}
+
+	for _, var in pairs(CharacterVar.Vars) do
+		local val = data[var.Field]
+
+		if not val then
+			val = util.SafeCopy(var.Default)
+		elseif var.Decode then
+			val = var.Decode(val)
+		end
+
+		fields[var.Name] = val
+	end
+
+	return fields
+end
+
 function PLAYER:LoadCharacterList()
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:Select("id")
