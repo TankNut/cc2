@@ -40,6 +40,9 @@ end
 
 function GM:OnCharIDChanged(ply, old, new, loaded)
 	if CLIENT and ply == lp then
+		-- Don't remove, used to prevent cl_fullupdate from killing people's huds
+		Hud.Rebuild()
+
 		if new == 0 then
 			GUI.Open("CharacterSelect")
 
