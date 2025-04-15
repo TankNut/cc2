@@ -68,7 +68,7 @@ function PANEL:Populate()
 		button:SetDisabled(true)
 	end
 
-	for id, name in SortedPairs(temp, true) do
+	for id, name in SortedPairs(temp) do
 		local button = self:Add("DButton")
 
 		button:DockMargin(0, 0, 0, 5)
