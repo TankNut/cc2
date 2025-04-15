@@ -1,3 +1,5 @@
+module("Character", package.seeall)
+
 PlayerVar.Add("CharID", {Default = 0})
 PlayerVar.Add("CharacterList", {Default = {}, Private = true})
 
@@ -23,6 +25,14 @@ CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType 
 CharacterVar.Add("Spawngroup", {Default = "", Private = true, DataType = VARCHAR(32)})
 
 local PLAYER = FindMetaTable("Player")
+
+function FindByID(id)
+	for _, ply in player.Iterator() do
+		if ply:CharID() == id then
+			return ply
+		end
+	end
+end
 
 function PLAYER:HasCharacter()
 	return self:CharID() != 0
