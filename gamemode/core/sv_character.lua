@@ -2,24 +2,20 @@ module("Character", package.seeall)
 
 local PLAYER = FindMetaTable("Player")
 
-function Delete(id)
-	local query = GAMEMODE.Database:Update("rp_characters")
-		query:UpdateRaw("Deleted_At", os.time())
-		query:WhereEqual("id", id)
-	query:Execute()
-end
-
-function Fetch(id, deleted)
+function Fetch(id)
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:WhereEqual("id", id)
 
-	if not deleted then
-		query:WhereNull("Deleted_At")
+	local data = query:Execute()[1]
+
+	if not data then
+		return false
 	end
 
-	local data = assert(query:Execute()[1], string.format("No character with id %s exists", id))
-
-	local fields = {}
+	local fields = {
+		id = id,
+		SteamID = data.SteamID
+	}
 
 	for _, var in pairs(CharacterVar.Vars) do
 		local val = data[var.Field]
@@ -34,6 +30,29 @@ function Fetch(id, deleted)
 	end
 
 	return fields
+end
+
+function Delete(id)
+	local data = Fetch(id)
+
+	if not data then
+		return
+	end
+
+	local ply = player.GetBySteamID(data.SteamID)
+
+	if IsValid(ply) and ply:CharID() == id then
+		ply:UnloadCharacter()
+	end
+
+	local query = GAMEMODE.Database:Update("rp_characters")
+		query:Update("Deleted_At", os.time())
+		query:WhereEqual("id", id)
+	query:Execute()
+
+	if IsValid(ply) then
+		ply:LoadCharacterList()
+	end
 end
 
 function SetOwner(id, steamid)
@@ -102,14 +121,7 @@ function PLAYER:CreateCharacter(fields)
 		end
 	local _, id = query:Execute()
 
-	local characters = self:CharacterList()
-
-	characters[id] = {
-		Name = fields.CharacterNameOverride or fields.CharacterName or "Unknown",
-		Event = tobool(fields.IsEventCharacter)
-	}
-
-	self:SetCharacterList(characters)
+	self:LoadCharacterList()
 	self:LoadCharacter(id)
 
 	return id
@@ -122,6 +134,12 @@ function GM:PreLoadCharacter(ply, id)
 end
 
 function PLAYER:LoadCharacter(id)
+	local ply = FindByID(id)
+
+	if ply then
+		ply:UnloadCharacter()
+	end
+
 	hook.Run("PreLoadCharacter", self, id)
 
 	local query = GAMEMODE.Database:Select("rp_characters")
@@ -179,21 +197,8 @@ netstream.Hook("DeleteCharacter", function(ply, id)
 
 	Log.Write("character_delete", ply, id)
 
-	ply:DeleteCharacter(id)
-end)
-
-function PLAYER:DeleteCharacter(id)
 	Delete(id)
-
-	local characters = self:CharacterList()
-	characters[id] = nil
-
-	self:SetCharacterList(characters)
-
-	if self:CharID() == id then
-		self:UnloadCharacter()
-	end
-end
+end)
 
 netstream.Hook("SelectCharacter", function(ply, id)
 	if not ply:CharacterList()[id] then
