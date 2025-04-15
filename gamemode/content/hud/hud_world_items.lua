@@ -59,7 +59,7 @@ function HUD:DrawItem(item, cache)
 
 	if self:GetExtraSetting("ShowWeight") then
 		table.insert(lines, {
-			scribe.Parse(string.format("<medium><ol><dark>Weight: %s kg", item:GetItemWeight())), cache.Alpha
+			scribe.Parse(string.format("<medium><ol><dark>Weight: %s kg", math.Round(item:GetItemWeight(), 2))), cache.Alpha
 		})
 	end
 
