@@ -47,7 +47,7 @@ function INVENTORY:GetItem()
 end
 
 function INVENTORY:GetEntity()
-	if self.StoreType == INV_CONTAINER then
+	if self.StoreType == INV_ENTITY then
 		return Entity(self.Parent)
 	end
 end

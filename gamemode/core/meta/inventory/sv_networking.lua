@@ -108,8 +108,8 @@ function INVENTORY:CheckListener(ply)
 		return false -- Can't check another player's stash
 	elseif self.StoreType == INV_ITEM then
 		return hook.Run("CanOpenItemContainer", ply, self:GetItem())
-	elseif self.StoreType == INV_CONTAINER then
 		return ply:WithinInteractRange(self:GetEntity())
+	elseif self.StoreType == INV_ENTITY then
 	end
 end
 
