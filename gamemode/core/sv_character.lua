@@ -36,6 +36,30 @@ function Fetch(id, deleted)
 	return fields
 end
 
+function SetOwner(id, steamid)
+	local oldOwner = FindByID(id)
+
+	if IsValid(oldOwner) then
+		oldOwner:UnloadCharacter()
+
+		local charList = oldOwner:CharacterList()
+		charList[id] = nil
+
+		oldOwner:SetCharacterList(charList)
+	end
+
+	local query = GAMEMODE.Database:Update("rp_characters")
+		query:Update("SteamID", steamid)
+		query:WhereEqual("id", id)
+	query:Execute()
+
+	local newOwner = player.GetBySteamID(steamid)
+
+	if IsValid(newOwner) then
+		newOwner:LoadCharacterList()
+	end
+end
+
 function PLAYER:LoadCharacterList()
 	local query = GAMEMODE.Database:Select("rp_characters")
 		query:Select("id")
