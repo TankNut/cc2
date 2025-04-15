@@ -27,6 +27,8 @@ ITEM.Actions.Open = {
 	end
 }
 
+ItemDataFunc("MaxWeight")
+
 function ITEM:Initialize()
 	BaseClass.Initialize(self)
 
@@ -48,8 +50,4 @@ function ITEM:GetWeight()
 	end
 
 	return weight
-end
-
-function ITEM:GetMaxWeight()
-	return self:GetData("MaxWeight", self.MaxWeight)
 end

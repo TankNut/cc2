@@ -63,6 +63,16 @@ GM:Include("actions/actions_customization.lua")
 GM:Include("actions/actions_equipment.lua")
 GM:Include("actions/actions_store.lua")
 
+ItemDataFunc("Rarity")
+ItemDataFunc("Category")
+
+ItemDataFunc("EquipTime")
+ItemDataFunc("UnequipTime")
+
+if SERVER then
+	ItemDataFunc("GetBuffs")
+end
+
 function ITEM:Initialize()
 	self.EquipmentLookup = table.Lookup(self.EquipmentSlots)
 

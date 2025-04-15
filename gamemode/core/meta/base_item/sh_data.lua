@@ -61,8 +61,9 @@ function ITEM:GetDescription()
 	return table.concat(description)
 end
 
-function ITEM:GetRarity() return self:GetData("Rarity", self.Rarity) end
-function ITEM:GetRarityData() return Item.Rarities[self:GetRarity()] end
+function ITEM:GetRarityData()
+	return Item.Rarities[self:GetRarity()]
+end
 
 function ITEM:GetWeight()
 	local weight = self:GetData("Weight", self.Weight)
@@ -78,7 +79,6 @@ function ITEM:GetArmor()
 	return self:IsEquipped() and self.Armor or 0
 end
 
-function ITEM:GetCategory() return self:GetData("Category", self.Category) end
 function ITEM:GetTags()
 	local tags = {self:GetRarityData().Name, self:GetCategory()}
 
@@ -93,16 +93,4 @@ if CLIENT then
 	function ITEM:GetIconCamera()
 		return Angle(self:GetData("IconAngle", self.IconAngle)), self:GetData("IconFOV", self.IconFOV)
 	end
-else
-	function ITEM:GetBuffs()
-		return self:GetData("Buffs", self.Buffs)
-	end
-end
-
-function ITEM:GetEquipTime()
-	return self:GetData("EquipTime", self.EquipTime)
-end
-
-function ITEM:GetUnequipTime()
-	return self:GetData("UnequipTime", self.UnequipTime)
 end

@@ -13,13 +13,8 @@ ITEM.IconFOV = 6
 ITEM.KeyType = KEY_BOTH
 ITEM.KeyID   = ""
 
-function ITEM:GetKeyType()
-	return self:GetData("KeyType", self.KeyType)
-end
-
-function ITEM:GetKeyID()
-	return self:GetData("KeyID", self.KeyID)
-end
+ItemDataFunc("KeyType")
+ItemDataFunc("KeyID")
 
 function ITEM:TryKey(keyType, id)
 	local ourType = self:GetKeyType()

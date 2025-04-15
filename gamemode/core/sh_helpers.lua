@@ -74,3 +74,9 @@ DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 
 function FILTER_PROPS(class) return tobool(PROP_CLASSES[class]) end
 function FILTER_PLAYER(class) return class == "player" end
+
+function ItemDataFunc(key)
+	ITEM["Get" .. key] = function(self)
+		return self:GetData(key, self[key])
+	end
+end
