@@ -4,7 +4,6 @@ ITEM.Name = "Bag of Holding"
 ITEM.Description = "This bag has an interior space considerably larger than it's outside dimensions"
 
 ITEM.Rarity = RARITY_DEVELOPER
-ITEM.Tags = {}
 
 ITEM.Model = Model("models/props_junk/garbage_bag001a.mdl")
 ITEM.Color = Color(95, 63, 127)
