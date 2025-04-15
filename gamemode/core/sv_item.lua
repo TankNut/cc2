@@ -11,6 +11,7 @@ function Create(class, data)
 
 	local query = GAMEMODE.Database:Insert("rp_items")
 		query:Insert("Class", class)
+		query:Insert("Created_At", os.time())
 
 		if data then
 			query:Insert("CustomData", sfs.encode(data))
