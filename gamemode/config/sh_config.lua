@@ -35,6 +35,9 @@ GM.Config.ConsciousnessRate = 0.7
 GM.Config.LoneWolfCounter = 3 -- How many friendly/neutral NPC's a player can kill before being considered a lone wolf
 GM.Config.NPCCalloutRadius = 256 -- Range at which an NPC will alert allies when angered
 
+GM.Config.StashCooldown = util.Duration("15 min")
+GM.Config.StashRange = 128
+
 -- Characters
 GM.Config.BaseModels = {
 	Model("models/tnb/heads/trp/male_01.mdl"),

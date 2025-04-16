@@ -150,7 +150,7 @@ function GM:CanAccessInventory(ply, inventory)
 	if storeType == INV_PLAYER then
 		return ply == inventory:GetPlayer()
 	elseif storeType == INV_STASH then
-		return ply == inventory:GetPlayer() --and ply:CanAccessStash()
+		return ply == inventory:GetPlayer() and ply:CanAccessStash()
 	elseif storeType == INV_ITEM then
 		local item = inventory:GetItem()
 

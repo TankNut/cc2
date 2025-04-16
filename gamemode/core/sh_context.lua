@@ -118,7 +118,7 @@ if CLIENT then
 			end
 		end
 
-		for _, entry in ipairs(lp:GetActionMenuData("Self")) do
+		for _, entry in ipairs(lp:GetActionMenuData("SelfContext")) do
 			Context.Add(entry.Name, entry.Callback, CONTEXT_SELF)
 		end
 	end

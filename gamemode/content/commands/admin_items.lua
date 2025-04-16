@@ -87,3 +87,25 @@ giveTemp:AddParameter(console.Player())
 giveTemp:AddParameter(console.Item({
 	Force = true
 }))
+
+local clearStashes = console.AddCommand("rpa_clearstashes", function(ply)
+	Log.Write("admin_stash_clear", ply)
+
+	GAMEMODE:SetStashVersion(GAMEMODE:StashVersion() + 1)
+
+	Chat.Send("NOTICE", console.FormatMessage("%s has cleared everyone's stashes.", ply))
+
+	for _, target in player.Iterator() do
+		if target:HasStash() then
+			local data = target:GetStashData()
+			data[game.GetMapOverride()] = nil
+
+			target:SetStashData(data)
+		end
+	end
+end)
+
+clearStashes:SetCategory("Item Commands")
+clearStashes:SetDescription("Clears everyone's stashes from the map")
+clearStashes:SetExecutionContext(console.Server)
+clearStashes:SetAccess(console.IsAdmin)

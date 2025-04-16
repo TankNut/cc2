@@ -152,3 +152,9 @@ Log.AddType("admin_player_slap", function(ply, target)
 		Log.Player(target)
 	}
 end)
+
+Log.AddType("admin_stash_clear", function(ply)
+	return string.format("%s has cleared all stashes on the map", Log.Nick(ply)), {
+		Log.Admin(ply)
+	}
+end)
