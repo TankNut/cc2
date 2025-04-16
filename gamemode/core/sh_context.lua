@@ -119,6 +119,10 @@ if CLIENT then
 				Context.Add(string.format("Inventory/%s/%s", name, entry.Name), entry.Callback, CONTEXT_INVENTORY)
 			end
 		end
+
+		for _, entry in ipairs(lp:GetActionMenuData("Self")) do
+			Context.Add(entry.Name, entry.Callback, CONTEXT_SELF)
+		end
 	end
 
 	function GM:BuildAdminContext()

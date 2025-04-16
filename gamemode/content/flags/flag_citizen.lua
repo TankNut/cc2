@@ -24,3 +24,21 @@ function FLAG:GetModelData(ply)
 		}
 	}
 end
+
+Voicelines.Add("MetropolicePassive", {
+	Name = "Metropolice (Passive)",
+	CanAccess = function (ply) return true end,
+	Options = {
+			["npc/metropolice/vo/movealong.wav"] = "Move along.",
+			["npc/metropolice/vo/holdit.wav"] = "Hold it."
+	}
+})
+
+Voicelines.Add("MetropoliceCombat", {
+	Name = "Metropolice (Combat)",
+	CanAccess = function (ply) return true end,
+	Options = {
+			["npc/metropolice/vo/11-99officerneedsassistance.wav"] = "11-99 officer needs assistance!",
+			["npc/metropolice/vo/thatsagrenade.wav"] = "That's a grenade!"
+	}
+})
