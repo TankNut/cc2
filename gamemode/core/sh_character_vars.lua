@@ -111,15 +111,19 @@ function Clear(ply)
 end
 
 if CLIENT then
-	netstream.Hook("BulkCharacterVars", function(ply, data)
-		logger:Info("Received bulk character vars for %s", ply)
+	function HandleBulk(data)
+		logger:Info("Received bulk character vars for %s players", table.Count(data))
 
-		for name, value in pairs(data) do
-			ply["Set" .. name](ply, value, true)
+		for ply, vars in pairs(data) do
+			logger:Debug("Received bulk character vars for %s", ply)
+
+			for name, value in pairs(vars) do
+				ply["Set" .. name](ply, value, true)
+			end
 		end
-	end)
+	end
 else
-	function Sync(ply, requester)
+	function Sync(ply, requester, output)
 		local data = {}
 
 		for name, var in pairs(Vars) do
@@ -131,7 +135,7 @@ else
 		end
 
 		if table.Count(data) > 0 then
-			netstream.Send(requester, "BulkCharacterVars", ply, data)
+			output[ply] = data
 		end
 	end
 

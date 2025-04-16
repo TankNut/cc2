@@ -95,15 +95,19 @@ function Clear(ent)
 end
 
 if CLIENT then
-	netstream.Hook("BulkEntityVars", function(ent, data)
-		logger:Info("Received bulk entity vars for %s", ent)
+	function HandleBulk(data)
+		logger:Info("Received bulk entity vars for %s entities", table.Count(data))
 
-		for name, value in pairs(data) do
-			ent["Set" .. name](ent, value, true)
+		for ent, vars in pairs(data) do
+			logger:Debug("Received bulk entity vars for %s", ent)
+
+			for name, value in pairs(vars) do
+				ent["Set" .. name](ent, value, true)
+			end
 		end
-	end)
+	end
 else
-	function Sync(ent, requester)
+	function Sync(ent, requester, output)
 		local data = {}
 
 		for name, var in pairs(Vars) do
@@ -115,7 +119,7 @@ else
 		end
 
 		if table.Count(data) > 0 then
-			netstream.Send(requester, "BulkEntityVars", ent, data)
+			output[ent] = data
 		end
 	end
 end

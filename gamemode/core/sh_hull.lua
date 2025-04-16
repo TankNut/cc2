@@ -62,13 +62,9 @@ function GM:GetPlayerScale(ply)
 end
 
 function GM:OnScaleChanged(ply, old, new, loaded)
-	if not loaded then
-		ply:UpdateHull()
-	end
+	ply:UpdateHull()
 end
 
 function GM:OnCharacterScaleChanged(ply, old, new, loaded)
-	if not loaded then
-		ply:UpdateHull()
-	end
+	ply:UpdateHull()
 end
