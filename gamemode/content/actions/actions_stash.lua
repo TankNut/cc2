@@ -1,6 +1,6 @@
 Action.Add("OpenStash", {
 	Name = "Stash/Open",
-	Priority = 1,
+	Priority = 2,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",

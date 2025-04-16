@@ -1,28 +1,37 @@
 Action.Add("Voicelines", {
 	Name = "Voicelines",
-	Priority = 100,
+	Priority = 1,
 
 	Target = ACTION_SELF,
 	Context = "Self",
 
 	CanRun = function(self)
-		return table.Count(self:GetVoicelineGroups()) > 0
+		return self:CanPlayVoicelines()
 	end,
 
-	SubOptions = function()
+	SubOptions = function(self)
 		local options = {}
-		local groups = lp:GetVoicelineGroups()
-		local plural = table.Count(groups) != 1
+		local categories = {}
 
-		for groupId, groupData in pairs(groups) do
-			local baseName = plural and groupData.Name .. "/" or ""
+		for id, category in SortedPairsByMemberValue(Voicelines.Categories, "Name") do
+			if not category.CanAccess(self) then
+				continue
+			end
 
-			for path, name in pairs(groupData.Options) do
+			table.insert(categories, category)
+		end
+
+		local plural = #categories > 1
+
+		for _, category in pairs(categories) do
+			local baseName = plural and category.Name .. "/" or ""
+
+			for id, voiceline in pairs(category.Options) do
 				table.insert(options, {
-					Name = baseName .. name,
+					Name = baseName .. voiceline.Text,
 					Value = {
-						Group = groupId,
-						Path = path
+						Category = category.ID,
+						Index = id
 					}
 				})
 			end
@@ -32,10 +41,10 @@ Action.Add("Voicelines", {
 	end,
 
 	Validate = function(self, ply, voiceline)
-		return ply:CanAccessVoicelineGroup(voiceline.Group)
+		return ply:CanPlayVoicelines(voiceline.Category)
 	end,
 
 	Callback = function(self, ply, voiceline)
-		ply:PlayVoiceline(voiceline.Group, voiceline.Path)
+		ply:PlayVoiceline(voiceline.Category, voiceline.Index)
 	end
 })

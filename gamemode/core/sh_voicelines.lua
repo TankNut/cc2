@@ -1,34 +1,74 @@
 module("Voicelines", package.seeall)
 
-Groups = {}
+Categories = {}
 
 local PLAYER = FindMetaTable("Player")
 
-function Add(name, data)
-	table.insert(Groups, {
-		ID = name,
-		Name = data.Name or name,
-		CanAccess = data.CanAccess or function(ply) return false end,
+function Add(category, data)
+	Categories[category] = {
+		ID = category,
+		Name = data.Name,
+		CanAccess = data.CanAccess or function(ply) return true end,
 		Options = data.Options
-	})
+	}
 end
 
-function PLAYER:GetVoicelineGroups()
-	return table.Filter(Groups, function(_, group)
-		return group.CanAccess(self)
-	end)
+function Get(category)
+	return Categories[category]
 end
 
-function PLAYER:CanAccessVoicelineGroup(group)
-	return Groups[group] and Groups[group].CanAccess(self)
+function PLAYER:CanPlayVoicelines(category)
+	return hook.Run("CanPlayVoicelines", self, category)
+end
+
+function GM:CanPlayVoicelines(ply, category)
+	if not ply:CanAct() or not ply:Alive() then
+		return false
+	end
+
+	if category and not Get(category).CanAccess(ply) then
+		return false
+	end
+
+	if ply.NextVoicelineTime and ply.NextVoicelineTime > CurTime() then
+		return false
+	end
+
+	return true
 end
 
 if SERVER then
-	function PLAYER:PlayVoiceline(group, path)
-		if not self:CanAccessVoicelineGroup(group) then
+	function PLAYER:PlayVoiceline(category, index, db)
+		hook.Run("PlayVoiceline", self, category, index, db)
+	end
+
+	function GM:PlayVoiceline(ply, category, index, db)
+		if not db then
+			db = 75
+		end
+
+		local voiceline = Get(category).Options[index]
+
+		if not voiceline then
 			return
 		end
 
-		self:EmitSound(path)
+		local text = voiceline.Text
+		local line = voiceline.Line
+
+		-- TODO: "tables" -> Old CC1 sound tables.
+		if isstring(line) and string.match(line, ".-%.wav") then
+			ply:EmitSound(line, db)
+		else
+			EmitSentence(line, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
+		end
+
+		ply.NextVoicelineTime = CurTime() + VOICELINE_DELAY
+
+		for _, ent in pairs(ents.FindInSphere(ply:GetPos(), 300)) do
+			if IsValid(ent) and ent:IsPlayer() then
+				ent:PrintMessage(HUD_PRINTCONSOLE, ply:VisibleRPName() .. " played sound '" .. text .. "'.")
+			end
+		end
 	end
 end
