@@ -1,8 +1,6 @@
 local PLAYER = FindMetaTable("Player")
 
 function GM:OnPlayerReady(ply)
-	GlobalVar.Sync(ply)
-
 	async.Start(function()
 		PlayerVar.Load(ply)
 		ply:LoadCharacterList()

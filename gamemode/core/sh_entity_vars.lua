@@ -1,10 +1,6 @@
 module("EntityVar", package.seeall)
 
-Vars = Vars or {}
-Store = Store or {}
-
 local ENTITY = FindMetaTable("Entity")
-local logger = log.Create("vars")
 
 function Add(name, data, metatable)
 	metatable = metatable or "Entity"
@@ -15,111 +11,14 @@ function Add(name, data, metatable)
 		assert(meta.MetaBaseClass == ENTITY, "Attempt to add an entity var to non-entity metatable " .. metatable)
 	end
 
-	data = {
-		Name = name,
-		Index = "e_" .. name,
-		Default = data.Default,
-		ServerOnly = tobool(data.ServerOnly)
-	}
+	netvar.Add(name, data)
 
-	Store[name] = Store[name] or {}
-	Vars[name] = data
-
-	local index = data.Index
-	local default = data.Default
-	local serverOnly = data.ServerOnly
-
-	if serverOnly and CLIENT then
+	if data.ServerOnly and CLIENT then
 		return
 	end
 
-	local cache = Store[name]
-	local hookName = "On" .. name .. "Changed"
-
-	local get = function(ent, raw)
-		local value = cache[ent]
-
-		if raw then
-			return value
-		elseif value == nil then
-			return util.SafeCopy(data.Default)
-		end
-
-		return value
-	end
-
-	local set = function(ent, value, loading)
-		if not IsValid(ent) then
-			logger:Debug("Ignoring attempt to set entity var %s on a NULL entity", name)
-
-			return
-		end
-
-		logger:Debug("Set: %s.Entity.%s", ent, name)
-
-		local old = get(ent)
-		cache[ent] = value
-		local new = get(ent)
-
-		if not istable(old) and new == old then
-			return true
-		end
-
-		hook.Run(hookName, ent, old, new, loading)
-	end
-
-	meta[name] = get
+	meta[name] = function(ent, raw) return netvar.Get(ent, name, raw) end
 	meta["Set" .. name] = function(ent, value, loading)
-		assert(not isentity(value), "The var system does not support entities, use Get/SetNWEntity instead")
-
-		if value == default then value = nil end
-
-		if set(ent, value, loading) then
-			return
-		end
-
-		if SERVER and not serverOnly and ent:EntIndex() > 0 then
-			netstream.Broadcast(index, ent, value, loading)
-		end
-	end
-
-	if CLIENT then
-		netstream.Hook(index, set)
-	end
-end
-
-function Clear(ent)
-	for _, entities in pairs(Store) do
-		entities[ent] = nil
-	end
-end
-
-if CLIENT then
-	function HandleBulk(data)
-		logger:Info("Received bulk entity vars for %s entities", table.Count(data))
-
-		for ent, vars in pairs(data) do
-			logger:Debug("Received bulk entity vars for %s", ent)
-
-			for name, value in pairs(vars) do
-				ent["Set" .. name](ent, value, true)
-			end
-		end
-	end
-else
-	function Sync(ent, requester, output)
-		local data = {}
-
-		for name, var in pairs(Vars) do
-			if var.ServerOnly then
-				continue
-			end
-
-			data[name] = Store[name][ent]
-		end
-
-		if table.Count(data) > 0 then
-			output[ent] = data
-		end
+		netvar.Set(ent, name, value, loading)
 	end
 end

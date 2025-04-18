@@ -1,9 +1,4 @@
-if CLIENT then
-	GM.VarSyncCache = GM.VarSyncCache or {}
-end
-
 local wheelSpeed = GetConVar("physgun_wheelspeed")
-local logger = log.Create("vars")
 
 function GM:Think()
 	self.BaseClass:Think()
@@ -11,13 +6,6 @@ function GM:Think()
 	if CLIENT then
 		if wheelSpeed:GetFloat() > 20 then
 			RunConsoleCommand("physgun_wheelspeed", "20")
-		end
-
-		if #self.VarSyncCache > 0 then
-			logger:Info("Requesting vars for %s entities", #self.VarSyncCache)
-			netstream.Send("RequestEntityVars", self.VarSyncCache)
-
-			self.VarSyncCache = {}
 		end
 
 		Ambience.Think()

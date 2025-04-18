@@ -28,20 +28,12 @@ function GM:InitPostEntity()
 	hook.Run("LoadDatabase")
 end
 
-local logger = log.Create("vars")
-
 function GM:OnEntityCreated(ent)
 	if not IsValid(ent) then
 		return
 	end
 
 	EntityCache.OnCreated(ent)
-
-	if CLIENT and ent:EntIndex() > 0 then
-		logger:Debug("Adding %s to var sync cache", ent)
-
-		table.insert(self.VarSyncCache, ent)
-	end
 
 	if ent:IsPlayer() then
 		Inventory.Init(ent)
@@ -62,11 +54,7 @@ end
 function GM:EntityRemoved(ent, fullUpdate)
 	EntityCache.OnRemoved(ent)
 
-	if ent:IsPlayer() then
-		CharacterVar.Clear(ent)
-		PlayerVar.Clear(ent)
-	else
-		EntityVar.Clear(ent)
+	if not ent:IsPlayer() then
 		Buttons.OnRemoved(ent)
 	end
 
@@ -114,21 +102,7 @@ function GM:PostCleanupMap()
 	end
 end
 
-if CLIENT then
-	netstream.Hook("BulkEntityData", function(data)
-		if data.Players then
-			PlayerVar.HandleBulk(data.Players)
-		end
-
-		if data.Characters then
-			CharacterVar.HandleBulk(data.Characters)
-		end
-
-		if data.Entities then
-			EntityVar.HandleBulk(data.Entities)
-		end
-	end)
-else
+if SERVER then
 	function GM:EntityTakeDamage(ent, dmginfo)
 		if ent:IsPlayer() then
 			return hook.Run("PlayerTakeDamage", ent, dmginfo)
@@ -156,35 +130,4 @@ else
 			return override
 		end
 	end
-
-	netstream.Hook("RequestEntityVars", function(ply, entities)
-		local data = {
-			Players = {},
-			Characters = {},
-			Entities = {}
-		}
-
-		for _, ent in ipairs(entities) do
-			if not IsValid(ent) then
-				continue
-			end
-
-			if ent:IsPlayer() then
-				PlayerVar.Sync(ent, ply, data.Players)
-				CharacterVar.Sync(ent, ply, data.Characters)
-			else
-				EntityVar.Sync(ent, ply, data.Entities)
-			end
-		end
-
-		if table.Count(data.Players) == 0 then data.Players = nil end
-		if table.Count(data.Characters) == 0 then data.Characters = nil end
-		if table.Count(data.Entities) == 0 then data.Entities = nil end
-
-		if table.Count(data) == 0 then
-			return
-		end
-
-		netstream.Send(ply, "BulkEntityData", data)
-	end)
 end
