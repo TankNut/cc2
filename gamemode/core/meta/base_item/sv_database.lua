@@ -51,7 +51,8 @@ function ITEM:Delete()
 
 	if not self:IsTemporaryItem() then
 		async.Start(function()
-			local query = GAMEMODE.Database:Delete("rp_items")
+			local query = GAMEMODE.Database:Update("rp_items")
+				query:Update("Deleted_At", os.time())
 				query:WhereEqual("id", self.ID)
 			query:Execute()
 		end)

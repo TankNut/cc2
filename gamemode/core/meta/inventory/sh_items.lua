@@ -46,6 +46,7 @@ else
 		local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", self.StoreType)
 		query:WhereEqual("StoreID", self.StoreID)
+		query:WhereNull("Deleted_At")
 
 		for _, data in ipairs(query:Execute()) do
 			if not Item.List[data.Class] then

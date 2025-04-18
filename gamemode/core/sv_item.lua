@@ -61,6 +61,7 @@ function LoadWorld()
 	local query = GAMEMODE.Database:Select("rp_items")
 		query:WhereEqual("StoreType", INV_WORLD)
 		query:WhereEqual("StoreID", game.GetMapOverride())
+		query:WhereNull("Deleted_At")
 
 	local i = 0
 
