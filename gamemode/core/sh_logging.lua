@@ -49,7 +49,7 @@ function WriteToFile(log)
 end
 
 function WriteChatLog(log)
-	WriteToFile(string.format("[%s] %s\n", os.date("!%X"), log))
+	WriteToFile(string.format("[%s] %s", os.date("!%X"), log))
 end
 
 function WriteHint(log)
