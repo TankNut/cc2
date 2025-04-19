@@ -145,5 +145,10 @@ if SERVER then
 
 			ply["Set" .. var.Name](ply, value, true)
 		end
+
+		hook.Run("OnPlayerVarsLoaded", ply)
+	end
+
+	function GM:OnPlayerVarsLoaded(ply)
 	end
 end
