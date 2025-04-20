@@ -1,9 +1,9 @@
--- 08/11/2024: First combinecontrol-tnb commit
+-- 08/11/2024: First cc2-core commit
 -- 21/03/2025: Last remaining CC code stripped out
 AddCSLuaFile()
 DeriveGamemode("sandbox")
 
-GM.Name = "CombineControl: TnB"
+GM.Name = "CombineControl 2"
 GM.Author = "Taco N Banana"
 GM.Website = "http://taconbanana.com"
 GM.Email = "gangleider@taconbanana.com"

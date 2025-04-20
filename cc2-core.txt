@@ -1,7 +1,7 @@
-"combinecontrol-tnb"
+"cc2-core"
 {
 	"base"		"sandbox"
-	"title"		"CombineControl: TnB"
+	"title"		"CombineControl 2"
 	"maps"		"^rp_"
 	"menusystem"	"1"
 }
