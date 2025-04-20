@@ -105,11 +105,13 @@ local function checkName(item, name)
 	local ok = false
 
 	for _, field in ipairs(fields) do
-		if name == string.lower(item[field]) then
+		local lower = string.lower(item[field])
+
+		if name == lower then
 			return true, true
 		end
 
-		if not ok and string.find(string.lower(item[field]), name, 1, true) then
+		if not ok and string.find(lower, name, 1, true) then
 			ok = true
 		end
 	end
