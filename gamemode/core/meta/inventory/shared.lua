@@ -26,14 +26,6 @@ function INVENTORY:Initialize()
 	end
 end
 
-function INVENTORY:IsTempInventory()
-	if self.StoreType != INV_PLAYER and self.StoreType != INV_STASH then
-		return false
-	end
-
-	return self.StoreID < 0
-end
-
 function INVENTORY:GetPlayer()
 	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
 		return Entity(self.Parent)
@@ -80,11 +72,6 @@ else
 	end
 
 	function INVENTORY:Clear()
-		if self:IsTempInventory() then
-			-- Stop sending to the player
-			self:ClearListeners()
-		else
-			self:Remove()
-		end
+		self:Remove()
 	end
 end
