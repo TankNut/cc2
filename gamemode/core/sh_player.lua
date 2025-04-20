@@ -34,9 +34,15 @@ function PLAYER:SetupDataTables()
 	self:NetworkVar("Angle", "SavedMoveAngles")
 end
 
--- Todo: Implement weapon zoom as a multiplier
 function PLAYER:GetSightRange()
-	return Config.Get("PlayerSight")
+	local sight = Config.Get("PlayerSight")
+	local weapon = self:GetActiveWeapon()
+
+	if IsValid(weapon) and weapon:IsType("weapon_cc_base") then
+		sight = sight * weapon:GetZoom()
+	end
+
+	return sight
 end
 
 function PLAYER:HasToolOut()
