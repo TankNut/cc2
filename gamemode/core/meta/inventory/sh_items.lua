@@ -39,12 +39,12 @@ if CLIENT then
 	end
 else
 	function INVENTORY:LoadItems()
-		local query = GAMEMODE.Database:Select("rp_items")
-		query:WhereEqual("StoreType", self.StoreType)
-		query:WhereEqual("StoreID", self.StoreID)
-		query:WhereNull("Deleted_At")
+		local query = GAMEMODE.Database:Query("SELECT * FROM `rp_items` WHERE `StoreType` = :storeType AND `StoreID` = :storeId AND `Deleted_At` IS NULL", {
+			storeType = self.StoreType,
+			storeId = self.StoreID
+		})
 
-		for _, data in ipairs(query:Execute()) do
+		for _, data in ipairs(query) do
 			if not Item.List[data.Class] then
 				continue
 			end

@@ -7,7 +7,7 @@ SELECT rp_characters.id,
        rp_players.LastNick
 FROM rp_characters
   LEFT JOIN rp_players ON rp_characters.SteamID = rp_players.SteamID
-WHERE rp_characters.EventCharacter = 1 AND rp_characters.Deleted_At IS NULL AND rp_characters.SteamID != "BOT"]])
+WHERE rp_characters.EventCharacter = 1 AND rp_characters.Deleted_At IS NULL AND rp_characters.SteamID != 'BOT']])
 
 	if #characters < 1 then
 		console.Feedback(ply, "ERROR", "No event characters exist")

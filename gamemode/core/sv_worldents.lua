@@ -1,12 +1,13 @@
 module("WorldEnts", package.seeall)
 
 function LoadEntities()
-	local query = GAMEMODE.Database:Select("rp_worldents")
-		query:WhereEqual("Map", game.GetMapOverride())
+	local query = GAMEMODE.Database:Query("SELECT * FROM `rp_worldents` WHERE `Map` = :map", {
+		map = game.GetMapOverride()
+	})
 
 	local loadOrder = {}
 
-	for _, data in ipairs(query:Execute()) do
+	for _, data in ipairs(query) do
 		local class = scripted_ents.Get(data.Class)
 
 		-- We don't have this entity (removed or errored during load)
@@ -62,23 +63,23 @@ function Save(ent)
 
 	if ent:IsSaved() then
 		async.Start(function()
-			local query = GAMEMODE.Database:Select("rp_worldents")
-				query:Update("MapData", mapData)
-				query:Update("CustomData", data)
-				query:WhereEqual("id", ent:GetEntityID())
-			query:Execute()
+			GAMEMODE.Database:Query("UPDATE `rp_worldents` SET `MapData` = :mapData, `CustomData` = :data WHERE `id` = :id", {
+				mapData = mapData,
+				data = data,
+				id = ent:GetEntityID()
+			})
 		end)
 	else
 		undo.ReplaceEntity(ent, NULL)
 		cleanup.ReplaceEntity(ent, NULL)
 
 		async.Start(function()
-			local query = GAMEMODE.Database:Insert("rp_worldents")
-				query:Insert("Class", ent:GetClass())
-				query:Insert("Map", game.GetMapOverride())
-				query:Insert("MapData", mapData)
-				query:Insert("CustomData", data)
-			local _, id = query:Execute()
+			local _, id = GAMEMODE.Database:Query("INSERT INTO `rp_worldents` (`Class`, `Map`, `MapData`, `CustomData`) VALUES (:class, :map, :mapData, :data)", {
+				class = ent:GetClass(),
+				map = game.GetMapOverride(),
+				mapData = mapData,
+				data = data,
+			})
 
 			ent:SetEntityID(id)
 			ent:PostInitData()
@@ -94,9 +95,9 @@ function Delete(ent)
 	end
 
 	async.Start(function()
-		local query = GAMEMODE.Database:Delete("rp_worldents")
-			query:WhereEqual("id", ent:GetEntityID())
-		query:Execute()
+		GAMEMODE.Database:Query("DELETE FROM `rp_worldents` WHERE `id` = :id", {
+			id = ent:GetEntityID()
+		})
 
 		ent:Remove()
 	end)

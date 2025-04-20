@@ -40,7 +40,6 @@ end
 if SERVER then
 	function Save(var, value)
 		async.Start(function()
-			local query
 			local map = ""
 
 			if var.Mode == GLOBALVAR_MAP then
@@ -50,28 +49,26 @@ if SERVER then
 			end
 
 			if value == nil then
-				query = GAMEMODE.Database:Delete("rp_globals")
-
-				query:WhereEqual("Map", map)
-				query:WhereEqual("Key", var.Field)
+				GAMEMODE.Database:Query("DELETE FROM `rp_globals` WHERE `Map` = :map AND `Key` = :key", {
+					map = map,
+					key = var.Field
+				})
 			else
-				query = GAMEMODE.Database:Upsert("rp_globals")
-
-				query:Insert("Map", map)
-				query:Insert("Key", var.Field)
-				query:Insert("Value", sfs.encode(value))
+				GAMEMODE.Database:Query("INSERT INTO `rp_globals` (`Map`, `Key`, `Value`) VALUES (:map, :key, :value) ON DUPLICATE KEY UPDATE `Value` = :value", {
+					map = map,
+					key = var.Field,
+					value = sfs.encode(value)
+				})
 			end
-
-			query:Execute()
 		end)
 	end
 
 	function Load()
-		local query = GAMEMODE.Database:Select("rp_globals")
+		local query = GAMEMODE.Database:Query("SELECT * FROM `rp_globals` WHERE `Map` IN :maps", {
+			maps = {game.GetMap(), game.GetMapOverride(), ""}
+		})
 
-		query:WhereIn("Map", {game.GetMap(), game.GetMapOverride(), ""})
-
-		for _, data in ipairs(query:Execute()) do
+		for _, data in ipairs(query) do
 			local var = Fields[data.Key]
 
 			if not var then

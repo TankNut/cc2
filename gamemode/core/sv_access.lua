@@ -5,9 +5,9 @@ Bans = Bans or {}
 function LoadBans()
 	Bans = {}
 
-	local query = GAMEMODE.Database:Select("rp_bans")
+	local query = GAMEMODE.Database:Query("SELECT * FROM `rp_bans`")
 
-	for _, ban in ipairs(query:Execute()) do
+	for _, ban in ipairs(query) do
 		Bans[ban.SteamID] = ban
 
 		CheckBanned(ban.SteamID)
@@ -26,15 +26,15 @@ function AddBan(steamid, admin, length, reason)
 		Length = length,
 		Reason = reason or "No reason specified"
 	}
-
-	local query = GAMEMODE.Database:Insert("rp_bans")
-		query:Insert("SteamID", ban.SteamID)
-		query:Insert("Admin", ban.Admin)
-		query:Insert("Timestamp", ban.Timestamp)
-		query:Insert("Length", ban.Length)
-		query:Insert("Reason", ban.Reason)
+	
 	async.Start(function()
-		query:Execute()
+		GAMEMODE.Database:Query("INSERT INTO `rp_bans` (`SteamID`, `Admin`, `Timestamp`, `Length`, `Reason`) VALUES (:steamId, :admin, :timestamp, :length, :reason)", {
+			steamId = ban.SteamID,
+			admin = ban.Admin,
+			timestamp = ban.Timestamp,
+			length = ban.Length,
+			reason = ban.Reason
+		})
 	end)
 
 	Bans[steamid] = ban
@@ -102,10 +102,10 @@ function CheckBanned(steamid)
 end
 
 function LiftBan(steamid, admin)
-	local query = GAMEMODE.Database:Delete("rp_bans")
-		query:WhereEqual("SteamID", steamid)
 	async.Start(function()
-		query:Execute()
+		GAMEMODE.Database:Query("DELETE FROM `rp_bans` WHERE `SteamID` = :steamId", {
+			steamId = steamid
+		})
 	end)
 
 	Log.Write("access_unban", admin, steamid)

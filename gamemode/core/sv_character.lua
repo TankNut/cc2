@@ -3,10 +3,9 @@ module("Character", package.seeall)
 local PLAYER = FindMetaTable("Player")
 
 function Fetch(id)
-	local query = GAMEMODE.Database:Select("rp_characters")
-		query:WhereEqual("id", id)
-
-	local data = query:Execute()[1]
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id", {
+		id = id
+	})[1]
 
 	if not data then
 		return false
@@ -45,10 +44,10 @@ function Delete(id)
 		ply:UnloadCharacter()
 	end
 
-	local query = GAMEMODE.Database:Update("rp_characters")
-		query:Update("Deleted_At", os.time())
-		query:WhereEqual("id", id)
-	query:Execute()
+	GAMEMODE.Database:Query("UPDATE `rp_characters` SET `Deleted_At` = :time WHERE `id` = :id", {
+		time = os.time(),
+		id = id
+	})
 
 	if IsValid(ply) then
 		ply:LoadCharacterList()
@@ -64,10 +63,9 @@ function Undelete(id)
 
 	local ply = player.GetBySteamID(data.SteamID)
 
-	local query = GAMEMODE.Database:Update("rp_characters")
-		query:UpdateRaw("Deleted_At", "NULL")
-		query:WhereEqual("id", id)
-	query:Execute()
+	GAMEMODE.Database:Query("UPDATE `rp_characters` SET `Deleted_At` = NULL WHERE `id` = :id", {
+		id = id
+	})
 
 	if IsValid(ply) then
 		ply:LoadCharacterList()
@@ -86,10 +84,10 @@ function SetOwner(id, steamid)
 		oldOwner:SetCharacterList(charList)
 	end
 
-	local query = GAMEMODE.Database:Update("rp_characters")
-		query:Update("SteamID", steamid)
-		query:WhereEqual("id", id)
-	query:Execute()
+	GAMEMODE.Database:Query("UPDATE `rp_characters` SET `SteamID` = :steamId WHERE `id` = :id", {
+		steamId = steamid,
+		id = id
+	})
 
 	local newOwner = player.GetBySteamID(steamid)
 
@@ -99,14 +97,9 @@ function SetOwner(id, steamid)
 end
 
 function PLAYER:LoadCharacterList()
-	local query = GAMEMODE.Database:Select("rp_characters")
-		query:Select("id")
-		query:Select("Name")
-		query:Select("NameOverride")
-		query:Select("EventCharacter")
-		query:WhereEqual("SteamID", self:SteamID())
-		query:WhereNull("Deleted_At")
-	local data = query:Execute()
+	local data = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `EventCharacter` FROM `rp_characters` WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
+		steamId = self:SteamID()
+	})
 
 	local characters = {}
 
@@ -121,24 +114,28 @@ function PLAYER:LoadCharacterList()
 end
 
 function PLAYER:CreateCharacter(fields)
-	local query = GAMEMODE.Database:Insert("rp_characters")
-		query:Insert("SteamID", self:SteamID())
-		query:Insert("Created_At", os.time())
+	local keys = {"`SteamID`", "`Created_At`"}
+	local values = {":steamId", ":time"}
 
-		for k, v in pairs(fields) do
-			local var = CharacterVar.Vars[k]
+	local data = {
+		steamId = self:SteamID(),
+		time = os.time()
+	}
 
-			if var.Validate and not var.Validate(v) then
-				error(string.format("%s value '%s' doesn't match database type %s", k, v, var.DataType))
-			end
+	for k, v in pairs(fields) do
+		local var = CharacterVar.Vars[k]
 
-			if var.Encode then
-				query:Insert(var.Field, var.Encode(v))
-			else
-				query:Insert(var.Field, v)
-			end
+		if var.Validate and not var.Validate(v) then
+			error(string.format("%s value '%s' doesn't match database type %s", k, v, var.DataType))
 		end
-	local _, id = query:Execute()
+
+		table.insert(keys, string.format("`%s`", var.Field))
+		table.insert(values, ":" .. var.Field)
+
+		data[var.Field] = var.Encode and var.Encode(v) or v
+	end
+
+	local _, id = GAMEMODE.Database:Query(string.format("INSERT INTO `rp_characters` (%s) VALUES (%s)", table.concat(keys, ", "), table.concat(values, ", ")), data)
 
 	self:LoadCharacterList()
 	self:LoadCharacter(id)
@@ -161,10 +158,9 @@ function PLAYER:LoadCharacter(id)
 
 	hook.Run("PreLoadCharacter", self, id)
 
-	local query = GAMEMODE.Database:Select("rp_characters")
-		query:WhereEqual("id", id)
-		query:WhereNull("Deleted_At")
-	local data = assert(query:Execute()[1], string.format("No character with id %s exists", id))
+	local data = assert(GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id AND `Deleted_At` IS NULL", {
+		id = id
+	})[1], string.format("No character with id %s exists", id))
 
 	self:SetCharID(id)
 

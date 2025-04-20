@@ -94,7 +94,7 @@ function Read(name, data, offset, fromTime, toTime)
 		where = " WHERE " .. where
 	end
 
-	return GAMEMODE.Database:Query(string.format("SELECT UNIQUE `id`, `Log`, `Name`, `Timestamp`, `Data` FROM rp_logs LEFT JOIN rp_log_data USING (id)%s ORDER BY `id` DESC LIMIT %s OFFSET %s", where, Config.Get("LogLines"), offset or 0))
+	return db:RawQuery(string.format("SELECT UNIQUE `id`, `Log`, `Name`, `Timestamp`, `Data` FROM `rp_logs` LEFT JOIN `rp_log_data` USING (`id`)%s ORDER BY `id` DESC LIMIT %s OFFSET %s", where, Config.Get("LogLines"), offset or 0))
 end
 
 local colorCache
@@ -160,21 +160,21 @@ function Write(name, ...)
 	end
 
 	async.Start(function()
-		local query = GAMEMODE.Database:Insert("rp_logs")
-			query:Insert("Log", log)
-			query:Insert("Name", name)
-			query:Insert("Timestamp", os.time())
-			query:Insert("Data", sfs.encode(keyvalues))
-		local _, id = query:Execute()
+		local _, id = GAMEMODE.Database:Query("INSERT INTO `rp_logs` (`Log`, `Name`, `Timestamp`, `Data`) VALUES (:log, :name, :time, :data)", {
+			log = log,
+			name = name,
+			time = os.time(),
+			data = sfs.encode(keyvalues)
+		})
 
 		GAMEMODE.Database:Begin()
 
 		for _, pair in ipairs(keyvalues) do
-			query = GAMEMODE.Database:Insert("rp_log_data")
-				query:Insert("id", id)
-				query:Insert("Key", pair[1])
-				query:Insert("Value", pair[2])
-			query:Execute()
+			GAMEMODE.Database:Query("INSERT INTO `rp_log_data` (`id`, `Key`, `Value`) VALUES (:id, :key, :value)", {
+				id = id,
+				key = pair[1],
+				value = pair[2]
+			})
 		end
 
 		GAMEMODE.Database:Commit()

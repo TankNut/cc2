@@ -178,17 +178,12 @@ slap:AddParameter(console.Player({
 	CheckImmunity = true
 }))
 
-local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamId)
-	local target = player.GetBySteamID(steamId)
-	local name = target and target:Nick() or steamId
-	local query = GAMEMODE.Database:Select("rp_characters")
-		query:Select("id")
-		query:Select("Name")
-		query:Select("NameOverride")
-		query:Select("Flag")
-		query:WhereEqual("SteamID", steamId)
-		query:WhereNull("Deleted_At")
-	local characters = query:Execute()
+local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamid)
+	local target = player.GetBySteamID(steamid)
+	local name = target and target:Nick() or steamid
+	local characters = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `Flag` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
+		steamId = steamid
+	})
 
 	if #characters < 1 then
 		console.Feedback(ply, "ERROR", "No characters exist for %s", name)

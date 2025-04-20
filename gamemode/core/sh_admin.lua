@@ -139,15 +139,6 @@ if SERVER then
 			return
 		end
 
-		local query = GAMEMODE.Database:Select("rp_players")
-			query:Select("SteamID")
-			query:Select("UserGroup")
-			query:Select("Alias")
-			query:Select("LastNick")
-			query:Select("LastSeen")
-			query:WhereNotNull("UserGroup")
-		local data = query:Execute()
-
-		return data
+		return GAMEMODE.Database:Query("SELECT `SteamID`, `UserGroup`, `Alias`, `LastNick`, `LastSeen` FROM `rp_players` WHERE `UserGroup` IS NOT NULL")
 	end)
 end

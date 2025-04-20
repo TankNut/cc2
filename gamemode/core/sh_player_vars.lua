@@ -59,11 +59,9 @@ if SERVER then
 		end
 
 		local data = assert(Vars[name], name .. " is not a valid player var")
-
-		local query = GAMEMODE.Database:Select("rp_players")
-			query:Select(data.Field)
-			query:WhereEqual("SteamID", steamid)
-		local value = query:Execute()[1]
+		local value = GAMEMODE.Database:Query(string.format("SELECT `%s` FROM `rp_players` WHERE `SteamID` = :steamId", data.Field), {
+			steamId = steamid
+		})
 
 		if value then
 			value = value[data.Field]
@@ -105,32 +103,25 @@ if SERVER then
 
 	function Save(steamid, var, value)
 		async.Start(function()
-			local query = GAMEMODE.Database:Upsert("rp_players")
-				query:Insert("SteamID", steamid)
-
 			if value == nil then
-				query:InsertRaw(var.Field, "NULL")
-			else
-				value = var.Encode and var.Encode(value) or value
-
-				query:Insert(var.Field, value)
+				value = NULL
+			elseif var.Encode then
+				value = var.Encode(value)
 			end
 
-			query:Execute()
+			GAMEMODE.Database:Query(string.format("UPDATE `rp_players` SET `%s` = :value WHERE `SteamID` = :steamId", var.Field), {
+				value = value,
+				steamId = steamid
+			})
 		end)
 	end
 
 	function Load(ply)
 		local steamid = ply:SteamID()
-		local query
 
-		query = GAMEMODE.Database:InsertIgnore("rp_players")
-			query:Insert("SteamID", steamid)
-		query:Execute()
+		GAMEMODE.Database:Query("INSERT IGNORE INTO `rp_players` (`SteamID`) VALUES (:steamId)", {steamId = steamid})
 
-		query = GAMEMODE.Database:Select("rp_players")
-			query:WhereEqual("SteamID", steamid)
-		local data = query:Execute()[1]
+		local data = GAMEMODE.Database:Query("SELECT * FROM `rp_players` WHERE `SteamID` = :steamId", {steamId = steamid})[1]
 
 		for field, value in pairs(data) do
 			local var = Fields[field]

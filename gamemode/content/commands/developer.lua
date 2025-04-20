@@ -29,12 +29,9 @@ local editMap = console.AddCommand("dev_edit_map", function(ply, map)
 		return
 	end
 
-	local query = GAMEMODE.Database:Select("rp_globals")
-
-	query:WhereEqual("Key", "MapLua")
-	query:WhereEqual("Map", map)
-
-	local data = query:Execute()[1]
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_globals` WHERE `Map` = :map AND `Key` = 'MapLua'", {
+		map = map
+	})[1]
 
 	if data then
 		ply:OpenGUI("DevEditor", sfs.decode(data.Value), map)

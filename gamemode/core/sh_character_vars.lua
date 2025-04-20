@@ -53,18 +53,16 @@ if SERVER then
 		end
 
 		async.Start(function()
-			local query = GAMEMODE.Database:Update("rp_characters")
-
 			if value == nil then
-				query:UpdateRaw(var.Field, "NULL")
-			else
-				value = var.Encode and var.Encode(value) or value
-
-				query:Update(var.Field, value)
+				value = NULL
+			elseif var.Encode then
+				value = var.Encode(value)
 			end
 
-			query:WhereEqual("id", id)
-			query:Execute()
+			GAMEMODE.Database:Query(string.format("UPDATE `rp_characters` SET `%s` = :value WHERE `id` = :id", var.Field), {
+				value = value,
+				id = id
+			})
 		end)
 	end
 end

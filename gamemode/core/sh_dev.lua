@@ -39,16 +39,14 @@ if SERVER then
 			local query
 
 			if code == "" then
-				query = GAMEMODE.Database:Delete("rp_globals")
-
-				query:WhereEqual("Map", map)
-				query:WhereEqual("Key", "MapLua")
+				GAMEMODE.Database:Query("DELETE FROM `rp_globals` WHERE `Map` = :map AND `Key` = 'MapLua'", {
+					map = map
+				})
 			else
-				query = GAMEMODE.Database:Upsert("rp_globals")
-
-				query:Insert("Map", map)
-				query:Insert("Key", "MapLua")
-				query:Insert("Value", sfs.encode(code))
+				GAMEMODE.Database:Query("INSERT INTO `rp_globals` (`Map`, `Key`, `Value`) VALUES (:map, 'MapLua', :value) ON DUPLICATE KEY UPDATE `Value` = :value", {
+					map = map,
+					value = sfs.encode(code)
+				})
 			end
 
 			query:Execute()

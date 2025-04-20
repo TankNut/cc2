@@ -9,14 +9,10 @@ local logger = log.Create("items")
 function Create(class, data)
 	assert(List[class], "Attempt to create unknown item type: " .. class)
 
-	local query = GAMEMODE.Database:Insert("rp_items")
-		query:Insert("Class", class)
-		query:Insert("Created_At", os.time())
-
-		if data then
-			query:Insert("CustomData", sfs.encode(data))
-		end
-	local _, id = query:Execute()
+	local _, id = GAMEMODE.Database:Query("INSERT INTO `rp_items` (`Class`, `Created_At`) VALUES (:class, :time)", {
+		class = class,
+		time = os.time()
+	})
 
 	return Item.Instance(class, id, data)
 end
@@ -58,14 +54,14 @@ function CreateEphemeral(class, data, pos, ang, time, limit, group)
 end
 
 function LoadWorld()
-	local query = GAMEMODE.Database:Select("rp_items")
-		query:WhereEqual("StoreType", INV_WORLD)
-		query:WhereEqual("StoreID", game.GetMapOverride())
-		query:WhereNull("Deleted_At")
+	local query = GAMEMODE.Database:Query("SELECT * FROM `rp_items` WHERE `StoreType` = :storeType AND `StoreID` = :storeId AND `Deleted_At` IS NULL", {
+		storeType = INV_WORLD,
+		storeId = game.GetMapOverride()
+	})
 
 	local i = 0
 
-	for _, data in ipairs(query:Execute()) do
+	for _, data in ipairs(query) do
 		if not List[data.Class] then
 			continue
 		end
