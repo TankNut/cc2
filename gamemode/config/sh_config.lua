@@ -18,6 +18,9 @@ GM.Config.SettingCategories = {
 	"SeeAll"
 }
 
+-- Chat
+GM.Config.ChatLimit = 500
+
 -- Gameplay
 GM.Config.SprintSlow = 0.5 -- By how much to slow the player down if they're sprinting in a non-forward direction
 
@@ -62,8 +65,7 @@ GM.Config.CharacterNameRules = {
 	validate.Required(),
 	validate.String(),
 	validate.Min(3),
-	validate.Max(40),
-	validate.AllowedCharacters("!?#abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 .-'áàâäçéèêëíìîïóòôöúùûüÿÁÀÂÄßÇÉÈÊËÍÌÎÏÓÒÔÖÚÙÛÜŸ")
+	validate.Max(40)
 }
 
 GM.Config.CharacterDescriptionRules = {

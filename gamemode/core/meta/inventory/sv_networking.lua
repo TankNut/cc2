@@ -62,7 +62,6 @@ function INVENTORY:UpdateReceivers()
 
 	self.Receivers = new
 
-	-- Todo: Better way of doing this?
 	for _, item in pairs(self.Items) do
 		if item.Contents then
 			item.Contents:UpdateReceivers()

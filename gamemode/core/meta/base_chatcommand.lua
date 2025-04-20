@@ -50,8 +50,7 @@ if SERVER then
 	end
 
 	function CLASS:Handle(ply, lang, cmd, text)
-		-- Todo: config option
-		text = string.Escape(string.sub(text, 1, 500))
+		text = string.Escape(string.sub(text, 1, Config.Get("ChatLimit")))
 
 		if self.UseLanguage then
 			-- Should only happen if they don't have a language at all

@@ -197,5 +197,4 @@ function GM:PlayerTakeDamage(ply, dmginfo)
 end
 
 function GM:ScalePlayerDamage(ply, hitgroup, dmginfo)
-	-- Todo: Headshot multipliers?
 end
