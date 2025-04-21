@@ -7,7 +7,7 @@ local canRun = function(self, ply)
 end
 
 Action.Add("SetDoorTitle", {
-	Name = "Configure Door/Set Title...",
+	Name = "Configure Door\0Set Title...",
 	Priority = 5,
 
 	Access = ACTION_EDITMODE,
@@ -30,7 +30,7 @@ Action.Add("SetDoorTitle", {
 })
 
 Action.Add("SetDoorSubtitle", {
-	Name = "Configure Door/Set Subtitle...",
+	Name = "Configure Door\0Set Subtitle...",
 	Priority = 4,
 
 	Access = ACTION_EDITMODE,
@@ -53,7 +53,7 @@ Action.Add("SetDoorSubtitle", {
 })
 
 Action.Add("SetDoorType", {
-	Name = "Configure Door/Set Type...",
+	Name = "Configure Door\0Set Type...",
 	Priority = 3,
 
 	Access = ACTION_EDITMODE,
@@ -81,7 +81,7 @@ Action.Add("SetDoorType", {
 })
 
 Action.Add("SetDoorGroup", {
-	Name = "Configure Door/Set Group...",
+	Name = "Configure Door\0Set Group...",
 	Priority = 2,
 
 	Access = ACTION_EDITMODE,

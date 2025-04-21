@@ -24,7 +24,7 @@ Action.Add("Voicelines", {
 		local plural = #categories > 1
 
 		for _, category in pairs(categories) do
-			local baseName = plural and category.Name .. "/" or ""
+			local baseName = plural and category.Name .. "\0" or ""
 
 			for id, voiceline in pairs(category.Options) do
 				table.insert(options, {
@@ -51,7 +51,7 @@ Action.Add("Voicelines", {
 
 
 Action.Add("OpenStash", {
-	Name = "Stash/Open",
+	Name = "Stash\0Open",
 	Priority = 1,
 
 	Target = ACTION_SELF,
@@ -71,7 +71,7 @@ Action.Add("OpenStash", {
 })
 
 Action.Add("PlaceStash", {
-	Name = "Stash/Place Here",
+	Name = "Stash\0Place Here",
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
