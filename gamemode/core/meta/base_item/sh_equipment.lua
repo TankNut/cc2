@@ -41,7 +41,7 @@ if SERVER then
 			local item = ply:GetEquipment(slot)
 
 			if item then
-				item:SetEquipmentSlot(ply, nil)
+				item:SetEquipmentSlot(nil)
 			end
 		end
 
