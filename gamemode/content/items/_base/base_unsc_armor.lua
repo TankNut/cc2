@@ -7,4 +7,4 @@ ITEM.Weight         = 8
 
 ITEM.EquipmentSlots = {"unsc_armor"}
 
-ITEM.Armor          = 50
+ITEM.Armor          = 30

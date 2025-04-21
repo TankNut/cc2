@@ -2,6 +2,7 @@ GM.DefaultFlag = "unsc"
 GM.DefaultAnimationController = "gmod_player"
 
 GM.EquipmentNames = {
+	unsc_headwear = "headwear",
 	unsc_armor = "armor",
 	unsc_undersuit = "undersuit"
 }
