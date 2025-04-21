@@ -89,6 +89,10 @@ function ITEM:Remove()
 	Item.All[self.ID] = nil
 end
 
+function ITEM:IsType(name)
+	return inherit.IsType(self, "item", name)
+end
+
 inherit.Register("item", "base", ITEM)
 
 ITEM = nil
