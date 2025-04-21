@@ -89,7 +89,7 @@ function ItemCustomization(priority, name, var, options)
 	ItemDataFunc(var, tobool(options) and 0 or false)
 
 	local action = {
-		Name = "Customize/" .. name,
+		Name = "Customize\0" .. name,
 		Priority = priority,
 
 		Context = table.Lookup({"RightClick", "Examine"}),
