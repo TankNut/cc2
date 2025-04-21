@@ -3,7 +3,7 @@ local BaseClass = inherit.Get("item", "base")
 ITEM.Internal       = true
 
 ITEM.Rarity         = RARITY_COMMON
-ITEM.Category       = "Undersuit"
+ITEM.Category       = "UNSC Undersuit"
 
 ITEM.Model          = Model("models/valk/h3/unsc/props/crates/case.mdl")
 

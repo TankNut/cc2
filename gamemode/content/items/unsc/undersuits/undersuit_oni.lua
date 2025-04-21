@@ -10,7 +10,7 @@ ITEM.ModelPattern = "models/ishi/halo_rebirth/player/offduty/%s/offduty_%s.mdl"
 ITEM.ModelGroup   = "Off-Duty"
 
 if SERVER then
-	function ITEM:GetModelData(ply)
+	function ITEM:GetModelData(ply, clothing)
 		if not self:IsEquipped() then
 			return
 		end

@@ -28,7 +28,7 @@ ItemCustomization(ITEM_ACTION_CUSTOMIZE - 3, "Set Thigh Pads", "ThighPads", {
 ItemCustomization(ITEM_ACTION_CUSTOMIZE - 4, "Set Legs", "Legs", {
 	{Name = "Kneepads", Value = 0},
 	{Name = "Combat", Value = 1},
-	{Name = "UA/Combat", Value = 2}
+	{Name = "UA%Combat", Value = 2}
 })
 
 if SERVER then
