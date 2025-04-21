@@ -25,11 +25,9 @@ ITEM.Actions.Examine = {
 }
 
 ITEM.Actions.Drop = {
-	Priority = 1,
+	Priority = ITEM_ACTION_DROP,
 
-	Context = table.Lookup({
-		"RightClick"
-	}),
+	Context = table.Lookup({"RightClick"}),
 
 	CanRun = function(self, ply)
 		return hook.Run("CanDropItem", ply, self)
@@ -42,9 +40,9 @@ ITEM.Actions.Drop = {
 }
 
 ITEM.Actions.Destroy = {
-	Context = table.Lookup({
-		"RightClick"
-	}),
+	Priority = ITEM_ACTION_DESTROY,
+
+	Context = table.Lookup({"RightClick"}),
 
 	CanRun = function(self, ply)
 		return hook.Run("CanDestroyItem", ply, self)
