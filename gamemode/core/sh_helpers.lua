@@ -75,8 +75,46 @@ DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 function FILTER_PROPS(class) return tobool(PROP_CLASSES[class]) end
 function FILTER_PLAYER(class) return class == "player" end
 
-function ItemDataFunc(key)
+function ItemDataFunc(key, default)
+	if default then
+		ITEM[key] = default
+	end
+
 	ITEM["Get" .. key] = function(self)
 		return self:GetData(key, self[key])
 	end
+end
+
+function ItemCustomization(priority, name, var, options)
+	ItemDataFunc(var, tobool(options) and 0 or false)
+
+	local action = {
+		Name = "Customize/" .. name,
+		Priority = priority,
+
+		Context = table.Lookup({"RightClick", "Examine"}),
+		CanRun = function(self, ply) return self:IsEquipped() and hook.Run("CanInteractWithItem", ply, self) end,
+	}
+
+	if options then
+		action.SubOptions = options
+
+		local validation = {validate.InList(table.Map(options, function(val) return val.Value end))}
+
+		action.Validate = function(self, ply, index)
+			return validate.Value(index, validation)
+		end
+
+		action.Callback = function(self, ply, index)
+			self:SetData(var, index)
+			ply:UpdateAppearance()
+		end
+	else
+		action.Callback = function(self, ply)
+			self:SetData(var, not self["Get" .. var](self))
+			ply:UpdateAppearance()
+		end
+	end
+
+	ITEM.Actions["Customize" .. var] = action
 end
