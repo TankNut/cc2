@@ -123,7 +123,7 @@ end
 
 function SecureAdmin(ply, endpoint)
 	if not ply:IsAdmin() then
-		Access.AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
+		AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
 
 		return true
 	end
@@ -131,7 +131,7 @@ end
 
 function SecureDeveloper(ply, endpoint)
 	if not ply:IsDeveloper() then
-		Access.AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: Developer ACL bypass attempt (%s)", endpoint))
+		AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: Developer ACL bypass attempt (%s)", endpoint))
 
 		return true
 	end
