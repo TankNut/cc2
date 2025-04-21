@@ -32,11 +32,11 @@ function Add(name, data)
 		return
 	end
 
-	local validate = data.Validate
+	local validation = data.Validate
 
 	PLAYER[name] = function(ply, raw) return netvar.Get(ply, name, raw) end
 	PLAYER["Set" .. name] = function(ply, value, loading)
-		if validate and value != nil and not validate(value) then
+		if validation and value != nil and not validation(value) then
 			error(string.format("Set value '%s' doesn't match database type %s", value, data.DataType), 2)
 		end
 
@@ -86,7 +86,7 @@ if SERVER then
 		local default = data.Default
 		local persist = assert(data.Persist, "Cannot SetOffline non-persist player vars")
 		local dataType = data.DataType
-		local validate = data.Validate
+		local validation = data.Validate
 
 		if not persist then
 			return
@@ -94,7 +94,7 @@ if SERVER then
 
 		if value == default then value = nil end
 
-		if validate and value != nil and not validate(value) then
+		if validation and value != nil and not validation(value) then
 			error(string.format("Set value '%s' doesn't match database type %s", value, dataType), 2)
 		end
 
