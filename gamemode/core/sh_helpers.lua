@@ -86,8 +86,6 @@ function ItemDataFunc(key, default)
 end
 
 function ItemCustomization(priority, name, var, options)
-	ItemDataFunc(var, tobool(options) and 0 or false)
-
 	local action = {
 		Name = "Customize\0" .. name,
 		Priority = priority,
@@ -97,6 +95,8 @@ function ItemCustomization(priority, name, var, options)
 	}
 
 	if options then
+		ItemDataFunc(var, options[1].Value)
+
 		action.SubOptions = options
 
 		local validation = {validate.InList(table.Map(options, function(val) return val.Value end))}
@@ -110,6 +110,8 @@ function ItemCustomization(priority, name, var, options)
 			ply:UpdateAppearance()
 		end
 	else
+		ItemDataFunc(var, false)
+
 		action.Callback = function(self, ply)
 			self:SetData(var, not self["Get" .. var](self))
 			ply:UpdateAppearance()
