@@ -3,6 +3,7 @@ ITEM.Base = "base_unsc_armor"
 ITEM.Name        = "Marine Armor"
 ITEM.Description = "A customizable set of UNSC combat gear"
 
+ITEM.Rarity      = RARITY_UNCOMMON
 ITEM.Tags        = {"Marine"}
 
 ITEM.ModelGroups = {"Marine"}

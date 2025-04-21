@@ -3,6 +3,7 @@ ITEM.Base = "base_unsc_armor"
 ITEM.Name        = "Insurrectionist Armor"
 ITEM.Description = "A set of UNSC combat gear that's been modified by the URF"
 
+ITEM.Rarity      = RARITY_RARE
 ITEM.Tags        = {"Insurrectionists"}
 
 ITEM.ModelGroups = {"Insurrection"}

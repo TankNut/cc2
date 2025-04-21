@@ -3,7 +3,7 @@ ITEM.Base = "base_unsc_undersuit"
 ITEM.Name         = "ODST Undersuit"
 ITEM.Description  = "An ODST undersuit and matching armor set"
 
-ITEM.Rarity       = RARITY_EPIC
+ITEM.Rarity       = RARITY_RARE
 ITEM.Tags         = {"ODST"}
 
 ITEM.Weight       = 8

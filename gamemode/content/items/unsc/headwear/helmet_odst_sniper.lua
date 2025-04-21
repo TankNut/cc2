@@ -5,4 +5,6 @@ ITEM.Description = [[A standard ODST helmet meant to fulfill a variety of combat
 
 Sharpshooter: Equipped with an O/I optics device, tactical flashlight and remote sensor package]]
 
+ITEM.Rarity      = RARITY_RARE
+
 ITEM.HelmetIndex = 3

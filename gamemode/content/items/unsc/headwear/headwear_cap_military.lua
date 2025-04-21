@@ -3,6 +3,8 @@ ITEM.Base = "base_unsc_headwear"
 ITEM.Name        = "Patrol Cap"
 ITEM.Description = "A standard UNSC Patrol cap"
 
+ITEM.Tags        = RARITY_UNCOMMON
+
 ITEM.Model       = Model("models/props_junk/cardboard_box004a.mdl")
 
 ITEM.Weight      = 0.2
