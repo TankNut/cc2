@@ -2,7 +2,7 @@ function ITEM:GetEquipmentSlot()
 	return self:GetData("EquipmentSlot", false)
 end
 
-function ITEM:GetEquipmentSlots()
+function ITEM:GetCompatibleSlots()
 	local slots = {}
 	local ply = self:GetPlayer()
 
@@ -23,18 +23,10 @@ function ITEM:IsEquipped()
 	return tobool(self:GetEquipmentSlot())
 end
 
-function ITEM:CheckEquipment()
-	local slot = self:GetEquipmentSlot()
-
-	if not table.HasValue(self:GetEquipmentSlots(), slot) then
+function ITEM:CheckEquipmentSlot()
+	if not table.HasValue(self:GetCompatibleSlots(), self:GetEquipmentSlot()) then
 		self:SetEquipmentSlot(nil)
-
-		return
 	end
-
-	Inventory.Equipment[self:GetPlayer()][slot] = self
-
-	return true
 end
 
 if SERVER then

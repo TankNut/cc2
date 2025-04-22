@@ -20,7 +20,7 @@ ITEM.Actions.Equip = {
 	}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() == 1
+		return hook.Run("CanEquipItem", ply, self) and #self:GetCompatibleSlots() == 1
 	end,
 	Progress = function(self, ply)
 		return {
@@ -32,7 +32,7 @@ ITEM.Actions.Equip = {
 	end,
 	Client = closeMenu,
 	Callback = function(self, ply)
-		self:SetEquipmentSlot(self:GetEquipmentSlots()[1])
+		self:SetEquipmentSlot(self:GetCompatibleSlots()[1])
 		Log.Write("item_equip", ply, self)
 		openMenu(ply)
 	end
@@ -47,12 +47,12 @@ ITEM.Actions.EquipSlot = {
 	}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanEquipItem", ply, self) and #self:GetEquipmentSlots() > 1
+		return hook.Run("CanEquipItem", ply, self) and #self:GetCompatibleSlots() > 1
 	end,
 	SubOptions = function(self)
 		local options = {}
 
-		for _, slot in ipairs(self:GetEquipmentSlots()) do
+		for _, slot in ipairs(self:GetCompatibleSlots()) do
 			table.insert(options, {
 				Name = "Equip as: " .. EquipmentSlot(slot),
 				Value = slot

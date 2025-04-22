@@ -226,7 +226,7 @@ function GM:CanEquipItem(ply, item)
 		return false, "This item is already equipped!"
 	end
 
-	if #item:GetEquipmentSlots() < 1 then
+	if #item:GetCompatibleSlots() < 1 then
 		return false, "You don't have any equipment slots to put this in!"
 	end
 
