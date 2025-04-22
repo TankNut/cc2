@@ -36,7 +36,7 @@ function ITEM:IsCompatible(ply)
 end
 
 function ITEM:GetModelGroup(ply)
-	return string.match(ply:CharacterModel(), "^.+/[^_]+_g?_?(.+).mdl")
+	return string.match(ply:CharacterModel(), "^.+/[^_]+_(.+).mdl")
 end
 
 function ITEM:GetPlayerModel(ply)
