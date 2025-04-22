@@ -35,6 +35,7 @@ if CLIENT then
 
 		for _, item in pairs(self.Items) do
 			item:OnLoaded()
+			item.Loaded = true
 		end
 	end
 else
@@ -56,6 +57,7 @@ else
 
 		for _, item in pairs(self.Items) do
 			item:OnLoaded()
+			item.Loaded = true
 		end
 	end
 end

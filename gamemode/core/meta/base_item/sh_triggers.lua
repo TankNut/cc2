@@ -59,7 +59,7 @@ function ITEM:OnEquipped(ply, slot)
 end
 
 function ITEM:OnUnequipped(ply)
-	if SERVER then
+	if SERVER and self.Loaded then
 		if self.GetModelData or self.PostModelData then
 			ply:UpdateAppearance()
 		end

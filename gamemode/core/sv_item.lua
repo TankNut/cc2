@@ -73,6 +73,7 @@ function LoadWorld()
 
 		item:SetWorldItem(mapData.Pos, mapData.Ang, mapData.Frozen)
 		item:OnLoaded()
+		item.Loaded = true
 	end
 
 	logger:Info("Loaded %s world items", i)
