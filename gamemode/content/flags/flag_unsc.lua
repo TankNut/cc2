@@ -5,6 +5,7 @@ FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {
 	"unsc_headwear",
+	"unsc_back",
 	"unsc_armor",
 	"unsc_undersuit"
 }

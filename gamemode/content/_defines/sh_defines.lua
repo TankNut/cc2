@@ -3,6 +3,7 @@ GM.DefaultAnimationController = "gmod_player"
 
 GM.EquipmentNames = {
 	unsc_headwear = "headwear",
+	unsc_back = "backpack",
 	unsc_armor = "armor",
 	unsc_undersuit = "undersuit"
 }

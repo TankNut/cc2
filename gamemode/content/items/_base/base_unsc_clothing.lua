@@ -4,10 +4,11 @@ ITEM.Internal    = true
 
 ITEM.Category    = "UNSC Clothing"
 
+ITEM.Model       = Model("models/valk/h3/unsc/props/crates/case.mdl")
+
 ITEM.IconAngle   = Angle(30, 0, 0)
 ITEM.IconFOV     = 25
 
-ITEM.Model       = Model("models/valk/h3/unsc/props/crates/case.mdl")
 ITEM.ModelGroups = {}
 
 function ITEM:IsCompatible(ply, group)
