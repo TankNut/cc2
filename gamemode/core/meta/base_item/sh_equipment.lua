@@ -4,11 +4,15 @@ end
 
 function ITEM:GetEquipmentSlots()
 	local slots = {}
-	local flagSlots = self:GetPlayer():RunCharFlag("EquipmentSlots")
+	local ply = self:GetPlayer()
 
-	for _, slot in ipairs(flagSlots) do
-		if self.EquipmentLookup[slot] then
-			table.insert(slots, slot)
+	if IsValid(ply) then
+		local flagSlots = ply:RunCharFlag("EquipmentSlots")
+
+		for _, slot in ipairs(flagSlots) do
+			if self.EquipmentLookup[slot] then
+				table.insert(slots, slot)
+			end
 		end
 	end
 
