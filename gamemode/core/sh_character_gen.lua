@@ -65,7 +65,7 @@ function PLAYER:GetCharacterGenerators()
 	local tab = {}
 
 	for id in SortedPairs(List) do
-		if not self:CanUseCharacterType(id) then
+		if not self:CanUseCharacterGenerator(id) then
 			continue
 		end
 
