@@ -14,7 +14,10 @@ function Create(class, data)
 		time = os.time()
 	})
 
-	return Item.Instance(class, id, data)
+	local instance = Item.Instance(class, id, data)
+	instance.Loaded = true
+
+	return instance
 end
 
 function CreateTemp(class, data)
@@ -22,7 +25,10 @@ function CreateTemp(class, data)
 
 	TempIndex = TempIndex - 1
 
-	return Item.Instance(class, TempIndex, data)
+	local instance = Item.Instance(class, TempIndex, data)
+	instance.Loaded = true
+
+	return instance
 end
 
 function CreateEphemeral(class, data, pos, ang, time, limit, group)
