@@ -16,6 +16,9 @@ ITEM.EquipmentSlots = {
 	"unsc_undersuit"
 }
 
+ITEM.EquipTime      = 3
+ITEM.UnequipTime    = 3
+
 ITEM.ModelPattern   = ""
 ITEM.ModelSkin      = 0
 ITEM.ModelGroup     = ""
@@ -42,27 +45,28 @@ function ITEM:GetPlayerModel(ply)
 	return string.format(self.ModelPattern, util.GetModelGender(ply:CharacterModel()), self:GetModelGroup(ply))
 end
 
--- Check whether all equipped items support this undersuit
-function ITEM:CheckModelGroups(ply, group)
-	for _, item in pairs(ply:GetEquipment()) do
-		if not inherit.IsType(item, "item", "base_unsc_clothing") then
-			continue
-		end
+function ITEM:CanEquip(ply)
+	return self:IsCompatible(ply)
+end
 
-		if not table.HasValue(item.ModelGroups, group) then
-			return false
+function ITEM:OnEquipped(ply)
+	for _, item in pairs(ply:GetEquipment()) do
+		if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, self.ModelGroup) then
+			item:SetEquipmentSlot(nil)
 		end
 	end
 
-	return true
+	BaseClass.OnEquipped(self, ply)
 end
 
-function ITEM:CanEquip(ply)
-	return self:IsCompatible(ply) and self:CheckModelGroups(ply, self.ModelGroup)
-end
+function ITEM:OnUnequipped(ply)
+	for _, item in pairs(ply:GetEquipment()) do
+		if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, "Off-Duty") then
+			item:SetEquipmentSlot(nil)
+		end
+	end
 
-function ITEM:CanUnequip(ply)
-	return self:CheckModelGroups(ply, "Off-Duty")
+	BaseClass.OnUnequipped(self, ply)
 end
 
 if SERVER then
