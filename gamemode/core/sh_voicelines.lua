@@ -65,10 +65,6 @@ if SERVER then
 
 		ply.NextVoicelineTime = CurTime() + Config.Get("VoicelineDelay")
 
-		for _, ent in pairs(ents.FindInSphere(ply:GetPos(), 300)) do
-			if IsValid(ent) and ent:IsPlayer() then
-				ent:PrintMessage(HUD_PRINTCONSOLE, ply:VisibleRPName() .. " played sound '" .. text .. "'.")
-			end
-		end
+		Chat.Send("CONSOLE", ply:VisibleRPName() .. " played voiceline: \"" .. text .. "\"", Chat.GetTargets(ply:EyePos(), 300, 300, false))
 	end
 end
