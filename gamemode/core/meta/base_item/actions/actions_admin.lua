@@ -22,7 +22,10 @@ ITEM.Actions.AdminTake = {
 
 	CanRun = showAdminActions,
 	Callback = function(self, ply)
-		-- Todo: Logging
+		local inventory = self:GetInventory()
+
+		Log.Write("admin_item_take", ply, self, inventory:GetPlayer(), inventory.StoreType)
+
 		self:SetInventory(ply:GetInventory())
 	end
 }
@@ -41,7 +44,10 @@ ITEM.Actions.AdminDestroy = {
 		})
 	end,
 	Callback = function(self, ply)
-		-- Todo: Logging
+		local inventory = self:GetInventory()
+
+		Log.Write("admin_item_destroy", ply, self, inventory:GetPlayer(), inventory.StoreType)
+
 		self:Delete()
 	end
 }
