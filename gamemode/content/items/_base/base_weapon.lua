@@ -17,6 +17,12 @@ function ITEM:GetWeapon()
 end
 
 if SERVER then
+	function ITEM:OnRemove()
+		self:SaveWeaponState()
+
+		BaseClass.OnRemove(self)
+	end
+
 	function ITEM:OnEquipped(ply, slot)
 		BaseClass.OnEquipped(self, ply, slot)
 
@@ -39,7 +45,7 @@ if SERVER then
 		end
 
 		weapon:SetItemID(self.ID)
-		weapon:LoadState(self:GetWeaponState())
+		weapon:LoadItemState(self:GetWeaponState())
 	end
 
 	function ITEM:SaveWeaponState()
@@ -55,7 +61,7 @@ if SERVER then
 			return
 		end
 
-		self:SetData("WeaponState", weapon:SaveState())
+		self:SetData("WeaponState", weapon:SaveItemState())
 	end
 
 	function ITEM:OnPlayerDeath(ply)

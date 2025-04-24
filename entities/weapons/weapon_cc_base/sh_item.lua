@@ -14,10 +14,10 @@ if SERVER then
 	function SWEP:QueueItemSave()
 	end
 
-	function SWEP:LoadState(data)
+	function SWEP:LoadItemState(data)
 	end
 
-	function SWEP:SaveState()
+	function SWEP:SaveItemState()
 		return {}
 	end
 end
