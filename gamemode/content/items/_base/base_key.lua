@@ -10,11 +10,8 @@ ITEM.Weight    = 0.1
 ITEM.IconAngle = Angle(50, -35, -10)
 ITEM.IconFOV   = 6
 
-ITEM.KeyType   = KEY_BOTH
-ITEM.KeyID     = ""
-
-ItemDataFunc("KeyType")
-ItemDataFunc("KeyID")
+ItemDataFunc("KeyType", KEY_BOTH)
+ItemDataFunc("KeyID", "")
 
 function ITEM:TryKey(keyType, id)
 	local ourType = self:GetKeyType()
