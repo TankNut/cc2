@@ -49,7 +49,7 @@ function GM:RunCharFlag(ply, name, ...)
 	if isfunction(flag[name]) then
 		return flag[name](flag, ply, ...)
 	else
-		return flag[name]
+		return util.SafeCopy(flag[name])
 	end
 end
 
