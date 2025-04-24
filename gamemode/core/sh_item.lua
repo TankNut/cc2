@@ -175,6 +175,14 @@ function PLAYER:HasKey(keyType, id)
 	return false
 end
 
+function PLAYER:RunItemHooks(name, ...)
+	for _, item in pairs(self:GetItems()) do
+		if item[name] then
+			item[name](item, self, ...)
+		end
+	end
+end
+
 function GM:CanSpawnItem(ply, itemClass)
 	if itemClass.Rarity == RARITY_DEVELOPER and not ply:IsDeveloper() then
 		return false
