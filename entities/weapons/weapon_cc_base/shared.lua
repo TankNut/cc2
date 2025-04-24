@@ -199,6 +199,16 @@ function SWEP:GetZoom()
 	return 1
 end
 
+function SWEP:OverridePrintName()
+	local item = self:GetItem()
+
+	if item then
+		return item:GetName()
+	end
+
+	return self.PrintName
+end
+
 if CLIENT then
 	function SWEP:GetHUDLines()
 		return
