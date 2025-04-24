@@ -63,7 +63,7 @@ if SERVER then
 			EmitSentence(line, ply:GetPos(), ply:EntIndex(), CHAN_AUTO, 1, db, 0, 100)
 		end
 
-		ply.NextVoicelineTime = CurTime() + VOICELINE_DELAY
+		ply.NextVoicelineTime = CurTime() + Config.Get("VoicelineDelay")
 
 		for _, ent in pairs(ents.FindInSphere(ply:GetPos(), 300)) do
 			if IsValid(ent) and ent:IsPlayer() then
