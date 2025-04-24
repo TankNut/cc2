@@ -36,10 +36,10 @@ function PANEL:Setup(ply)
 	end
 end
 
-derma.DefineControl("CC_BadgeList", "", PANEL, "CC_Frame")
+derma.DefineControl("GUI_BadgeList", "", PANEL, "CC_Frame")
 
 GUI.Register("BadgeList", function(ply)
-	local panel = vgui.Create("CC_BadgeList")
+	local panel = vgui.Create("GUI_BadgeList")
 
 	panel:Setup(ply)
 
