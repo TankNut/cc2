@@ -66,6 +66,13 @@ function PANEL:ItemUpdated()
 	self:SetItem(self.Item)
 end
 
+function PANEL:PreDrawModel(ent)
+	local x, y = self:LocalToScreen(1, 1)
+	local x2, y2 = self:LocalToScreen(self:GetWide() - 1, self:GetTall() - 1)
+
+	render.SetScissorRect(x, y, x2, y2, true)
+end
+
 function PANEL:Paint(w, h)
 	local col = self.Item:GetHighlightColor()
 
