@@ -145,15 +145,7 @@ function PANEL:Init()
 			button:SetDisabled(disabled)
 		end
 
-		for _, button in pairs(self.StopMusicButtons) do
-			button:SetDisabled(disabled)
-		end
-
 		for _, button in pairs(self.PlayEffectButtons) do
-			button:SetDisabled(disabled)
-		end
-
-		for _, button in pairs(self.StopEffectButtons) do
 			button:SetDisabled(disabled)
 		end
 	end
