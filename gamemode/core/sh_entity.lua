@@ -73,9 +73,22 @@ function GM:EntityRemoved(ent, fullUpdate)
 	end
 end
 
-function GM:PreRegisterSWEP(_, class)
+function GM:PreRegisterSWEP(swep, class)
+	if swep.Itemize then
+		local itemClass = swep.ItemClass or string.Replace(class, "_cc", "")
+
+		local data = table.Merge({
+			Base = "base_weapon",
+			Name = swep.PrintName,
+			Model = swep.WorldModel,
+			WeaponClass = class
+		}, swep.Itemize)
+
+		Item.Register(itemClass, data)
+	end
+
 	if SERVER then
-		timer.Simple(0, function()
+		jank(function()
 			-- Only firearms can be wielded by NPC's, because reasons
 			if not weapons.IsBasedOn(class, "weapon_cc_base_gun") then
 				return

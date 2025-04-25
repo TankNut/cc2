@@ -72,3 +72,14 @@ SWEP.Offsets = {
 		Angle(-1, 0, -5)
 	}
 }
+
+SWEP.Itemize = {
+	Description = "The Overwatch Standard Issue Pulse Rifle. Using deadly pulse rounds, the AR2 rifle is designed for use exclusively by the Combine Overwatch Transhuman Arm",
+
+	Weight = 12,
+
+	EquipmentSlots = {"test"},
+
+	IconAngle = Angle(10, 100, -10),
+	IconFOV = 20
+}
