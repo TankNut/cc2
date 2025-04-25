@@ -13,6 +13,7 @@ end
 function GM:InitPostEntity()
 	if CLIENT then
 		Settings.LoadClient()
+		Hud.Rebuild()
 
 		self:CreateChatFonts()
 
