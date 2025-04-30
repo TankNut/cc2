@@ -29,4 +29,4 @@ function PANEL:PerformLayout(w, h)
 	self.DBinder:SetWide(100)
 end
 
-derma.DefineControl("CC_Setting_Keybind", "", PANEL, "CC_Setting")
+vgui.Register("CC_Setting_Keybind", PANEL, "CC_Setting")

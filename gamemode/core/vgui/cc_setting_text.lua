@@ -46,4 +46,4 @@ function PANEL:Setup(args)
 	end
 end
 
-derma.DefineControl("CC_Setting_Text", "", PANEL, "CC_Setting")
+vgui.Register("CC_Setting_Text", PANEL, "CC_Setting")

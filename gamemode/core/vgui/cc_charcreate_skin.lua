@@ -60,4 +60,4 @@ function PANEL:PerformLayout(w, h)
 	self.Scroll:SetTall(56)
 end
 
-derma.DefineControl("CC_CharCreate_Skin", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Skin", PANEL, "CC_CharCreate")

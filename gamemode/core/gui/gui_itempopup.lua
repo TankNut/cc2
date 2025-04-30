@@ -102,7 +102,7 @@ function PANEL:OnRemove()
 	self.Item.Panels[self] = nil
 end
 
-derma.DefineControl("GUI_ItemPopup", "", PANEL, "CC_Frame")
+vgui.Register("GUI_ItemPopup", PANEL, "CC_Frame")
 
 GUI.Register("ItemPopup", function(item)
 	for panel in pairs(item.Panels) do

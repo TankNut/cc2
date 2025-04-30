@@ -49,4 +49,4 @@ function PANEL:Setup(args)
 	self.Slider.Slider:SetNotches(args.Notches or 1)
 end
 
-derma.DefineControl("CC_Setting_Slider", "", PANEL, "CC_Setting")
+vgui.Register("CC_Setting_Slider", PANEL, "CC_Setting")

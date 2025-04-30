@@ -88,7 +88,7 @@ function PANEL:SelectMenu(index)
 	self.ContentScroll:Dock(FILL)
 end
 
-derma.DefineControl("GUI_HelpMenu", "", PANEL, "CC_Frame")
+vgui.Register("GUI_HelpMenu", PANEL, "CC_Frame")
 
 GUI.Register("HelpMenu", function()
 	local instance = vgui.Create("GUI_HelpMenu")

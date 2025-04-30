@@ -96,7 +96,7 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "ScoreboardEntry", self, w, h)
 end
 
-derma.DefineControl("CC_ScoreboardEntry", "", PANEL, "Panel")
+vgui.Register("CC_ScoreboardEntry", PANEL, "Panel")
 
 -- Scoreboard team
 PANEL = {}
@@ -184,7 +184,7 @@ function PANEL:Paint(w, h)
 	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - 10, 25, textColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 end
 
-derma.DefineControl("CC_ScoreboardTeam", "", PANEL, "Panel")
+vgui.Register("CC_ScoreboardTeam", PANEL, "Panel")
 
 -- Scoreboard
 PANEL = {}
@@ -222,7 +222,7 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "Scoreboard", self, w, h)
 end
 
-derma.DefineControl("GUI_Scoreboard", "", PANEL, "CC_Frame")
+vgui.Register("GUI_Scoreboard", PANEL, "CC_Frame")
 
 GUI.Register("Scoreboard", function()
 	return vgui.Create("GUI_Scoreboard")

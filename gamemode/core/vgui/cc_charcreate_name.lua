@@ -81,4 +81,4 @@ function PANEL:PerformLayout(w, h)
 	end
 end
 
-derma.DefineControl("CC_CharCreate_Name", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Name", PANEL, "CC_CharCreate")

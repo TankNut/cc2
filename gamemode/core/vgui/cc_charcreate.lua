@@ -64,4 +64,4 @@ end
 function PANEL:OnOptionChanged(key, val)
 end
 
-derma.DefineControl("CC_CharCreate", "", PANEL, "Panel")
+vgui.Register("CC_CharCreate", PANEL, "Panel")

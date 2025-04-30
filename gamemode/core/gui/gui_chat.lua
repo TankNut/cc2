@@ -229,7 +229,7 @@ function PANEL:Paint(w, h)
 	end
 end
 
-derma.DefineControl("GUI_Chat", "", PANEL, "EditablePanel")
+vgui.Register("GUI_Chat", PANEL, "EditablePanel")
 
 GUI.Register("Chat", function()
 	local panel = vgui.Create("GUI_Chat")

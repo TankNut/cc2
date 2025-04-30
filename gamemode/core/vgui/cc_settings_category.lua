@@ -57,4 +57,4 @@ function PANEL:PerformLayout(w, h)
 	end
 end
 
-derma.DefineControl("CC_Settings_Category", "", PANEL, "Panel")
+vgui.Register("CC_Settings_Category", PANEL, "Panel")

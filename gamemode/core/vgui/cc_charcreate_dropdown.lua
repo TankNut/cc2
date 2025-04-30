@@ -19,4 +19,4 @@ function PANEL:Setup(options, val)
 	end
 end
 
-derma.DefineControl("CC_CharCreate_Dropdown", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Dropdown", PANEL, "CC_CharCreate")

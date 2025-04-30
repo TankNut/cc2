@@ -117,4 +117,4 @@ function PANEL:Paint(w, h)
 	surface.DrawOutlinedRect(0, 0, w, h)
 end
 
-derma.DefineControl("CC_ItemModelPanel", "", PANEL, "DModelPanel")
+vgui.Register("CC_ItemModelPanel", PANEL, "DModelPanel")

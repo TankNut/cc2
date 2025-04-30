@@ -11,7 +11,7 @@ function PANEL:Init()
 	self:Center()
 end
 
-derma.DefineControl("GUI_PlayerMenu", "", PANEL, "CC_BaseMenu")
+vgui.Register("GUI_PlayerMenu", PANEL, "CC_BaseMenu")
 
 GUI.Register("PlayerMenu", function()
 	local instance = vgui.Create("GUI_PlayerMenu")

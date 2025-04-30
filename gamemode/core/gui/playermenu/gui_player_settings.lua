@@ -73,4 +73,4 @@ function PANEL:Populate()
 	end
 end
 
-derma.DefineControl("CC_PlayerMenu_Settings", "", PANEL, "Panel")
+vgui.Register("CC_PlayerMenu_Settings", PANEL, "Panel")

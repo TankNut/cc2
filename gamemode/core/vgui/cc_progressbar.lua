@@ -34,4 +34,4 @@ function PANEL:Paint(w, h)
 	return true
 end
 
-derma.DefineControl("CC_ProgressBar", "", PANEL, "Panel")
+vgui.Register("CC_ProgressBar", PANEL, "Panel")

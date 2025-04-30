@@ -81,7 +81,7 @@ function PANEL:PerformLayout(w, h)
 	self.ErrorText:StretchToParent(nil, nil, nil, 10)
 end
 
-derma.DefineControl("GUI_Input_Text", "", PANEL, "CC_Frame")
+vgui.Register("GUI_Input_Text", PANEL, "CC_Frame")
 
 PANEL = {}
 
@@ -93,7 +93,7 @@ function PANEL:GetValue()
 	return tonumber(self.Input:GetValue())
 end
 
-derma.DefineControl("GUI_Input_Number", "", PANEL, "GUI_Input_Text")
+vgui.Register("GUI_Input_Number", PANEL, "GUI_Input_Text")
 
 PANEL = {}
 
@@ -105,7 +105,7 @@ function PANEL:Init()
 	self.Input:SetMultiline(true)
 end
 
-derma.DefineControl("GUI_Input_Multiline", "", PANEL, "GUI_Input_Text")
+vgui.Register("GUI_Input_Multiline", PANEL, "GUI_Input_Text")
 
 PANEL = {}
 
@@ -166,7 +166,7 @@ function PANEL:PerformLayout(w, h)
 	self.Cancel:AlignLeft(10)
 end
 
-derma.DefineControl("GUI_Input_Confirm", "", PANEL, "GUI_Input_Text")
+vgui.Register("GUI_Input_Confirm", PANEL, "GUI_Input_Text")
 
 GUI.Register("Input", function(subtype, title, data)
 	local panel

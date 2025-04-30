@@ -323,4 +323,4 @@ function PANEL:PerformLayout(w, h)
 	self.ApplyScale:MoveBelow(self.SkinLabel, 5)
 end
 
-derma.DefineControl("CC_AdminMenu_Characters", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Characters", PANEL, "Panel")

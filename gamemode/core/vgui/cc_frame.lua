@@ -114,4 +114,4 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "Frame", self, w, h)
 end
 
-derma.DefineControl("CC_Frame", "", PANEL, "EditablePanel")
+vgui.Register("CC_Frame", PANEL, "EditablePanel")

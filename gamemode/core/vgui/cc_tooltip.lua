@@ -86,4 +86,4 @@ function PANEL:OpenForPanel(panel)
 	end
 end
 
-derma.DefineControl("CC_Tooltip", "", PANEL, "ScribeLabel")
+vgui.Register("CC_Tooltip", PANEL, "ScribeLabel")

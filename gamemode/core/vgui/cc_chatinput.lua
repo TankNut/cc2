@@ -140,4 +140,4 @@ function PANEL:AllowInput(char)
 	end
 end
 
-derma.DefineControl("CC_ChatInput", "", PANEL, "DTextEntry")
+vgui.Register("CC_ChatInput", PANEL, "DTextEntry")

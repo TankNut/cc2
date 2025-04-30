@@ -27,4 +27,4 @@ function PANEL:Init()
 	self.InventoryPanel:Populate(lp:GetInventory())
 end
 
-derma.DefineControl("CC_PlayerMenu_Inventory", "", PANEL, "Panel")
+vgui.Register("CC_PlayerMenu_Inventory", PANEL, "Panel")

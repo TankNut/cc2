@@ -105,7 +105,7 @@ function PANEL:PaintFullScreen(x, y, w, h)
 	draw.DrawBackgroundBlur(1, x, y, w, h)
 end
 
-derma.DefineControl("GUI_CharacterGen", "", PANEL, "CC_Frame")
+vgui.Register("GUI_CharacterGen", PANEL, "CC_Frame")
 
 GUI.Register("CharacterGen", function()
 	return vgui.Create("GUI_CharacterGen")

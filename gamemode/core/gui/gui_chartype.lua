@@ -52,7 +52,7 @@ function PANEL:PaintFullScreen(x, y, w, h)
 	draw.DrawBackgroundBlur(1, x, y, w, h)
 end
 
-derma.DefineControl("GUI_CharacterType", "", PANEL, "CC_Frame")
+vgui.Register("GUI_CharacterType", PANEL, "CC_Frame")
 
 GUI.Register("CharacterType", function()
 	if #lp:GetCharacterTypes() == 1 then

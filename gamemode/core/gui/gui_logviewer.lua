@@ -222,7 +222,7 @@ function PANEL:Setup(config)
 	self:SendRequest()
 end
 
-derma.DefineControl("GUI_LogViewer", "", PANEL, "CC_Frame")
+vgui.Register("GUI_LogViewer", PANEL, "CC_Frame")
 
 GUI.Register("LogViewer", function(config)
 	local panel = vgui.Create("GUI_LogViewer")

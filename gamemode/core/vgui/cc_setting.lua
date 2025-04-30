@@ -74,4 +74,4 @@ function PANEL:Configure(setting)
 	self:LoadSetting()
 end
 
-derma.DefineControl("CC_Setting", "", PANEL, "DPanel")
+vgui.Register("CC_Setting", PANEL, "DPanel")

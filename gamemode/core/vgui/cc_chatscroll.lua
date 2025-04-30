@@ -136,4 +136,4 @@ function PANEL:Paint(w, h)
 	end
 end
 
-derma.DefineControl("CC_ChatScroll", "", PANEL, "Panel")
+vgui.Register("CC_ChatScroll", PANEL, "Panel")

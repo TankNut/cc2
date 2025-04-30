@@ -17,7 +17,7 @@ function PANEL:Init()
 	end)
 end
 
-derma.DefineControl("GUI_AdminMenu", "", PANEL, "CC_BaseMenu")
+vgui.Register("GUI_AdminMenu", PANEL, "CC_BaseMenu")
 
 GUI.Register("AdminMenu", function()
 	local instance = vgui.Create("GUI_AdminMenu")

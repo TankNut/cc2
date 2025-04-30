@@ -132,7 +132,7 @@ function PANEL:UpdateMiscInfo()
 	self.MiscInfo:SetText("<c=cc_disabled>" .. table.concat(lines, "\n") .. "")
 end
 
-derma.DefineControl("CC_PlayerMenu_Description", "", PANEL, "Panel")
+vgui.Register("CC_PlayerMenu_Description", PANEL, "Panel")
 
 function GM:GetMiscCharacterInfo(panel)
 	local spoken = {}

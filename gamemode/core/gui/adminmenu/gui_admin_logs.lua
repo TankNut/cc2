@@ -305,4 +305,4 @@ function PANEL:PerformLayout(w, h)
 	self.ExtraHelp:StretchToParent(nil, 0, 0, 0)
 end
 
-derma.DefineControl("CC_AdminMenu_Logs", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Logs", PANEL, "Panel")

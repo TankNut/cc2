@@ -99,4 +99,4 @@ function PANEL:PerformLayout(w, h)
 	self.DisableOOC:SetY(self.OOCDelay:GetY())
 end
 
-derma.DefineControl("CC_AdminMenu_Tools", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Tools", PANEL, "Panel")

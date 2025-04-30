@@ -50,7 +50,7 @@ function PANEL:Setup(ply, description)
 	self.Description:SetText(string.format("<iset=2><small><cnormal>%s", description))
 end
 
-derma.DefineControl("GUI_Examine", "", PANEL, "CC_Frame")
+vgui.Register("GUI_Examine", PANEL, "CC_Frame")
 
 GUI.Register("Examine", function(ply, description)
 	local panel = vgui.Create("GUI_Examine")

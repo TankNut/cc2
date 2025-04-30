@@ -95,4 +95,4 @@ function PANEL:Paint(w, h)
 	self.Item:DrawItemIcon(w, h)
 end
 
-derma.DefineControl("CC_ItemIcon", "", PANEL, "DModelPanel")
+vgui.Register("CC_ItemIcon", PANEL, "DModelPanel")

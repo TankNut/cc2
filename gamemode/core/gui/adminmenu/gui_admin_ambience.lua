@@ -282,4 +282,4 @@ function PANEL:PerformLayout(w, h)
 	end
 end
 
-derma.DefineControl("CC_AdminMenu_Ambience", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Ambience", PANEL, "Panel")

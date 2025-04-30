@@ -107,4 +107,4 @@ function PANEL:PerformLayout(w, h)
 	self.RevokeBan:AlignBottom()
 end
 
-derma.DefineControl("CC_AdminMenu_Bans", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Bans", PANEL, "Panel")

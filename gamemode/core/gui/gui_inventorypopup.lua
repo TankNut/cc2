@@ -59,7 +59,7 @@ function PANEL:Setup(inventory)
 	self:SetTopBar("Inventory - " .. self:GetInventoryName())
 end
 
-derma.DefineControl("GUI_InventoryPopup", "", PANEL, "CC_Frame")
+vgui.Register("GUI_InventoryPopup", PANEL, "CC_Frame")
 
 GUI.Register("InventoryPopup", function(id)
 	local playerMenu = GUI.Get("PlayerMenu")

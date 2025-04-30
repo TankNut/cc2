@@ -16,4 +16,4 @@ function PANEL:PerformLayout(w, h)
 	self.CheckBox:CenterVertical(0.5)
 end
 
-derma.DefineControl("CC_Setting_Bool", "", PANEL, "CC_Setting")
+vgui.Register("CC_Setting_Bool", PANEL, "CC_Setting")

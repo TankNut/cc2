@@ -39,4 +39,4 @@ function PANEL:PerformLayout(w, h)
 	self.Scroll:SetTall(math.min(math.ceil(count / 6), 4) * 56)
 end
 
-derma.DefineControl("CC_CharCreate_Model", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Model", PANEL, "CC_CharCreate")

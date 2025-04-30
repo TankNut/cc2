@@ -45,4 +45,4 @@ function PANEL:PerformLayout(w, h)
 	self.TranslatedLabel:StretchToParent(nil, 5, 0, nil)
 end
 
-derma.DefineControl("CC_CharCreate_Slider", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Slider", PANEL, "CC_CharCreate")

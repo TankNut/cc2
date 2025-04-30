@@ -5,7 +5,7 @@ function GM:Think()
 
 	if CLIENT then
 		if wheelSpeed:GetFloat() > 20 then
-			RunConsoleCommand("physgun_wheelspeed", "20")
+			RunConsoleCommand("physgun_wheelspeed", 20)
 		end
 
 		Ambience.Think()

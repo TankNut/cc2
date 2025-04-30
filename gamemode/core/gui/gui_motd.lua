@@ -26,7 +26,7 @@ function PANEL:Populate()
 	self.ContentScroll:Dock(FILL)
 end
 
-derma.DefineControl("GUI_MOTD", "", PANEL, "CC_Frame")
+vgui.Register("GUI_MOTD", PANEL, "CC_Frame")
 
 GUI.Register("MOTD", function()
 	return vgui.Create("GUI_MOTD")

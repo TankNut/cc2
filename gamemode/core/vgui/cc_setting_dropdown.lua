@@ -32,4 +32,4 @@ function PANEL:Setup(options)
 	end
 end
 
-derma.DefineControl("CC_Setting_Dropdown", "", PANEL, "CC_Setting")
+vgui.Register("CC_Setting_Dropdown", PANEL, "CC_Setting")

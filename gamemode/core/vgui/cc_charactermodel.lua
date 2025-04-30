@@ -69,19 +69,30 @@ function PANEL:SetAppearance(appearance)
 
 	ent:ApplyModel(base)
 
+	local core = part.Install(ent, "appearance")
+
 	for name, data in pairs(appearance) do
 		if name == "_base" then
 			continue
 		end
 
-		local partType = data._type or "ModelPart"; data._type = nil
+		local class = data._type or "model"
+		data._type = nil
 
-		if partType == "ModelPart" and data.Bonemerge == nil then
-			data.Bonemerge = true
+		local child = core:AddPart(name, class)
+
+		for field, value in pairs(data) do
+			child["Set" .. field](child, value)
 		end
 
-		part.Add(ent, partType, name, data)
+		if class == "model" and data.Bonemerge == nil then
+			child:SetBonemerge(true)
+		end
 	end
+end
+
+function PANEL:PostDrawModel(ent)
+	part.ForceDraw(ent)
 end
 
 function PANEL:GetCameraTarget()
@@ -170,4 +181,4 @@ function PANEL:OnMouseReleased()
 	self.Dragging = false
 end
 
-derma.DefineControl("CC_CharacterModel", "", PANEL, "DModelPanel")
+vgui.Register("CC_CharacterModel", PANEL, "DModelPanel")

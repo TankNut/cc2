@@ -175,7 +175,7 @@ function PANEL:Setup(charType)
 	self:UpdateModel()
 end
 
-derma.DefineControl("GUI_CharacterCreate", "", PANEL, "CC_Frame")
+vgui.Register("GUI_CharacterCreate", PANEL, "CC_Frame")
 
 GUI.Register("CharacterCreate", function(charType)
 	local panel = vgui.Create("GUI_CharacterCreate")

@@ -87,4 +87,4 @@ function PANEL:Paint(w, h)
 	derma.SkinHook("Paint", "ItemList", self, w, h - 30)
 end
 
-derma.DefineControl("CC_ItemList", "", PANEL, "Panel")
+vgui.Register("CC_ItemList", PANEL, "Panel")

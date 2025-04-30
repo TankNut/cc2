@@ -117,4 +117,4 @@ function PANEL:AddMenu(order, name, panel, callback, default)
 	}
 end
 
-derma.DefineControl("CC_BaseMenu", "", PANEL, "CC_Frame")
+vgui.Register("CC_BaseMenu", PANEL, "CC_Frame")

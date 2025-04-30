@@ -41,7 +41,7 @@ function PANEL:SetMap(map)
 	self:InvalidateLayout()
 end
 
-derma.DefineControl("GUI_DevEditor", "", PANEL, "CC_Frame")
+vgui.Register("GUI_DevEditor", PANEL, "CC_Frame")
 
 GUI.Register("DevEditor", function(code, map)
 	local instance = vgui.Create("GUI_DevEditor")

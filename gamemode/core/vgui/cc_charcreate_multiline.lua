@@ -27,4 +27,4 @@ function PANEL:PerformLayout(w, h)
 	self.Entry:StretchToParent(nil, nil, 0, nil)
 end
 
-derma.DefineControl("CC_CharCreate_Multiline", "", PANEL, "CC_CharCreate")
+vgui.Register("CC_CharCreate_Multiline", PANEL, "CC_CharCreate")

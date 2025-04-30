@@ -389,4 +389,4 @@ function PANEL:PerformLayout(w, h)
 	self.ApplyToolTrustButton:MoveBelow(self.MutedLabel, 5)
 end
 
-derma.DefineControl("CC_AdminMenu_Players", "", PANEL, "Panel")
+vgui.Register("CC_AdminMenu_Players", PANEL, "Panel")
