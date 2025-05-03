@@ -7,6 +7,12 @@ function ENTITY:GetPlayerColor()
 		return self:GetFakePlayer():GetPlayerColor()
 	end
 
+	local func = ENTITY.GetTable(self).GetPlayerColor
+
+	if func then
+		return func(self)
+	end
+
 	return Vector(0.2, 0.2, 0.2)
 end
 
