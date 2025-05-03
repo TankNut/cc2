@@ -9,6 +9,7 @@ GM.EquipmentNames = {
 }
 
 TEAM_UNSC = Team.Add("unsc", "UNSC", Color(0, 120, 0))
+TEAM_AI   = Team.Add("ai", "Artifical Intelligence", Color(0, 191, 255))
 
 local function Lang(command, name, unknown, default, override)
 	return {
