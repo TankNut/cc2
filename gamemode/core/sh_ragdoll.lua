@@ -74,21 +74,21 @@ end
 
 function GM:OnFakeAppearanceChanged(ent, old, new, loaded)
 	if CLIENT then
-		part.Clear(ent)
+		local outfit = {}
 
 		for name, data in pairs(new) do
 			if name == "_base" then
 				continue
 			end
 
-			local partType = data._type or "ModelPart"; data._type = nil
-
-			if partType == "ModelPart" and data.Bonemerge == nil then
+			if data.Bonemerge == nil then
 				data.Bonemerge = true
 			end
 
-			part.Add(ent, partType, name, data)
+			outfit[name] = data
 		end
+
+		part.Add(ply, "appearance", outfit)
 	else
 		ent:ApplyModel(new._base)
 	end

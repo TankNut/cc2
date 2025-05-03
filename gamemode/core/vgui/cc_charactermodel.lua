@@ -69,30 +69,25 @@ function PANEL:SetAppearance(appearance)
 
 	ent:ApplyModel(base)
 
-	local core = part.Install(ent, "appearance")
+	local outfit = {}
 
 	for name, data in pairs(appearance) do
 		if name == "_base" then
 			continue
 		end
 
-		local class = data._type or "model"
-		data._type = nil
-
-		local child = core:AddPart(name, class)
-
-		for field, value in pairs(data) do
-			child["Set" .. field](child, value)
+		if data.Bonemerge == nil then
+			data.Bonemerge = true
 		end
 
-		if class == "model" and data.Bonemerge == nil then
-			child:SetBonemerge(true)
-		end
+		outfit[name] = data
 	end
+
+	part.Add(ent, "appearance", outfit)
 end
 
 function PANEL:PostDrawModel(ent)
-	part.ForceDraw(ent)
+	part.Draw(ent)
 end
 
 function PANEL:GetCameraTarget()

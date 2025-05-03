@@ -6,28 +6,21 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 	ply:UpdateHull()
 
 	if CLIENT then
-		local core = part.Install(ply, "appearance")
+		local outfit = {}
 
 		for name, data in pairs(new) do
 			if name == "_base" then
 				continue
 			end
 
-			local class = data._type or "model"
-			data._type = nil
-
-			local child = core:AddPart(name, class)
-
-			for field, value in pairs(data) do
-				child["Set" .. field](child, value)
+			if data.Bonemerge == nil then
+				data.Bonemerge = true
 			end
 
-			if class == "model" and data.Bonemerge == nil then
-				child:SetBonemerge(true)
-			end
+			outfit[name] = data
 		end
 
-		return
+		part.Add(ply, "appearance", outfit)
 	else
 		ply:ApplyModel(new._base)
 
