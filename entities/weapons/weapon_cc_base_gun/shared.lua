@@ -244,7 +244,9 @@ end
 
 if SERVER then
 	function SWEP:LoadItemState(data)
-		self:SetFiremodeIndex(math.Clamp(data.Firemode, 1, #self.Settings.Firemodes))
+		if data.Firemode then
+			self:SetFiremodeIndex(math.Clamp(data.Firemode, 1, #self.Settings.Firemodes))
+		end
 
 		if data.Clip then
 			self:SetClip1(math.Clamp(data.Clip, 0, self.Primary.ClipSize))
