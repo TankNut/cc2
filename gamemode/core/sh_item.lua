@@ -241,15 +241,15 @@ function GM:CanEquipItem(ply, item)
 	return item:CanEquip(ply)
 end
 
-function GM:CanUseEquipmentSlot(ply, slot)
+function GM:CanUseEquipmentSlot(ply, item, slot)
 	if not ply:HasEquipmentSlot(slot) then
 		return false, "Your character doesn't support that equipment slot!"
 	end
 
-	local item = ply:GetEquipment(slot)
+	local existing = ply:GetEquipment(slot)
 
-	if item and not hook.Run("CanUnequipItem", ply, item) then
-		return false, "You cannot equip this because of your " .. item:GetName() .. "!"
+	if existing and not hook.Run("CanUnequipItem", ply, existing) then
+		return false, "You cannot equip this because of your " .. existing:GetName() .. "!"
 	end
 
 	return true
