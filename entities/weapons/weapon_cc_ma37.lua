@@ -31,8 +31,8 @@ SWEP.Stats = {
 SWEP.Recoil = {
 	Value = 0.6,
 
-	PosMult = Vector(2, -1, 1),
-	AngMult = Angle(0, 0),
+	PosMult = Vector(1, 0, 0.5),
+	AngMult = Angle(0.5, 2),
 
 	Punch = 0.6
 }
@@ -51,16 +51,16 @@ SWEP.Settings = {
 }
 
 SWEP.Sounds = {
-	Primary = Sound("Weapon_AR2.Single")
+	Primary = Sound("Weapon_MA37.Single")
 }
 
 SWEP.Offsets = {
 	Default = {
-		Vector(0, 0, -1),
+		Vector(0, -0.5, -2),
 		Angle(0, 0, 0)
 	},
 	Holster = {
-		Vector(0, -2, 1),
+		Vector(0, 0, 0),
 		Angle(20, 15, 0)
 	},
 	Sprint = {
@@ -68,8 +68,8 @@ SWEP.Offsets = {
 		Angle(15, 5, 0)
 	},
 	Aiming = {
-		Vector(-2, 1, 0),
-		Angle(-1, 0, -5)
+		Vector(-2, 0, -1),
+		Angle(-1, 0, 0)
 	}
 }
 
@@ -83,3 +83,16 @@ SWEP.Itemize = {
 	IconAngle = Angle(15, 45, 10),
 	IconFOV = 12
 }
+
+sound.Add({
+	name = "Weapon_MA37.Single",
+	channel = CHAN_WEAPON,
+	volume = 1,
+	level = 140,
+	pitch = {95, 105},
+	sound = {
+		")vuthakral/halo/weapons/ma37/fire0.wav",
+		")vuthakral/halo/weapons/ma37/fire1.wav",
+		")vuthakral/halo/weapons/ma37/fire2.wav"
+	}
+})
