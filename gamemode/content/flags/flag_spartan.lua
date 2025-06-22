@@ -1,0 +1,26 @@
+FLAG.Name = "SPARTAN-III"
+FLAG.Team = TEAM_UNSC
+
+FLAG.Scale = 1.15
+
+FLAG.Loadout = {"weapon_cc_hands"}
+
+FLAG.EquipmentSlots = {
+	"spartan",
+
+	"primary",
+	"secondary",
+	"sidearm",
+	"melee"
+}
+
+FLAG.Clothing = CLOTHING_PARTIAL
+
+local model = Model("models/models/valk/haloreach/unsc/spartan/spartan_vb.mdl")
+
+function FLAG:GetModelData(ply)
+	return {_base = {
+		Model = model,
+		Color = Color(74, 74, 74)
+	}}
+end
