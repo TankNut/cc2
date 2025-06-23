@@ -10,19 +10,3 @@ local unisex = {"Aarya", "Addison", "Adrian", "Aiden", "Ainsley", "Alby", "Alex"
 CharacterCreate.AddNames("English/Masculine", masculine, lastNames)
 CharacterCreate.AddNames("English/Feminine", feminine, lastNames)
 CharacterCreate.AddNames("English/Unisex", unisex, lastNames)
-
-local function spartanII(names)
-	return string.format("%s-%03d", names[math.random(#names)], math.random(999))
-end
-
-local function spartanIII(names)
-	return string.format("%s-%s%03d", names[math.random(#names)], ({"A", "B", "G"})[math.random(3)], math.random(999))
-end
-
-CharacterCreate.AddNames("Spartan-II/Masculine", function() return spartanII(masculine) end)
-CharacterCreate.AddNames("Spartan-II/Feminine", function() return spartanII(feminine) end)
-CharacterCreate.AddNames("Spartan-II/Unisex", function() return spartanII(unisex) end)
-
-CharacterCreate.AddNames("Spartan-III/Masculine", function() return spartanIII(masculine) end)
-CharacterCreate.AddNames("Spartan-III/Feminine", function() return spartanIII(feminine) end)
-CharacterCreate.AddNames("Spartan-III/Unisex", function() return spartanIII(unisex) end)
