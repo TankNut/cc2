@@ -52,10 +52,18 @@ function GetRandomName(index)
 		return ""
 	end
 
+	if isfunction(data) then
+		return data()
+	end
+
 	local name = {}
 
 	for _, options in ipairs(data) do
-		table.insert(name, options[math.random(#options)])
+		if isfunction(options) then
+			table.insert(options())
+		else
+			table.insert(name, options[math.random(#options)])
+		end
 	end
 
 	return table.concat(name, " ")
