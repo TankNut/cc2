@@ -6,7 +6,8 @@ GM.EquipmentNames = {
 	unsc_back = "backpack",
 	unsc_armor = "armor",
 	unsc_undersuit = "undersuit",
-	spartan = "armor"
+	spartan = "armor",
+	spartan_arm = "prosthetic"
 }
 
 TEAM_UNSC = Team.Add("unsc", "UNSC", Color(0, 120, 0))
