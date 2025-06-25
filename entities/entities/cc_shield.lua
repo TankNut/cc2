@@ -41,14 +41,15 @@ function ENT:GetShieldValue()
 	if time < self.RechargeDelay then
 		return shield
 	else
-		local missing = self.BaseShield - shield
-		local offsetTime = time - self.RechargeDelay
-		local rechargeTimer = (missing / self.BaseShield) * self.RechargeTime
+		time = time - self.RechargeDelay
 
-		if offsetTime >= rechargeTimer then
+		local missingFraction = 1 - (shield / self.BaseShield)
+		local rechargeTimer = missingFraction * self.RechargeTime
+
+		if time >= rechargeTimer then
 			return self.BaseShield
 		else
-			return shield + math.Remap(offsetTime, 0, rechargeTimer, 0, missing)
+			return math.Remap(time, 0, rechargeTimer, shield, self.BaseShield)
 		end
 	end
 end
