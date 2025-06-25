@@ -7,8 +7,12 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 
-ENT.ShieldScale = 1.05
+ENT.BaseShieldScale = 1.05
 ENT.Material = "models/effects/shield"
+
+ENT.BaseShield = 100
+ENT.RechargeDelay = 5
+ENT.RechargeTime = 4
 
 function ENT:Initialize()
 	self:SetAutomaticFrameAdvance(true)
@@ -18,9 +22,35 @@ function ENT:Initialize()
 end
 
 function ENT:SetupDataTables()
+	self:NetworkVar("Float", "Shield")
 	self:NetworkVar("Float", "LastPing")
 
+	self:SetShield(self.BaseShield)
 	self:SetLastPing(CurTime())
+end
+
+function ENT:TimeSinceLastHit()
+	return CurTime() - self:GetLastPing()
+end
+
+function ENT:GetShieldValue()
+	local time = self:TimeSinceLastHit()
+	local shield = self:GetShield()
+
+	-- We haven't started recharging
+	if time < self.RechargeDelay then
+		return shield
+	else
+		local missing = self.BaseShield - shield
+		local offsetTime = time - self.RechargeDelay
+		local rechargeTimer = (missing / self.BaseShield) * self.RechargeTime
+
+		if offsetTime >= rechargeTimer then
+			return self.BaseShield
+		else
+			return shield + math.Remap(offsetTime, 0, rechargeTimer, 0, missing)
+		end
+	end
 end
 
 if SERVER then
@@ -39,6 +69,11 @@ if SERVER then
 	end
 
 	function ENT:TakeShieldDamage(dmg)
+		if self:GetShieldValue() <= 0 then
+			return
+		end
+
+		self:SetShield(math.max(self:GetShieldValue() - dmg:GetDamage(), 0))
 		self:SetLastPing(CurTime())
 
 		return true
@@ -51,50 +86,54 @@ if CLIENT then
 	end
 
 	function ENT:GetShieldVisibility()
-		local timeSince = CurTime() - self:GetLastPing()
+		local shield = self:GetShieldValue()
 
-		return math.max(1 - timeSince, 0)
-	end
-end
-
-function ENT:Draw()
-	local parent = self:GetParent()
-
-	if not IsValid(parent) or parent:GetNoDraw() then return end
-	if parent:IsPlayer() and not parent:Alive() then return end
-	if parent == lp and not parent:ShouldDrawLocalPlayer() then return end
-
-	local rt = render.GetRenderTarget()
-
-	if rt != nil and string.lower(rt:GetName()) == "_rt_shadowdummy" then
-		return
-	end
-
-	self:SetPos(parent:GetPos())
-	self:SetModelScale(parent:GetModelScale())
-
-	self:SetupBones()
-
-	local scale = Vector(1, 1, 1)
-	scale:Mul(self.ShieldScale * parent:GetModelScale())
-
-	for i = 0, self:GetBoneCount() - 1 do
-		local matrix = parent:GetBoneMatrix(i)
-
-		if matrix then
-			matrix:SetScale(scale)
-			self:SetBoneMatrix(i, matrix)
+		if shield == 0 then
+			return 0
 		end
+
+		return 1 - (shield / self.BaseShield)
 	end
 
-	for i = 1, #self:GetBodyGroups() do
-		self:SetBodygroup(i, parent:GetBodygroup(i))
+	function ENT:Draw()
+		local parent = self:GetParent()
+
+		if not IsValid(parent) or parent:GetNoDraw() then return end
+		if parent.Alive and not parent:Alive() then return end
+		if parent == lp and not parent:ShouldDrawLocalPlayer() then return end
+
+		local rt = render.GetRenderTarget()
+
+		if rt != nil and string.lower(rt:GetName()) == "_rt_shadowdummy" then
+			return
+		end
+
+		self:SetPos(parent:GetPos())
+		self:SetModelScale(parent:GetModelScale())
+
+		self:SetupBones()
+
+		local scale = Vector(1, 1, 1)
+		scale:Mul(self.BaseShieldScale * parent:GetModelScale())
+
+		for i = 0, self:GetBoneCount() - 1 do
+			local matrix = parent:GetBoneMatrix(i)
+
+			if matrix then
+				matrix:SetScale(scale)
+				self:SetBoneMatrix(i, matrix)
+			end
+		end
+
+		for i = 1, #self:GetBodyGroups() do
+			self:SetBodygroup(i, parent:GetBodygroup(i))
+		end
+
+		render.SetBlend(0)
+
+		self:SetMaterial(self.Material)
+		self:DrawModel()
+
+		render.SetBlend(1)
 	end
-
-	render.SetBlend(0)
-
-	self:SetMaterial(self.Material)
-	self:DrawModel()
-
-	render.SetBlend(1)
 end
