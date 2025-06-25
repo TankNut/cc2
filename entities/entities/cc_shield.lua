@@ -46,6 +46,10 @@ if SERVER then
 end
 
 if CLIENT then
+	function ENT:GetShieldColor()
+		return Vector(1, 0.75, 0)
+	end
+
 	function ENT:GetShieldVisibility()
 		local timeSince = CurTime() - self:GetLastPing()
 
