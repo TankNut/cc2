@@ -1,6 +1,8 @@
 FLAG.Name = "SPARTAN"
 FLAG.Team = TEAM_UNSC
 
+FLAG.Armor = 100
+
 FLAG.Scale = 1.15
 
 FLAG.Loadout = {"weapon_cc_hands"}
