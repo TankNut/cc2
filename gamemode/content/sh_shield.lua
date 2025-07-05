@@ -22,13 +22,17 @@ if SERVER then
 	end
 
 	hook.Add("EntityTakeDamage", "shield", function(ent, dmg)
-		if IsValid(ent.ShieldEntity) and ent.ShieldEntity:TakeShieldDamage(dmg) then
+		local shield = Get(ent)
+
+		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
 			return true
 		end
 	end)
 
 	hook.Add("ScalePlayerDamage", "shield", function(ply, hitgroup, dmg)
-		if IsValid(ply.ShieldEntity) and ply.ShieldEntity:TakeShieldDamage(dmg) then
+		local shield = Get(ply)
+
+		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
 			return true
 		end
 	end)
