@@ -21,5 +21,5 @@ function FLAG:GetModelData(ply)
 end
 
 function FLAG:PostModelData(ply, data, hasOverride)
-	data._base.Materials = "models/effects/hologram"
+	data._base.Materials = "taconbanana/halo/models/effects/hologram"
 end

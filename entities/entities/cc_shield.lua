@@ -7,7 +7,7 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 
-ENT.Material = "models/effects/shield"
+ENT.Material = "taconbanana/halo/models/effects/shield"
 
 ENT.BaseShield = 100
 ENT.RechargeDelay = 5

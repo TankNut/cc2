@@ -36,7 +36,7 @@ end
 
 if CLIENT then
 	matproxy.Add({
-		name = "cc2_shield",
+		name = "CC2Shield",
 		init = function(self, mat, values) end,
 		bind = function(self, mat, ent)
 			mat:SetVector("$emissiveBlendTint", ent:GetShieldColor())
