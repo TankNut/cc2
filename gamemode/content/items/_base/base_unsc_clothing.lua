@@ -45,5 +45,5 @@ function ITEM:CheckEquipmentSlot()
 		return
 	end
 
-	BaseClass.CheckEquipmentSlot()
+	BaseClass.CheckEquipmentSlot(self)
 end
