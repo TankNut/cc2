@@ -122,7 +122,7 @@ if SERVER then
 		define.PreUseCallback(ent, ply)
 
 		-- Bit jank but it should work
-		ply:Use(ent)
+		ent:Use(ply)
 
 		define.PostUseCallback(ent, ply)
 
