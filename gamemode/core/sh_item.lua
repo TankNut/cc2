@@ -29,6 +29,12 @@ function Register(name, item)
 	-- Done to prevent the var from getting inherited
 	local internal = item.Internal; item.Internal = nil
 
+	if item.Model and not util.IsValidModel(item.Model) then
+		logger:Warning("Item '%s' tried to register an invalid model: %s", name, item.Model)
+
+		item.Model = Model("models/props_lab/cactus.mdl")
+	end
+
 	List[name] = inherit.Register("item", name, item, item.Base or "base")
 
 	if not internal then
