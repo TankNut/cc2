@@ -84,6 +84,55 @@ SWEP.Itemize = {
 	IconFOV = 12
 }
 
+if CLIENT then
+	local fill = Color(37, 141, 170)
+	local outline = Color(16, 60, 80)
+
+	function SWEP:PostDrawViewModel(vm)
+		local matrix = vm:GetBoneMatrix(vm:LookupBone("b_gun"))
+
+		matrix:Translate(Vector(5.393, 0, 7.596))
+		matrix:Rotate(Angle(180, 90, -116.362))
+
+		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
+			local ammo = self:Clip1()
+
+			if ammo < 10 then
+				ammo = "0" .. ammo
+			end
+
+			draw.SimpleTextOutlined(ammo, "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, outline)
+		cam.End3D2D()
+	end
+
+	function SWEP:DrawWorldModel(studio)
+		self:DrawModel(studio)
+
+		local scale = 1
+		local ply = self:GetOwner()
+
+		if IsValid(ply) then
+			scale = ply:GetModelScale()
+		end
+
+		local matrix = self:GetBoneMatrix(self:LookupBone("ValveBiped.Bip01_R_Hand"))
+
+		matrix:Translate(Vector(6.8, -1.25, -6.7))
+		matrix:Rotate(Angle(0, 90, -100.362))
+		matrix:Scale(Vector(scale, scale, scale))
+
+		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
+			local ammo = self:Clip1()
+
+			if ammo < 10 then
+				ammo = "0" .. ammo
+			end
+
+			draw.SimpleTextOutlined(ammo, "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 1, outline)
+		cam.End3D2D()
+	end
+end
+
 sound.Add({
 	name = "Weapon_MA37.Single",
 	channel = CHAN_WEAPON,
