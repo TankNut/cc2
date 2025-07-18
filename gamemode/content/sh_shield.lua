@@ -6,7 +6,13 @@ end
 
 if SERVER then
 	function Enable(ent, class)
-		SafeRemoveEntity(ent.ShieldEntity)
+		local existing = Get(ent)
+
+		if IsValid(existing) and math.IsNearlyEqual(existing:GetCreationTime(), CurTime(), 0.1) then
+			return
+		end
+
+		SafeRemoveEntity(Get(ent))
 
 		local shield = ents.Create(class or "cc_shield")
 
@@ -18,7 +24,7 @@ if SERVER then
 	end
 
 	function Disable(ent)
-		SafeRemoveEntity(ent.ShieldEntity)
+		SafeRemoveEntity(Get(ent))
 	end
 
 	hook.Add("EntityTakeDamage", "shield", function(ent, dmg)

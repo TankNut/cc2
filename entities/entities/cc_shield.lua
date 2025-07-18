@@ -66,6 +66,15 @@ function ENT:GetShieldValue()
 	end
 end
 
+function ENT:OnRemove()
+	self:StopSound(self.RechargeSound)
+
+	if CLIENT then
+		self.BreakAlertSoundPatch:Stop()
+		self.LowAlertSoundPatch:Stop()
+	end
+end
+
 if SERVER then
 	function ENT:Think()
 		local parent = self:GetParent()
@@ -84,13 +93,6 @@ if SERVER then
 			self.CanPlayRechargeSound = false
 			self:EmitSound(self.RechargeSound)
 		end
-	end
-
-	function ENT:OnRemove()
-		self:StopSound(self.RechargeSound)
-
-		self.BreakAlertSoundPatch:Stop()
-		self.LowAlertSoundPatch:Stop()
 	end
 
 	function ENT:TakeShieldDamage(dmg)
