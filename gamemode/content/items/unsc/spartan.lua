@@ -1,3 +1,5 @@
+local BaseClass = inherit.Get("item", "base")
+
 ITEM.Name           = "MJOLNIR Powered Assault Armor"
 
 ITEM.Rarity         = RARITY_LEGENDARY
@@ -215,5 +217,17 @@ if SERVER then
 				}
 			}
 		}
+	end
+
+	function ITEM:OnEquipped(ply, slot)
+		BaseClass.OnEquipped(self, ply, slot)
+
+		shield.Enable(ply)
+	end
+
+	function ITEM:OnUnequipped(ply)
+		BaseClass.OnUnequipped(self, ply)
+
+		shield.Disable(ply)
 	end
 end
