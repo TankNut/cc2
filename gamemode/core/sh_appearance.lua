@@ -3,8 +3,6 @@ PlayerVar.Add("Appearance", {Default = {}})
 local PLAYER = FindMetaTable("Player")
 
 function GM:OnAppearanceChanged(ply, old, new, loaded)
-	ply:UpdateHull()
-
 	if CLIENT then
 		local outfit = {}
 
@@ -31,6 +29,8 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 			ply:GetRagdoll():SetFakeAppearance(new)
 		end
 	end
+
+	ply:UpdateHull()
 end
 
 if SERVER then
