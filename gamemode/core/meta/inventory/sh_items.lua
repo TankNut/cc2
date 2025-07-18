@@ -63,7 +63,10 @@ else
 		self:ItemsChanged()
 
 		for _, item in pairs(self.Items) do
-			item:CheckEquipmentSlot()
+			if item:IsEquipped() then
+				item:CheckEquipmentSlot()
+			end
+
 			item:OnLoaded()
 		end
 	end
