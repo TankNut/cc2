@@ -18,10 +18,12 @@ FLAG.Clothing = CLOTHING_NONE
 
 FLAG.BloodColor = BLOOD_COLOR_RED
 
+FLAG.IStatSpeed = 5
+
 -- Min speed can be changed to <= 90 after my footstep plugin is ported over from helix
 FLAG.SlowWalkSpeed = 91
 FLAG.WalkSpeed = 91
-FLAG.RunSpeed = 190
+-- FLAG.RunSpeed = 190 -- Gets overwritten later, just here for reference
 FLAG.JumpPower = 200
 FLAG.CrouchSpeed = 60
 
@@ -38,8 +40,34 @@ function FLAG:Run(ply, name, ...)
 	end
 end
 
+function FLAG:ScaleIStat(ply, field, min, max)
+	local val = self:Run(ply, field)
+
+	for _, item in pairs(ply:GetItems()) do
+		local func = item["Get" .. field]
+
+		if func then
+			val = val + func(item, ply)
+		end
+	end
+
+	for _, buff in pairs(ply:GetBuffs()) do
+		local func = buff["Get" .. field]
+
+		if func then
+			val = val + func(buff, ply)
+		end
+	end
+
+	return math.ClampedRemap(val, 1, 10, min, max)
+end
+
+function FLAG:RunSpeed(ply)
+	return self:ScaleIStat(ply, "IStatSpeed", Config.Get("MinSpeed"), Config.Get("MaxSpeed"))
+end
+
 function FLAG:GetSpeeds(ply)
-	return self.SlowWalkSpeed, self.WalkSpeed, self.RunSpeed, self.JumpPower, self.CrouchSpeed
+	return self.SlowWalkSpeed, self.WalkSpeed, self:Run(ply, "RunSpeed"), self.JumpPower, self.CrouchSpeed
 end
 
 function FLAG:VisibleRPName(ply)
