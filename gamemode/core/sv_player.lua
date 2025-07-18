@@ -85,6 +85,8 @@ function GM:PlayerSpawn(ply)
 	Npc.HandlePlayerSpawn(ply)
 
 	ply:RunItemHooks("PlayerSpawned")
+
+	buff.PlayerHook(ply, "OnSpawn")
 end
 
 if not PLAYER._SetMaxArmor then
