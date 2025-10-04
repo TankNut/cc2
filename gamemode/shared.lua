@@ -3,14 +3,10 @@
 AddCSLuaFile()
 DeriveGamemode("sandbox")
 
-GM.Name = "CC2: Project Testbed"
+GM.Name = "CombineControl 2"
 GM.Author = "Taco N Banana"
 GM.Website = "http://taconbanana.com"
 GM.Email = "gangleider@taconbanana.com"
-
-function GM:GetGameDescription()
-	return self.Name
-end
 
 gameevent.Listen("player_disconnect")
 gameevent.Listen("player_changename")

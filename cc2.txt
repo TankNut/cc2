@@ -1,7 +1,7 @@
-"cc2-halo"
+"cc2"
 {
 	"base"		"sandbox"
-	"title"		"CC2: Project Testbed"
+	"title"		"CombineControl 2"
 	"maps"		"^rp_"
 	"menusystem"	"1"
 }
