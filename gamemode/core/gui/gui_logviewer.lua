@@ -224,7 +224,7 @@ end
 
 vgui.Register("GUI_LogViewer", PANEL, "CC_Frame")
 
-GUI.Register("LogViewer", function(config)
+ui.Register("LogViewer", function(config)
 	local panel = vgui.Create("GUI_LogViewer")
 
 	panel:Setup(config)

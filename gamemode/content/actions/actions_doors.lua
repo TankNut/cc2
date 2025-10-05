@@ -18,7 +18,7 @@ Action.Add("SetDoorTitle", {
 		return validate.Value(name, validation)
 	end,
 	Client = function(self)
-		return true, GUI.Open("Input", "string", "Change Door Title", {
+		return true, ui.Open("Input", "string", "Change Door Title", {
 			Default = self:DoorTitle(),
 			Validate = validation,
 			Name = "Door titles"
@@ -41,7 +41,7 @@ Action.Add("SetDoorSubtitle", {
 		return validate.Value(name, validation)
 	end,
 	Client = function(self)
-		return true, GUI.Open("Input", "string", "Change Door Subtitle", {
+		return true, ui.Open("Input", "string", "Change Door Subtitle", {
 			Default = self:DoorSubtitle(),
 			Validate = validation,
 			Name = "Door subtitles"
@@ -92,7 +92,7 @@ Action.Add("SetDoorGroup", {
 		return validate.Value(group, validation)
 	end,
 	Client = function(self)
-		return true, GUI.Open("Input", "string", "Change Door Group", {
+		return true, ui.Open("Input", "string", "Change Door Group", {
 			Default = self:DoorGroup(),
 			Validate = validation,
 			Name = "Door groups"

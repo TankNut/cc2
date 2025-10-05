@@ -38,7 +38,7 @@ ENT.Actions.SetSpawngroup = {
 	end,
 
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "string", "Change Spawngroup", {
+		return true, ui.Open("Input", "string", "Change Spawngroup", {
 			Default = self:GetGroup(),
 			Validate = validation,
 			Name = "Spawn group"

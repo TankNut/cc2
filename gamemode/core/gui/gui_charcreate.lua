@@ -52,7 +52,7 @@ end
 function PANEL:OnClose()
 	self:Remove()
 
-	GUI.Open(#lp:GetCharacterTypes() > 1 and "CharacterType" or "CharacterSelect")
+	ui.Open(#lp:GetCharacterTypes() > 1 and "CharacterType" or "CharacterSelect")
 end
 
 function PANEL:GoBack()
@@ -177,7 +177,7 @@ end
 
 vgui.Register("GUI_CharacterCreate", PANEL, "CC_Frame")
 
-GUI.Register("CharacterCreate", function(charType)
+ui.Register("CharacterCreate", function(charType)
 	local panel = vgui.Create("GUI_CharacterCreate")
 
 	panel:Setup(charType)

@@ -43,7 +43,7 @@ end
 
 vgui.Register("GUI_DevEditor", PANEL, "CC_Frame")
 
-GUI.Register("DevEditor", function(code, map)
+ui.Register("DevEditor", function(code, map)
 	local instance = vgui.Create("GUI_DevEditor")
 
 	instance:SetText(code)

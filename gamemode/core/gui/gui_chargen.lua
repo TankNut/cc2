@@ -97,7 +97,7 @@ function PANEL:OnClose()
 	self:Remove()
 
 	if not self.ChoiceMade then
-		GUI.Open("CharacterSelect")
+		ui.Open("CharacterSelect")
 	end
 end
 
@@ -107,6 +107,6 @@ end
 
 vgui.Register("GUI_CharacterGen", PANEL, "CC_Frame")
 
-GUI.Register("CharacterGen", function()
+ui.Register("CharacterGen", function()
 	return vgui.Create("GUI_CharacterGen")
 end, true)

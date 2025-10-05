@@ -61,11 +61,11 @@ end
 
 vgui.Register("GUI_InventoryPopup", PANEL, "CC_Frame")
 
-GUI.Register("InventoryPopup", function(id)
-	local playerMenu = GUI.Get("PlayerMenu")
+ui.Register("InventoryPopup", function(id)
+	local playerMenu = ui.Get("PlayerMenu")
 
 	if not IsValid(playerMenu) then
-		playerMenu = GUI.Open("PlayerMenu")
+		playerMenu = ui.Open("PlayerMenu")
 	else
 		playerMenu:SelectMenu(2)
 	end

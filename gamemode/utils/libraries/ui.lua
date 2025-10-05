@@ -1,5 +1,5 @@
 if CLIENT then
-	module("GUI", package.seeall)
+	module("ui", package.seeall)
 
 	List = List or {}
 
@@ -64,21 +64,21 @@ if CLIENT then
 		end
 	end
 
-	netstream.Hook("OpenGUI", function(name, ...)
+	netstream.Hook("OpenUI", function(name, ...)
 		Open(name, ...)
 	end)
 
-	netstream.Hook("CloseGUI", function(name)
+	netstream.Hook("CloseUI", function(name)
 		Close(name)
 	end)
 else
 	local PLAYER = FindMetaTable("Player")
 
 	function PLAYER:OpenGUI(name, ...)
-		netstream.Send(self, "OpenGUI", name, ...)
+		netstream.Send(self, "OpenUI", name, ...)
 	end
 
 	function PLAYER:CloseGUI(name)
-		netstream.Send(self, "CloseGUI", name)
+		netstream.Send(self, "CloseUI", name)
 	end
 end

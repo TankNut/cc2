@@ -14,7 +14,7 @@ function PANEL:Init()
 	self.ChangeName.DoClick = function()
 		async.Start(function()
 			netstream.Send("ChangeCharacterName",
-				GUI.Open("Input", "string", "Change Character Name", {
+				ui.Open("Input", "string", "Change Character Name", {
 					Default = lp:CharacterName(),
 					Validate = Config.Get("CharacterNameRules"),
 					Name = "Your name"
@@ -30,7 +30,7 @@ function PANEL:Init()
 	self.ChangeDescription.DoClick = function()
 		async.Start(function()
 			netstream.Send("ChangeCharacterDescription",
-				GUI.Open("Input", "multiline", "Change Character Description", {
+				ui.Open("Input", "multiline", "Change Character Description", {
 					Default = lp:CharacterDescription(),
 					Validate = Config.Get("CharacterDescriptionRules"),
 					Name = "Your description"
@@ -45,7 +45,7 @@ function PANEL:Init()
 	self.ChangeNotes.DoClick = function()
 		async.Start(function()
 			netstream.Send("ChangeCharacterNotes",
-				GUI.Open("Input", "multiline", "Edit Character Notes", {
+				ui.Open("Input", "multiline", "Edit Character Notes", {
 					Default = lp:CharacterNotes(),
 					Validate = Config.Get("CharacterDescriptionRules"),
 					Name = "Your personal notes"

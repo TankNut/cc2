@@ -15,7 +15,7 @@ function PANEL:Init()
 
 	self.Edit.DoClick = function(pnl)
 		async.Start(function()
-			local val = GUI.Open("Input", self.InputType, "Edit " .. self.Setting.Name, {
+			local val = ui.Open("Input", self.InputType, "Edit " .. self.Setting.Name, {
 				Validate = self.Setting.Validate,
 				Default = self:GetSetting(),
 				Name = self.NameOverride or self.Setting.Name

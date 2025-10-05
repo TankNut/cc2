@@ -1,6 +1,6 @@
 local closeMenu = function(self, ply, ...)
 	if Settings.Get("EquipTogglesMenu") then
-		GUI.Close("PlayerMenu")
+		ui.Close("PlayerMenu")
 	end
 
 	return true, ...

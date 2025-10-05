@@ -4,8 +4,8 @@ CLASS.SortOrder = 0
 
 -- All fields use the character var 'name', e.g. CharacterModel which will be translated by ply:CreateCharacter into db fields
 CLASS.Fields = {} -- Pre-set fields that will be used as a baseline
-CLASS.Pages = {} -- The GUI layout, contains tables for pages which contain options
-CLASS.Options = {} -- The actual options used to build the GUI
+CLASS.Pages = {} -- The ui layout, contains tables for pages which contain options
+CLASS.Options = {} -- The actual options used to build the ui
 CLASS.Validate = {} -- Validation rules for options
 
 function CLASS:GetName()

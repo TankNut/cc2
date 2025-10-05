@@ -90,7 +90,7 @@ end
 
 vgui.Register("GUI_HelpMenu", PANEL, "CC_Frame")
 
-GUI.Register("HelpMenu", function()
+ui.Register("HelpMenu", function()
 	local instance = vgui.Create("GUI_HelpMenu")
 
 	hook.Run("PopulateHelpMenu", instance)

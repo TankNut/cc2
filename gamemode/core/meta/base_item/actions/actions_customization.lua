@@ -21,7 +21,7 @@ ITEM.Actions.CustomizeName = {
 	end,
 
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "string", "Change Item Name", {
+		return true, ui.Open("Input", "string", "Change Item Name", {
 			Default = self:GetData("CustomName") or "",
 			Validate = validateChangeName,
 			Name = "Item name"
@@ -49,7 +49,7 @@ ITEM.Actions.CustomizeDescription = {
 	end,
 
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "multiline", "Change Item Description", {
+		return true, ui.Open("Input", "multiline", "Change Item Description", {
 			Default = self:GetData("CustomDescription") or "",
 			Validate = validateChangeDescription,
 			Name = "Item description"

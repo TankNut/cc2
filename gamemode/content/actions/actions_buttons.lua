@@ -15,7 +15,7 @@ Action.Add("SetButtonName", {
 		return validate.Value(name, validation)
 	end,
 	Client = function(self)
-		return true, GUI.Open("Input", "string", "Change Button Name", {
+		return true, ui.Open("Input", "string", "Change Button Name", {
 			Default = self:ButtonName(),
 			Validate = validation,
 			Name = "Button names"

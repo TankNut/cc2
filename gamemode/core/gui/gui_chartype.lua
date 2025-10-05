@@ -26,7 +26,7 @@ function PANEL:Populate()
 
 		button.DoClick = function(pnl)
 			self:Remove()
-			GUI.Open("CharacterCreate", charType)
+			ui.Open("CharacterCreate", charType)
 		end
 	end
 
@@ -45,7 +45,7 @@ end
 
 function PANEL:OnClose()
 	self:Remove()
-	GUI.Open("CharacterSelect")
+	ui.Open("CharacterSelect")
 end
 
 function PANEL:PaintFullScreen(x, y, w, h)
@@ -54,11 +54,11 @@ end
 
 vgui.Register("GUI_CharacterType", PANEL, "CC_Frame")
 
-GUI.Register("CharacterType", function()
+ui.Register("CharacterType", function()
 	if #lp:GetCharacterTypes() == 1 then
 		local charType = CharacterCreate.Get(lp:GetCharacterTypes()[1])
 
-		GUI.Open("CharacterCreate", charType)
+		ui.Open("CharacterCreate", charType)
 
 		return
 	end

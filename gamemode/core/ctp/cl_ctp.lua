@@ -1056,7 +1056,7 @@ ctp:Initialize()
 
 hook.Add("InitPostEntity", "ctp_InitPostEntity", function() ctp:Initialize() end)
 
-do -- GUI
+do -- ui
 	ctp.Spacing = 7
 	ctp.FormFont = "DermaDefault"
 

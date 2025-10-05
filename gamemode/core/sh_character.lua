@@ -41,8 +41,8 @@ end
 function GM:OnCharacterListChanged(ply, old, new, loaded)
 	if CLIENT then
 		jank(function()
-			if not ply:HasCharacter() or GUI.Get("CharacterSelect") then
-				GUI.Open("CharacterSelect")
+			if not ply:HasCharacter() or ui.Get("CharacterSelect") then
+				ui.Open("CharacterSelect")
 			end
 		end)
 	end
@@ -54,7 +54,7 @@ function GM:OnCharIDChanged(ply, old, new, loaded)
 		Hud.Rebuild()
 
 		if new == 0 then
-			GUI.Open("CharacterSelect")
+			ui.Open("CharacterSelect")
 
 			return
 		end
@@ -62,7 +62,7 @@ function GM:OnCharIDChanged(ply, old, new, loaded)
 		local crc = util.CRC(GAMEMODE.MOTD)
 
 		if crc != cookie.GetString("cc_motd", "") then
-			GUI.Open("MOTD")
+			ui.Open("MOTD")
 
 			cookie.Set("cc_motd", crc)
 		end
@@ -81,9 +81,9 @@ end
 
 function GM:PostLoadCharacter(ply)
 	if CLIENT then
-		GUI.Close("CharacterCreate")
-		GUI.Close("CharacterSelect")
-		GUI.Close("CharacterGen")
+		ui.Close("CharacterCreate")
+		ui.Close("CharacterSelect")
+		ui.Close("CharacterGen")
 
 		Hud.Rebuild()
 	end

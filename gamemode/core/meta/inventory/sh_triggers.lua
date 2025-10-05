@@ -6,7 +6,7 @@ function INVENTORY:OnRemove()
 	end
 
 	if CLIENT then
-		local panels = GUI.Get("InventoryPopup")
+		local panels = ui.Get("InventoryPopup")
 
 		for _, panel in pairs(panels) do
 			if IsValid(panel) and panel.Inventory == self then

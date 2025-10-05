@@ -13,7 +13,7 @@ end
 
 vgui.Register("GUI_PlayerMenu", PANEL, "CC_BaseMenu")
 
-GUI.Register("PlayerMenu", function()
+ui.Register("PlayerMenu", function()
 	local instance = vgui.Create("GUI_PlayerMenu")
 
 	hook.Run("PopulatePlayerMenu", instance)

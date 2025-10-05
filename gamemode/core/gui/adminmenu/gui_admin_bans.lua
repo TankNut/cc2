@@ -77,7 +77,7 @@ function PANEL:DoRevokeBan()
 	local steamID = line.Data.SteamID
 
 	async.Start(function()
-		local confirm = GUI.Open("Input", "confirm", "Revoke Ban", {
+		local confirm = ui.Open("Input", "confirm", "Revoke Ban", {
 			Prompt = string.format("Revoke %s's ban and allow them back onto the server?", steamID),
 		})
 

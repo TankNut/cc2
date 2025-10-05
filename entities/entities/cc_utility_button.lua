@@ -31,7 +31,7 @@ ENT.Actions.SetButton = {
 		return validate.Value(name, validation)
 	end,
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "string", "Set Button ID", {
+		return true, ui.Open("Input", "string", "Set Button ID", {
 			Default = self:GetButtonID(),
 			Validate = validation,
 			Name = "Button ID"

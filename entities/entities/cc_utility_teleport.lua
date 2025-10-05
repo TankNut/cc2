@@ -40,7 +40,7 @@ ENT.Actions.SetTeleport = {
 	end,
 
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "string", "Set Teleport ID", {
+		return true, ui.Open("Input", "string", "Set Teleport ID", {
 			Default = self:GetTeleportID(),
 			Validate = validation,
 			Name = "Teleport ID"

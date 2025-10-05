@@ -52,7 +52,7 @@ end
 
 vgui.Register("GUI_Examine", PANEL, "CC_Frame")
 
-GUI.Register("Examine", function(ply, description)
+ui.Register("Examine", function(ply, description)
 	local panel = vgui.Create("GUI_Examine")
 
 	panel:Setup(ply, description)
@@ -64,7 +64,7 @@ ExamineCache = ExamineCache or {}
 
 FindMetaTable("Player").Examine = function(self)
 	if self == lp then
-		GUI.Open("Examine", self, self:VisibleDescription())
+		ui.Open("Examine", self, self:VisibleDescription())
 
 		return
 	end
@@ -74,6 +74,6 @@ FindMetaTable("Player").Examine = function(self)
 
 		ExamineCache[self:SteamID()] = description
 
-		GUI.Open("Examine", self, description)
+		ui.Open("Examine", self, description)
 	end)
 end

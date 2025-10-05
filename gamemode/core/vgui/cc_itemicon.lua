@@ -55,7 +55,7 @@ function PANEL:OnCursorExited()
 end
 
 function PANEL:DoDoubleClick()
-	GUI.Open("ItemPopup", self.Item)
+	ui.Open("ItemPopup", self.Item)
 end
 
 function PANEL:DoRightClick()

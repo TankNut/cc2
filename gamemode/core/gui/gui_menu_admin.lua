@@ -19,7 +19,7 @@ end
 
 vgui.Register("GUI_AdminMenu", PANEL, "CC_BaseMenu")
 
-GUI.Register("AdminMenu", function()
+ui.Register("AdminMenu", function()
 	local instance = vgui.Create("GUI_AdminMenu")
 
 	hook.Run("PopulateAdminMenu", instance)

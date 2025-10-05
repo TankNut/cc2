@@ -29,7 +29,7 @@ function PANEL:Init()
 	self.MOTD:Dock(TOP)
 	self.MOTD:SetText("Server Updates")
 	self.MOTD.DoClick = function()
-		GUI.Open("MOTD")
+		ui.Open("MOTD")
 	end
 
 	self.Rejoin = self.Right:Add("DButton")

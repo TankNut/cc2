@@ -30,7 +30,7 @@ Action.Add("SetAIScale", {
 		if scale then
 			return true, scale
 		else
-			return true, GUI.Open("Input", "number", "Set Character Scale", {
+			return true, ui.Open("Input", "number", "Set Character Scale", {
 				Default = self:Scale(),
 				Validate = scaleValidation,
 				Name = "Character scale"

@@ -168,7 +168,7 @@ end
 
 vgui.Register("GUI_Input_Confirm", PANEL, "GUI_Input_Text")
 
-GUI.Register("Input", function(subtype, title, data)
+ui.Register("Input", function(subtype, title, data)
 	local panel
 
 	if subtype == "string" then

@@ -231,7 +231,7 @@ end
 
 vgui.Register("GUI_Chat", PANEL, "EditablePanel")
 
-GUI.Register("Chat", function()
+ui.Register("Chat", function()
 	local panel = vgui.Create("GUI_Chat")
 
 	panel:Hide()

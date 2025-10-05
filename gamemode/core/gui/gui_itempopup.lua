@@ -104,7 +104,7 @@ end
 
 vgui.Register("GUI_ItemPopup", PANEL, "CC_Frame")
 
-GUI.Register("ItemPopup", function(item)
+ui.Register("ItemPopup", function(item)
 	for panel in pairs(item.Panels) do
 		if panel:GetName() == "GUI_ItemPopup" and panel.Item == item then
 			panel:MoveToFront()

@@ -12,7 +12,7 @@ function PANEL:Init()
 	self.Badge.Paint = function() end
 
 	self.Badge.DoClick = function()
-		GUI.Open("BadgeList", self.Player)
+		ui.Open("BadgeList", self.Player)
 	end
 
 	self.Examine = self:Add("DButton")
@@ -224,6 +224,6 @@ end
 
 vgui.Register("GUI_Scoreboard", PANEL, "CC_Frame")
 
-GUI.Register("Scoreboard", function()
+ui.Register("Scoreboard", function()
 	return vgui.Create("GUI_Scoreboard")
 end, true)

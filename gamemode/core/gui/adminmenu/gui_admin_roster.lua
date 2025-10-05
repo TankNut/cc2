@@ -97,7 +97,7 @@ function PANEL:DoAddUser()
 	end))
 
 	async.Start(function()
-		local steamid = GUI.Open("Input", "string", "Add Admin", {
+		local steamid = ui.Open("Input", "string", "Add Admin", {
 			Validate = {
 				validate.Callback(function(val)
 					return util.IsValidSteamID(val), "is not a valid SteamID"
@@ -119,7 +119,7 @@ function PANEL:DoDemoteUser()
 	local admin = getName(data)
 
 	async.Start(function()
-		local confirm = GUI.Open("Input", "confirm", "Demote Admin to User", {
+		local confirm = ui.Open("Input", "confirm", "Remove Admin", {
 			Prompt = string.format("Demote %s and revoke all of their current in-game access?", admin),
 		})
 
@@ -141,7 +141,7 @@ function PANEL:DoUpdateAlias()
 	local name = getName(line.Data)
 
 	async.Start(function()
-		local alias = GUI.Open("Input", "string", "Update Alias for " .. name, {
+		local alias = ui.Open("Input", "string", "Update Alias for " .. name, {
 			Default = line:GetValue(3) or line:GetValue(4),
 			Validate = {
 				validate.Max(32),

@@ -28,6 +28,6 @@ end
 
 vgui.Register("GUI_MOTD", PANEL, "CC_Frame")
 
-GUI.Register("MOTD", function()
+ui.Register("MOTD", function()
 	return vgui.Create("GUI_MOTD")
 end, true)

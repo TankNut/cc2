@@ -136,14 +136,14 @@ end
 
 if CLIENT then
 	function Create()
-		local panel = GUI.Get("Chat")
+		local panel = ui.Get("Chat")
 
 		if IsValid(panel) then
 			local buffer = panel:ExportBuffer()
 
-			GUI.Open("Chat"):ImportBuffer(buffer)
+			ui.Open("Chat"):ImportBuffer(buffer)
 		else
-			GUI.Open("Chat")
+			ui.Open("Chat")
 		end
 	end
 
@@ -156,11 +156,11 @@ if CLIENT then
 	end
 
 	function Show()
-		GUI.Get("Chat"):Show()
+		ui.Get("Chat"):Show()
 	end
 
 	function Hide()
-		GUI.Get("Chat"):Hide()
+		ui.Get("Chat"):Hide()
 
 		if lp:Typing() != nil then
 			lp:SetTyping(nil)
@@ -186,7 +186,7 @@ if CLIENT then
 				end
 			end
 
-			GUI.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
+			ui.Get("Chat"):AddMessage(message, consoleMessage, command.Tabs)
 		end
 	end
 

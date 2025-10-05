@@ -101,7 +101,7 @@ function PANEL:Populate()
 
 	self.CreateNew.DoClick = function(pnl)
 		self:Remove()
-		GUI.Open("CharacterType")
+		ui.Open("CharacterType")
 	end
 
 	if numCharacters >= max then
@@ -116,7 +116,7 @@ function PANEL:Populate()
 
 		self.GenCharacter.DoClick = function(pnl)
 			self:Remove()
-			GUI.Open("CharacterGen")
+			ui.Open("CharacterGen")
 		end
 	end
 
@@ -153,6 +153,6 @@ end
 
 vgui.Register("GUI_CharacterSelect", PANEL, "CC_Frame")
 
-GUI.Register("CharacterSelect", function()
+ui.Register("CharacterSelect", function()
 	return vgui.Create("GUI_CharacterSelect")
 end, true)

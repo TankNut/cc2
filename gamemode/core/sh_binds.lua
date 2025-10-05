@@ -142,11 +142,11 @@ if CLIENT then
 	end
 
 	function GM:ScoreboardShow()
-		GUI.Open("Scoreboard")
+		ui.Open("Scoreboard")
 	end
 
 	function GM:ScoreboardHide()
-		GUI.Close("Scoreboard")
+		ui.Close("Scoreboard")
 	end
 else
 	function GM:ShowHelp(ply)

@@ -57,7 +57,7 @@ ENT.Actions.SetID = {
 	end,
 
 	Client = function(self, ply)
-		return true, GUI.Open("Input", "string", "Change container ID", {
+		return true, ui.Open("Input", "string", "Change container ID", {
 			Default = self:GetContainerID(),
 			Validate = validation,
 			Name = "Container ID"

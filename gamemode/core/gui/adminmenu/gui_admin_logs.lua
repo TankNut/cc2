@@ -224,7 +224,7 @@ function PANEL:StartSearch()
 		to = time
 	end
 
-	GUI.Open("LogViewer", {
+	ui.Open("LogViewer", {
 		Name = #name > 0 and name or nil,
 		Data = data,
 		From = from,

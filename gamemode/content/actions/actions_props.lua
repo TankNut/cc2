@@ -15,7 +15,7 @@ Action.Add("Describe", {
 		return validate.Value(desc, validation)
 	end,
 	Client = function(self)
-		return true, GUI.Open("Input", "string", "Change Prop Description", {
+		return true, ui.Open("Input", "string", "Change Prop Description", {
 			Default = self:PropDescription(),
 			Validate = validation,
 			Name = "Prop descriptions"
