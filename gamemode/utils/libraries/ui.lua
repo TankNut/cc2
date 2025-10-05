@@ -64,8 +64,10 @@ if CLIENT then
 		end
 	end
 
+	local ref = ScrH()
+
 	function Scale(size)
-		return math.Round(size * (ScrH() / 1080))
+		return math.Round(size * (ref / 1080))
 	end
 
 	netstream.Hook("OpenUI", function(name, ...)
@@ -74,6 +76,10 @@ if CLIENT then
 
 	netstream.Hook("CloseUI", function(name)
 		Close(name)
+	end)
+
+	hook.Add("OnScreenSizeChanged", "ui", function(_, _, _, height)
+		ref = height
 	end)
 else
 	local PLAYER = FindMetaTable("Player")
