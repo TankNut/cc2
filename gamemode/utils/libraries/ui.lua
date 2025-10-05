@@ -64,6 +64,10 @@ if CLIENT then
 		end
 	end
 
+	function Scale(size)
+		return size * (ScrH() / 1080)
+	end
+
 	netstream.Hook("OpenUI", function(name, ...)
 		Open(name, ...)
 	end)
