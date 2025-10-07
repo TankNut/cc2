@@ -87,6 +87,16 @@ function HUD:DrawAlignedRect(x, y, w, h, color, xAlign, yAlign)
 	surface.DrawRect(x, y, w, h)
 end
 
+function HUD:DrawBar(ratio, x, y, w, h, border, background, fill, xAlign, yAlign)
+	local border2 = border * 2
+
+	if background != nil then
+		self:DrawAlignedRect(x, y, w, h, background, xAlign, yAlign)
+	end
+
+	self:DrawAlignedRect(x + border, y - border, (w - border2) * ratio, h - border2, fill, xAlign, yAlign)
+end
+
 function HUD:AddWorldLabel(pos, lines)
 	Hud.AddWorldLabel(pos, lines)
 end
