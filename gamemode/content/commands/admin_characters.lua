@@ -148,7 +148,7 @@ setScale:AddParameter(console.Number({
 	validate.Max(10),
 }))
 
-local giveLanguage = console.AddCommand("rpa_givecharlang", function(ply, target, lang, speak)
+local giveLanguage = console.AddCommand("rpa_givelanguage", function(ply, target, lang, speak)
 	local languageName = Language.Get(lang).Name
 	local accessType = speak and "speak" or "understand"
 	if (speak and target:CanSpeakLanguage(lang)) or (not speak and target:CanUnderstandLanguage(lang)) then
@@ -175,9 +175,9 @@ giveLanguage:AddParameter(console.Player({
 }))
 
 giveLanguage:AddParameter(console.Language())
-giveLanguage:AddOptional(console.Bool(), true)
+giveLanguage:AddOptional(console.Bool(nil, "speaking"), true)
 
-local takeLanguage = console.AddCommand("rpa_takecharlang", function(ply, target, lang)
+local takeLanguage = console.AddCommand("rpa_takelanguage", function(ply, target, lang)
 	local languageName = Language.Get(lang).Name
 	local canSpeak = target:CanSpeakLanguage(lang)
 	local accessType = canSpeak and "speak" or "understand"
