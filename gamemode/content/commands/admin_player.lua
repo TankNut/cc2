@@ -180,8 +180,8 @@ slap:AddParameter(console.Player({
 
 local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamid)
 	local target = player.GetBySteamID(steamid)
-	local name = target and target:Nick() or steamid
-	local characters = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `Flag` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
+	local name = target and string.format("%s (%s)", target:Nick(), steamid) or steamid
+	local characters = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
 		steamId = steamid
 	})
 
@@ -195,11 +195,19 @@ local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, st
 	local lines = {string.format("<c=white>-- Character list for: %s (%d character%s) --</c>", name, #characters, #characters > 1 and "s" or "")}
 
 	for _, character in pairs(characters) do
-		table.insert(lines, string.format("  CharID %d: %s%s - %s",
+		local flag = defaultFlag
+
+		if character.Flag then
+			flag = CharacterFlag.Get(character.Flag).Name or character.Flag
+		end
+
+		table.insert(lines, string.format("  CharID %d: %s%s - %s%s",
 			character.id,
 			character.Name,
 			character.NameOverride and " (" .. character.NameOverride .. ")" or "",
-			character.Flag and (CharacterFlag.Get(flag).Name or flag) or defaultFlag))
+			flag,
+			character.EventCharacter and " (EVENT CHARACTER)" or ""
+		))
 	end
 
 	console.Feedback(ply, "NOTICE", "Sent %s's character list to your console", name)
