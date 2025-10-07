@@ -181,7 +181,7 @@ slap:AddParameter(console.Player({
 local listCharacters = console.AddCommand("rpa_listcharacters", function(ply, steamid)
 	local target = player.GetBySteamID(steamid)
 	local name = target and string.format("%s (%s)", target:Nick(), steamid) or steamid
-	local characters = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
+	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
 		steamId = steamid
 	})
 
