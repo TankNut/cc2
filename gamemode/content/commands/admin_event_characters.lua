@@ -62,7 +62,7 @@ setOwner:SetDescription("Changes ownership of an event character")
 setOwner:SetExecutionContext(console.Server)
 setOwner:SetAccess(console.IsAdmin)
 
-local delete = console.AddCommand("rpa_deleteeventchar", function(ply, id)
+local delete = console.AddCommand("rpa_deleteeventcharacter", function(ply, id)
 	local data = Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
