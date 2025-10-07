@@ -46,8 +46,6 @@ BaseColor = Color(30, 30, 30)
 TextColor = Color(200, 200, 200)
 ActiveColor = Color(100, 40, 40)
 
-InfoHeight = surface.GetFontHeight("CombineControl.WepSelectInfo")
-
 function IsOpen()
 	if Debug then
 		return true
@@ -290,6 +288,8 @@ function Draw()
 	local textInset = ui.Scale(TextInset)
 	local weaponSpacing = ui.Scale(WeaponSpacing)
 
+	local infoHeight = surface.GetFontHeight("CombineControl.WepSelectInfo")
+
 	for index, weapon in ipairs(GetWeapons(Slot)) do
 		local name = GetName(weapon)
 		local nameW, nameH = surface.GetFontSize("CombineControl.WepSelectWep", name)
@@ -301,7 +301,7 @@ function Draw()
 		if active and weapon.InfoText then
 			infoText = string.Explode("\n", weapon.InfoText)
 
-			h = math.max(h, #infoText * InfoHeight + (textInset * 2))
+			h = math.max(h, #infoText * infoHeight + (textInset * 2))
 		end
 
 		draw.RoundedBox(0, startX, y, totalWidth, h, active and cWeaponActive or cWeapon)
@@ -309,7 +309,7 @@ function Draw()
 
 		if infoText then
 			for k, v in ipairs(infoText) do
-				draw.DrawTextShadow(v, "CombineControl.WepSelectInfo", startX + nameW + textInset * 2, y + textInset + (k * InfoHeight) - InfoHeight, cText, cTextShadow)
+				draw.DrawTextShadow(v, "CombineControl.WepSelectInfo", startX + nameW + textInset * 2, y + textInset + (k * infoHeight) - infoHeight, cText, cTextShadow)
 			end
 		end
 
