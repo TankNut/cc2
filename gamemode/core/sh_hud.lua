@@ -283,3 +283,5 @@ function GM:PostRenderVGUI()
 		self.CursorItem:DrawTooltip()
 	end
 end
+
+hook.Add("OnScreenSizeChanged", "cc2.Hud", Rebuild)
