@@ -123,6 +123,8 @@ function GM:OnReloaded()
 
 		Hud.Clear()
 		Hud.Rebuild()
+
+		hook.Run("CreateFonts")
 	end
 
 	self.BaseClass:OnReloaded()
@@ -132,5 +134,14 @@ function GM:OnReloaded()
 	if CLIENT then
 		derma.RefreshSkins()
 		Chat.Create()
+	end
+end
+
+if CLIENT then
+	function GM:OnScreenSizeChanged()
+		Hud.Clear()
+		Hud.Rebuild()
+
+		hook.Run("CreateFonts")
 	end
 end

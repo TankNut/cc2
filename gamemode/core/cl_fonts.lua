@@ -3,50 +3,90 @@ GM.FontFace = system.IsOSX() and "Verdana" or "Tahoma"
 scribe.DefaultFont = "CombineControl.LabelMedium"
 scribe.DefaultColor = Color("cc_normal")
 
-surface.CreateFont("CombineControl.Window", {
-	font = GM.FontFace,
-	size = 14,
-	weight = 500
-})
-
-surface.CreateFont("CombineControl.World", {
-	font = GM.FontFace,
-	size = 2048,
-	weight = ScreenScale(7)
-})
-
-for name, size in pairs({Stupid = 50, Massive = 30, Giant = 22, Big = 18, Medium = 16, Small = 14, Tiny = 12}) do
-	size = ui.Scale(size)
-
-	local fontName = "CombineControl.Label" .. name
-
-	surface.CreateFont(fontName, {
-		font = GM.FontFace,
-		size = size,
+function GM:CreateFonts()
+	surface.CreateFont("CombineControl.Window", {
+		font = self.FontFace,
+		size = 14,
 		weight = 500
 	})
 
-	surface.CreateFont(fontName .. "Bold", {
-		font = GM.FontFace,
-		size = size,
-		weight = 1600
+	surface.CreateFont("CombineControl.World", {
+		font = self.FontFace,
+		size = 2048,
+		weight = ScreenScale(7)
 	})
 
-	surface.CreateFont(fontName .. "Italic", {
-		font = GM.FontFace,
-		size = size,
-		weight = 500,
-		italic = true
+	for name, size in pairs({Stupid = 50, Massive = 30, Giant = 22, Big = 18, Medium = 16, Small = 14, Tiny = 12}) do
+		size = ui.Scale(size)
+
+		local fontName = "CombineControl.Label" .. name
+
+		surface.CreateFont(fontName, {
+			font = self.FontFace,
+			size = size,
+			weight = 500
+		})
+
+		surface.CreateFont(fontName .. "Bold", {
+			font = self.FontFace,
+			size = size,
+			weight = 1600
+		})
+
+		surface.CreateFont(fontName .. "Italic", {
+			font = self.FontFace,
+			size = size,
+			weight = 500,
+			italic = true
+		})
+
+		local COMPONENT = {
+			Name = {string.lower(name)}
+		}
+
+		function COMPONENT:Push() self.Context:PushFont(fontName) end
+		function COMPONENT:Pop() self.Context:PopFont() end
+
+		scribe.Register(COMPONENT)
+	end
+
+	surface.CreateFont("CombineControl.PlayerFont", {
+		font = self.FontFace,
+		size = 17,
+		weight = 700
 	})
 
-	local COMPONENT = {
-		Name = {string.lower(name)}
-	}
+	surface.CreateFont("CombineControl.Ammo", {
+		font = self.FontFace,
+		size = ui.Scale(50),
+		weight = 500
+	})
 
-	function COMPONENT:Push() self.Context:PushFont(fontName) end
-	function COMPONENT:Pop() self.Context:PopFont() end
+	surface.CreateFont("CombineControl.AmmoSmall", {
+		font = self.FontFace,
+		size = ui.Scale(30),
+		weight = 500
+	})
 
-	scribe.Register(COMPONENT)
+	surface.CreateFont("CombineControl.WepSelectHeader", {
+		font = self.FontFace,
+		size = 20,
+		weight = 700
+	})
+
+	surface.CreateFont("CombineControl.WepSelectWep", {
+		font = self.FontFace,
+		size = 18,
+		weight = 500
+	})
+
+	surface.CreateFont("CombineControl.WepSelectInfo", {
+		font = self.FontFace,
+		size = 16,
+		weight = 500
+	})
+
+	hook.Run("CreateChatFonts")
 end
 
 local fonts = {
@@ -94,48 +134,12 @@ function GM:CreateChatFonts()
 end
 
 function GM:OnChatFontSettingChanged(ply, old, new, loaded)
-	self:CreateChatFonts()
+	hook.Run("CreateChatFonts")
 end
 
 function GM:OnChatFontScaleSettingChanged(ply, old, new)
-	self:CreateChatFonts()
+	hook.Run("CreateChatFonts")
 end
-
-surface.CreateFont("CombineControl.PlayerFont", {
-	font = GM.FontFace,
-	size = 17,
-	weight = 700
-})
-
-surface.CreateFont("CombineControl.Ammo", {
-	font = GM.FontFace,
-	size = 50,
-	weight = 500
-})
-
-surface.CreateFont("CombineControl.AmmoSmall", {
-	font = GM.FontFace,
-	size = 30,
-	weight = 500
-})
-
-surface.CreateFont("CombineControl.WepSelectHeader", {
-	font = GM.FontFace,
-	size = 20,
-	weight = 700
-})
-
-surface.CreateFont("CombineControl.WepSelectWep", {
-	font = GM.FontFace,
-	size = 18,
-	weight = 500
-})
-
-surface.CreateFont("CombineControl.WepSelectInfo", {
-	font = GM.FontFace,
-	size = 16,
-	weight = 500
-})
 
 scribe.Register({
 	Name = {"chat"},

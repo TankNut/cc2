@@ -19,9 +19,10 @@ end
 function GM:InitPostEntity()
 	if CLIENT then
 		Settings.LoadClient()
-		Hud.Rebuild()
 
-		self:CreateChatFonts()
+		hook.Run("CreateFonts")
+
+		Hud.Rebuild()
 
 		RunConsoleCommand("spawnmenu_reload")
 
