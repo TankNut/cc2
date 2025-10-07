@@ -257,51 +257,55 @@ function PANEL:SaveKeyValues()
 end
 
 function PANEL:PerformLayout(w, h)
-	self.NameLabel:SetWide(200)
+	local height = ui.Scale(20)
+	local offset = ui.Scale(5)
+	local offset2 = ui.Scale(10)
+
+	self.NameLabel:SetWide(ui.Scale(200))
 	self.NameLabel:SizeToContentsY()
 
-	self.NameFilter:MoveBelow(self.NameLabel, 5)
-	self.NameFilter:SetWide(200)
+	self.NameFilter:MoveBelow(self.NameLabel, offset)
+	self.NameFilter:SetSize(ui.Scale(200), height)
 
-	self.KeyInput:SetWide(115)
+	self.KeyInput:SetSize(ui.Scale(115), height)
 	self.KeyInput:SetX(self.KeyValues:GetX())
 	self.KeyInput:AlignBottom()
 
-	self.ValueInput:SetWide(self.KeyValues:GetWide() - 120)
-	self.ValueInput:MoveRightOf(self.KeyInput, 5)
+	self.ValueInput:SetSize(self.KeyValues:GetWide() - ui.Scale(120), height)
+	self.ValueInput:MoveRightOf(self.KeyInput, offset)
 	self.ValueInput:AlignBottom()
 
-	self.KeyValues:MoveRightOf(self.NameFilter, 10)
-	self.KeyValues:SetWide(300)
-	self.KeyValues:StretchBottomTo(self.KeyInput, 5)
+	self.KeyValues:MoveRightOf(self.NameFilter, offset2)
+	self.KeyValues:SetWide(ui.Scale(300))
+	self.KeyValues:StretchBottomTo(self.KeyInput, offset)
 
-	self.TimeLabel:SetWide(200)
+	self.TimeLabel:SetWide(ui.Scale(200))
 	self.TimeLabel:SizeToContentsY()
-	self.TimeLabel:MoveBelow(self.NameFilter, 20)
+	self.TimeLabel:MoveBelow(self.NameFilter, height)
 
-	self.Time:SetWide(135)
-	self.Time:MoveBelow(self.TimeLabel, 5)
+	self.Time:SetSize(ui.Scale(135), height)
+	self.Time:MoveBelow(self.TimeLabel, offset)
 
-	self.FillTime:SetSize(60, 20)
+	self.FillTime:SetSize(ui.Scale(60), height)
 	self.FillTime:SetY(self.Time:GetY())
-	self.FillTime:MoveRightOf(self.Time, 5)
+	self.FillTime:MoveRightOf(self.Time, offset)
 
-	self.Length:SetWide(135)
-	self.Length:MoveBelow(self.Time, 5)
+	self.Length:SetSize(ui.Scale(135), height)
+	self.Length:MoveBelow(self.Time, offset)
 
-	self.FillLength:SetSize(60, 20)
+	self.FillLength:SetSize(ui.Scale(60), height)
 	self.FillLength:SetY(self.Length:GetY())
-	self.FillLength:MoveRightOf(self.Length, 5)
+	self.FillLength:MoveRightOf(self.Length, offset)
 
-	self.Search:SetSize(160, 20)
+	self.Search:SetSize(ui.Scale(160), height)
 	self.Search:AlignBottom()
 
-	self.Clear:SetTall(20)
+	self.Clear:SetTall(height)
 	self.Clear:SetY(self.Search:GetY())
-	self.Clear:MoveRightOf(self.Search, 5)
-	self.Clear:StretchRightTo(self.KeyValues, 10)
+	self.Clear:MoveRightOf(self.Search, offset)
+	self.Clear:StretchRightTo(self.KeyValues, offset2)
 
-	self.ExtraHelp:MoveRightOf(self.KeyValues, 10)
+	self.ExtraHelp:MoveRightOf(self.KeyValues, offset2)
 	self.ExtraHelp:StretchToParent(nil, 0, 0, 0)
 end
 

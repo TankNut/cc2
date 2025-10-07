@@ -1,7 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetSize(800, 500)
+	self:SetSize(ui.Scale(800), ui.Scale(500))
 
 	self:SetToggleKey("gm_showspare1")
 	self:SetCloseOnPause()

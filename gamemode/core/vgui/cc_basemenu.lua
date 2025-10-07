@@ -5,8 +5,10 @@ local PANEL = {}
 function PANEL:Init()
 	self:SetDraggable(true)
 
+	local padding = ui.Scale(10)
+
 	self.TopBar = self:Add("Panel")
-	self.TopBar:DockPadding(5, 10, 5, 10)
+	self.TopBar:DockPadding(padding * 0.5, padding, padding * 0.5, padding)
 	self.TopBar:Dock(TOP)
 
 	self.TopBar.Paint = function(_, w, h)
@@ -21,7 +23,7 @@ function PANEL:Init()
 	self.SelectedMenu = 0
 
 	self.Content = self:Add("Panel")
-	self.Content:DockMargin(10, 10, 10, 10)
+	self.Content:DockMargin(padding, padding, padding, padding)
 	self.Content:Dock(FILL)
 end
 
@@ -34,24 +36,26 @@ end
 function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
 
-	self.TopBar:SetTall(50)
+	self.TopBar:SetTall(ui.Scale(50))
 end
 
 function PANEL:Populate()
 	self:InvalidateLayout(true)
 
-	local space = self.TopBar:GetWide() - 10
+	local space = self.TopBar:GetWide() - ui.Scale(10)
 	local count = table.Count(self.MenuButtons)
 
-	space = space - (count * 10)
+	space = space - (count * ui.Scale(10))
 
 	local width = math.floor(space / count)
 	local selected = 0
 
+	local margin = ui.Scale(5)
+
 	for index, option in SortedPairs(self.MenuButtons) do
 		local button = self.TopBar:Add("DButton")
 
-		button:DockMargin(5, 0, 5, 0)
+		button:DockMargin(margin, 0, margin, 0)
 		button:Dock(LEFT)
 		button:SetText(option.Name)
 		button:SetWide(width)

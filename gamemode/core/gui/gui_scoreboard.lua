@@ -104,7 +104,7 @@ PANEL = {}
 AccessorFunc(PANEL, "Team", "Team")
 
 function PANEL:Init()
-	self:DockPadding(0, 50, 0, 0)
+	self:DockPadding(0, ui.Scale(50), 0, 0)
 	self.Players = {}
 	self.Empty = false
 end
@@ -141,7 +141,7 @@ function PANEL:AddPlayer(ply)
 	local panel = self:Add("CC_ScoreboardEntry")
 
 	panel:Dock(TOP)
-	panel:SetTall(60)
+	panel:SetTall(ui.Scale(60))
 	panel:SetPlayer(ply)
 
 	self.Players[ply] = panel
@@ -162,7 +162,7 @@ function PANEL:PerformLayout(w, h)
 		return
 	end
 
-	h = 50
+	h = ui.Scale(50)
 
 	for _, v in ipairs(self:GetChildren()) do
 		h = h + v:GetTall()
@@ -180,8 +180,8 @@ function PANEL:Paint(w, h)
 		surface.DrawRect(0, 0, w, 50)
 	end
 
-	draw.SimpleText(team.GetName(self.Team), "CombineControl.LabelGiant", 10, 25, textColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - 10, 25, textColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(team.GetName(self.Team), "CombineControl.LabelGiant", ui.Scale(10), ui.Scale(25), textColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(string.format("%s/%s", #team.GetPlayers(self.Team), player.GetCount()), "CombineControl.LabelGiant", w - ui.Scale(10), ui.Scale(25), textColor, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 end
 
 vgui.Register("CC_ScoreboardTeam", PANEL, "Panel")
@@ -194,7 +194,7 @@ local internalTeams = table.Lookup({
 })
 
 function PANEL:Init()
-	self:SetSize(620, ScreenScale(200))
+	self:SetSize(ui.Scale(620), ScreenScale(200))
 	self:DockPadding(0, 50, 0, 0)
 
 	self:MakePopup()

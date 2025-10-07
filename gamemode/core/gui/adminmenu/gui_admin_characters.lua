@@ -6,8 +6,8 @@ function PANEL:Init()
 
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
-	self.List:SetWide(250)
-	self.List:AddColumn("Steam Name"):SetFixedWidth(100)
+	self.List:SetWide(ui.Scale(250))
+	self.List:AddColumn("Steam Name"):SetFixedWidth(ui.Scale(100))
 	self.List:AddColumn("Character Name")
 	self.List.Cache = {}
 

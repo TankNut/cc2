@@ -2,9 +2,9 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.ModelPanel = self:Add("CC_CharacterModel")
-	self.ModelPanel:DockMargin(10, 0, 0, 0)
+	self.ModelPanel:DockMargin(ui.Scale(10), 0, 0, 0)
 	self.ModelPanel:Dock(RIGHT)
-	self.ModelPanel:SetWide(250)
+	self.ModelPanel:SetWide(ui.Scale(250))
 	self.ModelPanel:SetAllowManipulation(true)
 	self.ModelPanel:SetBaseYaw(-20)
 	self.ModelPanel:SetPlayer(lp)

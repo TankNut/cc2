@@ -3,23 +3,25 @@ DEFINE_BASECLASS("Panel")
 
 function PANEL:Init()
 	self.Weight = self:Add("CC_ProgressBar")
-	self.Weight:DockMargin(0, 10, 0, 0)
+	self.Weight:DockMargin(0, ui.Scale(10), 0, 0)
 	self.Weight:Dock(BOTTOM)
-	self.Weight:SetTall(20)
+	self.Weight:SetTall(ui.Scale(20))
 
 	self.Scroll = self:Add("DScrollPanel")
 	self.Scroll:Dock(FILL)
 
+	local space = ui.Scale(3)
+
 	self.Layout = self.Scroll:Add("DTileLayout")
-	self.Layout:SetBaseSize(48)
-	self.Layout:SetBorder(3)
-	self.Layout:SetSpaceX(3)
-	self.Layout:SetSpaceY(3)
+	self.Layout:SetBaseSize(ui.Scale(48))
+	self.Layout:SetBorder(space)
+	self.Layout:SetSpaceX(space)
+	self.Layout:SetSpaceY(space)
 end
 
 function PANEL:PerformLayout(w, h)
-	self.Weight:SetPos(0, h - 20)
-	self.Layout:SetSize(w, h - 30)
+	self.Weight:SetPos(0, h - ui.Scale(20))
+	self.Layout:SetSize(w, h - ui.Scale(30))
 end
 
 function PANEL:Populate(inventory)
@@ -84,7 +86,7 @@ function PANEL:Sort()
 end
 
 function PANEL:Paint(w, h)
-	derma.SkinHook("Paint", "ItemList", self, w, h - 30)
+	derma.SkinHook("Paint", "ItemList", self, w, h - ui.Scale(30))
 end
 
 vgui.Register("CC_ItemList", PANEL, "Panel")

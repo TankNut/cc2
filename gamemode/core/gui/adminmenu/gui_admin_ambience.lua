@@ -15,7 +15,8 @@ function PANEL:CreateRandomizeButton(label, type)
 	local button = self:Add("DButton")
 
 	button:SetText(label)
-	button:SetWide(150)
+	button:SetWide(ui.Scale(150))
+	button:SetTall(ui.Scale(22))
 
 	local songs = table.Filter(self.SongPresets:GetLines(), function(_, song)
 		return song.Preset.Type == type
@@ -35,20 +36,22 @@ function PANEL:CreateLabel(text, bold, width)
 	local label = self:Add("DLabel")
 
 	label:SetFont("CombineControl.LabelMedium" .. (bold and "Bold" or ""))
-	label:SetWide(width or 150)
+	label:SetWide(ui.Scale(width or 150))
 	label:SetText(text)
 
 	return label
 end
 
 function PANEL:SetupCommandButtons(command, list, isPlayButton)
-	local types = { "Global", "Local" }
+	local types = {"Global", "Local"}
+	local w = ui.Scale(70)
+	local h = ui.Scale(22)
 
-	for _, type in pairs(types) do
+	for _, commandType in pairs(types) do
 		local button = self:Add("DButton")
 
-		button:SetText(type)
-		button:SetWide(70)
+		button:SetText(commandType)
+		button:SetSize(w, h)
 		button:SetDisabled(isPlayButton)
 
 		button.DoClick = function()
@@ -56,9 +59,9 @@ function PANEL:SetupCommandButtons(command, list, isPlayButton)
 				local path = string.Trim(self.Input:GetValue())
 				local volume = math.Remap(self.Volume:GetValue(), 1, 200, 0.01, 2)
 
-				RunConsoleCommand(command, string.lower(type), path, volume)
+				RunConsoleCommand(command, string.lower(commandType), path, volume)
 			else
-				RunConsoleCommand(command, string.lower(type))
+				RunConsoleCommand(command, string.lower(commandType))
 			end
 		end
 
@@ -67,8 +70,11 @@ function PANEL:SetupCommandButtons(command, list, isPlayButton)
 end
 
 function PANEL:Init()
+	local baseWidth = ui.Scale(150)
+	local height = ui.Scale(22)
+
 	self.StopSound = self:Add("DButton")
-	self.StopSound:SetWide(150)
+	self.StopSound:SetSize(baseWidth, height)
 	self.StopSound:SetText("Force Stopsound")
 
 	self.StopSound.DoClick = function()
@@ -76,7 +82,7 @@ function PANEL:Init()
 	end
 
 	self.KillAmbience = self:Add("DButton")
-	self.KillAmbience:SetWide(150)
+	self.KillAmbience:SetSize(baseWidth, height)
 	self.KillAmbience:SetText("Kill Ambience")
 
 	self.KillAmbience.DoClick = function()
@@ -85,10 +91,10 @@ function PANEL:Init()
 
 	self.SongPresets = self:Add("DListView")
 	self.SongPresets:SetMultiSelect(false)
-	self.SongPresets:AddColumn("Type"):SetFixedWidth(50)
-	self.SongPresets:AddColumn("Length"):SetFixedWidth(50)
+	self.SongPresets:AddColumn("Type"):SetFixedWidth(ui.Scale(50))
+	self.SongPresets:AddColumn("Length"):SetFixedWidth(ui.Scale(50))
 	self.SongPresets:AddColumn("Title")
-	self.SongPresets:SetTall(202)
+	self.SongPresets:SetTall(ui.Scale(202))
 
 	for _, preset in ipairs(Ambience.Songs) do
 		self.SongPresets:AddLine(self:GetSongTypeFromPreset(preset), string.ToMinutesSeconds(preset.Length), preset.Name).Preset = preset
@@ -133,7 +139,7 @@ function PANEL:Init()
 
 	self.InputLabel = self:CreateLabel("File Location or URL", true)
 	self.Input = self:Add("DTextEntry")
-	self.Input:SetTall(22)
+	self.Input:SetTall(ui.Scale(22))
 	self.Input:SetUpdateOnType(true)
 
 	self.Input.OnValueChange = function(_, val)
@@ -152,7 +158,7 @@ function PANEL:Init()
 
 	self.Preview = self:Add("DButton")
 	self.Preview:SetText("Preview Selection")
-	self.Preview:SetWide(150)
+	self.Preview:SetSize(baseWidth, height)
 	self.Preview:SetDisabled(true)
 
 	self.Preview.DoClick = function()
@@ -172,7 +178,7 @@ function PANEL:Init()
 
 	self.Volume.PerformLayout = function(pnl, w, h)
 		pnl.Label:SetWide(0)
-		pnl.TextArea:SetWide(25)
+		pnl.TextArea:SetWide(ui.Scale(25))
 	end
 
 	self.PlayMusic = self:CreateLabel("Play Music", false, 75)
@@ -196,87 +202,90 @@ function PANEL:PerformLayout(w, h)
 	self.KillAmbience:AlignRight()
 	self.KillAmbience:AlignBottom()
 
+	local spacing = ui.Scale(5)
+	local stretch = ui.Scale(10)
+
 	self.StopSound:AlignRight()
-	self.StopSound:MoveAbove(self.KillAmbience, 5)
+	self.StopSound:MoveAbove(self.KillAmbience, spacing)
 
 	self.RandomAction:AlignRight()
 	self.RandomAction:AlignTop()
 
-	self.RandomIdle:MoveLeftOf(self.RandomAction, 5)
+	self.RandomIdle:MoveLeftOf(self.RandomAction, spacing)
 	self.RandomIdle:AlignTop()
 
 	self.RandomStinger:AlignRight()
-	self.RandomStinger:MoveBelow(self.RandomAction, 5)
+	self.RandomStinger:MoveBelow(self.RandomAction, spacing)
 
-	self.RandomAlert:MoveLeftOf(self.RandomStinger, 5)
-	self.RandomAlert:MoveBelow(self.RandomIdle, 5)
+	self.RandomAlert:MoveLeftOf(self.RandomStinger, spacing)
+	self.RandomAlert:MoveBelow(self.RandomIdle, spacing)
 
 	self.Preview:AlignRight()
-	self.Preview:MoveAbove(self.StopSound, 5)
+	self.Preview:MoveAbove(self.StopSound, spacing)
 
 	self.Input:AlignLeft()
-	self.Input:StretchRightTo(self.Preview, 10)
-	self.Input:MoveAbove(self.StopSound, 5)
+	self.Input:StretchRightTo(self.Preview, stretch)
+	self.Input:MoveAbove(self.StopSound, spacing)
 
 	self.InputLabel:AlignLeft()
-	self.InputLabel:StretchRightTo(self.Preview, 10)
-	self.InputLabel:MoveAbove(self.Input, 5)
+	self.InputLabel:StretchRightTo(self.Preview, stretch)
+	self.InputLabel:MoveAbove(self.Input, spacing)
 
-	self.Volume:MoveRightOf(self.SongPresets, 5)
+	self.Volume:MoveRightOf(self.SongPresets, spacing)
 	self.Volume:StretchToParent(nil, nil, 0, nil)
 	self.Volume:MoveAbove(self.InputLabel, 0)
 
-	self.VolumeLabel:MoveRightOf(self.SongPresets, 10)
-	self.VolumeLabel:MoveAbove(self.Volume, -5)
+	self.VolumeLabel:MoveRightOf(self.SongPresets, stretch)
+	self.VolumeLabel:MoveAbove(self.Volume, 0)
 
 	self.SongPresets:AlignLeft()
-	self.SongPresets:StretchRightTo(self.RandomIdle, 10)
-	self.SongPresets:StretchBottomTo(self.InputLabel, 5)
+	self.SongPresets:StretchRightTo(self.RandomIdle, stretch)
+	self.SongPresets:StretchBottomTo(self.InputLabel, spacing)
 
 	self.PlayMusic:AlignLeft()
-	self.PlayMusic:MoveBelow(self.Input, 5)
+	self.PlayMusic:MoveBelow(self.Input, ui.Scale(7))
 
 	local previous = self.PlayMusic
 
 	for _, button in pairs(self.PlayMusicButtons) do
-		button:MoveRightOf(previous, 5)
-		button:MoveBelow(self.Input, 5)
+		button:MoveRightOf(previous, spacing)
+		button:MoveBelow(self.Input, spacing)
 
 		previous = button
 	end
 
-	self.PlayEffect:MoveRightOf(previous, 20)
-	self.PlayEffect:MoveBelow(self.Input, 5)
+	self.PlayEffect:MoveRightOf(previous, ui.Scale(20))
+	self.PlayEffect:MoveBelow(self.Input, ui.Scale(7))
 
 	previous = self.PlayEffect
 
 	for _, button in pairs(self.PlayEffectButtons) do
-		button:MoveRightOf(previous, 5)
-		button:MoveBelow(self.Input, 5)
+		button:MoveRightOf(previous, spacing)
+		button:MoveBelow(self.Input, spacing)
 
 		previous = button
 	end
 
 	self.StopMusic:AlignLeft()
-	self.StopMusic:MoveBelow(self.PlayMusic, 5)
+	self.StopMusic:MoveBelow(self.PlayMusic, ui.Scale(12))
 
 	previous = self.StopMusic
 
 	for index, button in pairs(self.StopMusicButtons) do
-		button:MoveRightOf(previous, 5)
-		button:MoveBelow(self.PlayMusicButtons[index], 5)
+		button:MoveRightOf(previous, spacing)
+		button:MoveBelow(self.PlayMusicButtons[index], spacing)
 
 		previous = button
 	end
 
-	self.StopEffect:MoveRightOf(previous, 20)
-	self.StopEffect:MoveBelow(self.PlayMusic, 5)
+	self.StopEffect:MoveRightOf(previous, ui.Scale(20))
+	self.StopEffect:MoveBelow(self.PlayMusic, ui.Scale(12))
 
 	previous = self.StopEffect
 
 	for index, button in pairs(self.StopEffectButtons) do
-		button:MoveRightOf(previous, 5)
-		button:MoveBelow(self.PlayEffectButtons[index], 5)
+		button:MoveRightOf(previous, spacing)
+		button:MoveBelow(self.PlayEffectButtons[index], spacing)
 
 		previous = button
 	end

@@ -12,8 +12,8 @@ function PANEL:Init()
 
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
-	self.List:SetWide(250)
-	self.List:AddColumn("Steam Name"):SetFixedWidth(100)
+	self.List:SetWide(ui.Scale(250))
+	self.List:AddColumn("Steam Name"):SetFixedWidth(ui.Scale(100))
 	self.List:AddColumn("Character Name")
 	self.List.Cache = {}
 
@@ -47,14 +47,14 @@ function PANEL:Init()
 	end
 
 	-- Kicks and Bans
-	self.KickBanLabel = self:CreateLabel("Kick or Ban", true, 250)
-	self.ReasonLabel = self:CreateLabel("Reason", false, 65)
-	self.DurationLabel = self:CreateLabel("Duration", false, 65)
+	self.KickBanLabel = self:CreateLabel("Kick or Ban", true, ui.Scale(250))
+	self.ReasonLabel = self:CreateLabel("Reason", false, ui.Scale(65))
+	self.DurationLabel = self:CreateLabel("Duration", false, ui.Scale(65))
 
 	self.ReasonEntry = self:CreateTextEntry()
-	self.DurationEntry = self:CreateTextEntry(75)
+	self.DurationEntry = self:CreateTextEntry(ui.Scale(75))
 
-	self.KickButton = self:CreateButton("Kick", 105, function(ply)
+	self.KickButton = self:CreateButton("Kick", ui.Scale(105), function(ply)
 		local reason = string.Trim(self.ReasonEntry:GetValue())
 
 		if #reason > 0 then
@@ -65,7 +65,7 @@ function PANEL:Init()
 
 		self.ReasonEntry:SetValue("")
 	end)
-	self.BanButton = self:CreateButton("Ban", 105, function(ply)
+	self.BanButton = self:CreateButton("Ban", ui.Scale(105), function(ply)
 		local reason = string.Trim(self.ReasonEntry:GetValue())
 		local duration = string.Trim(self.DurationEntry:GetValue())
 
@@ -84,7 +84,7 @@ function PANEL:Init()
 		self.ReasonEntry:SetValue("")
 		self.DurationEntry:SetValue("")
 	end)
-	self.PermabanButton = self:CreateButton("Permaban", 105, function(ply)
+	self.PermabanButton = self:CreateButton("Permaban", ui.Scale(105), function(ply)
 		local reason = string.Trim(self.ReasonEntry:GetValue())
 
 		if #reason > 0 then
@@ -97,41 +97,42 @@ function PANEL:Init()
 	end)
 
 	-- Quick Commands
-	self.QuickLabel = self:CreateLabel("Quick Commands", true, 250)
-	self.TeleportLabel = self:CreateLabel("Teleporting", false, 80)
-	self.ActionsLabel = self:CreateLabel("Actions", false, 80)
-	self.MiscellaniousLabel = self:CreateLabel("Miscellaneous", false, 80)
-	self.ScaleLabel = self:CreateLabel("Scale", false, 80)
+	self.QuickLabel = self:CreateLabel("Quick Commands", true, ui.Scale(205))
+	self.TeleportLabel = self:CreateLabel("Teleporting", false, ui.Scale(80))
+	self.ActionsLabel = self:CreateLabel("Actions", false, ui.Scale(80))
+	self.MiscellaniousLabel = self:CreateLabel("Miscellaneous", false, ui.Scale(80))
+	self.ScaleLabel = self:CreateLabel("Scale", false, ui.Scale(80))
 
-	self.GotoButton = self:CreateButton("Goto Player", 105, function(ply)
+	self.GotoButton = self:CreateButton("Goto Player", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_goto", ply:SteamID())
 	end)
-	self.BringButton = self:CreateButton("Bring Player", 105, function(ply)
+
+	self.BringButton = self:CreateButton("Bring Player", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_bring", ply:SteamID())
 	end)
 
-	self.KillButton = self:CreateButton("Kill Player", 105, function(ply)
+	self.KillButton = self:CreateButton("Kill Player", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_kill", ply:SteamID())
 	end)
-	self.SlapButton = self:CreateButton("Slap Player", 105, function(ply)
+	self.SlapButton = self:CreateButton("Slap Player", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_slap", ply:SteamID())
 	end)
-	self.HealButton = self:CreateButton("Heal Player", 105, function(ply)
+	self.HealButton = self:CreateButton("Heal Player", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_heal", ply:SteamID())
 	end)
 
-	self.CopySteamIDButton = self:CreateButton("Copy SteamID", 105, function(ply)
+	self.CopySteamIDButton = self:CreateButton("Copy SteamID", ui.Scale(105), function(ply)
 		lp:SendChat("NOTICE", string.format("Copied %s's Steam ID (%s) to your clipboard", ply:Nick(), ply:SteamID()))
 
 		SetClipboardText(ply:SteamID())
 	end)
-	self.ListCharactersButton = self:CreateButton("List Characters", 105, function(ply)
+	self.ListCharactersButton = self:CreateButton("List Characters", ui.Scale(105), function(ply)
 		RunConsoleCommand("rpa_listcharacters", ply:SteamID())
 	end)
 
-	self.EnterScale = self:CreateTextEntry(50)
+	self.EnterScale = self:CreateTextEntry(ui.Scale(105))
 	self.EnterScale:SetNumeric(true)
-	self.ApplyScaleButton = self:CreateButton("Apply", 50, function(ply)
+	self.ApplyScaleButton = self:CreateButton("Apply", ui.Scale(50), function(ply)
 		local value = self.EnterScale:GetFloat()
 
 		if value then
@@ -140,9 +141,9 @@ function PANEL:Init()
 	end)
 
 	-- Permissions
-	self.PermissionsLabel = self:CreateLabel("User Permissions", true, 250)
-	self.MutedLabel = self:CreateLabel("OOC Muted", false, 80)
-	self.ToolTrustLabel = self:CreateLabel("Tool Trust", false, 80)
+	self.PermissionsLabel = self:CreateLabel("User Permissions", true, ui.Scale(250))
+	self.MutedLabel = self:CreateLabel("OOC Muted", false, ui.Scale(80))
+	self.ToolTrustLabel = self:CreateLabel("Tool Trust", false, ui.Scale(80))
 
 	self.MutedCheckBox = self:Add("DCheckBox")
 	self.MutedCheckBox:SetDisabled(true)
@@ -161,7 +162,7 @@ function PANEL:Init()
 	end)
 
 	self.ToolTrustDropdown = self:Add("DComboBox")
-	self.ToolTrustDropdown:SetWide(100)
+	self.ToolTrustDropdown:SetWide(ui.Scale(100))
 	self.ToolTrustDropdown:SetSortItems(false)
 	self.ToolTrustDropdown:SetDisabled(true)
 
@@ -175,7 +176,7 @@ function PANEL:Init()
 		end
 	end)
 
-	self.ApplyToolTrustButton = self:CreateButton("Apply", 50, function(ply)
+	self.ApplyToolTrustButton = self:CreateButton("Apply", ui.Scale(50), function(ply)
 		local name = self.ToolTrustDropdown:GetSelected()
 
 		RunConsoleCommand("rpa_settooltrust", ply:SteamID(), string.lower(name))
@@ -263,7 +264,7 @@ function PANEL:CreateLabel(text, bold, wide)
 	local label = self:Add("DLabel")
 
 	label:SetFont("CombineControl.LabelMedium" .. (bold and "Bold" or ""))
-	label:SetWide(wide or 150)
+	label:SetWide(wide or ui.Scale(150))
 	label:SetText(text)
 
 	return label
@@ -273,7 +274,7 @@ function PANEL:CreateButton(text, wide, doClick)
 	local button = self:Add("DButton")
 
 	button:SetText(text)
-	button:SetWide(wide or 150)
+	button:SetWide(wide or ui.Scale(150))
 	button:SetDisabled(true)
 
 	button.DoClick = function(panel)
@@ -290,7 +291,7 @@ end
 function PANEL:CreateTextEntry(wide)
 	local entry = self:Add("DTextEntry")
 
-	entry:SetWide(wide or 150)
+	entry:SetWide(wide or ui.Scale(150))
 	entry:SetTall(22)
 
 	return entry
@@ -301,92 +302,92 @@ function PANEL:PerformLayout(w, h)
 	self.List:StretchToParent(nil, nil, nil, 0)
 
 	-- Kicks and Bans
-	self.KickBanLabel:MoveRightOf(self.List, 10)
+	self.KickBanLabel:MoveRightOf(self.List, ui.Scale(10))
 	self.KickBanLabel:AlignTop()
 
-	self.ReasonLabel:MoveRightOf(self.List, 10)
-	self.ReasonLabel:MoveBelow(self.KickBanLabel, 5)
+	self.ReasonLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ReasonLabel:MoveBelow(self.KickBanLabel, ui.Scale(5))
 
 	self.KickButton:AlignRight()
-	self.KickButton:MoveBelow(self.KickBanLabel, 5)
+	self.KickButton:MoveBelow(self.KickBanLabel, ui.Scale(5))
 
 	self.ReasonEntry:MoveRightOf(self.ReasonLabel, 0)
-	self.ReasonEntry:MoveBelow(self.KickBanLabel, 5)
-	self.ReasonEntry:StretchRightTo(self.KickButton, 5)
+	self.ReasonEntry:MoveBelow(self.KickBanLabel, ui.Scale(5))
+	self.ReasonEntry:StretchRightTo(self.KickButton, ui.Scale(5))
 
-	self.DurationLabel:MoveRightOf(self.List, 10)
-	self.DurationLabel:MoveBelow(self.ReasonLabel, 5)
+	self.DurationLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.DurationLabel:MoveBelow(self.ReasonLabel, ui.Scale(5))
 
 	self.DurationEntry:MoveRightOf(self.DurationLabel, 0)
-	self.DurationEntry:MoveBelow(self.ReasonLabel, 5)
+	self.DurationEntry:MoveBelow(self.ReasonLabel, ui.Scale(5))
 
-	self.PermabanButton:MoveBelow(self.ReasonLabel, 5)
+	self.PermabanButton:MoveBelow(self.ReasonLabel, ui.Scale(5))
 	self.PermabanButton:AlignRight()
 
-	self.BanButton:MoveLeftOf(self.PermabanButton, 5)
-	self.BanButton:MoveBelow(self.ReasonLabel, 5)
+	self.BanButton:MoveLeftOf(self.PermabanButton, ui.Scale(5))
+	self.BanButton:MoveBelow(self.ReasonLabel, ui.Scale(5))
 
 	-- General Management
-	self.QuickLabel:MoveRightOf(self.List, 10)
-	self.QuickLabel:MoveBelow(self.DurationLabel, 10)
+	self.QuickLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.QuickLabel:MoveBelow(self.DurationLabel, ui.Scale(10))
 
-	self.TeleportLabel:MoveRightOf(self.List, 10)
-	self.TeleportLabel:MoveBelow(self.QuickLabel, 5)
+	self.TeleportLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.TeleportLabel:MoveBelow(self.QuickLabel, ui.Scale(5))
 
-	self.GotoButton:MoveRightOf(self.TeleportLabel, 5)
-	self.GotoButton:MoveBelow(self.QuickLabel, 5)
+	self.GotoButton:MoveRightOf(self.TeleportLabel, ui.Scale(5))
+	self.GotoButton:MoveBelow(self.QuickLabel, ui.Scale(5))
 
-	self.BringButton:MoveRightOf(self.GotoButton, 5)
-	self.BringButton:MoveBelow(self.QuickLabel, 5)
+	self.BringButton:MoveRightOf(self.GotoButton, ui.Scale(5))
+	self.BringButton:MoveBelow(self.QuickLabel, ui.Scale(5))
 
-	self.ActionsLabel:MoveRightOf(self.List, 10)
-	self.ActionsLabel:MoveBelow(self.TeleportLabel, 5)
+	self.ActionsLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ActionsLabel:MoveBelow(self.TeleportLabel, ui.Scale(5))
 
-	self.KillButton:MoveRightOf(self.ActionsLabel, 5)
-	self.KillButton:MoveBelow(self.TeleportLabel, 5)
+	self.KillButton:MoveRightOf(self.ActionsLabel, ui.Scale(5))
+	self.KillButton:MoveBelow(self.TeleportLabel, ui.Scale(5))
 
-	self.SlapButton:MoveRightOf(self.KillButton, 5)
-	self.SlapButton:MoveBelow(self.TeleportLabel, 5)
+	self.SlapButton:MoveRightOf(self.KillButton, ui.Scale(5))
+	self.SlapButton:MoveBelow(self.TeleportLabel, ui.Scale(5))
 
-	self.HealButton:MoveRightOf(self.SlapButton, 5)
-	self.HealButton:MoveBelow(self.TeleportLabel, 5)
+	self.HealButton:MoveRightOf(self.SlapButton, ui.Scale(5))
+	self.HealButton:MoveBelow(self.TeleportLabel, ui.Scale(5))
 
-	self.MiscellaniousLabel:MoveRightOf(self.List, 10)
-	self.MiscellaniousLabel:MoveBelow(self.ActionsLabel, 5)
+	self.MiscellaniousLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.MiscellaniousLabel:MoveBelow(self.ActionsLabel, ui.Scale(5))
 
-	self.CopySteamIDButton:MoveRightOf(self.MiscellaniousLabel, 5)
-	self.CopySteamIDButton:MoveBelow(self.ActionsLabel, 5)
+	self.CopySteamIDButton:MoveRightOf(self.MiscellaniousLabel, ui.Scale(5))
+	self.CopySteamIDButton:MoveBelow(self.ActionsLabel, ui.Scale(5))
 
-	self.ListCharactersButton:MoveRightOf(self.CopySteamIDButton, 5)
-	self.ListCharactersButton:MoveBelow(self.ActionsLabel, 5)
+	self.ListCharactersButton:MoveRightOf(self.CopySteamIDButton, ui.Scale(5))
+	self.ListCharactersButton:MoveBelow(self.ActionsLabel, ui.Scale(5))
 
-	self.ScaleLabel:MoveRightOf(self.List, 10)
-	self.ScaleLabel:MoveBelow(self.MiscellaniousLabel, 5)
+	self.ScaleLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ScaleLabel:MoveBelow(self.MiscellaniousLabel, ui.Scale(5))
 
-	self.EnterScale:MoveRightOf(self.ScaleLabel, 5)
-	self.EnterScale:MoveBelow(self.MiscellaniousLabel, 5)
+	self.EnterScale:MoveRightOf(self.ScaleLabel, ui.Scale(5))
+	self.EnterScale:MoveBelow(self.MiscellaniousLabel, ui.Scale(5))
 
-	self.ApplyScaleButton:MoveRightOf(self.EnterScale, 5)
-	self.ApplyScaleButton:MoveBelow(self.MiscellaniousLabel, 5)
+	self.ApplyScaleButton:MoveRightOf(self.EnterScale, ui.Scale(5))
+	self.ApplyScaleButton:MoveBelow(self.MiscellaniousLabel, ui.Scale(5))
 
 	-- Permissions
-	self.PermissionsLabel:MoveRightOf(self.List, 10)
-	self.PermissionsLabel:MoveBelow(self.ScaleLabel, 10)
+	self.PermissionsLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.PermissionsLabel:MoveBelow(self.ScaleLabel, ui.Scale(10))
 
-	self.MutedLabel:MoveRightOf(self.List, 10)
-	self.MutedLabel:MoveBelow(self.PermissionsLabel, 5)
+	self.MutedLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.MutedLabel:MoveBelow(self.PermissionsLabel, ui.Scale(5))
 
 	self.MutedCheckBox:MoveRightOf(self.MutedLabel)
-	self.MutedCheckBox:SetY(self.MutedLabel:GetY() + 3)
+	self.MutedCheckBox:SetY(self.MutedLabel:GetY() + ui.Scale(3))
 
-	self.ToolTrustLabel:MoveRightOf(self.List, 10)
-	self.ToolTrustLabel:MoveBelow(self.MutedLabel, 5)
+	self.ToolTrustLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ToolTrustLabel:MoveBelow(self.MutedLabel, ui.Scale(5))
 
 	self.ToolTrustDropdown:MoveRightOf(self.ToolTrustLabel, 0)
-	self.ToolTrustDropdown:MoveBelow(self.MutedLabel, 5)
+	self.ToolTrustDropdown:MoveBelow(self.MutedLabel, ui.Scale(5))
 
-	self.ApplyToolTrustButton:MoveRightOf(self.ToolTrustDropdown, 5)
-	self.ApplyToolTrustButton:MoveBelow(self.MutedLabel, 5)
+	self.ApplyToolTrustButton:MoveRightOf(self.ToolTrustDropdown, ui.Scale(5))
+	self.ApplyToolTrustButton:MoveBelow(self.MutedLabel, ui.Scale(5))
 end
 
 vgui.Register("CC_AdminMenu_Players", PANEL, "Panel")

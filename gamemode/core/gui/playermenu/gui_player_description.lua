@@ -1,8 +1,10 @@
 local PANEL = {}
 
 function PANEL:Init()
+	local h = ui.Scale(22)
+
 	self.ModelPanel = self:Add("CC_CharacterModel")
-	self.ModelPanel:SetWide(200)
+	self.ModelPanel:SetWide(ui.Scale(200))
 	self.ModelPanel:SetAllowManipulation(true)
 	self.ModelPanel:SetPlayer(lp)
 	self.ModelPanel:SetBaseYaw(20)
@@ -10,6 +12,7 @@ function PANEL:Init()
 	self.ChangeName = self:Add("DButton")
 	self.ChangeName:SetText("Change Name")
 	self.ChangeName:SetDisabled(not hook.Run("CanChangeCharacterName", lp))
+	self.ChangeName:SetTall(h)
 
 	self.ChangeName.DoClick = function()
 		async.Start(function()
@@ -26,6 +29,7 @@ function PANEL:Init()
 	self.ChangeDescription = self:Add("DButton")
 	self.ChangeDescription:SetText("Change Description")
 	self.ChangeDescription:SetDisabled(not hook.Run("CanChangeCharacterDescription", lp))
+	self.ChangeDescription:SetTall(h)
 
 	self.ChangeDescription.DoClick = function()
 		async.Start(function()
@@ -41,6 +45,7 @@ function PANEL:Init()
 
 	self.ChangeNotes = self:Add("DButton")
 	self.ChangeNotes:SetText("Edit Notes")
+	self.ChangeNotes:SetTall(h)
 
 	self.ChangeNotes.DoClick = function()
 		async.Start(function()
@@ -87,35 +92,39 @@ function PANEL:AddLine(order, text)
 end
 
 function PANEL:PerformLayout(w, h)
-	self.ChangeName:SizeToContentsX(20)
-	self.ChangeDescription:SizeToContentsX(20)
-	self.ChangeNotes:SizeToContentsX(20)
+	local x = ui.Scale(20)
+
+	local spacing = ui.Scale(5)
+
+	self.ChangeName:SizeToContentsX(x)
+	self.ChangeDescription:SizeToContentsX(x)
+	self.ChangeNotes:SizeToContentsX(x)
 
 	self.ModelPanel:SetPos(0, 0)
 	self.ModelPanel:StretchToParent(nil, nil, nil, 0)
 
-	self.CharacterName:MoveRightOf(self.ModelPanel, 10)
+	self.CharacterName:MoveRightOf(self.ModelPanel, ui.Scale(10))
 	self.CharacterName:AlignTop()
 	self.CharacterName:SizeToContentsY()
 	self.CharacterName:StretchToParent(nil, nil, 0, nil)
 
 	self.ChangeNotes:AlignRight()
 	self.ChangeNotes:AlignBottom()
-	self.ChangeDescription:MoveLeftOf(self.ChangeNotes, 5)
+	self.ChangeDescription:MoveLeftOf(self.ChangeNotes, spacing)
 	self.ChangeDescription:AlignBottom()
-	self.ChangeName:MoveLeftOf(self.ChangeDescription, 5)
+	self.ChangeName:MoveLeftOf(self.ChangeDescription, spacing)
 	self.ChangeName:AlignBottom()
 
-	self.MiscInfo:MoveRightOf(self.ModelPanel, 12)
+	self.MiscInfo:MoveRightOf(self.ModelPanel, ui.Scale(12))
 	self.MiscInfo:AlignBottom()
-	self.MiscInfo:StretchRightTo(self.ChangeName, 5)
+	self.MiscInfo:StretchRightTo(self.ChangeName, spacing)
 	self.MiscInfo:Rebuild()
 	self.MiscInfo:SizeToContentsY()
 
-	self.DescriptionScroll:MoveRightOf(self.ModelPanel, 12)
-	self.DescriptionScroll:MoveBelow(self.CharacterName, 5)
+	self.DescriptionScroll:MoveRightOf(self.ModelPanel, ui.Scale(12))
+	self.DescriptionScroll:MoveBelow(self.CharacterName, spacing)
 	self.DescriptionScroll:StretchToParent(nil, nil, 0)
-	self.DescriptionScroll:StretchBottomTo(self.MiscInfo, 5)
+	self.DescriptionScroll:StretchBottomTo(self.MiscInfo, spacing)
 end
 
 function PANEL:UpdateMiscInfo()

@@ -26,7 +26,7 @@ function AddBan(steamid, admin, length, reason)
 		Length = length,
 		Reason = reason or "No reason specified"
 	}
-	
+
 	async.Start(function()
 		GAMEMODE.Database:Query("INSERT INTO `rp_bans` (`SteamID`, `Admin`, `Timestamp`, `Length`, `Reason`) VALUES (:steamId, :admin, :timestamp, :length, :reason)", {
 			steamId = ban.SteamID,

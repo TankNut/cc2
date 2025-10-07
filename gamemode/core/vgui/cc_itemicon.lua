@@ -5,7 +5,9 @@ AccessorFunc(PANEL, "Item", "Item")
 AccessorFunc(PANEL, "OrbitDistance", "OrbitDistance")
 
 function PANEL:Init()
-	self:SetSize(48, 48)
+	local size = ui.Scale(48)
+
+	self:SetSize(size, size)
 end
 
 function PANEL:SetItem(item)
@@ -82,14 +84,17 @@ function PANEL:Paint(w, h)
 
 	BaseClass.Paint(self, w, h)
 
+	local offset = ui.Scale(6)
+	local radius = ui.Scale(4)
+
 	if self.Item:GetRarity() != RARITY_COMMON then
 		local color = self.Item:GetRarityData().Color
 
 		draw.NoTexture()
 		surface.SetDrawColor(color.r, color.g, color.b, 230)
 
-		draw.Circle(w - 6, h - 6, 4, 8)
-		surface.DrawCircle(w - 6, h - 6, 4, 20, 20, 20, 230)
+		draw.Circle(w - offset, h - offset, radius, 8)
+		surface.DrawCircle(w - offset, h - offset, radius, 20, 20, 20, 230)
 	end
 
 	self.Item:DrawItemIcon(w, h)

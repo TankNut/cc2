@@ -2,21 +2,26 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.Right = self:Add("Panel")
-	self.Right:DockMargin(10, 0, 0, 0)
+	self.Right:DockMargin(ui.Scale(10), 0, 0, 0)
 	self.Right:Dock(RIGHT)
-	self.Right:SetWide(120)
+	self.Right:SetWide(ui.Scale(120))
+
+	local margin = ui.Scale(5)
 
 	self.LinksLabel = self.Right:Add("DLabel")
-	self.LinksLabel:DockMargin(0, 0, 0, 5)
+	self.LinksLabel:DockMargin(0, 0, 0, margin)
 	self.LinksLabel:Dock(TOP)
 	self.LinksLabel:SetFont("CombineControl.LabelMediumBold")
 	self.LinksLabel:SetContentAlignment(5)
 	self.LinksLabel:SetText("Important Links")
 
+	local h = ui.Scale(22)
+
 	for _, data in ipairs(Config.Get("CommunityLinks")) do
 		local button = self.Right:Add("DButton")
 
-		button:DockMargin(0, 0, 0, 5)
+		button:SetTall(h)
+		button:DockMargin(0, 0, 0, margin)
 		button:Dock(TOP)
 		button:SetText(data[1])
 		button.DoClick = function()
@@ -25,7 +30,8 @@ function PANEL:Init()
 	end
 
 	self.MOTD = self.Right:Add("DButton")
-	self.MOTD:DockMargin(0, 0, 0, 5)
+	self.MOTD:SetTall(h)
+	self.MOTD:DockMargin(0, 0, 0, margin)
 	self.MOTD:Dock(TOP)
 	self.MOTD:SetText("Server Updates")
 	self.MOTD.DoClick = function()
@@ -33,7 +39,8 @@ function PANEL:Init()
 	end
 
 	self.Rejoin = self.Right:Add("DButton")
-	self.Rejoin:DockMargin(0, 5, 0, 0)
+	self.Rejoin:SetTall(h)
+	self.Rejoin:DockMargin(0, margin, 0, 0)
 	self.Rejoin:Dock(BOTTOM)
 	self.Rejoin:SetText("Rejoin")
 	self.Rejoin.DoClick = function()
@@ -41,7 +48,8 @@ function PANEL:Init()
 	end
 
 	self.Suicide = self.Right:Add("DButton")
-	self.Suicide:DockMargin(0, 5, 0, 0)
+	self.Suicide:SetTall(h)
+	self.Suicide:DockMargin(0, margin, 0, 0)
 	self.Suicide:Dock(BOTTOM)
 	self.Suicide:SetText("Suicide")
 	self.Suicide.DoClick = function()
@@ -49,7 +57,8 @@ function PANEL:Init()
 	end
 
 	self.StopSounds = self.Right:Add("DButton")
-	self.StopSounds:DockMargin(0, 5, 0, 0)
+	self.StopSounds:SetTall(h)
+	self.StopSounds:DockMargin(0, margin, 0, 0)
 	self.StopSounds:Dock(BOTTOM)
 	self.StopSounds:SetText("Stop Sounds")
 	self.StopSounds.DoClick = function(pnl)

@@ -120,7 +120,7 @@ function PANEL:DoDemoteUser()
 
 	async.Start(function()
 		local confirm = ui.Open("Input", "confirm", "Remove Admin", {
-			Prompt = string.format("Demote %s and revoke all of their current in-game access?", admin),
+			Prompt = string.format("Demote %s and revoke all of their in-game access?", admin),
 		})
 
 		if not confirm then

@@ -407,20 +407,20 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 
 	local ply = panel.Player
 
-	draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-	draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + 19, math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.33), self.Text.Normal, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	draw.SimpleText(ply:ShortDescription(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.66), self.Text.Disabled, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - 20, 5, self.Text.Normal, TEXT_ALIGN_RIGHT)
+	draw.DrawText(ply:Ping(), "CombineControl.LabelSmall", w - ui.Scale(20), ui.Scale(5), self.Text.Normal, TEXT_ALIGN_RIGHT)
 
 	if lp:IsAdmin() then
-		draw.DrawText(ply:Nick(), "CombineControl.LabelSmall", w - 20, 40, self.Text.Normal, TEXT_ALIGN_RIGHT)
+		draw.DrawText(ply:Nick(), "CombineControl.LabelSmall", w - ui.Scale(20), ui.Scale(40), self.Text.Normal, TEXT_ALIGN_RIGHT)
 	end
 
 	surface.SetDrawColor(color_white)
 
 	for k, v in ipairs(ply:GetBadges()) do
 		surface.SetMaterial(v.Material)
-		surface.DrawTexturedRect(w - 14 - (k * 18), 22, 16, 16)
+		surface.DrawTexturedRect(w - ui.Scale(14) - (k * 18), ui.Scale(24), 16, 16)
 	end
 end
 
