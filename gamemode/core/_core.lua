@@ -18,7 +18,7 @@ function GM:Include(path)
 	return shared(path)
 end
 
-function GM:LoadFolder(dir, subFile)
+function GM:IncludeFolder(dir, subFile)
 	file.Iterate(dir, subFile, "LUA", function(path)
 		self:Include(path)
 	end)
@@ -86,10 +86,10 @@ GM:Include("sv_worldents.lua")
 
 local baseFolder = engine.ActiveGamemode() .. "/gamemode/"
 
-GM:LoadFolder(baseFolder .. "core/ctp/")
-GM:LoadFolder(baseFolder .. "core/meta/", "shared.lua")
-GM:LoadFolder(baseFolder .. "core/vgui/")
-GM:LoadFolder(baseFolder .. "core/gui/")
+GM:IncludeFolder(baseFolder .. "core/ctp/")
+GM:IncludeFolder(baseFolder .. "core/meta/", "shared.lua")
+GM:IncludeFolder(baseFolder .. "core/vgui/")
+GM:IncludeFolder(baseFolder .. "core/gui/")
 
 GM:Include(baseFolder .. "content/_content.lua")
 
