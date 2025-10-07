@@ -1,4 +1,4 @@
-local listCharacters = console.AddCommand("rpa_listeventchars", function(ply)
+local listCharacters = console.AddCommand("rpa_listeventcharacters", function(ply)
 	local characters = GAMEMODE.Database:Query([[
 SELECT rp_characters.id,
        rp_characters.SteamID,
