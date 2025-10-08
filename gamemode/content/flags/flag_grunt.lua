@@ -18,7 +18,7 @@ FLAG.RunSpeed = 126
 FLAG.JumpPower = 210
 FLAG.CrouchSpeed = 80
 
-FLAG.Clothing = CLOTHING_PARTIAL
+FLAG.Clothing = CLOTHING_NONE
 
 local model = Model("models/valk/haloreach/covenant/characters/grunt/grunt_player.mdl")
 
@@ -35,5 +35,5 @@ Hull.AddType("grunt", {
 })
 
 Hull.AddModel("grunt",
-	"models/valk/haloreach/covenant/characters/grunt/grunt_player.mdl",
-	"models/valk/haloreach/covenant/characters/grunt/grunt_player_honor.mdl")
+	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player.mdl"),
+	Model("models/valk/haloreach/covenant/characters/grunt/grunt_player_honor.mdl"))

@@ -4,8 +4,6 @@ ITEM.Model          = Model("models/props_junk/cardboard_box001a.mdl")
 
 ITEM.EquipmentSlots = {"grunt"}
 
-ItemDataFunc("IsHonorGuard", false)
-
 ItemDataFunc("PlayerColor")
 
 ItemDataFunc("GruntSkin", 2)
