@@ -170,6 +170,10 @@ if CLIENT then
 	end
 
 	function Receive(name, data)
+		if not ui.IsOpen("Chat") then
+			return
+		end
+
 		if isstring(data) then
 			data = {Text = data}
 		end

@@ -22,6 +22,7 @@ function GM:InitPostEntity()
 
 		hook.Run("CreateFonts")
 
+		Chat.Create()
 		Hud.Rebuild()
 
 		RunConsoleCommand("spawnmenu_reload")
