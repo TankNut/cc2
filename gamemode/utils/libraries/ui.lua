@@ -20,6 +20,12 @@ if CLIENT then
 		end
 	end
 
+	function IsOpen(name)
+		local instance = Get(name)
+
+		return istable(instance) and #instance > 0 or IsValid(instance)
+	end
+
 	function Open(name, ...)
 		local ui = assert(List[name], "Attempt to open unknown gui: " .. name)
 
