@@ -3,11 +3,6 @@ if CLIENT then
 		RunConsoleCommand("stopsound")
 	end)
 
-	netstream.Hook("KillAmbience", function()
-		Ambience.StopMusic()
-		Ambience.StopEffect()
-	end)
-
 	netstream.Hook("PlayMusic", Ambience.PlayMusic)
 	netstream.Hook("StopMusic", Ambience.StopMusic)
 
@@ -49,17 +44,6 @@ stopSound:SetCategory("Ambience")
 stopSound:SetDescription("Forces all clients to run the stopsound command")
 stopSound:SetExecutionContext(console.Server)
 stopSound:SetAccess(console.IsAdmin)
-
-local killAmbience = console.AddCommand("rpa_killambience", function(ply)
-	Log.Write("admin_killambience", ply)
-
-	netstream.Broadcast("KillAmbience")
-end)
-
-killAmbience:SetCategory("Ambience")
-killAmbience:SetDescription("Stops all custom music and effects from playing, regardless of area")
-killAmbience:SetExecutionContext(console.Server)
-killAmbience:SetAccess(console.IsAdmin)
 
 local playMusic = console.AddCommand("rpa_playmusic", function(ply, level, path, volume)
 	Log.Write("admin_playmusic", ply, level, path, volume)
