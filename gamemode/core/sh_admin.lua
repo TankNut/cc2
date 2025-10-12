@@ -46,8 +46,12 @@ function PLAYER:CanTargetUserGroup(userGroup, strict)
 	end
 end
 
-function PLAYER:IsAdmin()
-	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin" or self:TempAdmin()
+function PLAYER:IsAdmin(strict)
+	if not strict and self:TempAdmin() then
+		return true
+	end
+
+	return self:IsDeveloper() or self:IsSuperAdmin() or self:UserGroup() == "admin"
 end
 
 function PLAYER:IsSuperAdmin()
