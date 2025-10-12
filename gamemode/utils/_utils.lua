@@ -83,6 +83,7 @@ shared("util/menu_builder.lua")
 shared("util/queue.lua")
 shared("util/rate_counter.lua")
 shared("util/transition.lua")
+shared("util/teleport.lua")
 
 -- part
 client("part/outfit.lua")
