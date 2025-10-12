@@ -102,11 +102,19 @@ Log.AddType("admin_teleport_goto", function(ply, target)
 end)
 
 Log.AddType("admin_teleport_bring", function(ply, target)
-	return string.format("%s has brought %s to themself", Log.Nick(ply), target:Nick()), {
+	return string.format("%s has brought %s to themselves", Log.Nick(ply), target:Nick()), {
 		Log.Admin(ply),
 		Log.Player(target)
 	}
 end)
+
+Log.AddType("admin_teleport_look", function(ply, target)
+	return string.format("%s has sent %s to the point they're looking at", Log.Nick(ply), target:Nick()), {
+		Log.Admin(ply),
+		Log.Player(target)
+	}
+end)
+
 
 Log.AddType("admin_teleport_send", function(ply, from, to)
 	return string.format("%s has sent %s to %s", Log.Nick(ply), from:Nick(), to:Nick()), {
