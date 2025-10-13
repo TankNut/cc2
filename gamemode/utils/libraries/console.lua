@@ -332,28 +332,64 @@ end
 
 local color = Color(200, 200, 200)
 
-local listCommand = AddCommand("commands", function(ply)
-	MsgC(color_white, "Available commands:\n")
-
-	local maxWidth = 0
-	local commands = {}
+local listCommand = AddCommand("commands", function(ply, filter)
+	local categories = {}
+	local misc = {width = 0}
 
 	for name, command in SortedPairs(Commands) do
-		if not IsVisible(command) then
+		if not IsVisible(command) or not command.CanAccess(lp) then
 			continue
 		end
 
-		maxWidth = math.max(maxWidth, #name + 1)
+		if filter and not string.find(name, filter, 1, true) then
+			continue
+		end
 
-		table.insert(commands, {name, command.Description})
+		local categoryTable
+
+		if not command.Category then
+			categoryTable = misc
+		else
+			if not categories[command.Category] then
+				categories[command.Category] = {width = 0}
+			end
+
+			categoryTable = categories[command.Category]
+		end
+
+		table.insert(categoryTable, command)
+
+		categoryTable.width = math.max(categoryTable.width, #name + 1)
 	end
 
-	for _, command in ipairs(commands) do
-		local name = command[1]
+	MsgC(color_white, "Available Commands:")
 
-		MsgC(color_white, name, string.rep(" ", maxWidth - #name), "- ", color, command[2], "\n")
+	if filter then
+		MsgC(color, " (Filter: ", filter, ")")
+	end
+
+	Msg("\n")
+
+	local function handleCategory(name, commands)
+		local width = commands.width
+
+		MsgC(color_white, "\n== ", name, " ==\n")
+
+		for _, command in ipairs(commands) do
+			MsgC(color_white, command.Name, string.rep(" ", width - #command.Name), "- ", color, command.Description, "\n")
+		end
+	end
+
+	for category, commands in SortedPairs(categories) do
+		handleCategory(category, commands)
+	end
+
+	if #misc > 0 then
+		handleCategory("Miscellaneous Commands", misc)
 	end
 end)
 
 listCommand:SetDescription("Lists out all available console commands")
 listCommand:SetExecutionContext(Shared)
+
+listCommand:AddOptional(console.String(nil, "filter"), nil, "everything")
