@@ -78,6 +78,18 @@ function FormatMessage(str, ...)
 		if isentity(v) and (v:IsPlayer() or v == NULL) then
 			args[k] = PlayerName(v)
 		end
+
+		if istable(v) then
+			if getmetatable(v) and getmetatable(v).__tostring then
+				args[k] = tostring(v)
+			else -- Assume it's a table of players
+				if #v == 1 then
+					args[k] = PlayerName(v[1])
+				else
+					args[k] = #v .. " players"
+				end
+			end
+		end
 	end
 
 	return string.format(str, unpack(args))
