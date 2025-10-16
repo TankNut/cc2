@@ -124,6 +124,7 @@ Log.AddType("admin_teleport_send", function(ply, from, to)
 	}
 end)
 
+-- Todo, change this and the one below that to a helper function for the writer instead of stuffing everything into one log type
 Log.AddType("admin_character_set", function(ply, target, variable, value)
 	return string.format("%s has updated %s's %s to %s", Log.Nick(ply), target:VisibleRPName(), variable, value), {
 		Log.Admin(ply),
@@ -170,14 +171,14 @@ Log.AddType("admin_stash_clear", function(ply)
 end)
 
 Log.AddType("admin_language_give", function(ply, target, lang, speak)
-	return string.format("%s gave %s the ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
+	return string.format("%s gave %s the ability to %s %s", Log.Nick(ply), target:VisibleRPName(), speak and "speak" or "understand", lang), {
 		Log.Admin(ply),
 		Log.Character(target)
 	}
 end)
 
 Log.AddType("admin_language_take", function(ply, target, lang, speak)
-	return string.format("%s took %s's ability to %s %s", ply:Nick(), target:VisibleRPName(), speak and "speak" or "understand", lang), {
+	return string.format("%s took %s's ability to %s %s", Log.Nick(ply), target:VisibleRPName(), speak and "speak" or "understand", lang), {
 		Log.Admin(ply),
 		Log.Character(target)
 	}
