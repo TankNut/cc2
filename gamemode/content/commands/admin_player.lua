@@ -28,7 +28,7 @@ setToolTrust:SetAccess(console.IsAdmin)
 
 setToolTrust:AddParameter(console.Player({
 	SingleTarget = true,
-	NoAdmin = true
+	NoAdmins = true
 }))
 
 setToolTrust:AddParameter(console.String({
