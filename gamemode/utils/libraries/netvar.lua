@@ -266,5 +266,4 @@ else
 	end
 
 	hook.Add("PlayerInitialSpawn", "cc2.Netvars", Sync)
-	hook.Add("EntityRemoved", "cc2.Netvars", Clear)
 end

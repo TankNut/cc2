@@ -80,6 +80,10 @@ function GM:EntityRemoved(ent, fullUpdate)
 			ply:Kill()
 		end
 	end
+
+	if SERVER then
+		netvar.Clear(ent)
+	end
 end
 
 function GM:PreRegisterSWEP(swep, class)
