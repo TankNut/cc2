@@ -18,7 +18,7 @@ SWEP.Primary.Automatic = true
 SWEP.Dangerous = true
 
 SWEP.Stats = {
-	Damage = {8, 12}, -- Damage ramps up between the different hold times
+	Damage = {8, 12}, -- Random damage
 
 	Reach = 48, -- How far away you can hit someone
 
