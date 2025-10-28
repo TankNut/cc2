@@ -130,6 +130,8 @@ include("sh_reload.lua")
 include("sh_stats.lua")
 include("sh_view.lua")
 
+include("attacks/sh_bullet.lua")
+
 AddCSLuaFile("cl_hud.lua")
 
 if CLIENT then

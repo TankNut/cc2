@@ -123,28 +123,6 @@ function SWEP:FireWeapon()
 	self["Fire" .. self.Stats.Type](self, self:GetOwner())
 end
 
-function SWEP:FireBullet(owner)
-	local tracer, count = self:GetTracerEffect()
-	local damage = self:GetDamage()
-
-	local bullet = {
-		Inflictor = self,
-		Num = self:GetBulletCount(),
-		Src = owner:GetShootPos(),
-		Dir = self:GetShootDir(),
-		Spread = self:GetSpread(),
-		TracerName = tracer,
-		Tracer = count,
-		Force = damage * 0.25,
-		Damage = damage,
-		Callback = function(attacker, tr, dmginfo)
-			dmginfo:ScaleDamage(self:GetDamageFalloff(tr.StartPos:Distance(tr.HitPos)))
-		end
-	}
-
-	owner:FireBullets(bullet)
-end
-
 function SWEP:DoImpactEffect(tr, dmgtype)
 	local impact = self:GetImpactEffect()
 
