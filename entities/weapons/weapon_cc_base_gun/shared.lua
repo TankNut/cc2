@@ -195,7 +195,7 @@ function SWEP:PumpThink()
 end
 
 function SWEP:AimThink()
-	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self:GetAimTime()))
+	self:SetAimState(math.Approach(self:GetAimState(), self:ShouldAim() and 1 or 0, FrameTime() / self.Settings.AimTime))
 
 	local ply = self:GetOwner()
 

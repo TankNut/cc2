@@ -1,13 +1,5 @@
 AddCSLuaFile()
 
-function SWEP:GetBulletCount()
-	return self.Stats.Count
-end
-
-function SWEP:GetDamage()
-	return self.Stats.Damage
-end
-
 function SWEP:GetDamageFalloff(dist)
 	local distMod = 1000
 
@@ -31,17 +23,13 @@ function SWEP:GetTracerEffect()
 	return self.Stats.Tracer, self.Stats.TracerCount
 end
 
-function SWEP:GetImpactEffect()
-	return self.Stats.Impact
-end
-
 function SWEP:FireBullet(owner)
 	local tracer, count = self:GetTracerEffect()
-	local damage = self:GetDamage()
+	local damage = self.Stats.Damage
 
 	local bullet = {
 		Inflictor = self,
-		Num = self:GetBulletCount(),
+		Num = self.Stats.Count,
 		Src = owner:GetShootPos(),
 		Dir = self:GetShootDir(),
 		Spread = self:GetBulletSpread(),
@@ -55,4 +43,17 @@ function SWEP:FireBullet(owner)
 	}
 
 	owner:FireBullets(bullet)
+end
+
+function SWEP:DoImpactEffect(tr, dmgtype)
+	local impact = self.Stats.Impact
+
+	if impact and not tr.HitSky then
+		local effectData = EffectData()
+
+		effectData:SetOrigin(tr.HitPos + tr.HitNormal)
+		effectData:SetNormal(tr.HitNormal)
+
+		util.Effect(impact, effectData)
+	end
 end
