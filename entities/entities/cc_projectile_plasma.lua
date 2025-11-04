@@ -25,11 +25,16 @@ if CLIENT then
 	local sprite = Material("sprites/glow04_noz")
 
 	function ENT:DrawTranslucent(flags)
-		if self:GetPos():Distance(self:GetOrigin()) < self:GetOwner():GetModelRadius() * 0.5 then
+		local pos = self:GetPos()
+
+		if pos:Distance(self:GetOrigin()) < self:GetOwner():GetModelRadius() * 0.5 then
 			return
 		end
 
-		local pos = self:GetPos()
+		if self:GetImpact() != vector_origin and pos:Distance(self:GetOrigin()) < 10 then
+			return
+		end
+
 		local size = math.Rand(30, 35)
 
 		render.SetMaterial(sprite)
