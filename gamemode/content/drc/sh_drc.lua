@@ -11,6 +11,14 @@ if SERVER then
 	return
 end
 
+local function resolveEntity(ent)
+	if ent:GetClass() == "viewmodel" then
+		return ent:GetOwner():GetActiveWeapon()
+	end
+
+	return ent
+end
+
 local function getHeat(ent)
 	return ent.GetHeat and ent:GetHeat() or 0
 end
@@ -24,7 +32,7 @@ matproxy.Add({
 		self.MulInt = mat:GetFloat("$colourmul") or 1
 	end,
 	bind = function(self, mat, ent)
-		mat:SetVector(self.ResultTo, LerpVector(getHeat(ent), self.MinVec, self.MaxVec) * self.MulInt)
+		mat:SetVector(self.ResultTo, LerpVector(getHeat(resolveEntity(ent)), self.MinVec, self.MaxVec) * self.MulInt)
 	end
 } )
 
@@ -38,7 +46,7 @@ matproxy.Add({
 		self.LerpPower = mat:GetFloat("$scroll_ls") or 1
 	end,
 	bind = function(self, mat, ent)
-		local target = getHeat(ent) / 2 * self.VarMult
+		local target = getHeat(resolveEntity(ent)) / 2 * self.VarMult
 
 		ent.drc_ScrollHeat = Lerp(RealFrameTime() * (self.LerpPower * 2.5), ent.drc_ScrollHeat or target, target)
 
@@ -196,6 +204,8 @@ local function DRCInit(self, mat, values)
 end
 
 local function DRCBind(self, mat, ent)
+	ent = resolveEntity(ent)
+
 	for k, target in ipairs(self.ReturnValues) do
 		local val = Run(self, ent, Vector(self.Min[k]), Vector(self.Max[k]))
 
