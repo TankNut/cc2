@@ -148,6 +148,14 @@ function SWEP:Initialize()
 	self:SetClip1(self.Primary.ClipSize)
 end
 
+function SWEP:Holster()
+	if self:IsReloading() then
+		return false
+	end
+
+	return BaseClass.Holster(self)
+end
+
 function SWEP:SetupDataTables()
 	BaseClass.SetupDataTables(self)
 
