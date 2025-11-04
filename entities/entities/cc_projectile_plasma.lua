@@ -10,6 +10,8 @@ ENT.Model = Model("models/maxofs2d/hover_classic.mdl")
 ENT.Velocity = 6350
 ENT.TrailLifetime = 0.15
 
+ENT.SpriteColor = Color(16, 195, 255)
+
 function ENT:Initialize()
 	BaseClass.Initialize(self)
 
@@ -21,7 +23,6 @@ end
 
 if CLIENT then
 	local sprite = Material("sprites/glow04_noz")
-	local color = Color(16, 195, 255)
 
 	function ENT:DrawTranslucent(flags)
 		if self:GetPos():Distance(self:GetOrigin()) < self:GetOwner():GetModelRadius() * 0.5 then
@@ -33,8 +34,8 @@ if CLIENT then
 
 		render.SetMaterial(sprite)
 
-		render.DrawSprite(pos, size, size, color)
-		render.DrawSprite(pos, 10, 10, color)
+		render.DrawSprite(pos, size, size, self.SpriteColor)
+		render.DrawSprite(pos, 10, 10, self.SpriteColor)
 	end
 else
 	function ENT:OnHit(tr)
