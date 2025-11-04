@@ -8,12 +8,14 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 ENT.Model = Model("models/maxofs2d/hover_classic.mdl")
 
 ENT.Velocity = 6350
+ENT.TrailLifetime = 0.15
 
 function ENT:Initialize()
 	BaseClass.Initialize(self)
 
 	if SERVER then
-		util.SpriteTrail(self, 0, Color(25, 200, 255), true, 40, 0, 0.15, 0.0125, "materials/sprites/physbeam")
+		-- Why the fuck is this a hardcoded requirement
+		util.SpriteTrail(self, 0, Color(25, 200, 255), true, 40, 0, self.TrailLifetime, 0.0125, "trails/taconbanana/plasmarifle.vmt")
 	end
 end
 
