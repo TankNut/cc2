@@ -19,19 +19,25 @@ function GetPreset(preset)
 end
 
 function PLAYER:CanHearRadio(frequency)
+	if self:GetSetting("AdminRadio") then
+		return true, true, false
+	end
+
 	local radio = self:GetEquipment("radio")
 
 	if not radio then
 		return false
 	end
 
-	local setting = radio:GetChannelSettings()[frequency]
+	for _, channel in ipairs(radio:GetChannelSettings()) do
+		if channel.Frequency != frequency then
+			continue
+		end
 
-	if not setting then
-		return false
+		return channel.Enabled, channel.Encryption, channel.Speaker
 	end
 
-	return setting.Enabled, setting.Encryption
+	return false
 end
 
 function PLAYER:CanHearDispatch(group)
@@ -42,6 +48,16 @@ function PLAYER:CanHearDispatch(group)
 	end
 
 	return radio:HasRadioGroup(group)
+end
+
+function PLAYER:ActiveRadioSettings()
+	local radio = self:GetEquipment("radio")
+
+	if not radio then
+		return
+	end
+	
+	return radio:GetChannelSettings()[radio:GetActiveChannel()]
 end
 
 if SERVER then
