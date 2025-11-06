@@ -35,7 +35,7 @@ Action.Add("Patdown", {
 
 if CLIENT then
 	netstream.Hook("InformPatdown", function(ply, endTime)
-		progress.Start({
+		progress.Start(ply, {
 			Name = "Being pat down...",
 			EndTime = endTime,
 			Validate = {
