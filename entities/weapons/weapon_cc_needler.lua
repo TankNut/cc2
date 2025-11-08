@@ -158,16 +158,20 @@ else
 	end
 
 	function SWEP:FireProjectile(owner)
-		local ent = ents.Create(self.Stats.Class)
-		local pos, ang, tr = self:GetProjectileSetup(owner, Vector(self.Stats.Offset or vector_origin), self.Stats.Angle or angle_zero)
+		local stats = self.Stats
 
-		ent.Target = self:GetNeedlerTarget(owner, tr)
+		for i = 1, stats.Count do
+			local ent = ents.Create(stats.Class)
+			local pos, ang, tr = self:GetProjectileSetup(owner, Vector(stats.Offset or vector_origin), stats.Angle or angle_zero)
 
-		ent:SetPos(pos)
-		ent:SetAngles(ang)
+			ent.Target = self:GetNeedlerTarget(owner, tr)
 
-		ent:SetOwner(owner)
-		ent:Spawn()
+			ent:SetPos(pos)
+			ent:SetAngles(ang)
+
+			ent:SetOwner(owner)
+			ent:Spawn()
+		end
 	end
 end
 

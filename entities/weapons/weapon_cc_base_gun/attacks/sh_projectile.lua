@@ -27,12 +27,16 @@ function SWEP:FireProjectile(owner)
 		return
 	end
 
-	local ent = ents.Create(self.Stats.Class)
-	local pos, ang = self:GetProjectileSetup(owner, Vector(self.Stats.Offset or vector_origin), self.Stats.Angle or angle_zero)
+	local stats = self.Stats
 
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
+	for i = 1, stats.Count do
+		local ent = ents.Create(stats.Class)
+		local pos, ang = self:GetProjectileSetup(owner, Vector(stats.Offset or vector_origin), stats.Angle or angle_zero)
 
-	ent:SetOwner(owner)
-	ent:Spawn()
+		ent:SetPos(pos)
+		ent:SetAngles(ang)
+
+		ent:SetOwner(owner)
+		ent:Spawn()
+	end
 end
