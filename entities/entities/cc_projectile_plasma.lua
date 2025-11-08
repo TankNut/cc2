@@ -34,7 +34,7 @@ if CLIENT then
 	function ENT:DrawTranslucent(flags)
 		local pos = self:GetPos()
 
-		if pos:Distance(self:GetOrigin()) < self:GetOwner():GetModelRadius() * 0.5 then
+		if IsValid(self:GetOwner()) and pos:Distance(self:GetOrigin()) < self:GetOwner():GetModelRadius() * 0.5 then
 			return
 		end
 
