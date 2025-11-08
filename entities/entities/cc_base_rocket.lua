@@ -18,6 +18,7 @@ function ENT:Initialize()
 
 	if SERVER then
 		self.LastMove = CurTime()
+		self.Weapon = self:GetOwner():GetActiveWeapon()
 
 		self:SetOrigin(self:GetPos())
 		self:SetProjectileVelocity(self:GetForward() * self.Velocity)

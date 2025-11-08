@@ -25,8 +25,6 @@ function ENT:Initialize()
 
 	if SERVER then
 		util.SpriteTrail(self, 0, self.TrailColor, true, 40, 0, self.TrailLifetime, 0.0125, "taconbanana/halo/trails/plasmarifle.vmt")
-
-		self.Weapon = self:GetOwner():GetActiveWeapon()
 	end
 end
 
