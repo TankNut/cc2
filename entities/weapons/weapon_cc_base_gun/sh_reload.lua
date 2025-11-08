@@ -25,12 +25,18 @@ function SWEP:StartReload()
 
 	ply:SetAnimation(PLAYER_RELOAD)
 
-	if self.Settings.ShotgunReload then
+	local settings = self.Settings
+
+	if settings.ShotgunReload then
 		self:SetFirstReload(true)
 		self:SetFinishReload(CurTime() + self:PlayAnimation("ReloadStart"))
 	else
 		self:PlaySound("Reload")
-		self:SetFinishReload(CurTime() + self:PlayAnimation("Reload"))
+
+		local duration = self:PlayAnimation("Reload")
+		local time = settings.ReloadTime == -1 and duration or settings.ReloadTime
+
+		self:SetFinishReload(CurTime() + time)
 	end
 end
 
