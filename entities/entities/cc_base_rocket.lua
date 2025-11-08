@@ -56,14 +56,16 @@ if SERVER then
 
 		self.LastMove = CurTime()
 
-		local vel = self:UpdateVelocity(self:GetProjectileVelocity(), delta)
+		local vel = self:GetProjectileVelocity()
+		local newVel = self:UpdateVelocity(vel, delta)
 
-		if vel == true then
+		if newVel == true then
 			return
 		end
 
-		if isvector(vel) then
-			self:SetProjectileVelocity(vel)
+		if isvector(newVel) then
+			self:SetProjectileVelocity(newVel)
+			vel = newVel
 		end
 
 		local tr = util.TraceLine({
