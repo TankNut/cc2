@@ -38,7 +38,7 @@ SWEP.Settings = {
 
 	Firemodes = {FIREMODE_AUTO},
 
-	ClipSize = 32,
+	ClipSize = 20,
 	ReloadTime = 1.4,
 
 	Range = 400,
