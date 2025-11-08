@@ -19,7 +19,7 @@ function SWEP:GetProjectileSetup(owner, offset, offsetAng)
 		ang = (tr.HitPos - pos):Angle()
 	end
 
-	return pos, ang
+	return pos, ang, tr
 end
 
 function SWEP:FireProjectile(owner)
@@ -28,7 +28,7 @@ function SWEP:FireProjectile(owner)
 	end
 
 	local ent = ents.Create(self.Stats.Class)
-	local pos, ang = self:GetProjectileSetup(owner, self.Stats.Offset or vector_origin, self.Stats.Angle or angle_zero)
+	local pos, ang = self:GetProjectileSetup(owner, Vector(self.Stats.Offset or vector_origin), self.Stats.Angle or angle_zero)
 
 	ent:SetPos(pos)
 	ent:SetAngles(ang)
