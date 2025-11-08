@@ -69,19 +69,24 @@ else
 			return
 		end
 
-		local center = target:WorldSpaceCenter()
-
-		local diff = (center - self:GetPos()):Angle()
-
+		local targetPos = target:WorldSpaceCenter()
 		local speed = vel:Length()
-		local ang = vel:Angle()
 
+		do
+			local distance = targetPos:Distance(self:GetPos())
+			local impactTime = distance / speed
+
+			targetPos:Add(target:GetVelocity() * impactTime)
+		end
+
+		local diff = (targetPos - self:GetPos()):Angle()
 		local localAng = self:WorldToLocalAngles(diff)
 
 		if not math.InRange(localAng.p, -90, 90) or not math.InRange(localAng.y, -90, 90) then
 			return
 		end
 
+		local ang = vel:Angle()
 		ang.p = math.ApproachAngle(ang.p, diff.p, self.TurnRate * delta)
 		ang.y = math.ApproachAngle(ang.y, diff.y, self.TurnRate * delta)
 		ang.r = 0
