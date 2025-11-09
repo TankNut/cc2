@@ -2,7 +2,9 @@ local colorTable = {
 	-- Plasma Rifle
 	[1] = {Color(0, 125, 255), Color(0, 150, 200), Color(0, 180, 200)},
 	-- Brute Plasma Rifle
-	[2] = {Color(255, 90, 0), Color(255, 150, 0), Color(200, 80, 0)}
+	[2] = {Color(255, 90, 0), Color(255, 150, 0), Color(200, 80, 0)},
+	-- Plasma Repeater
+	[3] = {Color(16, 50, 255), Color(16, 100, 255), Color(16, 100, 255)},
 }
 
 function EFFECT:Init(data)
