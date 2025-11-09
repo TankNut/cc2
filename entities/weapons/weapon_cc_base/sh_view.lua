@@ -154,12 +154,6 @@ if CLIENT then
 	function SWEP:SetupPoseParameters(ent, isViewModel)
 	end
 
-	function SWEP:ResetPoseParameters(ent, isViewModel)
-		for i = 0, ent:GetNumPoseParameters() - 1 do
-			ent:SetPoseParameter(i, 0)
-		end
-	end
-
 	function SWEP:PreDrawViewModel(vm, _, ply)
 		if self.Settings.UseHolsterAnimations and self:GetHolstered() and (vm:GetCycle() > 0.9 or self:GetDeployed()) then
 			return true
@@ -178,7 +172,7 @@ if CLIENT then
 	end
 
 	function SWEP:PostDrawViewModel(vm, _, ply)
-		self:ResetPoseParameters(vm, true)
+		vm:ClearPoseParameters()
 
 		render.MaterialOverrideByIndex(nil)
 	end
@@ -195,7 +189,7 @@ if CLIENT then
 		self:SetupPoseParameters(self)
 			self:SetupBones()
 			self:DrawModel(flags)
-		self:ResetPoseParameters(self)
+		self:ClearPoseParameters()
 
 		render.MaterialOverrideByIndex(nil)
 	end
