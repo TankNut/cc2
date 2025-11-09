@@ -170,9 +170,10 @@ function SWEP:TryShove()
 		end
 
 		self:EmitSound("NPC_Metropolice.Shove")
+		self:SetNextPrimaryFire(CurTime() + 1)
 	end
 
-	self:SetNextPrimaryFire(CurTime() + 1)
+	self:ForceStopFire()
 
 	return true
 end
