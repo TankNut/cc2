@@ -87,17 +87,6 @@ function SWEP:GetDelay()
 	return math.ClampedRemap(self:GetFireDuration(), 0, 0.8, 0.125, 0.083)
 end
 
-function SWEP:Think()
-	BaseClass.Think(self)
-
-	if CLIENT then
-		local frac = self:Clip1() / self.Settings.ClipSize
-
-		self:SetPoseParameter("drc_ammo", frac)
-		self:GetViewModel():SetPoseParameter("drc_ammo", frac)
-	end
-end
-
 if CLIENT then
 	function SWEP:FinishReload()
 		BaseClass.FinishReload(self)
@@ -106,6 +95,10 @@ if CLIENT then
 		if lp == self:GetOwner() and not lp:ShouldDrawLocalPlayer() then
 			self:EmitSound("drc.Needler_reload_end")
 		end
+	end
+
+	function SWEP:SetupPoseParameters(ent)
+		ent:SetPoseParameter("drc_ammo", self:Clip1() / self.Settings.ClipSize)
 	end
 else
 	function SWEP:GetNeedlerTarget(owner, tr)
