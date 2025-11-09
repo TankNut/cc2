@@ -61,3 +61,34 @@ sound.Add({
 	pitch = {97.5, 102.5},
 	sound = "vuthakral/halo/weapons/Needler/ready.wav"
 })
+
+sound.Add({
+	name = "drc.repeater_ready",
+	channel = CHAN_AUTO,
+	volume = 0.72,
+	level = 46,
+	pitch = {98.5, 101.5},
+	sound = {
+		"vuthakral/halo/weapons/plasmarepeater/ready0.wav",
+		"vuthakral/halo/weapons/plasmarepeater/ready1.wav",
+		"vuthakral/halo/weapons/plasmarepeater/ready2.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.repeater_pose0",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 30,
+	pitch = {98.5, 101.5},
+	sound = "vuthakral/halo/weapons/plasmarepeater/pose0.wav"
+})
+
+sound.Add({
+	name = "drc.repeater_pose1",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 30,
+	pitch = {98.5, 101.5},
+	sound = "vuthakral/halo/weapons/plasmarepeater/pose1.wav"
+})
