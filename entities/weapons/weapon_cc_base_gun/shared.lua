@@ -197,7 +197,7 @@ function SWEP:Think()
 end
 
 function SWEP:FireThink()
-	if self:TryShove() or self:TryCancelReload() or not self:CanFire(true) then
+	if not self:CanFire(true) then
 		self:SetFireDuration(0)
 
 		return
