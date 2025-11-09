@@ -121,8 +121,11 @@ else
 			dmg:SetDamageForce(tr.Normal * (damage * 75))
 
 			dmg:SetInflictor(self)
-			dmg:SetAttacker(self:GetOwner())
-			dmg:SetWeapon(self.Weapon)
+
+			local attacker = self:GetOwner()
+
+			if IsValid(attacker) then dmg:SetAttacker(attacker) end
+			if IsValid(self.Weapon) then dmg:SetWeapon(self.Weapon) end
 
 			ent:DispatchTraceAttack(dmg, tr, tr.Normal)
 
