@@ -27,15 +27,6 @@ if CLIENT then
 		end
 	end
 
-	local function approachMod(from, to, speed)
-		local diff = to - from
-		local ratio = math.max(math.abs(diff[1]), math.abs(diff[2]), math.abs(diff[3]))
-
-		from[1] = math.Approach(from[1], to[1], speed * (diff[1] / ratio))
-		from[2] = math.Approach(from[2], to[2], speed * (diff[2] / ratio))
-		from[3] = math.Approach(from[3], to[3], speed * (diff[3] / ratio))
-	end
-
 	function SWEP:GetViewModelTarget()
 		local offsets = self.Offsets
 
