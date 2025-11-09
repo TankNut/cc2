@@ -104,8 +104,6 @@ function SWEP:Fidget()
 	if duration then
 		self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("Fidget"))
 	end
-
-	self:GetOwner():ConCommand("-reload")
 end
 
 function SWEP:Reload()
@@ -114,4 +112,6 @@ function SWEP:Reload()
 	elseif self:CanFidget() then
 		self:Fidget()
 	end
+
+	self:GetOwner():ConCommand("-reload")
 end
