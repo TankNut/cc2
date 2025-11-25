@@ -89,21 +89,23 @@ if SERVER then
 		local preset = Radio.GetPreset(settings.Preset)
 		local channel = preset and preset.Name or settings.Frequency .. " MHz"
 
-		Chat.Send(self.Name, {
+		local data = {
 			Name    = ply:VisibleRPName(),
 			Lang    = lang,
 			Text    = text,
 			Channel = channel
-		}, radioTargets)
+		}
 
-		Chat.Send(self.LocalName, {
-			Name = ply:VisibleRPName(),
-			Lang = lang,
-			Text = text
-		}, localTargets)
+		Chat.Send(self.Name, data, radioTargets)
+		Chat.Send(self.LocalName, data, localTargets)
 
-		if self.LogCategory then
-			Log.Write("chat_" .. self.LogCategory, self, ply, Language.Get(lang).Name, text)
-		end
+		Log.Write("chat_" .. self.LogCategory, self, data, ply)
+	end
+
+	function CLASS:WriteLog(data, ply)
+		return string.format("[%s] [%s] %s: %s", data.Channel, Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
+			Log.Character(ply),
+			ChatType = "radio"
+		}
 	end
 end
