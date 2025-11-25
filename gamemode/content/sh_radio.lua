@@ -1,13 +1,16 @@
 module("Radio", package.seeall)
 
-Lookup = {}
+Presets = {}
+Groups = {}
 
 local PLAYER = FindMetaTable("Player")
 
 -- Called in content\defines\sh_defines.lua
 function AddPreset(group, name)
-	return table.insert(Lookup, {
-		Frequency = #Lookup + 1000,
+	Groups[group] = true
+
+	return table.insert(Presets, {
+		Frequency = #Presets + 1000,
 		Group     = group,
 		Name      = name
 	})
@@ -15,7 +18,24 @@ end
 
 -- IE local preset = Radio.GetPreset(COVENANT_MAIN)
 function GetPreset(preset)
-	return Lookup[preset]
+	return Presets[preset]
+end
+
+-- Converts the set to an array
+function GetGroups()
+	local groups = {}
+
+	for group in pairs(Groups) do
+		table.insert(groups, group)
+	end
+
+	return groups
+end
+
+function IsValidGroup(group)
+	group = isstring(group) and group:lower()
+
+	return Groups[group] or false
 end
 
 function PLAYER:CanHearRadio(frequency)
