@@ -1,6 +1,16 @@
 DEFINE_BASECLASS("weapon_cc_base")
 AddCSLuaFile()
 
+function SWEP:InScope()
+	local index = self.Settings.ScopeIndex
+
+	if not index then
+		return false
+	end
+
+	return self:GetZoomIndex() >= index and self:GetAimState() > 0.2
+end
+
 if CLIENT then
 	function SWEP:GetViewModelTarget()
 		local targetPos, targetAng = BaseClass.GetViewModelTarget(self)
@@ -51,5 +61,15 @@ if CLIENT then
 
 	function SWEP:GetStaticViewModelOffset()
 		return self:GetVMRecoil()
+	end
+
+	function SWEP:PreDrawViewModel(vm, _, ply)
+		if BaseClass.PreDrawViewModel(self, vm, self, ply) then
+			return true
+		end
+
+		if self:InScope() then
+			return true
+		end
 	end
 end

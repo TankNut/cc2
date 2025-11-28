@@ -79,6 +79,14 @@ SWEP.Settings = {
 	NPCRest = nil, -- If set, overrides standard rest times between bursts
 }
 
+SWEP.Scope = {
+	Scale = 0.65,
+	Width = 1,
+	Height = 1,
+
+	Material = Material("models/vuthakral/halo/hud/scope_rifle.png", "smooth")
+}
+
 SWEP.Animations = {
 	Draw = ACT_VM_DRAW,
 	Holster = ACT_VM_HOLSTER,
@@ -172,6 +180,7 @@ function SWEP:SetupDataTables()
 
 	self:NetworkVar("Int", "FiremodeIndex")
 	self:NetworkVar("Int", "BurstIndex")
+	self:NetworkVar("Int", "ZoomIndex")
 
 	self:NetworkVar("Float", "AimState")
 	self:NetworkVar("Float", "AimStart")
@@ -183,6 +192,7 @@ function SWEP:SetupDataTables()
 	self:NetworkVar("Angle", "RecoilVelocity")
 
 	self:SetFiremodeIndex(1)
+	self:SetZoomIndex(1)
 end
 
 function SWEP:Think()
@@ -240,6 +250,21 @@ function SWEP:AimThink()
 			self:SetToggleAim(false)
 		elseif CurTime() - self:GetAimStart() < ply:GetSetting("KeySensitivity") then
 			self:SetToggleAim(true)
+		end
+	end
+
+	local zoom = self.Settings.Zoom
+
+	if istable(self.Settings.Zoom) and self:ShouldAim() and (not game.SinglePlayer() or SERVER) then
+		local cmd = ply:GetCurrentCommand()
+		local wheel = math.Clamp(cmd:GetMouseWheel(), -1, 1)
+
+		if wheel != 0 then
+			local index = self:GetZoomIndex() + wheel
+
+			if index > 0 and index <= #zoom then
+				self:SetZoomIndex(index)
+			end
 		end
 	end
 end

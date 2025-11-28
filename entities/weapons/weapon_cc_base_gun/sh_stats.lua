@@ -11,7 +11,13 @@ function SWEP:GetDelay()
 end
 
 function SWEP:GetRange()
-	return self.Settings.Range
+	local settings = self.Settings
+
+	if settings.ScopedRange and self:InScope() then
+		return settings.ScopedRange
+	end
+
+	return settings.Range
 end
 
 function SWEP:GetAccuracy()
@@ -36,5 +42,5 @@ function SWEP:GetSpread()
 end
 
 function SWEP:GetZoom()
-	return Lerp(math.ease.InOutSine(self:GetAimState()), 1, self.Settings.Zoom[1])
+	return Lerp(math.ease.InOutSine(self:GetAimState()), 1, self.Settings.Zoom[self:GetZoomIndex()])
 end

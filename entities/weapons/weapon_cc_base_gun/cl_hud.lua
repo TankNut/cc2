@@ -10,12 +10,92 @@ local function DrawLine(x, y, rot, size, alpha)
 	surface.DrawTexturedRectRotated(x, y, size, 2, rot)
 end
 
+function SWEP:DrawScopeBackground(x, y, w, h)
+	render.SetStencilEnable(true)
+	render.ClearStencil()
+
+	render.SetStencilTestMask(255)
+	render.SetStencilWriteMask(255)
+
+	render.SetStencilPassOperation(STENCILOPERATION_KEEP)
+	render.SetStencilFailOperation(STENCILOPERATION_KEEP)
+	render.SetStencilZFailOperation(STENCILOPERATION_KEEP)
+
+	render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
+	render.SetStencilReferenceValue(0)
+
+	render.ClearStencilBufferRectangle(x, y, x + w, y + h, 1)
+
+	surface.DrawRect(0, 0, ScrW(), ScrH())
+
+	render.SetStencilEnable(false)
+end
+
+function SWEP:DrawScope(x, y, w, h)
+	local scope = self.Scope
+
+	surface.SetDrawColor(0, 0, 0, 255)
+	surface.SetMaterial(scope.Material)
+
+	w = w * 0.5
+	h = h * 0.5
+
+	local x2 = x + w
+	local y2 = y + h
+
+	local c = math.ceil
+	local f = math.floor
+
+	surface.DrawTexturedRectUV(x, y, c(w), h, 1, 1, 0, 0)
+	surface.DrawTexturedRectUV(x2, y, f(w), h, 0, 1, 1, 0)
+	surface.DrawTexturedRectUV(x, y2, c(w), h, 1, 0, 0, 1)
+	surface.DrawTexturedRectUV(x2, y2, f(w), h, 0, 0, 1, 1)
+end
+
+function SWEP:DrawScopeOverlay(x, y, w, h)
+	surface.SetDrawColor(0, 0, 0, 255)
+
+	surface.DrawLine(x + w * 0.5, y, x + w * 0.5, y + h)
+	surface.DrawLine(x, y + h * 0.5, x + w, y + h * 0.5)
+end
+
+function SWEP:DrawHUD()
+	if not self:InScope() then
+		return
+	end
+
+	local scrW = ScrW()
+	local scrH = ScrH()
+
+	local ratio = scrW / scrH
+
+	local scope = self.Scope
+
+	local scale = scope.Scale
+	local w = scrW * scale / ratio * scope.Width
+	local h = scrH * scale * scope.Height
+
+	local x = (scrW * 0.5) - w * 0.5
+	local y = (scrH * 0.5) - h * 0.5
+
+	surface.SetDrawColor(0, 0, 0, 197)
+
+	self:DrawScopeBackground(x, y, w, h)
+	self:DrawScope(x, y, w, h)
+	self:DrawScopeOverlay(x, y, w, h)
+end
+
+
 function SWEP:ShouldDrawCrosshair()
 	if self:GetHolstered() or self:ShouldLower() then
 		return false
 	end
 
 	if self:IsReloading() then
+		return false
+	end
+
+	if self:InScope() then
 		return false
 	end
 
@@ -40,7 +120,7 @@ function SWEP:DoDrawCrosshair(x, y)
 		end
 	end
 
-	if alpha == 0 then
+	if alpha == 0 or self:InScope() then
 		return true
 	end
 
