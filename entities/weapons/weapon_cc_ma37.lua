@@ -1,4 +1,5 @@
 AddCSLuaFile()
+DEFINE_BASECLASS("weapon_cc_base_gun")
 
 SWEP.Base = "weapon_cc_base_gun"
 
@@ -102,7 +103,9 @@ if CLIENT then
 		return ammo < 10 and "0" .. ammo or ammo
 	end
 
-	function SWEP:PostDrawViewModel(vm)
+	function SWEP:PostDrawViewModel(vm, _, ply)
+		BaseClass.PostDrawViewModel(self, vm, self, ply)
+
 		local matrix = vm:GetBoneMatrix(vm:LookupBone("b_gun"))
 
 		matrix:Translate(Vector(5.393, 0, 7.596))
