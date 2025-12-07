@@ -37,3 +37,21 @@ end
 function string.Unescape(str)
 	return string.gsub(tostring(str), "(&.-;)", unescapeEntities)
 end
+
+function string.Gibberish(str, prob)
+	local ret = ""
+
+	for _, v in ipairs(string.Explode("", str)) do
+		if math.random(1, 100) < prob then
+			v = ""
+
+			for i = 1, math.random(0, 2) do
+				ret = ret .. table.Random({"#", "@", "&", "%", "$", "/", "^", "-", ";", "*", "*", "*", "*", "*", "*", "*", "*"})
+			end
+		end
+
+		ret = ret .. v
+	end
+
+	return ret
+end
