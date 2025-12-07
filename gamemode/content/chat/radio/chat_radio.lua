@@ -26,7 +26,33 @@ CLASS.LogFormat     = "[%s] [%s] [%s] %s: %s"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
-		return string.format(self.MessageFormat, self.Color, data.Channel, data.Name, data.Text)
+		local jammed, encryption, frequency = data.Jammed, data.Encryption, data.Frequency
+		local name = jammed and "Unknown" or data.Name
+		local text = jammed and data.ScrambledText or data.Text
+
+		local radio = lp:GetEquipment("radio")
+
+		if not radio then
+			return
+		end
+
+		for _, channel in ipairs(radio:GetChannelSettings()) do
+			if lp:GetSetting("AdminRadio") or jammed or not encryption then
+				break
+			end
+
+			if channel.Frequency != data.Frequency then
+				continue
+			end
+
+			if encryption == channel.Encryption then
+				break
+			end
+
+			name, text = "Unknown", data.ScrambledText
+		end
+
+		return string.format(self.MessageFormat, self.Color, data.Channel, name, text)
 	end
 end
 
@@ -39,16 +65,10 @@ if SERVER then
 				continue
 			end
 
-			local enabled, encryption, speaker = target:CanHearRadio(settings.Frequency)
+			local enabled, speaker = target:CanHearRadio(settings.Frequency)
 
 			if not enabled then
 				continue
-			end
-
-			-- Encryption being true signals the target has AdminRadio enabled and should not be subject to encryption
-			if encryption and encryption != true then
-				-- Verify encryption == settings.Encryption
-				-- This will eventually require garbling the output if encrypted
 			end
 
 			if speaker then
@@ -78,7 +98,7 @@ if SERVER then
 	end
 
 	function CLASS:Parse(ply, lang, cmd, text)
-		local settings = ply:ActiveRadioSettings()
+		local settings, canEncrypt = ply:ActiveRadioSettings()
 
 		if not settings then
 			ply:SendChat("ERROR", "You don't have a configured radio equipped!")
@@ -87,10 +107,11 @@ if SERVER then
 		end
 
 		local frequency = settings.Frequency
+		local encryption = canEncrypt and settings.Encryption
 		local jammed = Radio.IsJammed(frequency)
 
 		local name = jammed and "Unknown" or ply:VisibleRPName()
-		local radioText = jammed and string.Gibberish(text, 50) or text
+		local scrambledText = string.Gibberish(text, 50)
 
 		local radioTargets = self:GetRadioTargets(ply, settings)
 		local localTargets = self:GetLocalTargets(ply, settings)
@@ -99,16 +120,19 @@ if SERVER then
 		local channel = preset and preset.Name or string.format("%s MHz", frequency)
 
 		local radioData = {
-			Name    = name,
-			Lang    = lang,
-			Text    = radioText,
-			Channel = channel
+			Name          = name,
+			Lang          = lang,
+			Text          = text,
+			ScrambledText = scrambledText,
+			Encryption    = encryption,
+			Jammed        = jammed,
+			Frequency     = frequency,
+			Channel       = channel,
 		}
 		local localData = {
 			Name    = name,
 			Lang    = lang,
-			Text    = text,
-			Channel = channel
+			Text    = text
 		}
 
 		Chat.Send(self.Name, radioData, radioTargets)
