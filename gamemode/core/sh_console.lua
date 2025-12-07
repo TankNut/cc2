@@ -215,7 +215,7 @@ if CLIENT then
 		for class, item in SortedPairs(Item.Find(lp, name)) do
 			local rarity = Item.Rarities[item.Rarity]
 
-			MsgC("  ", col, class, " - ", rarity.Color or col, item.Name, "\n")
+			MsgC(color_white, string.format("%-25s - ", class), rarity.Color, item.Name, "\n")
 		end
 	end
 
