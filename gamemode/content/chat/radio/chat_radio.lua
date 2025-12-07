@@ -20,6 +20,7 @@ CLASS.Color         = Color(72, 118, 255)
 CLASS.LanguageColor = Color(255, 167, 73)
 
 CLASS.MessageFormat = "<c=%s>[%s] %s: %s"
+CLASS.LogFormat     = "[%s] [%s] %s: %s"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
@@ -103,7 +104,7 @@ if SERVER then
 	end
 
 	function CLASS:WriteLog(data, ply)
-		return string.format("[%s] [%s] %s: %s", data.Channel, Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
+		return string.format(self.LogFormat, data.Channel, Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
 			Log.Character(ply),
 			ChatType = "radio"
 		}
