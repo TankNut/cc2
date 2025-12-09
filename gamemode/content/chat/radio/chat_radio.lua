@@ -23,10 +23,19 @@ CLASS.LocalName = "Say"
 
 CLASS.MessageFormat = "<c=%s>[%s] %s: %s"
 CLASS.LogFormat     = "[%s] [%s] [%s] %s: %s"
+CLASS.LegacyFormat  = "[%s] %s: %s"
+CLASS.LegacyFont    = "CombineControl.ChatRadio"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
-		return string.format(self.MessageFormat, self.Color, data.Channel, data.Name, data.Text)
+		local channel, name, text = data.Channel, data.Name, data.Text
+		local hud = Hud.Get("radio")
+
+		if hud then
+			hud:AddMessage(string.format(self.LegacyFormat, channel, name, text), self.LegacyFont)
+		end
+
+		return string.format(self.MessageFormat, self.Color, channel, name, text)
 	end
 end
 

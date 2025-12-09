@@ -11,3 +11,4 @@ CLASS.LocalName = "Whisper"
 
 CLASS.MessageFormat = "<c=%s><i>[%s] %s: %s"
 CLASS.LogFormat     = "[%s] [%s] [%s] %s: [WHISPER] %s"
+CLASS.LegacyFont    = "CombineControl.ChatRadioItalic"

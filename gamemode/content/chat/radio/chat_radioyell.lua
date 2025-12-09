@@ -12,3 +12,4 @@ CLASS.LocalName = "Yell"
 
 CLASS.MessageFormat = "<c=%s><b>[%s] %s: %s"
 CLASS.LogFormat     = "[%s] [%s] [%s] %s: [YELL] %s"
+CLASS.LegacyFont    = "CombineControl.ChatRadioBold"
