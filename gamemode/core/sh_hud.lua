@@ -64,6 +64,10 @@ Lookup = Lookup or {}
 
 Labels = {}
 
+function Get(name)
+	return Lookup[name]
+end
+
 function Event(name, ...)
 	for _, element in ipairs(Active) do
 		local func = element["On" .. name .. "Event"]
