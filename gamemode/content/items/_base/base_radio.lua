@@ -52,7 +52,7 @@ function ITEM:GetDescription()
 	return description
 end
 
-function ITEM:HasRadioGroup(group)
+function ITEM:HasGroup(group)
 	return self:GetRadioGroups()[group] and true or false
 end
 

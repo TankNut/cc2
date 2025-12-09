@@ -31,7 +31,7 @@ if CLIENT then
 end
 
 if SERVER then
-	function CLASS:GetTargets(ply, frequency, encryption, jammed)
+	function CLASS:GetTargets(ply, channel, encryption, jammed)
 		local good, bad = {}, {}
 
 		for _, target in player.Iterator() do
@@ -39,14 +39,14 @@ if SERVER then
 				continue
 			end
 
-			local enabled, speaker, scrambled = Radio.CanHear(target, frequency, encryption, jammed)
+			local enabled, speaker, scrambled = Radio.CanHear(target, channel, encryption, jammed)
 
 			if not enabled then
 				continue
 			end
 
 			if speaker then
-				table.Add(scrambled and bad or good, self:GetLocalTargets(target, frequency))
+				table.Add(scrambled and bad or good, self:GetLocalTargets(target, channel))
 			end
 
 			table.insert(scrambled and bad or good, target)
