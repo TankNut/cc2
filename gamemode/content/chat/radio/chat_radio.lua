@@ -26,66 +26,40 @@ CLASS.LogFormat     = "[%s] [%s] [%s] %s: %s"
 
 if CLIENT then
 	function CLASS:OnReceive(data)
-		local jammed, encryption, frequency = data.Jammed, data.Encryption, data.Frequency
-		local name = jammed and "Unknown" or data.Name
-		local text = jammed and data.ScrambledText or data.Text
-
-		local radio = lp:GetEquipment("radio")
-
-		if not radio then
-			return
-		end
-
-		for _, channel in ipairs(radio:GetChannelSettings()) do
-			if lp:GetSetting("AdminRadio") or jammed or not encryption then
-				break
-			end
-
-			if channel.Frequency != data.Frequency then
-				continue
-			end
-
-			if encryption == channel.Encryption then
-				break
-			end
-
-			name, text = "Unknown", data.ScrambledText
-		end
-
-		return string.format(self.MessageFormat, self.Color, data.Channel, name, text)
+		return string.format(self.MessageFormat, self.Color, data.Channel, data.Name, data.Text)
 	end
 end
 
 if SERVER then
-	function CLASS:GetRadioTargets(ply, settings)
-		local targets = {ply}
+	function CLASS:GetTargets(ply, frequency, encryption, jammed)
+		local good, bad = {}, {}
 
 		for _, target in player.Iterator() do
 			if not IsValid(target) then
 				continue
 			end
 
-			local enabled, speaker = target:CanHearRadio(settings.Frequency)
+			local enabled, speaker, scrambled = Radio.CanHear(target, frequency, encryption, jammed)
 
 			if not enabled then
 				continue
 			end
 
 			if speaker then
-				table.Add(targets, self:GetLocalTargets(target, settings))
+				table.Add(scrambled and bad or good, self:GetLocalTargets(target, frequency))
 			end
 
-			targets[#targets + 1] = target
+			table.insert(scrambled and bad or good, target)
 		end
 
-		return targets
+		return good, bad
 	end
 
-	function CLASS:GetLocalTargets(ply, settings)
+	function CLASS:GetLocalTargets(ply, frequency)
 		local targets = Chat.GetTargets(ply:EyePos(), self.Range or 0, self.MuffledRange or 0, self.Hearable)
 
 		for i, target in ipairs(targets) do
-			local enabled = target:CanHearRadio(settings.Frequency)
+			local enabled = Radio.CanHear(target, frequency)
 
 			if not enabled then
 				continue
@@ -98,7 +72,7 @@ if SERVER then
 	end
 
 	function CLASS:Parse(ply, lang, cmd, text)
-		local settings, canEncrypt = ply:ActiveRadioSettings()
+		local settings, radio = Radio.ActiveSettings(ply)
 
 		if not settings then
 			ply:SendChat("ERROR", "You don't have a configured radio equipped!")
@@ -107,42 +81,52 @@ if SERVER then
 		end
 
 		local frequency = settings.Frequency
-		local encryption = canEncrypt and settings.Encryption
+		local encryption = radio.CanEncrypt and settings.Encryption
 		local jammed = Radio.IsJammed(frequency)
 
-		local name = jammed and "Unknown" or ply:VisibleRPName()
-		local scrambledText = string.Gibberish(text, 50)
-
-		local radioTargets = self:GetRadioTargets(ply, settings)
-		local localTargets = self:GetLocalTargets(ply, settings)
+		local goodTargets, badTargets = self:GetTargets(ply, frequency, encryption, jammed)
+		local localTargets = self:GetLocalTargets(ply, frequency)
 
 		local preset = Radio.GetPreset(settings.Preset)
 		local channel = preset and preset.Name or string.format("%s MHz", frequency)
+		local name = ply:VisibleRPName()
 
-		local radioData = {
-			Name          = name,
-			Lang          = lang,
-			Text          = text,
-			ScrambledText = scrambledText,
-			Encryption    = encryption,
-			Jammed        = jammed,
-			Frequency     = frequency,
-			Channel       = channel,
-		}
-		local localData = {
+		local data = {
 			Name    = name,
 			Lang    = lang,
-			Text    = text
+			Text    = text,
+			Channel = channel,
 		}
 
-		Chat.Send(self.Name, radioData, radioTargets)
-		Chat.Send(self.LocalName, localData, localTargets)
+		if #goodTargets > 0 then
+			Chat.Send(self.Name, data, goodTargets)
+		end
 
-		Log.Write("chat_" .. self.LogCategory, self, localData, jammed, ply)
+		if #badTargets > 0 then
+			Chat.Send(self.Name, {
+				Name    = "Unknown",
+				Lang    = lang,
+				Text    = string.Gibberish(text, 50),
+				Channel = channel
+			}, badTargets)
+		end
+
+		if #localTargets > 0 then
+			Chat.Send(self.LocalName, {
+				Name    = name,
+				Lang    = lang,
+				Text    = text
+			}, localTargets)
+		end
+
+		Log.Write("chat_" .. self.LogCategory, self, data, jammed, ply)
 	end
 
 	function CLASS:WriteLog(data, jammed, ply)
-		return string.format(self.LogFormat, data.Channel, jammed and "Jammed" or "Unjammed", Language.Get(data.Lang).Name, ply:VisibleRPName(), data.Text), {
+		local jam = jammed and "Jammed" or "Unjammed"
+		local lang = Language.Get(data.Lang).Name
+
+		return string.format(self.LogFormat, data.Channel, jam, lang, data.Name, data.Text), {
 			Log.Character(ply),
 			ChatType = "radio"
 		}

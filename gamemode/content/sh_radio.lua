@@ -38,12 +38,12 @@ function IsValidGroup(group)
 	return Groups[group] or false
 end
 
-function PLAYER:CanHearRadio(frequency)
-	if self:GetSetting("AdminRadio") then
-		return true, false
+function CanHear(ply, frequency, encryption, jammed)
+	if ply:GetSetting("AdminRadio") then
+		return true, false, false
 	end
 
-	local radio = self:GetEquipment("radio")
+	local radio = ply:GetEquipment("radio")
 
 	if not radio then
 		return false
@@ -54,7 +54,7 @@ function PLAYER:CanHearRadio(frequency)
 			continue
 		end
 
-		return channel.Enabled, channel.Speaker
+		return channel.Enabled, channel.Speaker, channel.Encryption != encryption or jammed
 	end
 
 	return false
@@ -70,14 +70,14 @@ function PLAYER:CanHearDispatch(group)
 	return radio:HasRadioGroup(group)
 end
 
-function PLAYER:ActiveRadioSettings()
-	local radio = self:GetEquipment("radio")
+function ActiveSettings(ply)
+	local radio = ply:GetEquipment("radio")
 
 	if not radio then
 		return
 	end
 	
-	return radio:GetChannelSettings()[radio:GetActiveChannel()], radio.CanEncrypt
+	return radio:GetChannelSettings()[radio:GetActiveChannel()], radio
 end
 
 if SERVER then
