@@ -188,19 +188,19 @@ teamHidden:AddParameter(console.Bool())
 
 
 
-local jam = console.AddCommand("rpa_radio_jam", function(ply, frequency, jammed)
-	frequency = tonumber(frequency) or frequency:lower()
+local jam = console.AddCommand("rpa_radio_jam", function(ply, channel, jammed)
+	channel = tonumber(channel) or channel:lower()
 
-	if not isnumber(frequency) and frequency != "all" and frequency != "preset" and frequency != "common" then
-		console.Feedback(ply, "ERROR", "Input frequency must be a number, 'all', 'preset' or 'common'.")
+	local success, feedback = Radio.SetJammed(channel, jammed)
+
+	if not success then
+		console.Feedback(ply, "ERROR", feedback)
 
 		return
 	end
 
-	Radio.SetJammed(frequency, jammed)
-
 	local action = jammed and "jammed" or "unjammed"
-	local subject = isnumber(frequency) and string.format("%s MHz", frequency) or string.format("%s frequencies", frequency)
+	local subject = isnumber(channel) and string.format("%s MHz", channel) or string.format("%s frequencies", channel)
 
 	Chat.Send("NOTICE", console.FormatMessage("%s has %s %s", ply, action, subject), player.GetAdmins())
 

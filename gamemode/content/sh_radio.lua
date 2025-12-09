@@ -21,17 +21,6 @@ function GetPreset(preset)
 	return Presets[preset]
 end
 
--- Converts the set to an array
-function GetGroups()
-	local groups = {}
-
-	for group in pairs(Groups) do
-		table.insert(groups, group)
-	end
-
-	return groups
-end
-
 function IsValidGroup(group)
 	group = isstring(group) and group:lower()
 
@@ -76,14 +65,25 @@ function ActiveSettings(ply)
 end
 
 if SERVER then
+	Jammable = {all = true, preset = true, common = true}
 	Jammed = {}
 
-	function SetJammed(frequency, enabled)
-		if not isnumber(frequency) and (frequency != "all" or frequency != "preset" or frequency != "common") then
-			console.Feedback(ply, "ERROR", "Input frequency must be a number, 'all', 'preset' or 'common'.")
+	function SetJammed(channel, enabled)
+		local number = isnumber(channel)
+
+		if number and channel >= 1000 then
+			return false, "Channel frequencies must be less than 1000 MHz."
+		end
+		
+		if not number and not Jammable[channel] and not Groups[channel] then
+			local jammable, groups = table.concat(table.SetToArray(Jammable), ", "), table.concat(table.SetToArray(Groups), ", ")
+
+			return false, string.format("Channel must be a number less than 1000, %s, %s.", jammable, groups)
 		end
 
-		Jammed[frequency] = enabled or nil
+		Jammed[channel] = enabled or nil
+
+		return true
 	end
 
 	function IsJammed(frequency)
