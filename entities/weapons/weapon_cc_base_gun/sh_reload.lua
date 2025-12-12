@@ -91,7 +91,7 @@ function SWEP:FinishReload()
 end
 
 function SWEP:CanFidget()
-	if self:ShouldLower() or self:IsReloading() then
+	if self:ShouldLower() or self:IsReloading() or self:GetNextPrimaryFire() >= CurTime() then
 		return false
 	end
 
