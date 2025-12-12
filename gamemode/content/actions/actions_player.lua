@@ -23,7 +23,13 @@ Action.Add("Patdown", {
 			Callback = CLIENT and stub or nil
 		}
 	end,
-	Client = closeMenu,
+	Client = function(self, ply, ...)
+		if Settings.Get("EquipTogglesMenu") then
+			ui.Close("PlayerMenu")
+		end
+
+		return true, ...
+	end,
 	Callback = function(target, ply)
 		local inventory = target:GetInventory()
 
