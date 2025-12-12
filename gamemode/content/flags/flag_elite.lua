@@ -21,6 +21,8 @@ FLAG.CrouchSpeed = 80
 
 FLAG.Clothing = CLOTHING_NONE
 
+FLAG.Buffs = {"elite_shield"}
+
 local model = Model("models/halo_reach/players/elite_minor.mdl")
 
 function FLAG:GetModelData(ply)

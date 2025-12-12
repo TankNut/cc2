@@ -1,6 +1,6 @@
 ITEM.Category       = "Elite Armor"
 
-ITEM.Model          = Model("models/props_junk/cardboard_box001a.mdl")
+ITEM.Model          = Model("models/valk/h3/covenant/props/cortanabeacon/cortanabeacon.mdl")
 
 ITEM.EquipmentSlots = {"elite"}
 
