@@ -12,8 +12,8 @@ Hands.AddModel("models/ishi/halo_rebirth/player/odst/male", {Model = Model("mode
 Hands.AddModel("models/ishi/halo_rebirth/player/odst/female", {Model = Model("models/ishi/halo_rebirth/player/odst/female/odst_f_arms.mdl")})
 
 
--- Spartans
-Hands.AddModel("models/models/valk/haloreach/unsc/spartan", {Model = Model("models/models/valk/haloreach/unsc/spartan/arms/c_arms_spartan.mdl")})
+-- Spartans (INCREDIBLY BROKEN)
+-- Hands.AddModel("models/models/valk/haloreach/unsc/spartan", {Model = Model("models/models/valk/haloreach/unsc/spartan/arms/c_arms_spartan.mdl")})
 
 
 -- Grunts
