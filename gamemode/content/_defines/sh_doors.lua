@@ -19,6 +19,14 @@ Doors.AddAccessType("disabled", {
 	end
 })
 
+Doors.AddAccessType("covenant", {
+	Name = "Covenant",
+	Color = Color("team_covenant"),
+	CanAccess = function(ent, ply)
+		return ply:Team() == TEAM_COVENANT
+	end
+})
+
 -- You shouldn't touch these, they contain most of the source features doors have and are tracked/updated manually within the doors library itself
 Doors.AddVar("Title", {
 	Saved = true,
