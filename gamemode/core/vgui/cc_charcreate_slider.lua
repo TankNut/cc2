@@ -6,7 +6,6 @@ function PANEL:Init()
 	self.TranslatedLabel = self.Canvas:Add("DLabel")
 
 	self.Slider = self.Canvas:Add("DNumSlider")
-	self.Slider:SetWide(ui.Scale(250))
 
 	self.Slider.OnValueChanged = function(_, val)
 		val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
@@ -40,6 +39,8 @@ end
 
 function PANEL:PerformLayout(w, h)
 	BaseClass.PerformLayout(self, w, h)
+
+	self.Slider:StretchToParent(nil, nil, ui.Scale(5) + self.TranslatedLabel:GetWide(), nil)
 
 	self.TranslatedLabel:MoveRightOf(self.Slider, ui.Scale(5))
 	self.TranslatedLabel:StretchToParent(nil, ui.Scale(5), 0, nil)
