@@ -1,6 +1,8 @@
 FLAG.Name = "Unggoy"
 FLAG.Team = TEAM_COVENANT
 
+FLAG.Armor = 50
+
 FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {

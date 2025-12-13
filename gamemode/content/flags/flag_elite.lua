@@ -1,6 +1,8 @@
 FLAG.Name = "Sangheili"
 FLAG.Team = TEAM_COVENANT
 
+FLAG.Armor = 100
+
 FLAG.Loadout = {"weapon_cc_hands"}
 
 FLAG.EquipmentSlots = {
