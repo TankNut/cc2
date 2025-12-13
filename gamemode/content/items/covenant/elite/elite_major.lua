@@ -1,5 +1,10 @@
 ITEM.Category       = "Elite Armor"
 
+ITEM.Name           = "Sangheili Major Armor"
+ITEM.Description    = "Armor belonging to a Sangheili Major."
+
+ITEM.Rarity         = RARITY_UNCOMMON
+
 ITEM.Model          = Model("models/valk/h3/covenant/props/cortanabeacon/cortanabeacon.mdl")
 
 ITEM.EquipmentSlots = {"elite"}
