@@ -1,5 +1,5 @@
-DEFINE_BASECLASS("weapon_cc_base")
 AddCSLuaFile()
+DEFINE_BASECLASS("weapon_cc_base")
 
 SWEP.Base = "weapon_cc_base"
 
