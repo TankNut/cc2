@@ -285,7 +285,7 @@ function GM:CanTakeItem(ply, item)
 	return false, "You cannot take this item!"
 end
 
-function GM:CanStoreItem(ply, item, inventory)
+function GM:CanStoreItem(ply, item, inventory, amount)
 	if not hook.Run("CanAccessInventory", ply, inventory) then
 		return false, "You don't have access to this inventory!"
 	end
@@ -300,6 +300,12 @@ function GM:CanStoreItem(ply, item, inventory)
 		if container:IsTemporaryItem() and not item:IsTemporaryItem() then
 			return false, "You cannot store non-temporary items in this!"
 		end
+	end
+
+	local max = inventory:GetMaxWeight()
+
+	if max > 0 and inventory.Weight + item:GetWeight(amount) > max then
+		return false, "There's no room to fit that item!"
 	end
 
 	return item:CanStore(ply, inventory)

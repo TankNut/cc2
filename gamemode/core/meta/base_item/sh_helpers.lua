@@ -37,3 +37,7 @@ if SERVER then
 		return IsValid(self.Entity)
 	end
 end
+
+function ITEM:GetAmount()
+	return 1
+end

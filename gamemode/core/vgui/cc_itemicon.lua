@@ -97,6 +97,20 @@ function PANEL:Paint(w, h)
 		surface.DrawCircle(w - offset, h - offset, radius, 20, 20, 20, 230)
 	end
 
+	local amount = self.Item:GetAmount()
+
+	if amount > 1 then
+		surface.SetTextColor(200, 200, 200)
+		surface.SetFont("CombineControl.LabelSmall")
+
+		local corner = ui.Scale(2)
+		local text = amount .. "x"
+		local _, y = surface.GetTextSize(text)
+
+		surface.SetTextPos(corner, h - corner - y)
+		surface.DrawText(text)
+	end
+
 	self.Item:DrawItemIcon(w, h)
 end
 

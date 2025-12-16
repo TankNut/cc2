@@ -12,6 +12,13 @@ Log.AddType("item_drop", function(ply, item)
 	}
 end)
 
+Log.AddType("item_split", function(ply, item)
+	return string.format("%s has split a stack of %s", ply:VisibleRPName(), item.ClassName), {
+		Log.Character(ply),
+		Log.Item(item)
+	}
+end)
+
 Log.AddType("item_pickup", function(ply, item)
 	return string.format("%s has picked up a %s", ply:VisibleRPName(), item.ClassName), {
 		Log.Character(ply),

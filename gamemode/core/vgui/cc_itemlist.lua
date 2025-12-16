@@ -73,8 +73,14 @@ function PANEL:Sort()
 		a = a.Item
 		b = b.Item
 
+		-- Move temp items back
 		if a:IsTemporaryItem() != b:IsTemporaryItem() then
-			return b:IsTemporaryItem() and true or false
+			return b:IsTemporaryItem()
+		end
+
+		-- Move stacking items back
+		if a:IsType("base_stacking") != b:IsType("base_stacking") then
+			return b:IsType("base_stacking")
 		end
 
 		return a.ID < b.ID
