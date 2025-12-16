@@ -42,7 +42,7 @@ function SWEP:PlayAnimation(name, rate)
 	rate = rate or 1
 
 	local vm = self:GetViewModel()
-	local duration = vm:SequenceDuration(index) / rate
+	local duration = vm:SequenceDuration(index) / math.abs(rate)
 
 	vm:SendViewModelMatchingSequence(index)
 	vm:SetPlaybackRate(rate)

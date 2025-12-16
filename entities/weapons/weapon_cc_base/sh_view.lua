@@ -155,8 +155,18 @@ if CLIENT then
 	end
 
 	function SWEP:PreDrawViewModel(vm, _, ply)
-		if self.Settings.UseHolsterAnimations and self:GetHolstered() and (vm:GetCycle() > 0.9 or self:GetDeployed()) then
-			return true
+		if self.Settings.UseHolsterAnimations and self:GetHolstered() then
+			local cycle = vm:GetCycle()
+
+			if vm:GetPlaybackRate() < 0 then
+				cycle = cycle < 0.1
+			elseif vm:GetPlaybackRate() > 0 then
+				cycle = cycle > 0.9
+			end
+
+			if cycle or self:GetDeployed() then
+				return true
+			end
 		end
 
 		for index, mat in pairs(self.ViewModelMaterials) do

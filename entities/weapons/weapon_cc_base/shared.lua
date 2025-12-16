@@ -31,7 +31,8 @@ SWEP.Settings = {
 
 	AimTime = 0.35,
 
-	UseHolsterAnimations = false -- Hides the viewmodel when holstered
+	UseHolsterAnimations = false, -- Hides the viewmodel when holstered
+	ReverseHolsterAnimations = false -- Reverses the holstering animation
 }
 
 SWEP.Animations = {
@@ -90,7 +91,7 @@ function SWEP:Deploy()
 
 	if self.Settings.UseHolsterAnimations then
 		self:SetNextPrimaryFire(CurTime() + 0.1)
-		self:PlayAnimation("Holster")
+		self:PlayAnimation("Holster", self.Settings.ReverseHolsterAnimations and -1 or 1)
 		self:SetNextIdle(0)
 	else
 		self:SetNextPrimaryFire(CurTime() + self:PlayAnimation("Deploy"))
@@ -195,7 +196,13 @@ function SWEP:ToggleHolster()
 	self:SetHolstered(state)
 
 	if self.Settings.UseHolsterAnimations then
-		self:PlayAnimation(state and "Holster" or "Draw")
+		local rate = 1
+
+		if state then -- Is there a more generic way to do this?
+			rate = self.Settings.ReverseHolsterAnimations and -1 or 1
+		end
+
+		self:PlayAnimation(state and "Holster" or "Draw", rate)
 
 		if state then
 			self:SetNextIdle(0)
