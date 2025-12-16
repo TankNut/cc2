@@ -13,7 +13,7 @@ function ENT:Initialize()
 		self:SetMoveType(MOVETYPE_VPHYSICS)
 		self:SetSolid(SOLID_VPHYSICS)
 
-		self:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
+		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 
 		local phys = self:GetPhysicsObject()
 
