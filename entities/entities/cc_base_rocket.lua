@@ -10,7 +10,7 @@ ENT.Gravity = 0
 
 -- Trace masks
 ENT.Mask = MASK_SOLID
-ENT.CollisionGroup = COLLISION_GROUP_NONE
+ENT.CollisionGroup = COLLISION_GROUP_PROJECTILE
 
 function ENT:Initialize()
 	self:SetModel(self.Model)
