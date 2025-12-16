@@ -3,7 +3,7 @@ AddCSLuaFile()
 SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "Type-25 Plasma Rifle"
-SWEP.Category = "CombineControl"
+SWEP.Category = "CombineControl - Halo"
 
 SWEP.Spawnable = true
 

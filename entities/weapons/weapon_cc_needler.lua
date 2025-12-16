@@ -4,7 +4,7 @@ DEFINE_BASECLASS("weapon_cc_base_gun")
 SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "Type-33 Needler"
-SWEP.Category = "CombineControl"
+SWEP.Category = "CombineControl - Halo"
 
 SWEP.Spawnable = true
 

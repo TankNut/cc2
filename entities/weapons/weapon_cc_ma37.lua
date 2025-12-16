@@ -4,7 +4,7 @@ DEFINE_BASECLASS("weapon_cc_base_gun")
 SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "MA37 ICWS"
-SWEP.Category = "CombineControl"
+SWEP.Category = "CombineControl - Halo"
 
 SWEP.Spawnable = true
 

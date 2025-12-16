@@ -4,7 +4,7 @@ DEFINE_BASECLASS("weapon_cc_base_plasma")
 SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.PrintName = "Type-51 Plasma Repeater"
-SWEP.Category = "CombineControl"
+SWEP.Category = "CombineControl - Halo"
 
 SWEP.Spawnable = true
 
