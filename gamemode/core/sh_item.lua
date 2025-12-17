@@ -278,11 +278,15 @@ end
 function GM:CanTakeItem(ply, item)
 	local inventory = item:GetInventory()
 
-	if inventory then
-		return hook.Run("CanAccessInventory", ply, inventory)
+	if not inventory then
+		return false, "You cannot take this item!"
 	end
 
-	return false, "You cannot take this item!"
+	if ply:InventoryWeight() > ply:MaxInventoryWeight() then
+		return false, "That's too heavy for you to take!"
+	end
+
+	return hook.Run("CanAccessInventory", ply, inventory)
 end
 
 function GM:CanStoreItem(ply, item, inventory, amount)

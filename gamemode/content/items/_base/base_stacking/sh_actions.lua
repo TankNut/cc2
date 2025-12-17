@@ -117,10 +117,10 @@ ITEM.Actions.Store = {
 
 		if amount >= self:GetAmount() then
 			self:SetInventory(inventory)
+		else
+			Log.Write("item_split", ply, self)
+
+			self:Split(amount):SetInventory(inventory)
 		end
-
-		Log.Write("item_split", ply, self)
-
-		self:Split(amount):SetInventory(inventory)
 	end
 }
