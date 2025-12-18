@@ -2,27 +2,11 @@ function ITEM:IsTemporaryItem()
 	return self.ID < 0
 end
 
-function ITEM:GetPlayer()
+function ITEM:GetParent()
 	local inventory = self:GetInventory()
 
 	if inventory then
-		return inventory:GetPlayer()
-	end
-end
-
-function ITEM:GetItem()
-	local inventory = self:GetInventory()
-
-	if inventory then
-		return inventory:GetItem()
-	end
-end
-
-function ITEM:GetEntity()
-	local inventory = self:GetInventory()
-
-	if inventory then
-		return inventory:GetEntity()
+		return inventory:GetParent()
 	end
 end
 

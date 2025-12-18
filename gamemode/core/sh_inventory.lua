@@ -12,7 +12,7 @@ PlayerVar.Add("StashID", {Default = 0})
 local INVENTORY = CustomMetaTable("Inventory")
 local PLAYER = FindMetaTable("Player")
 
-function Create(id, storeType, storeID, parent, items)
+function Create(id, storeType, storeID, parentID, items)
 	if not id then
 		id = #All + 1
 	end
@@ -23,21 +23,23 @@ function Create(id, storeType, storeID, parent, items)
 		ID = id,
 		StoreType = storeType,
 		StoreID = storeID,
-		Parent = parent
+		Parent = parentID
 	}, INVENTORY)
 
 	All[id] = instance
 
 	instance:Initialize()
 
+	local parent = instance:GetParent()
+
 	if storeType == INV_PLAYER then
-		instance:GetPlayer():SetInventoryID(id)
+		parent:SetInventoryID(id)
 	elseif storeType == INV_STASH then
-		instance:GetPlayer():SetStashID(id)
+		parent:SetStashID(id)
 	elseif storeType == INV_ITEM then
-		instance:GetItem().Contents = instance
+		parent.Contents = instance
 	elseif storeType == INV_ENTITY then
-		instance:GetEntity():SetInventoryID(id)
+		parent:SetInventoryID(id)
 	end
 
 	instance:LoadItems(items)
@@ -141,19 +143,16 @@ function GM:CanAccessInventory(ply, inventory)
 	end
 
 	local storeType = inventory.StoreType
+	local parent = inventory:GetParent()
 
 	if storeType == INV_PLAYER then
-		return ply == inventory:GetPlayer()
+		return ply == parent
 	elseif storeType == INV_STASH then
-		return ply == inventory:GetPlayer() and ply:CanAccessStash()
+		return ply == parent and ply:CanAccessStash()
 	elseif storeType == INV_ITEM then
-		local item = inventory:GetItem()
-
-		return hook.Run("CanInteractWithItem", ply, item) and item:CanAccessInventory(ply)
+		return hook.Run("CanInteractWithItem", ply, parent) and parent:CanAccessInventory(ply)
 	elseif storeType == INV_ENTITY then
-		local ent = inventory:GetEntity()
-
-		return ply:WithinInteractRange(ent) and ent:CanAccessInventory(ply)
+		return ply:WithinInteractRange(parent) and parent:CanAccessInventory(ply)
 	end
 
 	return false

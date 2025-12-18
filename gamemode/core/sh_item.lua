@@ -202,7 +202,7 @@ function GM:CanInteractWithItem(ply, item)
 		return false, "You cannot do this right now!"
 	end
 
-	if item:GetStoreType() == INV_PLAYER and item:GetPlayer() == ply then
+	if item:GetStoreType() == INV_PLAYER and item:GetParent() == ply then
 		return true
 	end
 
@@ -295,7 +295,7 @@ function GM:CanStoreItem(ply, item, inventory, amount)
 	end
 
 	if inventory.StoreType == INV_ITEM then
-		local container = inventory:GetItem()
+		local container = inventory:GetParent()
 
 		if container == item then
 			return false, "You cannot store an item inside of itself!"

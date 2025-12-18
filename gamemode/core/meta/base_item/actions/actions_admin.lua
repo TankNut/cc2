@@ -6,7 +6,7 @@ local showAdminActions = function(self, ply)
 	local inventory = self:GetInventory()
 
 	if inventory.StoreType == INV_PLAYER or inventory.StoreType == INV_STASH then
-		return inventory:GetPlayer() != ply
+		return inventory:GetParent() != ply
 	end
 
 	return false
@@ -24,7 +24,7 @@ ITEM.Actions.AdminTake = {
 	Callback = function(self, ply)
 		local inventory = self:GetInventory()
 
-		Log.Write("admin_item_take", ply, self, inventory:GetPlayer(), inventory.StoreType)
+		Log.Write("admin_item_take", ply, self, inventory:GetParent(), inventory.StoreType)
 
 		self:SetInventory(ply:GetInventory())
 	end
@@ -46,7 +46,7 @@ ITEM.Actions.AdminDestroy = {
 	Callback = function(self, ply)
 		local inventory = self:GetInventory()
 
-		Log.Write("admin_item_destroy", ply, self, inventory:GetPlayer(), inventory.StoreType)
+		Log.Write("admin_item_destroy", ply, self, inventory:GetParent(), inventory.StoreType)
 
 		self:Delete()
 	end

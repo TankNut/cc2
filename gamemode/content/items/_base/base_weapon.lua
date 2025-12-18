@@ -13,7 +13,7 @@ function ITEM:GetWeapon()
 		return NULL
 	end
 
-	return self:GetPlayer():GetWeapon(self.WeaponClass)
+	return self:GetParent():GetWeapon(self.WeaponClass)
 end
 
 if SERVER then

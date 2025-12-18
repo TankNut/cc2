@@ -4,7 +4,7 @@ end
 
 function ITEM:GetCompatibleSlots()
 	local slots = {}
-	local ply = self:GetPlayer()
+	local ply = self:GetParent()
 
 	if IsValid(ply) then
 		local flagSlots = ply:RunCharFlag("EquipmentSlots")
@@ -31,7 +31,7 @@ end
 
 if SERVER then
 	function ITEM:SetEquipmentSlot(slot)
-		local ply = self:GetPlayer()
+		local ply = self:GetParent()
 
 		if slot then
 			local item = ply:GetEquipment(slot)
@@ -45,7 +45,7 @@ if SERVER then
 	end
 
 	function ITEM:AddBuffs()
-		local ply = self:GetPlayer()
+		local ply = self:GetParent()
 
 		for _, buff in ipairs(self.Buffs) do
 			ply:AddBuff(buff)
@@ -53,7 +53,7 @@ if SERVER then
 	end
 
 	function ITEM:RemoveBuffs()
-		local ply = self:GetPlayer()
+		local ply = self:GetParent()
 
 		for _, buff in ipairs(self.Buffs) do
 			ply:RemoveBuff(buff)

@@ -1,6 +1,6 @@
 function ITEM:Load()
 	if self:IsEquipped() then
-		Inventory.Equipment[self:GetPlayer()][self:GetEquipmentSlot()] = self
+		Inventory.Equipment[self:GetParent()][self:GetEquipmentSlot()] = self
 	end
 end
 
@@ -11,7 +11,7 @@ function ITEM:OnLoaded()
 end
 
 function ITEM:OnRemove()
-	local ply = self:GetPlayer()
+	local ply = self:GetParent()
 
 	if self:IsEquipped() and IsValid(ply) then
 		Inventory.Equipment[ply][self:GetEquipmentSlot()] = nil
@@ -47,14 +47,14 @@ end
 -- Removed from an inventory, called after it happens
 function ITEM:PostInventoryRemoved(inventory)
 	if SERVER and inventory.StoreType == INV_PLAYER and (self.GetModelData or self.PostModelData) then
-		inventory:GetPlayer():UpdateAppearance()
+		inventory:GetParent():UpdateAppearance()
 	end
 end
 
 -- Added to an inventory, called after it happens
 function ITEM:InventoryAdded(inventory)
 	if SERVER and inventory.StoreType == INV_PLAYER and (self.GetModelData or self.PostModelData) then
-		inventory:GetPlayer():UpdateAppearance()
+		inventory:GetParent():UpdateAppearance()
 	end
 end
 
@@ -91,7 +91,7 @@ function ITEM:OnUnequipped(ply)
 end
 
 function ITEM:OnEquipmentSlotChanged(old, new)
-	local ply = self:GetPlayer()
+	local ply = self:GetParent()
 
 	if new then
 		self:OnEquipped(ply, new)
@@ -125,7 +125,7 @@ if SERVER then
 			return
 		end
 
-		local ply = self:GetPlayer()
+		local ply = self:GetParent()
 
 		for _, buff in ipairs(old) do
 			ply:RemoveBuff(buff)

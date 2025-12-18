@@ -28,9 +28,9 @@ end
 
 function INVENTORY:WeightChanged()
 	if self.StoreType == INV_PLAYER then
-		self:GetPlayer():SetInventoryWeight(self.Weight)
+		self:GetParent():SetInventoryWeight(self.Weight)
 	elseif self.StoreType == INV_ITEM then
-		local item = self:GetItem()
+		local item = self:GetParent()
 
 		if item:GetData("Weight", 0) != self.Weight then
 			item:SetData("Weight", self.Weight)

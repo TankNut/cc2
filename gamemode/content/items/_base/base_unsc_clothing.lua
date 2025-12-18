@@ -36,7 +36,7 @@ function ITEM:CanEquip(ply)
 end
 
 function ITEM:CheckEquipmentSlot()
-	local ply = self:GetPlayer()
+	local ply = self:GetParent()
 	local group = self:GetModelGroup(ply)
 
 	if not self:IsCompatible(ply, group) then

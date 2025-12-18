@@ -21,29 +21,19 @@ function INVENTORY:Initialize()
 	end
 end
 
-function INVENTORY:GetPlayer()
-	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
+function INVENTORY:GetParent()
+	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH or self.StoreType == INV_ENTITY then
 		return Entity(self.Parent)
-	end
-end
-
-function INVENTORY:GetItem()
-	if self.StoreType == INV_ITEM then
+	elseif self.StoreType == INV_ITEM then
 		return Item.Get(self.Parent)
-	end
-end
-
-function INVENTORY:GetEntity()
-	if self.StoreType == INV_ENTITY then
-		return Entity(self.Parent)
 	end
 end
 
 function INVENTORY:GetMaxWeight()
 	if self.StoreType == INV_PLAYER then
-		return self:GetPlayer():MaxInventoryWeight()
+		return self:GetParent():MaxInventoryWeight()
 	elseif self.StoreType == INV_ITEM then
-		return self:GetItem():GetMaxWeight()
+		return self:GetParent():GetMaxWeight()
 	end
 
 	return 0

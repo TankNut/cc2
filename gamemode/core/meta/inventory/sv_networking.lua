@@ -3,17 +3,8 @@ local INVENTORY = CustomMetaTable("Inventory")
 function INVENTORY:GetReceivers()
 	local receivers = table.Copy(self.Listeners)
 
-	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
-		local ply = self:GetPlayer()
-
-		-- Check is here for temp characters, since the inventory sticks around when the character is unloaded
-		-- we need to make sure it doesn't network to the player when they're on a diff character (not actually a problem
-		-- in and of itself, but a problem when the inventory thinks the player is already a receiver after a rejoin)
-		if IsValid(ply) and ply:CharID() == self.StoreID then
-			receivers[self:GetPlayer()] = true
-		end
-	elseif self.StoreType == INV_ITEM then
-		local inventory = self:GetItem():GetInventory()
+	if self.StoreType == INV_ITEM then
+		local inventory = self:GetParent():GetInventory()
 
 		if inventory then
 			table.Merge(receivers, inventory.Receivers)
@@ -101,9 +92,9 @@ function INVENTORY:CheckListener(ply)
 
 	-- Not using CanAccessInventory for players and stashes because we're dealing with patdowns here and that hook is used for 'full' interactions
 	if self.StoreType == INV_PLAYER then
-		return ply:WithinInteractRange(self:GetPlayer())
+		return ply:WithinInteractRange(self:GetParent())
 	elseif self.StoreType == INV_STASH then
-		return ply:WithinInteractRange(self:GetPlayer())
+		return ply:WithinInteractRange(self:GetParent())
 	else
 		return hook.Run("CanAccessInventory", ply, self)
 	end

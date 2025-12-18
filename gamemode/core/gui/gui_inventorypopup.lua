@@ -39,17 +39,16 @@ end
 function PANEL:GetInventoryName()
 	local inv = self.Inventory
 	local storeType = inv.StoreType
+	local parent = inv:GetParent()
 
 	if storeType == INV_PLAYER then
-		local ply = self.Inventory:GetPlayer()
-
-		return string.format("%s (%s credits)", ply:VisibleRPName(), ply:GetMoney())
+		return string.format("%s (%s credits)", parent:VisibleRPName(), parent:GetMoney())
 	elseif storeType == INV_STASH then
-		return string.format("Stash (%s)", inv:GetPlayer():VisibleRPName())
+		return string.format("Stash (%s)", parent:VisibleRPName())
 	elseif storeType == INV_ITEM then
-		return inv:GetItem():GetName()
+		return parent:GetName()
 	elseif storeType == INV_ENTITY then
-		return inv:GetEntity().PrintName
+		return parent.PrintName
 	end
 
 	return "Unknown"
