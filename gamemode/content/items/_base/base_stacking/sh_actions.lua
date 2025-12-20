@@ -100,7 +100,7 @@ ITEM.Actions.Move = {
 		amount = math.Round(math.min(amount, self:GetAmount()))
 
 		if inventory:AvailableSpace() < self:GetWeight(amount) then
-			return false, "There's no room to fit this item!"
+			return false, inventory.StoreType == INV_PLAYER and "You can't carry any more items!" or "There's no room to fit this item!"
 		end
 
 		return true
@@ -113,7 +113,7 @@ ITEM.Actions.Move = {
 		local baseWeight = self:GetWeight(1)
 
 		if space < baseWeight then
-			return false, "There's no room to fit this item!"
+			return false, inventory.StoreType == INV_PLAYER and "You can't carry any more items!" or "There's no room to fit this item!"
 		end
 
 		local max = math.min(space / baseWeight)

@@ -61,18 +61,8 @@ function INVENTORY:CanAccess(ply)
 end
 
 function INVENTORY:CanAccept(item, noWeightCheck)
-	local space = self:AvailableSpace()
-
-	if not noWeightCheck then
-		if self.StoreType == INV_PLAYER then
-			if space < 0 then
-				return false, "You can't carry any more items!"
-			end
-		else
-			if item:GetWeight() <= space then
-				return false, "There's no room to fit this item!"
-			end
-		end
+	if not noWeightCheck and item:GetWeight() <= self:AvailableSpace() then
+		return false, self.StoreType == INV_PLAYER and "You can't carry any more items!" or "There's no room to fit this item!"
 	end
 
 	return true
@@ -91,7 +81,8 @@ end
 function INVENTORY:AvailableSpace()
 	local max = self:GetMaxWeight()
 
-	if max == 0 then
+	-- Players can freely cross their max so we just pretend their threshold is infinite until then
+	if max == 0 or (self.StoreType == INV_PLAYER and self.Weight < max) then
 		return math.huge
 	end
 
