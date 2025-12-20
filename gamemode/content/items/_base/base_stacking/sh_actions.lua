@@ -35,6 +35,10 @@ ITEM.Actions.Drop = {
 	end,
 
 	Client = function(self, ply)
+		if self:GetAmount() == 1 then
+			return true, 1
+		end
+
 		return true, ui.Open("ItemDropAmount", "Drop", self)
 	end,
 	Callback = function(self, ply, amount)
@@ -49,7 +53,7 @@ ITEM.Actions.DropOne = {
 	Context = table.Lookup({"RightClick"}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanDropItem", ply, self)
+		return hook.Run("CanDropItem", ply, self) and self:GetAmount() > 1
 	end,
 	Callback = function(self, ply)
 		dropAmount(self, ply, 1)
@@ -63,7 +67,7 @@ ITEM.Actions.DropHalf = {
 	Context = table.Lookup({"RightClick"}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanDropItem", ply, self)
+		return hook.Run("CanDropItem", ply, self) and self:GetAmount() > 1
 	end,
 	Callback = function(self, ply)
 		dropAmount(self, ply, math.Round(self:GetAmount() * 0.5))
@@ -77,7 +81,7 @@ ITEM.Actions.DropAll = {
 	Context = table.Lookup({"RightClick"}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanDropItem", ply, self)
+		return hook.Run("CanDropItem", ply, self) and self:GetAmount() > 1
 	end,
 	Callback = drop
 }
