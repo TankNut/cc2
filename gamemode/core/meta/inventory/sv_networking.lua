@@ -3,7 +3,13 @@ local INVENTORY = CustomMetaTable("Inventory")
 function INVENTORY:GetReceivers()
 	local receivers = table.Copy(self.Listeners)
 
-	if self.StoreType == INV_ITEM then
+	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH then
+		local ply = self:GetParent()
+
+		if IsValid(ply) then
+			receivers[ply] = true
+		end
+	elseif self.StoreType == INV_ITEM then
 		local inventory = self:GetParent():GetInventory()
 
 		if inventory then
