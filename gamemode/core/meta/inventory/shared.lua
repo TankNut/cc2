@@ -29,6 +29,33 @@ function INVENTORY:GetParent()
 	end
 end
 
+function INVENTORY:CanAccess(ply)
+	local storeType = self.StoreType
+	local parent = self:GetParent()
+
+	if storeType == INV_PLAYER then
+		return ply == parent, "You cannot access another player's inventory!"
+	elseif storeType == INV_STASH then
+		return ply == parent and ply:CanAccessStash(), "You cannot access another player's stash!"
+	elseif storeType == INV_ITEM then
+		local ok, err = parent:CanInteract(ply)
+
+		if not ok then
+			return ok, err
+		end
+
+		return parent:CanAccessInventory(ply)
+	elseif storeType == INV_ENTITY then
+		if not ply:WithinInteractRange(parent) then
+			return false, "You're too far away!"
+		end
+
+		return parent:CanAccessInventory(ply)
+	end
+
+	return false
+end
+
 function INVENTORY:GetMaxWeight()
 	if self.StoreType == INV_PLAYER then
 		return self:GetParent():MaxInventoryWeight()

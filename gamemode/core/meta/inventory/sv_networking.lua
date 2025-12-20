@@ -96,13 +96,13 @@ function INVENTORY:CheckListener(ply)
 		return false
 	end
 
-	-- Not using CanAccessInventory for players and stashes because we're dealing with patdowns here and that hook is used for 'full' interactions
+	-- Not using CanAccess for players and stashes because we're dealing with patdowns here and that hook is used for 'full' interactions
 	if self.StoreType == INV_PLAYER then
 		return ply:WithinInteractRange(self:GetParent())
 	elseif self.StoreType == INV_STASH then
 		return ply:WithinInteractRange(self:GetParent())
 	else
-		return hook.Run("CanAccessInventory", ply, self)
+		return self:CanAccess(ply)
 	end
 end
 

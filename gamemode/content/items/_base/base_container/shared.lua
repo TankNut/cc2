@@ -20,7 +20,7 @@ ITEM.Actions.Open = {
 	}),
 
 	CanRun = function(self, ply)
-		return hook.Run("CanAccessInventory", ply, self:GetInventory())
+		return self:GetInventory():CanAccess(ply)
 	end,
 	Callback = function(self, ply)
 		ply:OpenGUI("InventoryPopup", self.Contents.ID)
