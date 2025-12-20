@@ -36,7 +36,11 @@ function INVENTORY:CanAccess(ply)
 	if storeType == INV_PLAYER then
 		return ply == parent, "You cannot access another player's inventory!"
 	elseif storeType == INV_STASH then
-		return ply == parent and ply:CanAccessStash(), "You cannot access another player's stash!"
+		if ply != parent then
+			return false, "You cannot access another player's stash!"
+		end
+
+		return ply:CanAccessStash()
 	elseif storeType == INV_ITEM then
 		local ok, err = parent:CanInteract(ply)
 
