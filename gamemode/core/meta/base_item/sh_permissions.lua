@@ -22,14 +22,6 @@ function ITEM:CanUnequip(ply)
 	return true
 end
 
-function ITEM:CanStore(ply, inventory)
-	if self:IsEquipped() then
-		return false, "You cannot store equipped items!"
-	end
-
-	return true
-end
-
 function ITEM:CanBeMoved()
 	if self:IsEquipped() then
 		return false, "Unequip it first!"
