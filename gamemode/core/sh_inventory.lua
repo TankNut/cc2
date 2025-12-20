@@ -115,23 +115,3 @@ function PLAYER:GetEquipment(slot)
 		return Equipment[self]
 	end
 end
-
-function GM:OnInventoryWeightChanged(ply, old, new, loaded)
-	if CLIENT then
-		local inventory = ply:GetInventory()
-
-		if inventory then
-			inventory:CallPanels("UpdateWeight")
-		end
-	end
-end
-
-function GM:OnMaxInventoryWeightChanged(ply, old, new, loaded)
-	if CLIENT then
-		local inventory = ply:GetInventory()
-
-		if inventory then
-			inventory:CallPanels("UpdateWeight")
-		end
-	end
-end

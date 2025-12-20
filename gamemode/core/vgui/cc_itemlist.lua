@@ -45,6 +45,12 @@ end
 function PANEL:OnIconAdded(icon)
 end
 
+function PANEL:Think()
+	if self.Inventory.Weight != self.CachedWeight then
+		self:UpdateWeight()
+	end
+end
+
 function PANEL:UpdateWeight()
 	local weight = self.Inventory.Weight
 	local max = self.Inventory:GetMaxWeight()
@@ -56,6 +62,8 @@ function PANEL:UpdateWeight()
 		self.Weight:SetProgress(weight / max)
 		self.Weight:SetProgressText(string.format("Weight: %s/%s", weight, max))
 	end
+
+	self.CachedWeight = weight
 end
 
 function PANEL:OnRemove()
