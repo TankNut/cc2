@@ -136,6 +136,14 @@ function SWEP:FinishReload()
 
 	self:SetNextPrimaryFire(time)
 	self:SetNextSecondaryFire(time)
+
+	if SERVER then
+		local item = self:GetItem()
+
+		if item then
+			item:AddAmount(-1)
+		end
+	end
 end
 
 function SWEP:GetIdleHoldType()
