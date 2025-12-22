@@ -115,4 +115,21 @@ else
 			options.Height = math.Round(options.Height, 2)
 		end
 	end
+
+	function CLASS:PostCreateCharacter(ply, options)
+		ply:GiveItem("undersuit_marine_brown"):SetEquipmentSlot("unsc_undersuit")
+		ply:GiveItem("armor_marine"):SetEquipmentSlot("unsc_armor")
+		ply:GiveItem("helmet_marine"):SetEquipmentSlot("unsc_headwear")
+		ply:GiveItem("weapon_ma37"):SetEquipmentSlot("primary")
+
+		local bag = ply:GiveItem("bag_unsc_light")
+		bag:SetEquipmentSlot("unsc_back")
+
+		local inventory = bag.Contents
+
+		for _, v in ipairs({"grenade_frag", "grenade_smoke", "grenade_flashbang"}) do
+			local item = Item.Create(v, 3)
+			item:SetInventory(inventory)
+		end
+	end
 end
