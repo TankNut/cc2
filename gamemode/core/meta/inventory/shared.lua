@@ -18,12 +18,19 @@ function INVENTORY:Initialize()
 	else
 		self.Listeners = {}
 		self.Receivers = {}
+
+		-- Hack but necessary for GetParent to not break during entity removal
+		local parent = self:GetParent()
+
+		if isentity(parent) then
+			self.Entity = parent
+		end
 	end
 end
 
 function INVENTORY:GetParent()
 	if self.StoreType == INV_PLAYER or self.StoreType == INV_STASH or self.StoreType == INV_ENTITY then
-		return Entity(self.Parent)
+		return self.Entity or Entity(self.Parent)
 	elseif self.StoreType == INV_ITEM then
 		return Item.Get(self.Parent)
 	end
