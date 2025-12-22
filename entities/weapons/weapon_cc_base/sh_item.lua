@@ -11,9 +11,6 @@ function SWEP:GetItem()
 end
 
 if SERVER then
-	function SWEP:QueueItemSave()
-	end
-
 	function SWEP:LoadItemState(data)
 	end
 

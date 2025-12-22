@@ -1,6 +1,6 @@
 AddCSLuaFile()
 
-SWEP.Base = "weapon_cc_throwable"
+SWEP.Base = "weapon_cc_throwing"
 
 SWEP.PrintName = "Frag Grenade"
 SWEP.Category = "CombineControl"
