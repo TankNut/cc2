@@ -187,7 +187,7 @@ else
 			return
 		end
 
-		ent:SetOwner(ply)
+		ent:SetCreator(ply)
 
 		local phys = ent:GetPhysicsObject()
 

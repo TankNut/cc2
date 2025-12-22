@@ -12,7 +12,7 @@ end
 
 function ENT:Detonate()
 	local explo = ents.Create("env_explosion")
-	explo:SetOwner(self:GetOwner())
+	explo:SetOwner(self:GetCreator())
 	explo:SetPos(self:WorldSpaceCenter())
 	explo:SetKeyValue("iMagnitude", self.Damage)
 	explo:SetKeyValue("spawnflags", 32)
