@@ -146,8 +146,10 @@ function SWEP:DoDrawCrosshair(x, y)
 		y = math.Truncate(pos.y)
 	end
 
+	local add = math.NormalizeAngle(self:GetRecoilPunch().p * 5)
+
 	local normal = tr.Normal:Angle():Right()
-	local gap = math.abs(pos.x - (tr.HitPos + normal * offset):ToScreen().x) - math.NormalizeAngle(self:GetRecoilVelocity().p)
+	local gap = math.abs(pos.x - (tr.HitPos + normal * offset):ToScreen().x) - add
 
 	local ang = Angle(0, 0, 0)
 

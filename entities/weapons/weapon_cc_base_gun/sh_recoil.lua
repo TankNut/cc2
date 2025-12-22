@@ -74,8 +74,8 @@ if CLIENT then
 		amt.y = math.NormalizeAngle(amt.y)
 		amt.r = math.NormalizeAngle(amt.r)
 
-		local posMult = self.Recoil.PosMult
-		local angMult = self.Recoil.AngMult
+		local posMult = self.Recoil.PosMult / self.Recoil.Value
+		local angMult = self.Recoil.AngMult / self.Recoil.Value
 
 		local pos = Vector(amt.p * posMult.x, amt.y * posMult.y, amt.p * posMult.z)
 		local ang = Angle(amt.p * angMult.p, amt.y * angMult.y, 0)
