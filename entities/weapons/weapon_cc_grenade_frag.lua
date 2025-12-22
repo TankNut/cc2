@@ -17,6 +17,8 @@ SWEP.ItemClass = "grenade_frag"
 SWEP.Itemize = {
 	Base = "base_throwing",
 
+	Weight = 0.4,
+
 	IconAngle = Angle(17, 79, 14),
 	IconFOV = 8
 }
