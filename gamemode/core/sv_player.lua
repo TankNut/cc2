@@ -58,6 +58,7 @@ end
 
 function GM:PlayerSpawn(ply)
 	ply.ArmorFraction = 1
+	ply:StripWeapons()
 
 	-- Might want to update the bird workflow at some point
 	if not ply:HasCharacter() then
@@ -77,8 +78,6 @@ function GM:PlayerSpawn(ply)
 	ply:SetNotSolid(false)
 	ply:SetNoTarget(false)
 	ply:SetMoveType(MOVETYPE_WALK)
-
-	ply:StripWeapons()
 
 	ply.LoadoutWeapons = nil
 	ply:GiveLoadoutWeapons()
