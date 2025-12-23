@@ -19,7 +19,7 @@ SWEP.Stats = {
 	Type = "Bullet",
 	Count = 1,
 
-	Damage = 11,
+	Damage = 18,
 	DamageFalloff = 0.98,
 
 	Accuracy = {12, 2},
@@ -42,12 +42,15 @@ SWEP.Settings = {
 	BaseHoldType = "ar2",
 
 	Firemodes = {FIREMODE_SEMI},
-	FireRate = 150,
+	FireRate = 180,
 
 	ClipSize = 15,
 
 	Range = 800,
 	Zoom = {1.25, 3},
+
+	NPCBurst = {3, 3},
+	NPCRate = 120
 }
 
 SWEP.Animations = {
