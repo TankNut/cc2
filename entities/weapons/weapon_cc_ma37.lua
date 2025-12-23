@@ -101,17 +101,22 @@ if CLIENT then
 		return ammo < 10 and "0" .. ammo or ammo
 	end
 
-	function SWEP:PostDrawViewModel(vm, _, ply)
-		BaseClass.PostDrawViewModel(self, vm, self, ply)
-
-		local matrix = vm:GetBoneMatrix(vm:LookupBone("b_gun"))
+	function SWEP:DrawAmmoCounter(ent, scale)
+		local matrix = ent:GetBoneMatrix(ent:LookupBone("b_gun"))
 
 		matrix:Translate(Vector(5.393, 0, 7.596))
 		matrix:Rotate(Angle(180, 90, -116.362))
+		matrix:Scale(Vector(scale, scale, scale))
 
 		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
 			draw.SimpleTextOutlined(self:GetVisibleAmmo(), "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, outline)
 		cam.End3D2D()
+	end
+
+	function SWEP:PostDrawViewModel(vm, _, ply)
+		BaseClass.PostDrawViewModel(self, vm, self, ply)
+
+		self:DrawAmmoCounter(vm, 1)
 	end
 
 	function SWEP:DrawWorldModel(flags)
@@ -120,23 +125,15 @@ if CLIENT then
 		local scale = 1
 		local ply = self:GetOwner()
 
-		if ply:IsCloaked() then
-			return
-		end
+		if IsValid(ply) and ply:IsPlayer() then
+			if ply:IsCloaked() then
+				return
+			end
 
-		if IsValid(ply) then
 			scale = ply:GetModelScale()
 		end
 
-		local matrix = self:GetBoneMatrix(self:LookupBone("ValveBiped.Bip01_R_Hand"))
-
-		matrix:Translate(Vector(6.8, -1.25, -6.7))
-		matrix:Rotate(Angle(0, 90, -100.362))
-		matrix:Scale(Vector(scale, scale, scale))
-
-		cam.Start3D2D(matrix:GetTranslation(), matrix:GetAngles(), 0.005)
-			draw.SimpleTextOutlined(self:GetVisibleAmmo(), "reach_ammocounter", 0, 12.5, fill, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM, 1, outline)
-		cam.End3D2D()
+		self:DrawAmmoCounter(self, scale)
 	end
 end
 
