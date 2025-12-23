@@ -56,7 +56,7 @@ function PANEL:Init()
 
 	self.SelectFlag = self:Add("DComboBox")
 	self.SelectFlag:SetWide(100)
-	self.SelectFlag:SetSortItems(false)
+	self.SelectFlag:SetSortItems(true)
 	self.SelectFlag:SetDisabled(true)
 
 	for enum, flag in pairs(CharacterFlag.List) do
@@ -263,64 +263,64 @@ function PANEL:PerformLayout(w, h)
 	self.List:StretchToParent(nil, nil, nil, 0)
 
 	-- Basic Information
-	self.InformationLabel:MoveRightOf(self.List, 10)
+	self.InformationLabel:MoveRightOf(self.List, ui.Scale(10))
 	self.InformationLabel:AlignTop()
 
-	self.NameLabel:MoveRightOf(self.List, 10)
-	self.NameLabel:MoveBelow(self.InformationLabel, 5)
+	self.NameLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.NameLabel:MoveBelow(self.InformationLabel, ui.Scale(5))
 
 	self.ApplyName:AlignRight()
-	self.ApplyName:MoveBelow(self.InformationLabel, 5)
+	self.ApplyName:MoveBelow(self.InformationLabel, ui.Scale(5))
 
 	self.EnterName:MoveRightOf(self.NameLabel, 0)
-	self.EnterName:StretchRightTo(self.ApplyName, 5)
-	self.EnterName:MoveBelow(self.InformationLabel, 5)
+	self.EnterName:StretchRightTo(self.ApplyName, ui.Scale(5))
+	self.EnterName:MoveBelow(self.InformationLabel, ui.Scale(5))
 
-	self.FlagLabel:MoveRightOf(self.List, 10)
-	self.FlagLabel:MoveBelow(self.NameLabel, 5)
+	self.FlagLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.FlagLabel:MoveBelow(self.NameLabel, ui.Scale(5))
 
 	self.SelectFlag:MoveRightOf(self.FlagLabel, 0)
-	self.SelectFlag:MoveBelow(self.NameLabel, 5)
+	self.SelectFlag:MoveBelow(self.NameLabel, ui.Scale(5))
 
-	self.ApplyFlag:MoveRightOf(self.SelectFlag, 5)
-	self.ApplyFlag:MoveBelow(self.NameLabel, 5)
+	self.ApplyFlag:MoveRightOf(self.SelectFlag, ui.Scale(5))
+	self.ApplyFlag:MoveBelow(self.NameLabel, ui.Scale(5))
 
-	self.HiddenLabel:MoveRightOf(self.List, 10)
-	self.HiddenLabel:MoveBelow(self.FlagLabel, 5)
+	self.HiddenLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.HiddenLabel:MoveBelow(self.FlagLabel, ui.Scale(5))
 
 	self.HiddenToggle:MoveRightOf(self.HiddenLabel)
-	self.HiddenToggle:SetY(self.HiddenLabel:GetY() + 3)
+	self.HiddenToggle:SetY(self.HiddenLabel:GetY() + ui.Scale(3))
 
-	self.AppearanceLabel:MoveRightOf(self.List, 10)
-	self.AppearanceLabel:MoveBelow(self.HiddenLabel, 5)
+	self.AppearanceLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.AppearanceLabel:MoveBelow(self.HiddenLabel, ui.Scale(5))
 
-	self.ModelLabel:MoveRightOf(self.List, 10)
-	self.ModelLabel:MoveBelow(self.AppearanceLabel, 5)
+	self.ModelLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ModelLabel:MoveBelow(self.AppearanceLabel, ui.Scale(5))
 
 	self.ApplyModel:AlignRight()
-	self.ApplyModel:MoveBelow(self.AppearanceLabel, 5)
+	self.ApplyModel:MoveBelow(self.AppearanceLabel, ui.Scale(5))
 
 	self.EnterModel:MoveRightOf(self.ModelLabel, 0)
-	self.EnterModel:StretchRightTo(self.ApplyModel, 5)
-	self.EnterModel:MoveBelow(self.AppearanceLabel, 5)
+	self.EnterModel:StretchRightTo(self.ApplyModel, ui.Scale(5))
+	self.EnterModel:MoveBelow(self.AppearanceLabel, ui.Scale(5))
 
-	self.SkinLabel:MoveRightOf(self.List, 10)
-	self.SkinLabel:MoveBelow(self.ModelLabel, 5)
+	self.SkinLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.SkinLabel:MoveBelow(self.ModelLabel, ui.Scale(5))
 
 	self.EnterSkin:MoveRightOf(self.SkinLabel, 0)
-	self.EnterSkin:MoveBelow(self.ModelLabel, 5)
+	self.EnterSkin:MoveBelow(self.ModelLabel, ui.Scale(5))
 
-	self.ApplySkin:MoveRightOf(self.EnterSkin, 5)
-	self.ApplySkin:MoveBelow(self.ModelLabel, 5)
+	self.ApplySkin:MoveRightOf(self.EnterSkin, ui.Scale(5))
+	self.ApplySkin:MoveBelow(self.ModelLabel, ui.Scale(5))
 
-	self.ScaleLabel:MoveRightOf(self.List, 10)
-	self.ScaleLabel:MoveBelow(self.SkinLabel, 5)
+	self.ScaleLabel:MoveRightOf(self.List, ui.Scale(10))
+	self.ScaleLabel:MoveBelow(self.SkinLabel, ui.Scale(5))
 
 	self.EnterScale:MoveRightOf(self.ScaleLabel, 0)
-	self.EnterScale:MoveBelow(self.SkinLabel, 5)
+	self.EnterScale:MoveBelow(self.SkinLabel, ui.Scale(5))
 
-	self.ApplyScale:MoveRightOf(self.EnterScale, 5)
-	self.ApplyScale:MoveBelow(self.SkinLabel, 5)
+	self.ApplyScale:MoveRightOf(self.EnterScale, ui.Scale(5))
+	self.ApplyScale:MoveBelow(self.SkinLabel, ui.Scale(5))
 end
 
 vgui.Register("CC_AdminMenu_Characters", PANEL, "Panel")
