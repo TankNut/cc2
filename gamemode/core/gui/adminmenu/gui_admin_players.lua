@@ -127,7 +127,7 @@ function PANEL:Init()
 		SetClipboardText(ply:SteamID())
 	end)
 	self.ListCharactersButton = self:CreateButton("List Characters", ui.Scale(105), function(ply)
-		RunConsoleCommand("rpa_listcharacters", ply:SteamID())
+		RunConsoleCommand("rpa_character_list", ply:SteamID())
 	end)
 
 	self.EnterScale = self:CreateTextEntry(ui.Scale(105))
@@ -136,7 +136,7 @@ function PANEL:Init()
 		local value = self.EnterScale:GetFloat()
 
 		if value then
-			RunConsoleCommand("rpa_setscale", ply:SteamID(), value)
+			RunConsoleCommand("rpa_player_scale", ply:SteamID(), value)
 		end
 	end)
 
@@ -151,7 +151,7 @@ function PANEL:Init()
 		local ply = self.SelectedPlayer
 
 		if ply then
-			RunConsoleCommand("rpa_oocmute", ply:SteamID(), tostring(val))
+			RunConsoleCommand("rpa_ooc_mute", ply:SteamID(), tostring(val))
 		end
 	end
 
@@ -179,7 +179,7 @@ function PANEL:Init()
 	self.ApplyToolTrustButton = self:CreateButton("Apply", ui.Scale(50), function(ply)
 		local name = self.ToolTrustDropdown:GetSelected()
 
-		RunConsoleCommand("rpa_settooltrust", ply:SteamID(), string.lower(name))
+		RunConsoleCommand("rpa_player_tooltrust", ply:SteamID(), string.lower(name))
 	end)
 
 	self:PopulatePlayerList()

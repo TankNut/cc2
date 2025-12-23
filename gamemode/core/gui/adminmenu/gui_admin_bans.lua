@@ -3,11 +3,13 @@ local PANEL = {}
 function PANEL:Init()
 	self.List = self:Add("DListView")
 	self.List:SetMultiSelect(false)
+
 	self.List:AddColumn("Timestamp"):SetFixedWidth(ui.Scale(120))
 	self.List:AddColumn("Admin Name"):SetFixedWidth(ui.Scale(120))
 	self.List:AddColumn("Banned SteamID"):SetFixedWidth(ui.Scale(150))
 	self.List:AddColumn("Length"):SetFixedWidth(ui.Scale(70))
 	self.List:AddColumn("Reason")
+
 	self.List.OnRowSelected = function(panel, index, row)
 		self.RevokeBan:SetDisabled(false)
 	end

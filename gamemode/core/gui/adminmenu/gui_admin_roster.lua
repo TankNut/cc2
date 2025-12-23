@@ -109,7 +109,7 @@ function PANEL:DoAddUser()
 			Name = "That"
 		})
 
-		RunConsoleCommand("rpa_setusergroup", steamid, "admin")
+		RunConsoleCommand("rpa_usergroup_set", steamid, "admin")
 	end)
 end
 
@@ -127,7 +127,7 @@ function PANEL:DoDemoteUser()
 			return
 		end
 
-		RunConsoleCommand("rpa_setusergroup", data.SteamID, "user")
+		RunConsoleCommand("rpa_usergroup_set", data.SteamID, "user")
 
 		if IsValid(self) and IsValid(line) then
 			self.List:RemoveLine(line:GetID())
@@ -148,7 +148,7 @@ function PANEL:DoUpdateAlias()
 			}
 		})
 
-		RunConsoleCommand("rpa_setuseralias", steamID, alias)
+		RunConsoleCommand("rpa_player_alias", steamID, alias)
 
 		if IsValid(self) and IsValid(line) then
 			line.Data.Alias = alias

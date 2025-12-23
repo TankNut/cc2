@@ -59,7 +59,7 @@ function PANEL:Init()
 	self.ApplyOOCDelay.DoClick = function()
 		local delay = util.Duration(self.OOCDelay:GetValue()) or 0
 
-		RunConsoleCommand("rpa_oocdelay", delay)
+		RunConsoleCommand("rpa_ooc_delay", delay)
 	end
 
 	self.DisableOOC = self:Add("DButton")
@@ -67,7 +67,7 @@ function PANEL:Init()
 	self.DisableOOC:SetSize(ui.Scale(80), ui.Scale(20))
 	self.DisableOOC:SetDisabled(initial == -1)
 	self.DisableOOC.DoClick = function()
-		RunConsoleCommand("rpa_oocdisable")
+		RunConsoleCommand("rpa_ooc_disable")
 	end
 
 	hook.Add("OnOOCDelayChanged", self, function(_, old, new, loaded)

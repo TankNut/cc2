@@ -50,7 +50,7 @@ function PANEL:Init()
 		local name = string.Trim(self.EnterName:GetValue())
 
 		if #name > 0 then
-			RunConsoleCommand("rpa_setcharname", ply:SteamID(), name)
+			RunConsoleCommand("rpa_character_name", ply:SteamID(), name)
 		end
 	end)
 
@@ -72,7 +72,7 @@ function PANEL:Init()
 	self.ApplyFlag = self:CreateButton("Apply", 50, function(ply)
 		local _, flag = self.SelectFlag:GetSelected()
 
-		RunConsoleCommand("rpa_setcharflag", ply:SteamID(), flag)
+		RunConsoleCommand("rpa_character_flag", ply:SteamID(), flag)
 	end)
 
 	self.HiddenToggle = self:Add("DCheckBox")
@@ -81,13 +81,13 @@ function PANEL:Init()
 		local ply = self.SelectedPlayer
 
 		if ply then
-			RunConsoleCommand("rpa_setcharhidden", ply:SteamID(), tostring(val))
+			RunConsoleCommand("rpa_character_hide", ply:SteamID(), tostring(val))
 		end
 	end
 
 	hook.Add("OnCharacterHiddenChanged", self, function(_, ply, old, new, loaded)
 		if self.SelectedPlayer == ply and self.SelectedCharID == ply:CharID() then
-			self.HiddenToggle:SetChecked(new == 1)
+			self.HiddenToggle:SetChecked(new)
 		end
 	end)
 
@@ -102,7 +102,7 @@ function PANEL:Init()
 		local model = string.Trim(self.EnterModel:GetValue())
 
 		if #model > 0 then
-			RunConsoleCommand("rpa_setcharmodel", ply:SteamID(), model)
+			RunConsoleCommand("rpa_character_model", ply:SteamID(), model)
 		end
 	end)
 
@@ -112,7 +112,7 @@ function PANEL:Init()
 		local value = self.EnterSkin:GetInt()
 
 		if value then
-			RunConsoleCommand("rpa_setcharskin", ply:SteamID(), value)
+			RunConsoleCommand("rpa_character_skin", ply:SteamID(), value)
 		end
 	end)
 
@@ -122,7 +122,7 @@ function PANEL:Init()
 		local value = self.EnterScale:GetFloat()
 
 		if value then
-			RunConsoleCommand("rpa_setcharscale", ply:SteamID(), value)
+			RunConsoleCommand("rpa_character_scale", ply:SteamID(), value)
 		end
 	end)
 
@@ -183,7 +183,7 @@ function PANEL:SelectPlayer(ply)
 	self.SelectFlag:ChooseOptionID(table.KeyFromValue(self.SelectFlag.Data, ply:CharacterFlag() or GAMEMODE.DefaultFlag))
 	self.SelectFlag:SetDisabled(false)
 	self.ApplyFlag:SetDisabled(false)
-	self.HiddenToggle:SetChecked(ply:CharacterHidden() == 1)
+	self.HiddenToggle:SetChecked(ply:CharacterHidden())
 	self.HiddenToggle:SetDisabled(false)
 
 	-- Basic Appearance
