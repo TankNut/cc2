@@ -72,7 +72,7 @@ end
 function ENT:OnRemove()
 	self:StopSound(self.RechargeSound)
 
-	if CLIENT then
+	if CLIENT and self:GetParent() == lp then
 		self.BreakAlertSoundPatch:Stop()
 		self.LowAlertSoundPatch:Stop()
 	end
@@ -99,17 +99,24 @@ if SERVER then
 	end
 
 	function ENT:TakeShieldDamage(dmg)
-		if dmg:IsFallDamage() or self:GetShieldValue() <= 0 then
+		if dmg:IsFallDamage() then
+			return
+		end
+
+		local shield = self:GetShieldValue()
+
+		self:SetLastPing(CurTime())
+
+		if shield <= 0 then
 			return
 		end
 
 		self.CanPlayRechargeSound = true
 		self:StopSound(self.RechargeSound)
 
-		self:SetShield(math.max(self:GetShieldValue() - dmg:GetDamage(), 0))
-		self:SetLastPing(CurTime())
+		shield = math.max(shield - dmg:GetDamage(), 0)
 
-		if self:GetShield() == 0 then
+		if shield == 0 then
 			self:EmitSound("cc2.ShieldBreak")
 		else
 			local damage = dmg:GetDamage()
@@ -123,6 +130,8 @@ if SERVER then
 
 			self:EmitSound(snd)
 		end
+
+		self:SetShield(shield)
 
 		return true
 	end
