@@ -57,10 +57,12 @@ function ITEM:OnEquipped(ply, slot)
 	BaseClass.OnEquipped(self, ply, slot)
 end
 
-	for _, item in pairs(ply:GetEquipment()) do
-		if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, "Off-Duty") then
-			item:SetEquipmentSlot(nil)
 function ITEM:OnUnequipped(ply, replacement)
+	if not replacement then
+		for _, item in pairs(ply:GetEquipment()) do
+			if item:IsType("base_unsc_clothing") and not item:IsCompatible(ply, "Off-Duty") then
+				item:SetEquipmentSlot(nil)
+			end
 		end
 	end
 
