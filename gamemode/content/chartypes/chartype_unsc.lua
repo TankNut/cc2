@@ -127,8 +127,8 @@ else
 
 		local inventory = bag.Contents
 
-		for _, v in ipairs({"grenade_frag", "grenade_smoke", "grenade_flashbang"}) do
-			local item = Item.Create(v, 3)
+		for _, class in ipairs({"grenade_frag", "grenade_smoke", "grenade_flashbang"}) do
+			local item = Item.Create(class, 3)
 			item:SetInventory(inventory)
 		end
 	end

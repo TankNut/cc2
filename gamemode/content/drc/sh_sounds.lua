@@ -92,3 +92,45 @@ sound.Add({
 	pitch = {98.5, 101.5},
 	sound = "vuthakral/halo/weapons/plasmarepeater/pose1.wav"
 })
+
+sound.Add({
+	name = "drc.pp_ready",
+	channel = CHAN_AUTO,
+	volume = 1,
+	level = 45,
+	pitch = {97.5, 102.5},
+	sound = {
+		"vuthakral/halo/weapons/pp/ready0.wav",
+		"vuthakral/halo/weapons/pp/ready1.wav",
+		"vuthakral/halo/weapons/pp/ready2.wav",
+		"vuthakral/halo/weapons/pp/ready3.wav",
+		"vuthakral/halo/weapons/pp/ready4.wav",
+		"vuthakral/halo/weapons/pp/ready5.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.pp_pose0",
+	channel = CHAN_AUTO,
+	volume = 0.72,
+	level = 80,
+	pitch = 100,
+	sound = {
+		"vuthakral/halo/weapons/pp/pose0-1.wav",
+		"vuthakral/halo/weapons/pp/pose0-2.wav",
+		"vuthakral/halo/weapons/pp/pose0-3.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.pp_pose1",
+	channel = CHAN_AUTO,
+	volume = 0.72,
+	level = 80,
+	pitch = 100,
+	sound = {
+		"vuthakral/halo/weapons/pp/pose1-1.wav",
+		"vuthakral/halo/weapons/pp/pose1-2.wav",
+		"vuthakral/halo/weapons/pp/pose1-3.wav"
+	}
+})
