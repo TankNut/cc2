@@ -80,7 +80,9 @@ function Instance(class, id, data)
 		Data = data or {}
 	}, {
 		__index = class,
-		__tostring = function(self) return string.format("Item [%s][%s]", self.ID, self.ClassName) end
+		__tostring = function(self)
+			return self:ToString()
+		end
 	})
 
 	logger:Debug("Instance: %s", instance)

@@ -7,13 +7,9 @@ end
 local function dropAmount(self, ply, amount)
 	if amount >= self:GetAmount() then
 		drop(self, ply)
-
-		return
+	else
+		drop(self:Split(amount), ply)
 	end
-
-	Log.Write("item_split", ply, self)
-
-	drop(self:Split(amount), ply)
 end
 
 ITEM.Actions = {}
@@ -132,8 +128,6 @@ ITEM.Actions.Move = {
 		if amount == self:GetAmount() then
 			self:SetInventory(inventory)
 		else
-			Log.Write("item_split", ply, self)
-
 			self:Split(amount):SetInventory(inventory)
 		end
 	end

@@ -102,6 +102,10 @@ function ITEM:IsType(name)
 	return inherit.IsType(self, "item", name)
 end
 
+function ITEM:ToString()
+	return string.format("Item [%s][%s]", self.ID, self.ClassName)
+end
+
 inherit.Register("item", "base", ITEM)
 
 ITEM = nil

@@ -14,7 +14,7 @@ Log.AddType("admin_item_give", function(ply, item, target)
 end)
 
 Log.AddType("admin_item_take", function(ply, item, target, storeType)
-	return string.format("%s has taken a %s from %s's %s", Log.Nick(ply), item.ClassName, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
+	return string.format("%s has taken %s from %s's %s", Log.Nick(ply), item, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
 		Log.Admin(ply),
 		Log.Item(item),
 		Log.Character(target)
@@ -22,7 +22,7 @@ Log.AddType("admin_item_take", function(ply, item, target, storeType)
 end)
 
 Log.AddType("admin_item_destroy", function(ply, item, target, storeType)
-	return string.format("%s has destroyed a %s in %s's %s", Log.Nick(ply), item.ClassName, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
+	return string.format("%s has destroyed %s in %s's %s", Log.Nick(ply), item, target:Nick(), storeType == INV_PLAYER and "inventory" or "stash"), {
 		Log.Admin(ply),
 		Log.Item(item),
 		Log.Character(target)

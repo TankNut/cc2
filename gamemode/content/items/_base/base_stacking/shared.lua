@@ -113,3 +113,7 @@ function ITEM:SetInventory(inventory)
 		inventory:ItemsChanged()
 	end
 end
+
+function ITEM:ToString()
+	return string.format("Item [%s][x%s]", self.ClassName, self:GetAmount())
+end
