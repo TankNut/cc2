@@ -9,7 +9,7 @@ end
 function SWEP:GetNPCBurstSettings()
 	local settings = self.Settings
 
-	return settings.NPCBurst[1], settings.NPCBurst[2], self:GetDelay()
+	return settings.NPCBurst[1], settings.NPCBurst[2], settings.NPCRate and (60 / settings.NPCRate) or self:GetDelay()
 end
 
 function SWEP:GetNPCRestTimes()

@@ -76,6 +76,7 @@ SWEP.Settings = {
 
 	NoNPC = false, -- If set, disables NPC support
 	NPCBurst = {2, 5}, -- Burst size
+	NPCRate = nil, -- Override for NPC fire rate
 	NPCRest = nil, -- If set, overrides standard rest times between bursts
 }
 
