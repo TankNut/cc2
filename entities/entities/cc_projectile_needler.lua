@@ -69,7 +69,7 @@ else
 			return
 		end
 
-		local targetPos = target:WorldSpaceCenter()
+		local targetPos = target:GetPos() + VectorRand(target:GetModelBounds())
 		local speed = vel:Length()
 
 		do
