@@ -35,7 +35,7 @@ Action.Add("ScoreboardHidden", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_setcharhidden", self:SteamID(), not self:CharacterHidden())
+		RunConsoleCommand("rpa_character_hide", self:SteamID())
 	end
 })
 
@@ -48,7 +48,7 @@ Action.Add("ScoreboardMuted", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_oocmute", self:SteamID(), not self:OOCMuted())
+		RunConsoleCommand("rpa_ooc_mute", self:SteamID(), not self:OOCMuted())
 	end
 })
 
@@ -62,7 +62,21 @@ Action.Add("ScoreboardEditInventory", {
 
 	-- CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_editinventory", self:SteamID())
+		RunConsoleCommand("rpa_character_inventory", self:SteamID())
+	end
+})
+
+Action.Add("ScoreboardEditStash", {
+	Name = "Edit Stash",
+	ClientOnly = true,
+	Priority = 59,
+
+	Access = ACTION_ADMIN,
+	Context = "Scoreboard",
+
+	-- CanRun = function(self, ply) return self != ply end,
+	Client = function(self, ply)
+		RunConsoleCommand("rpa_character_stash", self:SteamID())
 	end
 })
 
@@ -105,6 +119,6 @@ Action.Add("ScoreboardCharacters", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		RunConsoleCommand("rpa_listcharacters", self:SteamID())
+		RunConsoleCommand("rpa_character_list", self:SteamID())
 	end
 })
