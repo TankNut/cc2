@@ -72,4 +72,10 @@ if CLIENT then
 			return true
 		end
 	end
+
+	function SWEP:ShouldDoThirdPerson(ply)
+		if self:InScope() then
+			return false
+		end
+	end
 end
