@@ -261,3 +261,22 @@ editInventory:SetExecutionContext(console.Server)
 editInventory:SetAccess(console.IsAdmin)
 
 editInventory:AddParameter(console.Player({SingleTarget = true}))
+
+
+
+
+
+local editStash = console.AddCommand("rpa_character_stash", function(ply, target)
+	local inventory = target:GetStash()
+
+	inventory:AddListener(ply, LISTENER_ADMIN)
+
+	ply:OpenGUI("InventoryPopup", inventory.ID)
+end)
+
+editStash:SetCategory("Character Commands")
+editStash:SetDescription("Opens a character's stash")
+editStash:SetExecutionContext(console.Server)
+editStash:SetAccess(console.IsAdmin)
+
+editStash:AddParameter(console.Player({SingleTarget = true}))
