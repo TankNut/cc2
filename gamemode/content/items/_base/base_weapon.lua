@@ -31,8 +31,8 @@ if SERVER then
 		self:GiveWeapon()
 	end
 
-	function ITEM:OnUnequipped(ply)
-		BaseClass.OnUnequipped(self, ply)
+	function ITEM:OnUnequipped(ply, replacement)
+		BaseClass.OnUnequipped(self, ply, replacement)
 
 		self:TakeWeapon()
 	end

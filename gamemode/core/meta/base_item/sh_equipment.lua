@@ -30,18 +30,24 @@ function ITEM:CheckEquipmentSlot()
 end
 
 if SERVER then
-	function ITEM:SetEquipmentSlot(slot)
+	function ITEM:SetEquipmentSlot(slot, replacement)
 		local ply = self:GetParent()
 
 		if slot then
 			local item = ply:GetEquipment(slot)
 
 			if item then
-				item:SetEquipmentSlot(nil)
+				item:SetEquipmentSlot(nil, self)
 			end
 		end
 
 		self:SetData("EquipmentSlot", slot)
+
+		if slot then
+			self:OnEquipped(ply, slot)
+		else
+			self:OnUnequipped(ply, replacement)
+		end
 	end
 
 	function ITEM:AddBuffs()

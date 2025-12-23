@@ -74,7 +74,7 @@ function ITEM:OnEquipped(ply, slot)
 	self:GetInventory():RecalculateWeight()
 end
 
-function ITEM:OnUnequipped(ply)
+function ITEM:OnUnequipped(ply, replacement)
 	if SERVER then
 		if self.GetModelData or self.PostModelData then
 			ply:UpdateAppearance()
@@ -92,12 +92,6 @@ end
 
 function ITEM:OnEquipmentSlotChanged(old, new)
 	local ply = self:GetParent()
-
-	if new then
-		self:OnEquipped(ply, new)
-	else
-		self:OnUnequipped(ply)
-	end
 
 	if old then Inventory.Equipment[ply][old] = nil end
 	if new then Inventory.Equipment[ply][new] = self end
