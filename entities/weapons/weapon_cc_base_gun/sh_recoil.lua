@@ -10,6 +10,7 @@ function SWEP:DoRecoilDecay()
 	ang:NormalizeAngle()
 	vel:NormalizeAngle()
 
+	local oldVel = Angle(vel)
 	local frametime = FrameTime()
 
 	if ang:LengthSqr() > 0.001 or vel:LengthSqr() > 0.001 then
@@ -24,6 +25,7 @@ function SWEP:DoRecoilDecay()
 
 		self:SetRecoilPunch(ang)
 		self:SetRecoilVelocity(vel)
+		self.RecoilAcceleration = vel - oldVel
 	else
 		self:SetRecoilPunch(angle_zero)
 		self:SetRecoilVelocity(angle_zero)

@@ -155,6 +155,10 @@ function SWEP:Initialize()
 
 	self.Primary.ClipSize = self.Settings.ClipSize
 	self:SetClip1(self.Primary.ClipSize)
+
+	if CLIENT then
+		self.RecoilAcceleration = Angle()
+	end
 end
 
 function SWEP:Deploy()
