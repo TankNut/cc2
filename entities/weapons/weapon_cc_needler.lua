@@ -74,7 +74,7 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle. Chambered in 7.62x51mm",
+	Description = "The Type-25 Needler is a covenant infantry weapon that's feared for it's effectiveness against unshielded targets.",
 
 	Weight = 7,
 

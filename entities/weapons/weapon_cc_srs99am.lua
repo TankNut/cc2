@@ -89,9 +89,9 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle. Chambered in 7.62x51mm",
+	Description = "Formally known as the Special Applications Rifle, Caliber 14.5mm, the SRS99-AM is a long-range anti-material rifle used by the UNSC.",
 
-	Weight = 7,
+	Weight = 10,
 
 	EquipmentSlots = {"primary", "secondary"},
 

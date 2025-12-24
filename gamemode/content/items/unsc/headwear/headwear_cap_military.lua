@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_headwear"
 
 ITEM.Name        = "Patrol Cap"
-ITEM.Description = "A standard UNSC Patrol cap"
+ITEM.Description = "A standard UNSC Patrol cap."
 
 ITEM.Tags        = RARITY_UNCOMMON
 

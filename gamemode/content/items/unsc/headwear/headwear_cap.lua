@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_headwear"
 
 ITEM.Name        = "Baseball Cap"
-ITEM.Description = "A UNSC branded baseball cap"
+ITEM.Description = "A UNSC branded baseball cap."
 
 ITEM.Model       = Model("models/props_junk/cardboard_box004a.mdl")
 

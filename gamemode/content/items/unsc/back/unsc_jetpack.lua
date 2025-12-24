@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_clothing"
 
 ITEM.Name           = "Series 8 SOLA Pack"
-ITEM.Description    = "A light assault pack for carrying combat gear"
+ITEM.Description    = "The Series 8 Single Operator Lift Apparatus is a back-mounted, user-operated jump-jet system designed for quick repositioning during tactical movement."
 
 ITEM.Rarity         = RARITY_EPIC
 ITEM.Category       = "UNSC Backpack"

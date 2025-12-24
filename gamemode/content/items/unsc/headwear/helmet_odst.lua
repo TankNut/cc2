@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_headwear"
 
 ITEM.Name        = "ODST Helmet"
-ITEM.Description = "A standard ODST helmet meant to fulfill a variety of combat roles. Comes packaged with a balaclava"
+ITEM.Description = "A standard ODST helmet meant to fulfill a variety of combat roles. Comes packaged with a balaclava."
 
 ITEM.Rarity      = RARITY_RARE
 ITEM.Tags        = {"ODST"}

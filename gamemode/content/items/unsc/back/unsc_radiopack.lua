@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_clothing"
 
 ITEM.Name           = "Radio Pack"
-ITEM.Description    = "A portable long-range radio"
+ITEM.Description    = "A portable long-range radio."
 
 ITEM.Rarity         = RARITY_RARE
 ITEM.Category       = "UNSC Backpack"

@@ -89,9 +89,9 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "A spartan-portable version of the M247 Heavy Machine Gun. Chambered in 12.7x99mm",
+	Description = "A spartan-portable version of the M247 Heavy Machine Gun.",
 
-	Weight = 7,
+	Weight = 15,
 
 	EquipmentSlots = {"primary", "secondary"},
 

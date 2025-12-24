@@ -1,4 +1,5 @@
 ITEM.Name           = "MJOLNIR Prosthetic Arm"
+ITEM.Description    = "An artificial limb used to replace a spartan's missing right arm."
 
 ITEM.Rarity         = RARITY_LEGENDARY
 ITEM.Category       = "Spartan"

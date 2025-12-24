@@ -97,9 +97,9 @@ if CLIENT then
 end
 
 SWEP.Itemize = {
-	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle. Chambered in 7.62x51mm",
+	Description = "The Type-51 Directed Energy Rifle/Improved is a specialized energy weapon commonly issued by the Covenant to Sangheili and Jiralhanae shock troops.",
 
-	Weight = 7,
+	Weight = 8,
 
 	EquipmentSlots = {"primary", "secondary"},
 

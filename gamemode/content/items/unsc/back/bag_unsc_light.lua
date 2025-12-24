@@ -3,7 +3,7 @@ local BaseClass = inherit.Get("item", "base_container")
 ITEM.Base           = "base_container"
 
 ITEM.Name           = "Backpack (Light)"
-ITEM.Description    = "A light assault pack for carrying combat gear"
+ITEM.Description    = "A light assault pack for carrying combat gear."
 
 ITEM.Rarity         = RARITY_UNCOMMON
 ITEM.Category       = "UNSC Backpack"

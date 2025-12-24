@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_undersuit"
 
 ITEM.Name         = "Off-Duty Uniform (Blue)"
-ITEM.Description  = "An off-duty uniform with UNSC branding"
+ITEM.Description  = "An off-duty uniform with UNSC branding."
 
 ITEM.Weight       = 1
 

@@ -1,10 +1,12 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "Armor Vest (Heavy)"
-ITEM.Description = "A set of armor and other protective gear to be worn over plain clothes"
+ITEM.Description = "A set of armor and other protective gear to be worn over plain clothes."
 
 ITEM.Rarity      = RARITY_UNCOMMON
 ITEM.Tags        = {"Marine"}
+
+ITEM.Armor       = 40
 
 ITEM.ModelGroups = {"Off-Duty"}
 

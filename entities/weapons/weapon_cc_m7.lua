@@ -78,9 +78,9 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle. Chambered in 7.62x51mm",
+	Description = "Formally known as the M7/Caseless, the M7 is a UNSC issued PDW commonly used by infantry, special forces and vehicle crews.",
 
-	Weight = 7,
+	Weight = 4,
 
 	EquipmentSlots = {"primary", "secondary"},
 

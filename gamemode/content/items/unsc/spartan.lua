@@ -1,4 +1,5 @@
 ITEM.Name           = "MJOLNIR Powered Assault Armor"
+ITEM.Description    = "A modular and heavily customizable set of MJOLNIR GEN1 armor."
 
 ITEM.Rarity         = RARITY_LEGENDARY
 ITEM.Category       = "Spartan"

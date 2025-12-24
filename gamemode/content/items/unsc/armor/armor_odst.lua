@@ -1,9 +1,9 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "ODST Armor"
-ITEM.Description = [[A customizable set of ODST combat gear
+ITEM.Description = [[A customizable set of ODST combat gear.
 
-Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity]]
+Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity.]]
 
 ITEM.Rarity      = RARITY_RARE
 ITEM.Tags        = {"ODST"}

@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_headwear"
 
 ITEM.Name        = "Beret"
-ITEM.Description = "A plain beret"
+ITEM.Description = "A plain beret."
 
 ITEM.Model       = Model("models/props_junk/cardboard_box004a.mdl")
 

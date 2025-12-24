@@ -1,7 +1,7 @@
 ITEM.Base = "base_unsc_headwear"
 
 ITEM.Name        = "ODST Helmet (URF)"
-ITEM.Description = "A standard ODST helmet that's been modified by the URF. Comes packaged with a balaclava"
+ITEM.Description = "A standard ODST helmet that's been modified by the URF. Comes packaged with a balaclava."
 
 ITEM.Rarity      = RARITY_RARE
 ITEM.Tags        = {"Insurrectionists"}

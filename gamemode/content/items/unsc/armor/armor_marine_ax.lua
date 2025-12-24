@@ -1,9 +1,9 @@
 ITEM.Base = "base_unsc_armor"
 
 ITEM.Name        = "Marine Armor (A/X)"
-ITEM.Description = [[A customizable set of UNSC combat gear
+ITEM.Description = [[A customizable set of UNSC combat gear.
 
-Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity]]
+Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity.]]
 
 ITEM.Rarity      = RARITY_UNCOMMON
 ITEM.Tags        = {"Marine"}

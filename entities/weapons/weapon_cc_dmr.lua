@@ -81,7 +81,7 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "Also known as the MA5, the MA37 Individual Combat Weapon System is the UNSC's standard-issue service rifle. Chambered in 7.62x51mm",
+	Description = "The M392 Designated Marksman Rifle is the UNSC's weapon of choice for marksmen and reconnaisance units.",
 
 	Weight = 7,
 
