@@ -50,7 +50,9 @@ SWEP.Settings = {
 	Range = 400,
 	ScopedRange = 2400,
 	Zoom = {1.25, 5, 8, 20},
-	ScopeIndex = 2
+	ScopeIndex = 2,
+
+	NPCBurst = {1, 1}
 }
 
 SWEP.Scope = {

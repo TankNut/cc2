@@ -46,15 +46,14 @@ holdTypes.normal[ACT_MP_JUMP] = ACT_HL2MP_JUMP_SLAM
 holdTypes.passive[ACT_MP_CROUCH_IDLE] = ACT_HL2MP_IDLE_CROUCH
 holdTypes.passive[ACT_MP_CROUCHWALK] = ACT_HL2MP_WALK_CROUCH
 
+holdTypes.shotgun[ACT_MP_STAND_IDLE] = ACT_HL2MP_IDLE_AR2
+holdTypes.shotgun[ACT_MP_WALK] = ACT_HL2MP_WALK_AR2
+holdTypes.shotgun[ACT_MP_RUN] = ACT_HL2MP_RUN_AR2
+holdTypes.shotgun[ACT_MP_CROUCH_IDLE] = ACT_HL2MP_IDLE_CROUCH_AR2
+holdTypes.shotgun[ACT_MP_CROUCHWALK] = ACT_HL2MP_WALK_CROUCH_AR2
 holdTypes.shotgun[ACT_MP_RELOAD_STAND] = ACT_HL2MP_GESTURE_RELOAD_AR2
 holdTypes.shotgun[ACT_MP_RELOAD_CROUCH] = ACT_HL2MP_GESTURE_RELOAD_AR2
 
-holdTypes.shotgun_aim = table.Copy(holdTypes.shotgun)
-holdTypes.shotgun_aim[ACT_MP_STAND_IDLE] = ACT_HL2MP_IDLE_AR2
-holdTypes.shotgun_aim[ACT_MP_WALK] = ACT_HL2MP_WALK_AR2
-holdTypes.shotgun_aim[ACT_MP_RUN] = ACT_HL2MP_RUN_AR2
-holdTypes.shotgun_aim[ACT_MP_CROUCH_IDLE] = ACT_HL2MP_IDLE_CROUCH_AR2
-holdTypes.shotgun_aim[ACT_MP_CROUCHWALK] = ACT_HL2MP_WALK_CROUCH_AR2
 
 holdTypes.heavy = table.Copy(holdTypes.crossbow)
 holdTypes.heavy[ACT_MP_CROUCH_IDLE] = ACT_HL2MP_IDLE_CROUCH_PHYSGUN

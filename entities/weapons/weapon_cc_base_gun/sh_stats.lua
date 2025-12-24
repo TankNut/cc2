@@ -11,6 +11,10 @@ function SWEP:GetDelay()
 end
 
 function SWEP:GetRange()
+	if self.Stats.FixedRange then
+		return 1000
+	end
+
 	local settings = self.Settings
 
 	if settings.ScopedRange and self:InScope() then
@@ -31,7 +35,7 @@ function SWEP:GetAccuracy()
 end
 
 function SWEP:GetSpread()
-	local range = self.Stats.FixedRange and 1000 or self:GetRange()
+	local range = self:GetRange()
 	local accuracy = self:GetAccuracy()
 
 	local inches = accuracy / 0.75

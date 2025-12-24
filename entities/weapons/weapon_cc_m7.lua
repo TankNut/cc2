@@ -39,7 +39,7 @@ SWEP.Recoil = {
 
 SWEP.Settings = {
 	LowerHoldType = "passive",
-	BaseHoldType = "ar2",
+	BaseHoldType = "smg",
 
 	Firemodes = {FIREMODE_AUTO},
 	FireRate = 900,

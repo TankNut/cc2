@@ -29,12 +29,12 @@ SWEP.Stats = {
 }
 
 SWEP.Recoil = {
-	Value = 1.5,
+	Value = 1,
 
 	PosMult = Vector(1, 0, 0.5),
 	AngMult = Angle(0.6, 0.2),
 
-	Punch = 0.6
+	Punch = 0.8
 }
 
 SWEP.Settings = {
@@ -42,7 +42,7 @@ SWEP.Settings = {
 	BaseHoldType = "ar2",
 
 	Firemodes = {FIREMODE_SEMI},
-	FireRate = 180,
+	FireRate = 150,
 
 	ClipSize = 15,
 
