@@ -57,5 +57,5 @@ oocMute:SetDescription("Mutes or unmutes a player from OOC chat")
 oocMute:SetExecutionContext(console.Server)
 oocMute:SetAccess(console.IsAdmin)
 
-oocMute:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
+oocMute:AddParameter(console.Player({SingleTarget = true, NoAdmins = true}))
 oocMute:AddOptional(console.Bool())

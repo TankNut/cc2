@@ -127,7 +127,7 @@ kill:SetDescription("Kills a player")
 kill:SetExecutionContext(console.Server)
 kill:SetAccess(console.IsAdmin)
 
-kill:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
+kill:AddParameter(console.Player({SingleTarget = true}))
 
 
 
@@ -149,7 +149,7 @@ slap:SetDescription("Slaps a player")
 slap:SetExecutionContext(console.Server)
 slap:SetAccess(console.IsAdmin)
 
-slap:AddParameter(console.Player({SingleTarget = true, CheckImmunity = true}))
+slap:AddParameter(console.Player({SingleTarget = true}))
 
 
 

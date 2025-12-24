@@ -68,11 +68,7 @@ giveBadge:SetDescription("Assigns a scoreboard badge to a player")
 giveBadge:SetExecutionContext(console.Server)
 giveBadge:SetAccess(console.IsSuperAdmin)
 
-giveBadge:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
-
+giveBadge:AddParameter(console.Player({SingleTarget = true}))
 giveBadge:AddParameter(console.Badge())
 
 
@@ -97,11 +93,7 @@ takeBadge:SetDescription("Removes a scoreboard badge from a player")
 takeBadge:SetExecutionContext(console.Server)
 takeBadge:SetAccess(console.IsSuperAdmin)
 
-takeBadge:AddParameter(console.Player({
-	SingleTarget = true,
-	CheckImmunity = true
-}))
-
+takeBadge:AddParameter(console.Player({SingleTarget = true}))
 takeBadge:AddParameter(console.Badge())
 
 
@@ -126,9 +118,7 @@ explode:SetDescription("Explodes a player for some reason")
 explode:SetExecutionContext(console.Server)
 explode:SetAccess(console.IsSuperAdmin)
 
-explode:AddParameter(console.Player({
-	SingleTarget = true
-}))
+explode:AddParameter(console.Player({SingleTarget = true}))
 
 
 
