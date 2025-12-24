@@ -76,7 +76,7 @@ end
 
 function ITEM:OnUnequipped(ply, replacement)
 	if SERVER then
-		if self:HasModelData() and not replacement or not replacement:HasModelData() then
+		if self:HasModelData() and (not replacement or not replacement:HasModelData()) then
 			ply:UpdateAppearance()
 		end
 
