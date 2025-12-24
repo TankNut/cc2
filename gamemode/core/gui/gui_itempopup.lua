@@ -92,7 +92,7 @@ function PANEL:ItemUpdated()
 	self.TitleLabel:SizeToContentsY()
 
 	self.DescriptionLabel:SetWide(self.Scroll:GetWide() - ui.Scale(15))
-	self.DescriptionLabel:SetText("<font=CombineControl.LabelMedium>\n" .. item:GetDescription())
+	self.DescriptionLabel:SetText("<tiny>\n<small>" .. item:GetDescription())
 	self.DescriptionLabel:SizeToContentsY()
 
 	self.DataLabel:SetText(string.format("Weight: %s kg\nTags: %s", item:GetWeight(), table.concat(item:GetTags(), ", ")))

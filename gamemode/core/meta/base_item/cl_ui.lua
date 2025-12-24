@@ -38,11 +38,11 @@ function ITEM:OpenActionMenu(context)
 	dmenu:Open()
 end
 
-local template = [[<font=CombineControl.LabelGiant><col=%s>%s</col></font>
+local template = [[<giant><col=%s>%s</col><tiny>
 
-<font=CombineControl.LabelSmall>%s<reset>
+<small>%s<reset><tiny>
 
-<font=CombineControl.LabelSmall><col=cc_disabled>%s]]
+<small><col=cc_disabled>%s]]
 
 function ITEM:GetTooltip()
 	return string.format(template, "rarity_" .. self:GetRarity(),

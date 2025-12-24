@@ -48,13 +48,15 @@ function ITEM:GetDescription()
 	local description = {}
 
 	if custom then
-		table.insert(description, string.format("%s<reset>", custom))
+		table.insert(description, custom)
 	else
-		table.insert(description, self:GetData("Description", self.Description) .. "<reset>")
+		table.insert(description, self:GetData("Description", self.Description))
 	end
 
+	table.insert(description, "<reset>")
+
 	if self:IsEquipped() then
-		table.insert(description, string.format("\n\n<col=lime>Equipped as %s</col>", EquipmentSlot(self:GetEquipmentSlot())))
+		table.insert(description, string.format("<tiny>\n\n</tiny><col=lime>Equipped as %s</col>", EquipmentSlot(self:GetEquipmentSlot())))
 	end
 
 	return table.concat(description)
