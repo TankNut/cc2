@@ -142,9 +142,9 @@ if CLIENT then
 	end
 
 	function SWEP:GetTracerOrigin()
-		local ply = self:GetOwner()
+		local owner = self:GetOwner()
 
-		if IsValid(ply) and ply:ShouldDrawLocalPlayer() then
+		if (owner:IsPlayer() and owner:ShouldDrawLocalPlayer()) or owner:IsNPC() then
 			return self.ClientsideModel:GetAttachment(1).Pos
 		end
 	end
