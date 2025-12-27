@@ -35,10 +35,12 @@ FLAG.AllowSpawngroups = true
 FLAG.Buffs = {}
 
 function FLAG:Run(ply, name, ...)
-	if isfunction(self[name]) then
-		return self[name](self, ply, ...)
+	local var = self[name]
+
+	if isfunction(var) then
+		return var(self, ply, ...)
 	else
-		return util.SafeCopy(self[name])
+		return util.SafeCopy(var)
 	end
 end
 

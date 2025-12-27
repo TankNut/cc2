@@ -40,13 +40,7 @@ function PLAYER:GetCharFlag()
 end
 
 function PLAYER:RunCharFlag(name, ...)
-	return hook.Run("RunCharFlag", self, name, ...)
-end
-
-function GM:RunCharFlag(ply, name, ...)
-	local flag = ply:GetCharFlag()
-
-	return flag:Run(ply, name, ...)
+	return self:GetCharFlag():Run(self, name, ...)
 end
 
 local UpdateBuffs
