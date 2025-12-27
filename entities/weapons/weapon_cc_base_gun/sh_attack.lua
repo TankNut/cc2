@@ -44,6 +44,8 @@ end
 
 function SWEP:PrimaryAttack()
 	if self:TryShove() or self:TryCancelReload() or not self:CanFire() then
+		self:SetFireDuration(0)
+
 		return
 	end
 
