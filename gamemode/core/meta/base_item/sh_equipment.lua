@@ -56,6 +56,8 @@ if SERVER then
 		for _, buff in ipairs(self:GetBuffs()) do
 			ply:AddBuff(buff)
 		end
+
+		ply:AddBuff("equipment_slow", self:GetSlowdown())
 	end
 
 	function ITEM:RemoveBuffs()
@@ -64,5 +66,7 @@ if SERVER then
 		for _, buff in ipairs(self:GetBuffs()) do
 			ply:RemoveBuff(buff)
 		end
+
+		ply:RemoveBuff("equipment_slow", self:GetSlowdown())
 	end
 end

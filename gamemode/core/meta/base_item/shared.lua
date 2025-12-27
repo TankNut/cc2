@@ -38,6 +38,7 @@ ITEM.EquipTime           = 1
 ITEM.UnequipTime         = 1
 
 ITEM.Armor               = 0
+ITEM.Slowdown            = 0
 ITEM.Buffs               = {}
 
 -- Icon data
@@ -69,6 +70,8 @@ ItemDataFunc("Category")
 
 ItemDataFunc("EquipTime")
 ItemDataFunc("UnequipTime")
+
+ItemDataFunc("Slowdown")
 
 if SERVER then
 	ItemDataFunc("Buffs")

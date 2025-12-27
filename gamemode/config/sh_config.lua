@@ -94,9 +94,6 @@ GM.Config.ShortDescLength = 64
 
 GM.Config.BotGenerator = "marine"
 
-GM.Config.MinSpeed = 130
-GM.Config.MaxSpeed = 265
-
 -- Admin stuff
 GM.Config.LogLines = 200
 
