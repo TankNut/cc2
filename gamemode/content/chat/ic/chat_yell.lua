@@ -26,7 +26,7 @@ if CLIENT then
 			if data.Lang == lp:RunCharFlag("BaseLanguage") then
 				return string.format("<c=%s><b>%s: [YELL] %s", self.Color, data.Name, data.Text)
 			else
-				return string.format("<c=%s><b>(%s) %s: [YELL] %s", self.LanguageColor, Language.Get(data.Lang).Name, data.Name, data.Text)
+				return string.format("<c=%s><b>[%s] %s: [YELL] %s", self.LanguageColor, Language.Get(data.Lang).Name, data.Name, data.Text)
 			end
 		end
 	end
