@@ -63,7 +63,11 @@ end
 function PLAYER:AddBuff(name, data)
 	local buff = self:GetBuff(name)
 
-	data = data or {}
+	if isnumber(data) then
+		data = {Amount = data}
+	end
+
+	data = data or {Amount = 1}
 	data.CurTime = data.CurTime or CurTime()
 
 	if buff then
@@ -83,27 +87,27 @@ function PLAYER:AddBuff(name, data)
 	end
 end
 
-function PLAYER:RemoveBuff(name, arg)
+function PLAYER:RemoveBuff(name, amount)
 	local buff = self:GetBuff(name)
 
 	if not buff then
 		return
 	end
 
-	if isnumber(arg) then
-		buff:RemoveStacks(arg)
+	if amount == true then
+		buff:Remove()
 	else
-		buff:Remove(arg)
+		buff:RemoveStacks(amount or 1)
 	end
 
 	if SERVER then
-		netstream.Send(self, "RemoveBuff", name, arg)
+		netstream.Send(self, "RemoveBuff", name, amount)
 	end
 end
 
 function PLAYER:ClearBuffs()
 	for _, buff in pairs(self:GetBuffs()) do
-		buff:Remove(true)
+		buff:Remove()
 	end
 
 	if SERVER then
@@ -116,8 +120,8 @@ if CLIENT then
 		lp:AddBuff(name, data)
 	end)
 
-	netstream.Hook("RemoveBuff", function(name, arg)
-		lp:RemoveBuff(name, arg)
+	netstream.Hook("RemoveBuff", function(name, amount)
+		lp:RemoveBuff(name, amount)
 	end)
 
 	netstream.Hook("ClearBuffs", function()

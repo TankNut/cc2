@@ -39,10 +39,6 @@ function BUFF:OnTick(index, data)
 	end
 end
 
-function BUFF:OnTimer(index, data)
-	self:RemoveStacks(1)
-end
-
 function BUFF:OnExpire()
 	print("The bleeding has stopped!")
 end

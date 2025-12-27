@@ -291,7 +291,7 @@ function GM:PlayerSelectSpawn(ply)
 end
 
 function GM:BlockFallDamage(ply)
-	return ply:RunCharFlag("NoFallDamage")
+	return ply:RunCharFlag("NoFallDamage") or buff.PlayerHook(ply, "BlockFallDamage")
 end
 
 function GM:GetFallDamage(ply, speed)

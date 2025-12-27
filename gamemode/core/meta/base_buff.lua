@@ -5,10 +5,11 @@ BUFF.RemoveOnHeal = false -- Not yet implemented
 
 function BUFF:Initialize(data)
 	self.Timers = {}
-	self.Stacks = 0
+	self.Stacks = 1
 end
 
 function BUFF:OnDuplicate(data)
+	self:AddStacks(data.Amount)
 end
 
 function BUFF:OnStacksAdded(amount)
@@ -22,16 +23,12 @@ end
 function BUFF:OnStacksRemoved(amount)
 end
 
-function BUFF:OnStacksDepleted()
-	self:Remove()
-end
-
 function BUFF:RemoveStacks(amount)
 	self.Stacks = self.Stacks - amount
 	self:OnStacksRemoved(amount)
 
-	if self.Stacks == 0 then
-		self:OnStacksDepleted()
+	if self.Stacks <= 0 then
+		self:Remove()
 	end
 end
 
@@ -106,6 +103,7 @@ function BUFF:RemoveTimer(name)
 end
 
 function BUFF:OnTimer(index, data)
+	self:RemoveStacks(1)
 end
 
 function BUFF:OnTick(index, data)
@@ -129,17 +127,10 @@ function BUFF:Think()
 	self:CheckTimers()
 end
 
-function BUFF:OnExpire()
-end
-
 function BUFF:OnRemove()
 end
 
-function BUFF:Remove(force)
-	if not force then
-		self:OnExpire()
-	end
-
+function BUFF:Remove()
 	self:OnRemove()
 	self.Player:GetBuffs()[self.ClassName] = nil
 end

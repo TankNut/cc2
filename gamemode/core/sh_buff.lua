@@ -38,8 +38,4 @@ if SERVER then
 			end
 		end
 	end)
-
-	hook.Add("BlockFallDamage", "cc2.Buffs", function(ply)
-		return PlayerHook(ply, "BlockFallDamage")
-	end)
 end

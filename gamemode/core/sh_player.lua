@@ -171,6 +171,8 @@ function GM:SetupMove(ply, mv, cmd)
 		mv:LimitSpeed(overweight)
 	end
 
+	buff.PlayerHook(ply, "SetupMove", mv, cmd)
+
 	handle(ply, "SetupMove", mv, cmd)
 end
 

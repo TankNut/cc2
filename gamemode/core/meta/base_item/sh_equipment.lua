@@ -53,7 +53,7 @@ if SERVER then
 	function ITEM:AddBuffs()
 		local ply = self:GetParent()
 
-		for _, buff in ipairs(self.Buffs) do
+		for _, buff in ipairs(self:GetBuffs()) do
 			ply:AddBuff(buff)
 		end
 	end
@@ -61,7 +61,7 @@ if SERVER then
 	function ITEM:RemoveBuffs()
 		local ply = self:GetParent()
 
-		for _, buff in ipairs(self.Buffs) do
+		for _, buff in ipairs(self:GetBuffs()) do
 			ply:RemoveBuff(buff)
 		end
 	end

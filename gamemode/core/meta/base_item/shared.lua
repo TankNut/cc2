@@ -71,7 +71,7 @@ ItemDataFunc("EquipTime")
 ItemDataFunc("UnequipTime")
 
 if SERVER then
-	ItemDataFunc("GetBuffs")
+	ItemDataFunc("Buffs")
 end
 
 function ITEM:Initialize()
