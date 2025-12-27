@@ -76,13 +76,13 @@ function PANEL:OpenScoreboardCommands()
 end
 
 function PANEL:Think()
-	self.State = hook.Run("ShouldHidePlayer", self.Player)
-
 	if self:IsInvalid() then
 		self:Remove()
 
 		return
 	end
+
+	self.State = hook.Run("ShouldHidePlayer", self.Player)
 end
 
 function PANEL:PerformLayout(w, h)
