@@ -33,6 +33,10 @@ function SWEP:IsSprinting()
 		return false
 	end
 
+	if ply:RunCharFlag("SprintFiring") then
+		return false
+	end
+
 	return ply:IsSprinting() and ply:GetVelocity():Length2D() >= Lerp(0.3, ply:GetWalkSpeed(), ply:GetRunSpeed())
 end
 
