@@ -30,6 +30,10 @@ end
 
 if SERVER then
 	function ENTITY:SetCreator(ply)
+		if self:EntIndex() == 0 then
+			return
+		end
+
 		if IsValid(ply) then
 			self:SetOwnerID(ply:SteamID())
 			self:SetOwnerName(ply:VisibleRPName())
