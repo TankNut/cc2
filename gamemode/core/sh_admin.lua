@@ -107,8 +107,6 @@ if CLIENT then
 		if usergroup != self.SpawnmenuGroup then
 			self.SpawnmenuGroup = usergroup
 
-			print("Reload")
-
 			RunConsoleCommand("spawnmenu_reload")
 		end
 	end
