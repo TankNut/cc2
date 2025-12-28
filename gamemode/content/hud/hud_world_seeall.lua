@@ -121,7 +121,7 @@ end
 function HUD:PaintBackground(w, h)
 	if Settings.Get("SeeAllPlayers") then
 		for _, ply in player.Iterator() do
-			if ply == lp then
+			if ply == lp and not lp:ShouldDrawLocalPlayer() then
 				continue
 			end
 
