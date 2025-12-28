@@ -17,7 +17,7 @@ FLAG.EquipmentSlots = {
 
 FLAG.SlowWalkSpeed = 80
 FLAG.WalkSpeed = 80
-FLAG.RunSpeed = 300
+FLAG.RunSpeed = 350
 FLAG.JumpPower = 300
 FLAG.CrouchSpeed = 80
 
@@ -31,6 +31,7 @@ local model = Model("models/halo_reach/characters/players/covenant/skirmisher_mi
 
 function FLAG:GetModelData(ply)
 	return {_base = {
-		Model = model
+		Model = model,
+		Color = Color(100, 110, 140)
 	}}
 end
