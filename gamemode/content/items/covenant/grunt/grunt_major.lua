@@ -1,6 +1,5 @@
+ITEM.Base = "base_covenant"
 ITEM.Category       = "Grunt Armor"
-
-ITEM.Model          = Model("models/props_junk/cardboard_box001a.mdl")
 
 ITEM.EquipmentSlots = {"grunt"}
 

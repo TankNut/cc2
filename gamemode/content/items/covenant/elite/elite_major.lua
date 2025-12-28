@@ -1,3 +1,4 @@
+ITEM.Base = "base_covenant"
 ITEM.Category       = "Elite Armor"
 
 ITEM.Name           = "Sangheili Major Armor"
