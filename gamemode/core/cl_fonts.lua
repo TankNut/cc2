@@ -106,8 +106,6 @@ function GM:CreateFonts()
 	})
 
 	hook.Run("CreateChatFonts")
-
-	surface.GetFontSize:Clear()
 end
 
 local fonts = {
@@ -150,6 +148,8 @@ function GM:CreateChatFonts()
 		weight = preset.Weight,
 		italic = true
 	})
+
+	surface.GetFontSize:Clear()
 end
 
 function GM:OnChatFontSettingChanged(ply, old, new, loaded)
