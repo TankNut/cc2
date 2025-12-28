@@ -41,6 +41,10 @@ function COMPONENT:Draw()
 		if caret.x + self.BufferWidth + w > ctx.MaxWidth then
 			local last = string.LastSpace(self.Buffer) -- Does actually work if you pass it a table of characters!
 
+			if not last and caret.x > 0 then
+				last = 0
+			end
+
 			if last then
 				for i = last + 1, #self.Buffer do
 					table.insert(storeBuffer, self.Buffer[i])
