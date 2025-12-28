@@ -8,6 +8,10 @@ local whitelist = table.Lookup({
 	"sound"
 })
 
+if Loaded then
+	return
+end
+
 for _, addon in ipairs(engine.GetAddons()) do
 	if not addon.mounted or not addon.downloaded then
 		continue

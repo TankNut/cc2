@@ -32,3 +32,5 @@ client("config/cl_motd.lua")
 client("cl_skin.lua")
 
 shared("core/_core.lua")
+
+Loaded = true
