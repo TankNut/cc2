@@ -5,5 +5,5 @@ local text = [[<giant><b>Event Characters</b></giant>
 ]]
 
 hook.Add("PopulateHelpMenu", "eventchars", function(panel)
-	panel:AddMenu(4, "Event Characters", text)
+	panel:AddMenu(5, "Event Characters", text)
 end)
