@@ -32,3 +32,52 @@ function render.DrawWorldText(pos, text, noz)
 		end
 	cam.End3D2D()
 end
+
+local color_grey = Color(64, 64, 64)
+
+-- Returns false if done rendering
+function render.DrawTracer(startpos, endpos, velocity, length, scale, time)
+	local dir = endpos - startpos
+	local distance = dir:Length()
+	dir:Normalize()
+
+	-- Minimum length
+	if distance <= 128 then
+		return false
+	end
+
+	local lifetime = (distance + length) / velocity
+
+	if time > lifetime then
+		return false
+	end
+
+	local startDistance = velocity * time
+	local endDistance = startDistance - length
+
+	startDistance = math.Clamp(startDistance, 0, distance)
+	endDistance = math.Clamp(endDistance, 0, distance)
+
+	if startDistance == 0 and endDistance == 0 then
+		return true
+	end
+
+	local offset = math.abs(startDistance - endDistance) / length
+
+	local origin = EyePos()
+
+	-- Is this backwards? I don't know
+	local endPoint = startpos + dir * startDistance
+	local startPoint = startpos + dir * endDistance
+
+	local lineDir = endPoint - startPoint
+	local viewDir = endPoint - origin
+
+	local cross = lineDir:Cross(viewDir)
+	cross:Normalize()
+
+	render.DrawBeam(startPoint, endPoint, scale * 2, 0, offset, color_white)
+	render.DrawBeam(startPoint, endPoint, scale * 4, 0, offset, color_grey)
+
+	return true
+end
