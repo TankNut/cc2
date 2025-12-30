@@ -23,6 +23,14 @@ local function getHeat(ent)
 	return IsValid(ent) and ent.GetHeat and ent:GetHeat() or 0
 end
 
+local function getClip1(ent)
+	if not IsValid(ent) or not ent:IsWeapon() then
+		return 0
+	end
+
+	return math.Clamp(ent:Clip1() / ent:GetMaxClip1(), 0, 1)
+end
+
 matproxy.Add({
 	name = "drc_CurHeat",
 	init = function(self, mat, values)
@@ -157,6 +165,8 @@ local function Run(self, ent, minInput, maxInput)
 
 	if self.Input == "heat" then
 		return calc(getHeat(ent))
+	elseif self.Input == "clip1" then
+		return calc(getClip1(ent))
 	end
 end
 
@@ -185,7 +195,7 @@ end
 
 -- Can also be used to ignore inputs we don't care about
 local handledInputs = table.Lookup({
-	"heat"
+	"heat", "clip1"
 })
 
 local function DRCInit(self, mat, values)
@@ -202,7 +212,7 @@ local function DRCInit(self, mat, values)
 
 	self.Min = {values.min, values.min2 or values.min, values.min3 or values.min}
 	self.Max = {values.max, values.max2 or values.max, values.max3 or values.max}
-	self.Mul = {values.mul or 1, values.mul2 or 1, values.mul3 or 1}
+	self.Mul = {values.mul1 or 1, values.mul2 or 1, values.mul3 or 1}
 
 	self.ReturnValues = {values.resultvar, values.resultvar2, values.resultvar3}
 end
