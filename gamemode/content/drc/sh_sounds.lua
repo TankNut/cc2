@@ -186,3 +186,55 @@ sound.Add({
 		"vuthakral/halo/weapons/needlerifle/pose2-2.wav"
 	}
 })
+
+sound.Add({
+	name = "drc.carbineh3_ready",
+	channel = CHAN_AUTO,
+	volume = 0.72,
+	level = 56,
+	pitch = {99, 101},
+	sound = {
+		"vuthakral/halo/weapons/t51c/ready1.wav",
+		"vuthakral/halo/weapons/t51c/ready2.wav",
+		"vuthakral/halo/weapons/t51c/ready3.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.carbineh3_reload1",
+	channel = CHAN_AUTO,
+	volume = 0.52,
+	level = 56,
+	pitch = {98.5, 101.5},
+	sound = {
+		"vuthakral/halo/weapons/t51c/reload_empty1.wav",
+		"vuthakral/halo/weapons/t51c/reload_empty2.wav",
+		"vuthakral/halo/weapons/t51c/reload_empty3.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.carbineh3_pose0",
+	channel = CHAN_AUTO,
+	volume = 0.52,
+	level = 56,
+	pitch = {98.5, 101.5},
+	sound = {
+		"vuthakral/halo/weapons/t51c/carbine_posing2_1.wav",
+		"vuthakral/halo/weapons/t51c/carbine_posing2_2.wav",
+		"vuthakral/halo/weapons/t51c/carbine_posing2_3.wav"
+	}
+})
+
+sound.Add({
+	name = "drc.carbineh3_pose1",
+	channel = CHAN_WEAPON,
+	volume = 0.52,
+	level = 56,
+	pitch = {98.5, 101.5},
+	sound = {
+		"vuthakral/halo/weapons/t51c/carbine_posing2_1.wav",
+		"vuthakral/halo/weapons/t51c/carbine_posing2_2.wav",
+		"vuthakral/halo/weapons/t51c/carbine_posing2_3.wav"
+	}
+})
