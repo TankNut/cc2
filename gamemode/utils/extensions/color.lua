@@ -1,57 +1,5 @@
 local COLOR = FindMetaTable("Color")
 
-function ColorToHex(color, includeAlpha)
-	if includeAlpha then
-		return "#" .. bit.tohex(bit.Pack(8, color.a, color.b, color.g, color.r), 8):upper()
-	else
-		return "#" .. bit.tohex(bit.Pack(8, color.b, color.g, color.r), 6):upper()
-	end
-end
-
-local function handleHexString(hex)
-	hex = hex[1] == "#" and hex:sub(2) or hex
-
-	if #hex == 3 or #hex == 4 then
-		local exploded = string.Explode("", hex)
-
-		for k, v in ipairs(exploded) do
-			exploded[k] = v .. v
-		end
-
-		hex = table.concat(exploded)
-	elseif #hex != 6 and #hex != 8 then
-		return false
-	end
-
-	return hex
-end
-
-function HexToColor(hex)
-	hex = handleHexString(hex)
-
-	if not hex then
-		return
-	end
-
-	local alpha = #hex == 8
-
-	hex = tonumber(hex, 16)
-
-	if not hex then
-		return
-	end
-
-	if alpha then -- Includes alpha component
-		local a, b, g, r = bit.Unpack(8, hex)
-
-		return Color(r, g, b, a)
-	else
-		local b, g, r = bit.Unpack(8, hex)
-
-		return Color(r, g, b)
-	end
-end
-
 COLOR.colors = COLOR.colors or {
 	aliceblue = {240, 248, 255},
 	antiquewhite = {250, 235, 215},
@@ -297,10 +245,6 @@ function COLOR:GetMonochrome(steps, full)
 	end
 
 	return ret
-end
-
-function COLOR:GetHex(alpha)
-	return ColorToHex(self, alpha)
 end
 
 function COLOR:UnpackToVector()
