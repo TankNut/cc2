@@ -21,8 +21,8 @@ SWEP.Animations = {
 }
 
 SWEP.Sounds = {
-	OverheatStart = "Weapon_Plasma.Overheat",
-	OverheatFinish = "Weapon_Plasma.OverheatFinish"
+	OverheatStart = Sound("Weapon_Plasma.Overheat"),
+	OverheatFinish = Sound("Weapon_Plasma.OverheatFinish")
 }
 
 function SWEP:SetupDataTables()
