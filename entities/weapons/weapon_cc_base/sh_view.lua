@@ -205,12 +205,6 @@ if CLIENT then
 	end
 
 	function SWEP:DrawWorldModelTranslucent(flags)
-		for index, mat in pairs(self.WorldModelMaterials) do
-			render.MaterialOverrideByIndex(index, mat)
-		end
-
-		self:DrawModel(flags)
-
-		render.MaterialOverrideByIndex(nil)
+		self:DrawWorldModel(flags)
 	end
 end
