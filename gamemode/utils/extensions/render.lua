@@ -33,10 +33,10 @@ function render.DrawWorldText(pos, text, noz)
 	cam.End3D2D()
 end
 
-local color_grey = Color(64, 64, 64)
+local tracerColor = Color()
 
 -- Returns false if done rendering
-function render.DrawTracer(startpos, endpos, velocity, length, scale, time)
+function render.DrawTracer(startpos, endpos, velocity, length, scale, time, color)
 	local dir = endpos - startpos
 	local distance = dir:Length()
 	dir:Normalize()
@@ -76,8 +76,13 @@ function render.DrawTracer(startpos, endpos, velocity, length, scale, time)
 	local cross = lineDir:Cross(viewDir)
 	cross:Normalize()
 
-	render.DrawBeam(startPoint, endPoint, scale * 2, 0, offset, color_white)
-	render.DrawBeam(startPoint, endPoint, scale * 4, 0, offset, color_grey)
+	tracerColor:Set(color or color_white)
+
+	render.DrawBeam(startPoint, endPoint, scale * 2, 0, offset, tracerColor)
+
+	tracerColor:SetBrightness(0.25)
+
+	render.DrawBeam(startPoint, endPoint, scale * 4, 0, offset, tracerColor)
 
 	return true
 end
