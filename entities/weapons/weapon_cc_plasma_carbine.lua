@@ -95,7 +95,7 @@ sound.Add({
 	name = "Weapon_PlasmaCarbine.Single",
 	channel = CHAN_WEAPON,
 	volume = 0.4,
-	level = 80,
+	level = 110,
 	pitch = {99, 101},
 	sound = {
 		")vuthakral/halo/weapons/t51c/carbine_new28.wav",

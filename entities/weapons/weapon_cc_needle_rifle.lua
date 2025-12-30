@@ -108,7 +108,7 @@ sound.Add({
 	name = "Weapon_NeedleRifle.Single",
 	channel = CHAN_WEAPON,
 	volume = 0.72,
-	level = 80,
+	level = 140,
 	pitch = {98.5, 101.5},
 	sound = {
 		")vuthakral/halo/weapons/needlerifle/fire0.wav",
