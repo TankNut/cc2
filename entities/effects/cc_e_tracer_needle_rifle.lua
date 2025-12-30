@@ -30,10 +30,6 @@ local color2 = Color(255, 150, 255)
 function EFFECT:Render()
 	local alpha = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 155, 0)
 
-	if alpha < 1 then
-		return
-	end
-
 	color1.a = alpha
 	color2.a = alpha
 

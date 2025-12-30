@@ -18,7 +18,7 @@ ENT.TrailColor = Color(25, 200, 255)
 ENT.SpriteColor1 = Color(16, 195, 255)
 ENT.SpriteColor2 = Color(16, 195, 255)
 
-ENT.ImpactEffect = "cc_e_plasma_rifle_impact"
+ENT.ImpactEffect = "cc_e_impact_plasma_rifle"
 ENT.ImpactFlags = 1
 
 function ENT:Initialize()

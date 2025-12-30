@@ -28,7 +28,7 @@ function EFFECT:Init(data)
 		local particle = emitter:Add("effects/draconic_halo/energy/energy_plasmaimpact0", pos)
 
 		if particle then
-			particle:SetDieTime(.2)
+			particle:SetDieTime(0.2)
 
 			particle:SetStartAlpha(255)
 			particle:SetEndAlpha(0)

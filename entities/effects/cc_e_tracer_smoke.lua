@@ -29,10 +29,6 @@ local color = Color(182, 182, 182)
 function EFFECT:Render()
 	local alpha = math.Remap(CurTime() - self.StartTime, 0, self.Lifetime, 155, 0)
 
-	if alpha < 1 then
-		return
-	end
-
 	color.a = alpha
 
 	local length = (self.Start - self.End):Length()

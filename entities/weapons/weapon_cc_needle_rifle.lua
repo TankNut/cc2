@@ -24,7 +24,7 @@ SWEP.Stats = {
 
 	Accuracy = {12, 2},
 
-	Tracer = "cc_e_tracer_needlerifle",
+	Tracer = "cc_e_tracer_needle_rifle",
 	TracerCount = 1
 }
 
@@ -81,10 +81,10 @@ SWEP.Offsets = {
 }
 
 SWEP.Itemize = {
-	Description = "The Type-25 Needler is a covenant infantry weapon that's feared for it's effectiveness against unshielded targets.",
-	Rarity = RARITY_RARE,
+	Description = "The Type-31 Needle Rifle is a covenant infantry weapon infamous for it's lethality against infantry.",
+	Rarity = RARITY_EPIC,
 
-	Weight = 7,
+	Weight = 9,
 
 	EquipmentSlots = {"primary", "secondary"},
 
