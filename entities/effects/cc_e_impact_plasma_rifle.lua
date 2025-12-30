@@ -40,12 +40,6 @@ function EFFECT:Init(data)
 			particle:SetAngleVelocity(Angle(15))
 
 			particle:SetColor(colors[1]:Unpack())
-
-			particle:SetGravity(Vector(0, 0, 0))
-			particle:SetAirResistance(-68.167394537726)
-
-			particle:SetCollide(true)
-			particle:SetBounce(0.1419790559388)
 		end
 	end
 
