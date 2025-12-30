@@ -24,7 +24,7 @@ SWEP.Stats = {
 
 	Accuracy = {12, 2},
 
-	Tracer = "cc_e_tracer_plasmacarbine",
+	Tracer = "cc_e_tracer_plasma_carbine",
 	TracerCount = 1,
 
 	Impact = "cc_e_impact_plasma_carbine"

@@ -28,8 +28,8 @@ local color1 = Color(0, 255, 0)
 local color2 = Color(0, 200, 255)
 
 function EFFECT:Render()
-	local alpha1 = math.ClampedRemap(CurTime() - self.StartTime, 0, self.Lifetime, 155, 0)
-	local alpha2 = math.ClampedRemap(CurTime() - self.StartTime, 0, self.Lifetime * 0.5, 155, 0)
+	local alpha1 = math.ClampedRemap(CurTime() - self.StartTime, 0, self.Lifetime, 255, 0)
+	local alpha2 = math.ClampedRemap(CurTime() - self.StartTime, 0, self.Lifetime * 0.5, 255, 0)
 
 	color1.a = alpha1
 	color2.a = alpha2
