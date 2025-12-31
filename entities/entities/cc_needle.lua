@@ -48,7 +48,7 @@ else
 	function SuperCombine(source, target, pos)
 		target:EmitSound("Needle.SuperCombine")
 
-		util.BlastDamage(source, source:GetOwner(), pos, 30, 350)
+		util.BlastDamage(source, source:GetOwner(), pos, 60, 350)
 
 		local ed = EffectData()
 
