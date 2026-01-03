@@ -120,10 +120,10 @@ if CLIENT then
 
 		if IsValid(ply) then
 			local boneid = ply:LookupBone("ValveBiped.Bip01_R_Hand") -- Right Hand
-			if !boneid then return end
+			if not boneid then return end
 
 			local matrix = ply:GetBoneMatrix(boneid)
-			if !matrix then return end
+			if not matrix then return end
 
 			local newPos, newAng = LocalToWorld(offsetVec, offsetAng, matrix:GetTranslation(), matrix:GetAngles())
 
@@ -144,7 +144,7 @@ if CLIENT then
 	function SWEP:GetTracerOrigin()
 		local owner = self:GetOwner()
 
-		if (owner:IsPlayer() and owner:ShouldDrawLocalPlayer()) or owner:IsNPC() then
+		if (owner:IsPlayer() and owner:ShouldDrawLocalPlayer() and not owner:IsInNoClip()) or owner:IsNPC() then
 			return self.ClientsideModel:GetAttachment(1).Pos
 		end
 	end
