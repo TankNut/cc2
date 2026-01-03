@@ -77,7 +77,7 @@ SWEP.Offsets = {
 		Angle(1, 0, 0)
 	},
 	Holster = {
-		Vector(3, -2, 0),
+		Vector(3, -2, -2),
 		Angle(20, 20, 0)
 	},
 	Sprint = {

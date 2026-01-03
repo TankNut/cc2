@@ -125,6 +125,12 @@ function SWEP:OnOverheatEnd()
 	self:StopSound(self.Sounds.VentLoop)
 end
 
+function SWEP:FireAnimationEvent(_, _, _, name)
+	if name == "drc.repeater_poke" then
+		return true
+	end
+end
+
 sound.Add({
 	name = "Weapon_PlasmaRepeater.Single",
 	channel = CHAN_WEAPON,
