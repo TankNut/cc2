@@ -44,7 +44,7 @@ if SERVER then
 end
 
 function PLAYER:IsInNoClip()
-	return self:IsEFlagSet(EFL_NOCLIP_ACTIVE)
+	return self:GetMoveType() == MOVETYPE_NOCLIP
 end
 
 function PLAYER:WithinInteractRange(target, range)
