@@ -8,13 +8,15 @@ if SERVER then
 	function Enable(ent, class)
 		local existing = Get(ent)
 
-		if IsValid(existing) and math.IsNearlyEqual(existing:GetCreationTime(), CurTime(), 0.1) then
+		class = class or "cc_shield"
+
+		if IsValid(existing) and math.IsNearlyEqual(existing:GetCreationTime(), CurTime(), 0.1) and existing:GetClass() == class then
 			return
 		end
 
 		SafeRemoveEntity(Get(ent))
 
-		local shield = ents.Create(class or "cc_shield")
+		local shield = ents.Create(class)
 
 		shield:SetParent(ent)
 		shield:Spawn()
@@ -29,14 +31,6 @@ if SERVER then
 
 	hook.Add("EntityTakeDamage", "cc2.Shield", function(ent, dmg)
 		local shield = Get(ent)
-
-		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
-			return true
-		end
-	end)
-
-	hook.Add("ScalePlayerDamage", "cc2.Shield", function(ply, hitgroup, dmg)
-		local shield = Get(ply)
 
 		if IsValid(shield) and shield:TakeShieldDamage(dmg) then
 			return true
