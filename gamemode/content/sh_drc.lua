@@ -8,6 +8,10 @@ hook.Add("PreRegisterSENT", "cc2.DRCPatch", filterDRC)
 hook.Add("PreRegisterSWEP", "cc2.DRCPatch", filterDRC)
 
 if SERVER then
+	-- DRC shields are broken, so we just don't
+	function DRC:SetShieldInfo()
+	end
+
 	return
 end
 
@@ -233,3 +237,17 @@ matproxy.Add({name = "drc_FunctionA", init = DRCInit, bind = DRCBind})
 matproxy.Add({name = "drc_FunctionB", init = DRCInit, bind = DRCBind})
 matproxy.Add({name = "drc_FunctionC", init = DRCInit, bind = DRCBind})
 matproxy.Add({name = "drc_FunctionD", init = DRCInit, bind = DRCBind})
+
+-- Disabling material proxies we don't want to deal with (like the needle rifle being player weapon colored)
+local disableList = {
+	"drc_PlayerWeaponColours",
+	"drc_ReflectionTint_WeaponColour"
+}
+
+for _, name in ipairs(disableList) do
+	matproxy.Add({
+		name = name,
+		init = function() end,
+		bind = function() end
+	})
+end
