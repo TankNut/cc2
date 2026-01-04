@@ -53,6 +53,10 @@ function table.Collapse(tab)
 end
 
 function table.FullCopy(tab)
+	if not tab then
+		return nil
+	end
+
 	local res = {}
 
 	for k, v in pairs(tab) do

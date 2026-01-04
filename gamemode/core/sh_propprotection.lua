@@ -30,6 +30,8 @@ end
 
 if SERVER then
 	function ENTITY:SetCreator(ply)
+		self.m_PlayerCreator = ply
+
 		if self:EntIndex() == 0 then
 			return
 		end
@@ -100,10 +102,12 @@ if SERVER then
 	end
 end
 
-function GM:OnOwnerIDChanged(ent, old, new, loaded)
-	if new == nil then
-		ent.m_PlayerCreator = nil
-	else
-		ent.m_PlayerCreator = player.GetBySteamID(new)
+if CLIENT then
+	function GM:OnOwnerIDChanged(ent, old, new, loaded)
+		if new == nil then
+			ent.m_PlayerCreator = nil
+		else
+			ent.m_PlayerCreator = player.GetBySteamID(new)
+		end
 	end
 end

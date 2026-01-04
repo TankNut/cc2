@@ -160,12 +160,20 @@ do
 	end)
 
 	function player.GetBySteamID(id)
+		if not id then
+			return false
+		end
+
 		local ply = playerCache[string.upper(id)]
 
 		return IsValid(ply) and ply or false
 	end
 
 	function player.GetBySteamID64(id)
+		if not id then
+			return false
+		end
+
 		local ply = playerCache[tostring(id)]
 
 		return IsValid(ply) and ply or false
