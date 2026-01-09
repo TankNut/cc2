@@ -24,8 +24,7 @@ local model = Model("models/valk/haloreach/covenant/characters/hunter/hunter_pla
 
 function FLAG:GetModelData(ply)
 	return {_base = {
-		Model = model,
-		Skin = 1
+		Model = model
 	}}
 end
 
@@ -36,7 +35,7 @@ function FLAG:PlayerTakeDamage(ply, dmg)
 		dmg:ScaleDamage(0.5)
 	end
 
-	if IsValid(source) and not dmg:IsExplosionDamage() then
+	if IsValid(source) and not dmg:IsDamageType(DMG_BLAST + DMG_ENERGYBEAM) then
 		local rel = source:GetPos() - ply:GetPos()
 		local eye = ply:EyeAngles()
 

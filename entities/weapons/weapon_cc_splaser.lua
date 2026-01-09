@@ -158,6 +158,8 @@ end
 function SWEP:BulletCallback(attacker, tr, dmginfo)
 	BaseClass.BulletCallback(self, attacker, tr, dmginfo)
 
+	dmginfo:SetDamageType(DMG_ENERGYBEAM)
+
 	if SERVER then
 		util.BlastDamage(dmginfo:GetInflictor(), attacker, tr.HitPos, 60, 100)
 	end
