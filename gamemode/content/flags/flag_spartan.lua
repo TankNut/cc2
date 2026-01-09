@@ -1,5 +1,5 @@
 FLAG.Name = "Spartan"
-FLAG.Team = TEAM_UNSC
+FLAG.Team = TEAM_SPARTAN
 
 FLAG.Armor = 100
 
