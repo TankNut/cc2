@@ -97,6 +97,12 @@ if CLIENT then
 	end
 end
 
+function SWEP:FireAnimationEvent(_, _, _, name)
+	if name == "drc.halo_eject_rifle" then
+		return true
+	end
+end
+
 sound.Add({
 	name = "Weapon_M6G.Single",
 	channel = CHAN_WEAPON,
