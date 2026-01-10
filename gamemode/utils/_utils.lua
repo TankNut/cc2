@@ -68,6 +68,7 @@ shared("libraries/player_ready.lua")
 shared("libraries/progress.lua")
 shared("libraries/validate.lua")
 shared("libraries/zone.lua")
+shared("libraries/unit.lua")
 
 server("libraries/database.lua")
 
