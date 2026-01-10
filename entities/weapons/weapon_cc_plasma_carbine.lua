@@ -19,10 +19,10 @@ SWEP.Stats = {
 	Type = "Bullet",
 	Count = 1,
 
-	Damage = 20,
+	Damage = 26,
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
-	Accuracy = {12, 2},
+	Accuracy = {1, 0},
 	Range = 600,
 
 	Tracer = "cc_e_tracer_plasma_carbine",

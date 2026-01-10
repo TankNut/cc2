@@ -19,7 +19,7 @@ SWEP.Stats = {
 	Type = "Bullet",
 	Count = 1,
 
-	Damage = 11,
+	Damage = 24,
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
 	Accuracy = {12, 2},
@@ -101,7 +101,7 @@ SWEP.Itemize = {
 }
 
 function SWEP:GetDelay()
-	return math.ClampedRemap(self:GetHeat(), 0.7, 1, 0.1, 0.15)
+	return math.ClampedRemap(self:GetHeat(), 0.4, 1, 0.1, 0.15)
 end
 
 if CLIENT then
