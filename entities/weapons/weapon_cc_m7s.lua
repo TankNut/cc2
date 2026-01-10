@@ -19,8 +19,8 @@ SWEP.Stats = {
 	Type = "Bullet",
 	Count = 1,
 
-	Damage = 11,
-	DamageFalloff = 0.98,
+	Damage = 8,
+	DamageFalloff = DMG_FALLOFF_SMG,
 
 	Accuracy = {12, 2},
 

@@ -22,7 +22,7 @@ SWEP.Stats = {
 	Count = 1,
 
 	Damage = 500,
-	DamageFalloff = 1,
+	DamageFalloff = DMG_FALLOFF_NONE,
 
 	Accuracy = 0,
 

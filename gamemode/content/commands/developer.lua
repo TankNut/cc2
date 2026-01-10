@@ -51,3 +51,23 @@ editMap:SetAccess(console.IsDeveloper)
 editMap:SetNoConsole()
 
 editMap:AddOptional(console.String(), nil, "current map")
+
+
+
+
+
+local dropoff = console.AddCommand("dev_dmg_falloff", function(ply, mul)
+	local tr = ply:GetEyeTrace()
+	local dist = tr.StartPos:Distance(tr.HitPos)
+	local distMod = 1000
+
+	console.Feedback(ply, "CONSOLE", math.max(mul ^ (dist / distMod), 0.2))
+end)
+
+dropoff:SetCategory("Developer Commands")
+dropoff:SetDescription("Calculates the damage dropoff for a given value and where you're looking")
+dropoff:SetExecutionContext(console.Server)
+dropoff:SetAccess(console.IsDeveloper)
+dropoff:SetNoConsole()
+
+dropoff:AddParameter(console.Number())

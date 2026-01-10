@@ -19,10 +19,10 @@ SWEP.Stats = {
 	Type = "Bullet",
 	Count = 1,
 
-	Damage = 11,
+	Damage = 24,
 	DamageFalloff = 0.98,
 
-	Accuracy = {12, 2},
+	Accuracy = {12, 4},
 
 	Tracer = "Tracer",
 	TracerCount = 1

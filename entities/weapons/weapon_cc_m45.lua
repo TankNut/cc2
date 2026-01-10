@@ -20,7 +20,7 @@ SWEP.Stats = {
 	Count = 15,
 
 	Damage = 6,
-	DamageFalloff = 0.7,
+	DamageFalloff = DMG_FALLOFF_SHOTGUN,
 
 	FixedRange = true,
 	Accuracy = 36,

@@ -29,6 +29,8 @@ shared("config/sh_config.lua")
 server("config/sv_config.lua")
 client("config/cl_motd.lua")
 
+shared("config/sh_balance.lua")
+
 client("cl_skin.lua")
 
 shared("core/_core.lua")

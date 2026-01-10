@@ -20,7 +20,7 @@ SWEP.Stats = {
 	Count = 1,
 
 	Damage = 11,
-	DamageFalloff = 0.98,
+	DamageFalloff = DMG_FALLOFF_RIFLE,
 
 	Accuracy = {12, 2},
 
