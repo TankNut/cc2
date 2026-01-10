@@ -1,45 +1,12 @@
 module("Hull", package.seeall)
 
-List = List or {}
-Models = Models or {}
-
-Default = {
-	Standing = {Vector(-10, -10, 0), Vector(10, 10, 72), Vector(0, 0, 66)},
-	Crouching = {Vector(-10, -10, 0), Vector(10, 10, 36), Vector(0, 0, 38)},
-}
-
 PlayerVar.Add("Scale", {Default = 1})
 CharacterVar.Add("CharacterScale", {Default = 0, Field = "Scale", DataType = FLOAT()})
 
 local PLAYER = FindMetaTable("Player")
 
-function AddType(name, data)
-	data.Standing = data.Standing or Default.Standing
-	data.Crouching = data.Crouching or data.Standing
-
-	List[name] = data
-end
-
-function AddModel(hull, ...)
-	for _, match in ipairs({...}) do
-		Models[match] = hull
-	end
-end
-
-function Find(mdl)
-	mdl = string.lower(mdl)
-
-	for match, hull in pairs(Models) do
-		if string.find(mdl, match) and List[hull] then
-			return List[hull]
-		end
-	end
-
-	return Default
-end
-
 function PLAYER:UpdateHull()
-	local hull = Find(self:GetModel())
+	local hull = ModelData.GetHull(self:GetModel())
 	local scale = hook.Run("GetPlayerScale", self)
 
 	self:SetModelScale(scale, 0.0001)

@@ -36,9 +36,7 @@ function Find(mdl)
 	local matchLength = 0
 
 	for _, controller in pairs(List) do
-		local models = controller.Models
-
-		for _, model in ipairs(models) do
+		for _, model in ipairs(controller.Models) do
 			if model == mdl then
 				Cache[mdl] = controller
 

@@ -60,6 +60,15 @@ function PANEL:SetModel(mdl)
 
 	ent = self.Entity
 	ent:SetCycle(cycle)
+
+	local views = ModelData.GetViews(mdl)
+
+	self:SetCamPosRange(views.CamPos)
+	self:SetLookAtRange(views.LookAt)
+
+	if views.Sequence then
+		ent:ResetSequence(ent:LookupSequence(views.Sequence))
+	end
 end
 
 function PANEL:SetAppearance(appearance)
@@ -99,10 +108,14 @@ function PANEL:GetCameraTarget()
 	local fov = Lerp(self.Zoom, unpack(self.FOVRange))
 	local ratio = self:GetWide() / self:GetTall()
 
-	return self.Entity:GetPos() + pos, self.Entity:GetPos() + look, fov * ratio
+	return self.Entity:GetPos() + pos, self.Entity:LocalToWorld(look), fov * ratio
 end
 
 function PANEL:LayoutEntity(ent)
+	if not ent.PanelLayoutDone then
+		ent:SetAngles(Angle(0, self:GetBaseYaw(), 0))
+	end
+
 	local pos, look, fov = self:GetCameraTarget()
 
 	if not ent.PanelLayoutDone then
@@ -111,8 +124,6 @@ function PANEL:LayoutEntity(ent)
 		self:SetCamPos(pos)
 		self:SetLookAt(look)
 		self:SetFOV(fov)
-
-		ent:SetAngles(Angle(0, self:GetBaseYaw(), 0))
 	end
 
 	self:SetCamPos(self:GetCamPos():Approach(pos, 10))

@@ -8,6 +8,8 @@ function GM:OnAppearanceChanged(ply, old, new, loaded)
 
 		for name, data in pairs(new) do
 			if name == "_base" then
+				ply:ApplyModel(data)
+
 				continue
 			end
 
@@ -97,7 +99,7 @@ if SERVER then
 	end
 
 	function GM:GetHandAppearance(ply)
-		local base = Hands.Get(ply:GetModel())
+		local base = ModelData.GetHands(ply:GetModel())
 
 		if not ply:HasCharacter() then
 			return base, false
