@@ -1,6 +1,6 @@
 ITEM.Base = "base_radio"
 
-ITEM.Name        = "Developer Radio"
+ITEM.Name = "Developer Radio"
 ITEM.Description = "Admin radio with extra steps. For testing."
 
 ITEM.Rarity = RARITY_DEVELOPER

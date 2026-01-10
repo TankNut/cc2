@@ -4,10 +4,9 @@ ITEM.Name        = "Marine Armor (A/X)"
 ITEM.Description = [[A customizable set of UNSC combat gear.
 
 Atmospheric/Exoatmospheric: Sealed against environmental hazards and rated for use during extra-vehicular activity.]]
+ITEM.Rarity = RARITY_UNCOMMON
 
-ITEM.Rarity      = RARITY_UNCOMMON
-ITEM.Tags        = {"Marine"}
-
+ITEM.Tags = {"Marine"}
 ITEM.ModelGroups = {"Marine"}
 
 ITEM.Actions = {}

@@ -1,11 +1,10 @@
 ITEM.Base = "base_unsc_headwear"
 
-ITEM.Name        = "CH252 Helmet"
+ITEM.Name = "CH252 Helmet"
 ITEM.Description = "A UNSC standard issue combat helmet. Comes packaged with a balaclava and a set of ballistic goggles."
+ITEM.Rarity = RARITY_UNCOMMON
 
-ITEM.Rarity      = RARITY_UNCOMMON
-ITEM.Tags        = {"Marine"}
-
+ITEM.Tags = {"Marine"}
 ITEM.ModelGroups = {"Marine"}
 
 ITEM.HelmetIndex = 3

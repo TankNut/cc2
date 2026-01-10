@@ -1,5 +1,5 @@
 ITEM.Base = "base_covenant"
-ITEM.Category       = "Grunt Armor"
+ITEM.Category = "Grunt Armor"
 
 ITEM.EquipmentSlots = {"grunt"}
 

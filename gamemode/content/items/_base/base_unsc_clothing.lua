@@ -1,15 +1,14 @@
 local BaseClass = inherit.Get("item", "base")
 
-ITEM.Internal    = true
+ITEM.Internal = true
 
-ITEM.Category    = "UNSC Clothing"
+ITEM.Category = "UNSC Clothing"
 
-ITEM.Model       = Model("models/valk/h3/unsc/props/crates/case.mdl")
-
-ITEM.IconAngle   = Angle(30, 0, 0)
-ITEM.IconFOV     = 25
-
+ITEM.Model = Model("models/valk/h3/unsc/props/crates/case.mdl")
 ITEM.ModelGroups = {}
+
+ITEM.IconAngle = Angle(30, 0, 0)
+ITEM.IconFOV = 25
 
 function ITEM:IsCompatible(ply, group)
 	return table.HasValue(self.ModelGroups, group or self:GetModelGroup(ply))

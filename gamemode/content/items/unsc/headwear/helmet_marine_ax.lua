@@ -1,11 +1,10 @@
 ITEM.Base = "base_unsc_headwear"
 
-ITEM.Name        = "ECH252 Helmet"
+ITEM.Name = "ECH252 Helmet"
 ITEM.Description = "A variation of the standard CH252 combat helmet that can be fully enclosed and enviromentally sealed when combined with an A/X BDU. Comes packaged with a balaclava."
+ITEM.Rarity = RARITY_UNCOMMON
 
-ITEM.Rarity      = RARITY_UNCOMMON
-ITEM.Tags        = {"Marine"}
-
+ITEM.Tags = {"Marine"}
 ITEM.ModelGroups = {"Marine"}
 
 ITEM.HelmetIndex = 3

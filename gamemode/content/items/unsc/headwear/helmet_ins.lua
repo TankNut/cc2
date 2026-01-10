@@ -1,11 +1,10 @@
 ITEM.Base = "base_unsc_headwear"
 
-ITEM.Name        = "CH252 Helmet (URF)"
+ITEM.Name = "CH252 Helmet (URF)"
 ITEM.Description = "A UNSC standard issue combat helmet. Comes packaged with a balaclava and a set of ballistic goggles."
+ITEM.Rarity = RARITY_RARE
 
-ITEM.Rarity      = RARITY_RARE
-ITEM.Tags        = {"Insurrectionists"}
-
+ITEM.Tags = {"Insurrectionists"}
 ITEM.ModelGroups = {"Insurrection"}
 
 ITEM.HelmetIndex = 3

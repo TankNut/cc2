@@ -1,12 +1,12 @@
 ITEM.Base = "base_covenant"
-ITEM.Category       = "Elite Armor"
 
-ITEM.Name           = "Sangheili Major Armor"
-ITEM.Description    = "Armor belonging to a Sangheili Major."
+ITEM.Name = "Sangheili Major Armor"
+ITEM.Description = "Armor belonging to a Sangheili Major."
+ITEM.Rarity = RARITY_UNCOMMON
 
-ITEM.Rarity         = RARITY_UNCOMMON
+ITEM.Category = "Elite Armor"
 
-ITEM.Model          = Model("models/valk/h3/covenant/props/cortanabeacon/cortanabeacon.mdl")
+ITEM.Model = Model("models/valk/h3/covenant/props/cortanabeacon/cortanabeacon.mdl")
 
 ITEM.EquipmentSlots = {"elite"}
 

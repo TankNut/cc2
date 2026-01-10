@@ -1,6 +1,6 @@
 ITEM.Base = "helmet_marine_ax"
 
-ITEM.Name        = "ECH252 Sharpshooter Helmet"
+ITEM.Name = "ECH252 Sharpshooter Helmet"
 ITEM.Description = [[A variation of the standard CH252 combat helmet that can be fully enclosed and enviromentally sealed when combined with an A/X BDU. Comes packaged with a balaclava.
 
 Sharpshooter version: Equipped with an O/I optics device.]]

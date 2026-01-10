@@ -1,16 +1,15 @@
 ITEM.Base = "base_unsc_clothing"
 
-ITEM.Name           = "Radio Pack"
-ITEM.Description    = "A portable long-range radio."
+ITEM.Name = "Radio Pack"
+ITEM.Description = "A portable long-range radio."
+ITEM.Rarity = RARITY_RARE
 
-ITEM.Rarity         = RARITY_RARE
-ITEM.Category       = "UNSC Backpack"
+ITEM.Category = "UNSC Backpack"
 
-ITEM.Weight         = 6
+ITEM.Weight = 6
 
 ITEM.EquipmentSlots = {"unsc_back"}
-
-ITEM.ModelGroups 	= {"Marine", "ODST", "Insurrection"}
+ITEM.ModelGroups = {"Marine", "ODST", "Insurrection"}
 
 if SERVER then
 	function ITEM:GetModelData(ply, clothing)

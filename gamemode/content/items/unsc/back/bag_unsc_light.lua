@@ -1,24 +1,24 @@
 local BaseClass = inherit.Get("item", "base_container")
 
-ITEM.Base           = "base_container"
+ITEM.Base = "base_container"
 
-ITEM.Name           = "Backpack (Light)"
-ITEM.Description    = "A light assault pack for carrying combat gear."
+ITEM.Name = "Backpack (Light)"
+ITEM.Description = "A light assault pack for carrying combat gear."
 
-ITEM.Rarity         = RARITY_UNCOMMON
-ITEM.Category       = "UNSC Backpack"
+ITEM.Rarity = RARITY_UNCOMMON
+ITEM.Category = "UNSC Backpack"
 
-ITEM.Model          = Model("models/valk/h3/unsc/props/crates/case.mdl")
+ITEM.Model = Model("models/valk/h3/unsc/props/crates/case.mdl")
 
 ITEM.EquipmentSlots = {"unsc_back"}
 
-ITEM.IconAngle      = Angle(30, 0, 0)
-ITEM.IconFOV        = 25
+ITEM.IconAngle = Angle(30, 0, 0)
+ITEM.IconFOV = 25
 
-ITEM.BaseWeight     = 1
-ITEM.MaxWeight      = 10
+ITEM.BaseWeight = 1
+ITEM.MaxWeight = 10
 
-ITEM.ModelGroups    = {"Off-Duty", "Marine", "ODST", "Insurrection"}
+ITEM.ModelGroups = {"Off-Duty", "Marine", "ODST", "Insurrection"}
 
 function ITEM:IsCompatible(ply, group)
 	return table.HasValue(self.ModelGroups, group or self:GetModelGroup(ply))

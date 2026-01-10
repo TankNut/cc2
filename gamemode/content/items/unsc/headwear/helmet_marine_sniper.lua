@@ -1,6 +1,6 @@
 ITEM.Base = "helmet_marine"
 
-ITEM.Name        = "CH252 Sharpshooter Helmet"
+ITEM.Name = "CH252 Sharpshooter Helmet"
 ITEM.Description = [[A UNSC standard issue combat helmet. Comes packaged with a balaclava and a set of ballistic goggles.
 
 Sharpshooter version: Equipped with an O/I optics device.]]

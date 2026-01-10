@@ -8,22 +8,22 @@ ITEM.Model = Model("models/Items/combine_rifle_cartridge01.mdl")
 
 ITEM.EquipmentSlots = {"radio"}
 
-ITEM.EquipTime   = 0.5
+ITEM.EquipTime = 0.5
 ITEM.UnequipTime = 0.5
 
 ITEM.IconAngle = Angle(30, -60, -10)
-ITEM.IconFOV   = 11
-
-ITEM.Actions = {}
+ITEM.IconFOV = 11
 
 ITEM.CanSetFrequency = false -- Can frequencies between 1-999 MHz can be set
-ITEM.CanEncrypt      = false -- Can an encrpytion can be set
-ITEM.MaxChannels     = 1     -- How many channels can be tuned into simultaneously
-ITEM.RadioPresets    = {}    -- Which, if any, preset radio channels can be set
+ITEM.CanEncrypt = false -- Can an encrpytion can be set
+ITEM.MaxChannels = 1 -- How many channels can be tuned into simultaneously
+ITEM.RadioPresets = {} -- Which, if any, preset radio channels can be set
 
 ItemDataFunc("ChannelSettings", {}) -- Set during configuration; channel-specific settings
-ItemDataFunc("RadioGroups",     {}) -- Set during configuration; what dispatch messages are received
-ItemDataFunc("ActiveChannel",    0) -- Set during configuration; active index in ChannelSettings
+ItemDataFunc("RadioGroups", {}) -- Set during configuration; what dispatch messages are received
+ItemDataFunc("ActiveChannel", 0) -- Set during configuration; active index in ChannelSettings
+
+ITEM.Actions = {}
 
 ITEM.Actions.OpenGUI = {
 	Name       = "Configure Radio",

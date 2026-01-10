@@ -1,15 +1,15 @@
-ITEM.Name           = "MJOLNIR Powered Assault Armor"
-ITEM.Description    = "A modular and heavily customizable set of MJOLNIR GEN1 armor."
+ITEM.Name = "MJOLNIR Powered Assault Armor"
+ITEM.Description = "A modular and heavily customizable set of MJOLNIR GEN1 armor."
+ITEM.Rarity = RARITY_LEGENDARY
 
-ITEM.Rarity         = RARITY_LEGENDARY
-ITEM.Category       = "Spartan"
+ITEM.Category = "Spartan"
 
-ITEM.Model       	= Model("models/rena_haloreach/crate_packing.mdl")
+ITEM.Model = Model("models/rena_haloreach/crate_packing.mdl")
 
-ITEM.IconAngle   	= Angle(30, 27, 0)
-ITEM.IconFOV     	= 35
+ITEM.IconAngle = Angle(30, 27, 0)
+ITEM.IconFOV = 35
 
-ITEM.Weight         = 12
+ITEM.Weight = 12
 
 ITEM.EquipmentSlots = {"spartan"}
 

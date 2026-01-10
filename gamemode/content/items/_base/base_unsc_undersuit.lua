@@ -1,25 +1,25 @@
 local BaseClass = inherit.Get("item", "base")
 
-ITEM.Internal       = true
+ITEM.Internal = true
 
-ITEM.Rarity         = RARITY_COMMON
-ITEM.Category       = "UNSC Undersuit"
+ITEM.Rarity = RARITY_COMMON
+ITEM.Category = "UNSC Undersuit"
 
-ITEM.Model          = Model("models/valk/h4/unsc/props/sandbags/sandbags_single.mdl")
+ITEM.Model = Model("models/valk/h4/unsc/props/sandbags/sandbags_single.mdl")
 
-ITEM.Weight         = 3
+ITEM.Weight = 3
 
 ITEM.EquipmentSlots = {"unsc_undersuit"}
 
-ITEM.IconAngle      = Angle(50, 90, 0)
-ITEM.IconFOV        = 25
+ITEM.EquipTime = 3
+ITEM.UnequipTime = 3
 
-ITEM.EquipTime      = 3
-ITEM.UnequipTime    = 3
+ITEM.ModelPattern = ""
+ITEM.ModelSkin = 0
+ITEM.ModelGroup = ""
 
-ITEM.ModelPattern   = ""
-ITEM.ModelSkin      = 0
-ITEM.ModelGroup     = ""
+ITEM.IconAngle = Angle(50, 90, 0)
+ITEM.IconFOV = 25
 
 function ITEM:GetDescription()
 	local description = BaseClass.GetDescription(self)

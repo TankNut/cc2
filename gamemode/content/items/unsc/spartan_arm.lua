@@ -1,15 +1,15 @@
-ITEM.Name           = "MJOLNIR Prosthetic Arm"
-ITEM.Description    = "An artificial limb used to replace a spartan's missing right arm."
+ITEM.Name = "MJOLNIR Prosthetic Arm"
+ITEM.Description = "An artificial limb used to replace a spartan's missing right arm."
+ITEM.Rarity = RARITY_LEGENDARY
 
-ITEM.Rarity         = RARITY_LEGENDARY
-ITEM.Category       = "Spartan"
+ITEM.Category = "Spartan"
 
-ITEM.Model       	= Model("models/rena_haloreach/crate_packing.mdl")
+ITEM.Model = Model("models/rena_haloreach/crate_packing.mdl")
 
-ITEM.IconAngle   	= Angle(30, 27, 0)
-ITEM.IconFOV     	= 35
+ITEM.IconAngle = Angle(30, 27, 0)
+ITEM.IconFOV = 35
 
-ITEM.Weight         = 2
+ITEM.Weight = 2
 
 ITEM.EquipmentSlots = {"spartan_arm"}
 

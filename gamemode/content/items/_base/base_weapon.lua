@@ -2,7 +2,7 @@ local BaseClass = inherit.Get("item", "base")
 
 ITEM.Internal = true
 
-ITEM.Category    = "Weapon"
+ITEM.Category = "Weapon"
 
 ITEM.WeaponClass = "weapon_bugbait"
 

@@ -1,12 +1,12 @@
 ITEM.Base = "base_unsc_undersuit"
 
-ITEM.Name         = "ODST Undersuit"
-ITEM.Description  = "An ODST undersuit and matching armor set."
+ITEM.Name = "ODST Undersuit"
+ITEM.Description = "An ODST undersuit and matching armor set."
+ITEM.Rarity = RARITY_RARE
 
-ITEM.Rarity       = RARITY_RARE
-ITEM.Tags         = {"ODST"}
+ITEM.Tags = {"ODST"}
 
-ITEM.Armor        = 60
+ITEM.Armor = 60
 
 ITEM.ModelPattern = "models/ishi/halo_rebirth/player/odst/%s/odst_%s.mdl"
-ITEM.ModelGroup   = "ODST"
+ITEM.ModelGroup = "ODST"

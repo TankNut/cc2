@@ -9,8 +9,8 @@ ITEM.Internal            = true
 -- General info
 ITEM.Name                = nil
 ITEM.Description         = "Whoever made this item forgot to add a description!"
-
 ITEM.Rarity              = RARITY_COMMON
+
 ITEM.Category            = "Misc"
 ITEM.Tags                = {}
 

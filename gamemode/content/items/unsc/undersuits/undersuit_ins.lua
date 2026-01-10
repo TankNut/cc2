@@ -1,12 +1,12 @@
 ITEM.Base = "base_unsc_undersuit"
 
-ITEM.Name         = "Insurrectionist Undersuit"
-ITEM.Description  = "A UNSC marine kit that's been modified by the URF."
+ITEM.Name = "Insurrectionist Undersuit"
+ITEM.Description = "A UNSC marine kit that's been modified by the URF."
+ITEM.Rarity = RARITY_RARE
 
-ITEM.Rarity       = RARITY_RARE
-ITEM.Tags         = {"Insurrectionists"}
+ITEM.Tags = {"Insurrectionists"}
 
-ITEM.Armor        = 50
+ITEM.Armor = 50
 
 ITEM.ModelPattern = "models/ishi/suno/halo_rebirth/player/innie/%s/innie_%s.mdl"
-ITEM.ModelGroup   = "Insurrection"
+ITEM.ModelGroup = "Insurrection"

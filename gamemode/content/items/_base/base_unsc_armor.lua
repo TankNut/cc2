@@ -1,10 +1,10 @@
 ITEM.Base = "base_unsc_clothing"
-ITEM.Internal       = true
+ITEM.Internal = true
 
-ITEM.Category       = "UNSC Armor"
+ITEM.Category = "UNSC Armor"
 
-ITEM.Weight         = 5
+ITEM.Weight = 5
 
 ITEM.EquipmentSlots = {"unsc_armor"}
 
-ITEM.Armor          = 30
+ITEM.Armor = 30

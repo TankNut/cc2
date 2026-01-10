@@ -1,5 +1,5 @@
 ITEM.Base = "base_covenant"
-ITEM.Category       = "Skirmisher Armor"
+ITEM.Category = "Skirmisher Armor"
 
 ITEM.EquipmentSlots = {"skirmisher"}
 
