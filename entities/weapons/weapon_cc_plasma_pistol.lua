@@ -89,7 +89,7 @@ SWEP.Itemize = {
 	Description = "The Type-25 Directed Energy Pistol is a covenant infantry weapon that's commonly carried by smaller covenant species.",
 	Rarity = RARITY_UNCOMMON,
 
-	Weight = 4,
+	Weight = 3.5,
 
 	EquipmentSlots = {"primary", "secondary"},
 

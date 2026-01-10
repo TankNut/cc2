@@ -78,7 +78,7 @@ SWEP.Itemize = {
 	Description = "The Type-31 Needle Rifle is a covenant infantry weapon infamous for it's lethality against infantry.",
 	Rarity = RARITY_RARE,
 
-	Weight = 8,
+	Weight = 10,
 
 	EquipmentSlots = {"primary", "secondary"},
 

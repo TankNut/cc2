@@ -77,7 +77,7 @@ SWEP.Itemize = {
 	Description = "Formally known as the M7/Caseless, the M7 is a UNSC issued PDW commonly used by infantry, special forces and vehicle crews.",
 	Rarity = RARITY_COMMON,
 
-	Weight = 4,
+	Weight = 2,
 
 	EquipmentSlots = {"primary", "secondary"},
 

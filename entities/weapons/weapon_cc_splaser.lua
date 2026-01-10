@@ -99,7 +99,7 @@ SWEP.Itemize = {
 	Description = "Formally known as the Special Applications Rifle, Caliber 14.5mm, the SRS99-AM is a long-range anti-material rifle used by the UNSC.",
 	Rarity = RARITY_EPIC,
 
-	Weight = 10,
+	Weight = 20,
 
 	EquipmentSlots = {"primary", "secondary"},
 
