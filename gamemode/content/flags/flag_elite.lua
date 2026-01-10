@@ -17,11 +17,8 @@ FLAG.EquipmentSlots = {
 
 FLAG.Clothing = CLOTHING_NONE
 
-FLAG.SlowWalkSpeed = 80
-FLAG.WalkSpeed = 80
 FLAG.RunSpeed = 300
 FLAG.JumpPower = 300
-FLAG.CrouchSpeed = 80
 
 FLAG.Buffs = {"elite_shield"}
 
