@@ -15,7 +15,7 @@ ITEM.EquipmentSlots = {"unsc_back"}
 ITEM.IconAngle = Angle(30, 0, 0)
 ITEM.IconFOV = 25
 
-ITEM.BaseWeight = 1
+ITEM.BaseWeight = 2
 ITEM.MaxWeight = 10
 
 ITEM.ModelGroups = {"Off-Duty", "Marine", "ODST", "Insurrection"}

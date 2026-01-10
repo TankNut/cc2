@@ -28,7 +28,7 @@ ITEM.Material            = ""
 
 -- Inventory data
 ITEM.Weight              = 1
-ITEM.WeightMultiplier    = 0.2
+ITEM.WeightMultiplier    = 0.6
 
 -- Equipment data
 ITEM.EquipmentSlots      = {}
