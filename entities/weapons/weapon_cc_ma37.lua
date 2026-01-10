@@ -20,9 +20,9 @@ SWEP.Stats = {
 	Count = 1,
 
 	Damage = 24,
-	DamageFalloff = 0.98,
+	DamageFalloff = DMG_FALLOFF_RIFLE,
 
-	Accuracy = {12, 4},
+	Accuracy = ACCURACY_AVERAGE,
 
 	Tracer = "Tracer",
 	TracerCount = 1

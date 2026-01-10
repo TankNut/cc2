@@ -22,7 +22,7 @@ SWEP.Stats = {
 	Damage = 40,
 	DamageFalloff = DMG_FALLOFF_SNIPER,
 
-	Accuracy = ACCURACY_GOOD,
+	Accuracy = ACCURACY_GREAT,
 
 	Tracer = "Tracer",
 	TracerCount = 1

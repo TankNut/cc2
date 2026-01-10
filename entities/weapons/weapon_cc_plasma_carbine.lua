@@ -22,7 +22,7 @@ SWEP.Stats = {
 	Damage = 26,
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
-	Accuracy = {1, 0},
+	Accuracy = ACCURACY_GREAT,
 	Range = 600,
 
 	Tracer = "cc_e_tracer_plasma_carbine",

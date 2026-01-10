@@ -12,7 +12,7 @@ ENT.Gravity = 0.4
 
 ENT.LoopSound = Sound("drc.fuelrod_flight")
 
-ENT.Damage = 100
+ENT.Damage = 120
 
 local color = Color(0, 200, 0)
 

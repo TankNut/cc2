@@ -5,11 +5,6 @@ SWEP.Base = "weapon_cc_base_gun"
 
 SWEP.PrintName = "Fuel Rod Cannon"
 
-SWEP.Slot = 1
-SWEP.SlotPos = 5
-
-SWEP.Spawnable = true
-
 SWEP.ViewModelFOV = 54
 
 SWEP.UseHands   = false
@@ -23,7 +18,7 @@ SWEP.Stats = {
 	Offset = Vector(25, -30, -20),
 	Angle = Angle(-5, 0, 0),
 
-	Accuracy = ACCURACY_GOOD
+	Accuracy = {30, 15}
 }
 
 SWEP.Recoil = {
