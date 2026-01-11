@@ -28,6 +28,10 @@ local immunity = {
 }
 
 function PLAYER:CanTarget(target, strict)
+	if target == self then
+		return true
+	end
+
 	return self:CanTargetUserGroup(target:UserGroup(), strict)
 end
 
