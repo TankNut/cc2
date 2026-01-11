@@ -2,16 +2,17 @@ local PANEL = {}
 
 function PANEL:Init()
 	self.Preview = self:Add("DTextEntry")
-	self.Preview:DockMargin(0, 1, 0, 1)
+	self.Preview:DockMargin(5, 1, 0, 1)
 	self.Preview:Dock(LEFT)
-	self.Preview:SetWide(300)
+	self.Preview:SetWide(ScreenScale(100))
 	self.Preview:SetEditable(false)
+	self.Preview:SetTextInset()
 
 	self.Edit = self:Add("DButton")
 	self.Edit:DockMargin(0, 1, 5, 1)
 	self.Edit:Dock(RIGHT)
 	self.Edit:SetText("Edit")
-	self.Edit:SetWide(44)
+	self.Edit:SetWide(52)
 
 	self.Edit.DoClick = function(pnl)
 		async.Start(function()

@@ -1,10 +1,8 @@
 local PANEL = {}
 
-local sliderWidth = 250
-
 function PANEL:Init()
 	self.Slider = self:Add("DNumSlider")
-	self.Slider:SetWide(sliderWidth)
+	self.Slider:SetWide(ScreenScale(100))
 
 	self.Slider.OnValueChanged = function(_, val)
 		val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
@@ -20,7 +18,7 @@ function PANEL:Init()
 	self.Save:DockMargin(0, 1, 5, 1)
 	self.Save:Dock(RIGHT)
 	self.Save:SetText("Save")
-	self.Save:SizeToContentsX(20)
+	self.Save:SetWide(52)
 
 	self.Save.DoClick = function(pnl)
 		local val = math.Round(self.Slider:GetValue(), self.Slider:GetDecimals())
