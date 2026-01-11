@@ -2,7 +2,7 @@ module("Settings", package.seeall)
 
 List = {}
 
-Categories = table.Map(GAMEMODE.SettingsCategories or {}, function(name)
+Categories = table.Map(Config.Get("SettingCategories"), function(name)
 	return {Name = name}
 end)
 
