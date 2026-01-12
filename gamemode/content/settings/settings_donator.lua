@@ -2,6 +2,14 @@ local function isDonator(ply)
 	return ply:IsSuperAdmin() or ply:IsDonator()
 end
 
+Settings.Add("ShowDonatorBadge", {
+	Name = "Show contributor badge",
+	Default = true,
+	Validate = validate.Bool(),
+	Panel = "CC_Setting_Bool",
+	CanAccess = isDonator
+}, "Contributor")
+
 Settings.Add("ScoreboardTitle", {
 	Name = "Scoreboard title",
 	Default = "",
@@ -18,14 +26,6 @@ Settings.Add("ScoreboardTitleColor", {
 	Default = Color(255, 0, 0),
 	Validate = validate.Color(),
 	Panel = "CC_Setting_Color",
-	CanAccess = isDonator
-}, "Contributor")
-
-Settings.Add("ShowDonatorBadge", {
-	Name = "Show contributor badge",
-	Default = true,
-	Validate = validate.Bool(),
-	Panel = "CC_Setting_Bool",
 	CanAccess = isDonator
 }, "Contributor")
 

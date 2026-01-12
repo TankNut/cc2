@@ -1,7 +1,7 @@
 local isDeveloper = FindMetaTable("Player").IsDeveloper
 
 Settings.Add("RainbowPhysgun", {
-	Name = "Enable rainbow physgun",
+	Name = "Rainbow Physics Gun",
 	Default = true,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
