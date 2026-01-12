@@ -9,18 +9,18 @@ function GM:Think()
 		end
 
 		Ambience.Think()
-	else
+
 		for _, ply in player.Iterator() do
 			ply:UpdatePhysgunColor()
 		end
-
+	else
 		Npc.CheckHeldWeapons()
 		Doors.UpdateDoors()
 		Inventory.Think()
 	end
 end
 
-if SERVER then
+if CLIENT then
 	local PLAYER = FindMetaTable("Player")
 
 	function PLAYER:UpdatePhysgunColor()
