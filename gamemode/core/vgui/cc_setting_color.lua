@@ -1,7 +1,10 @@
 local PANEL = {}
 
+local black = Color("black")
+local white = Color("white")
+
 local function updateButton(pnl, val)
-	pnl:SetTextColor(val:GetBrightness() > 0.5 and Color("black") or color_white)
+	pnl:SetTextColor(val:GetLuminance() >= 0.38 and black or white)
 	pnl:SetText(string.format("%s %s %s", val.r, val.g, val.b))
 	pnl.Color = val
 end

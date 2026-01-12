@@ -257,3 +257,11 @@ function COLOR:Set(color)
 	self.b = color.b
 	self.a = color.a
 end
+
+function COLOR:GetLuminance()
+	local r = math.pow(self.r / 255, 2.2)
+	local g = math.pow(self.g / 255, 2.2)
+	local b = math.pow(self.b / 255, 2.2)
+
+	return r * 0.2126 + g * 0.7152 + b * 0.0722
+end
