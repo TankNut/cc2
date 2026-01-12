@@ -69,7 +69,7 @@ function PANEL:Init()
 
 	self.CharacterDescription = self.DescriptionScroll:Add("ScribeLabel")
 	self.CharacterDescription:Dock(TOP)
-	self.CharacterDescription:SetText(lp:VisibleDescription())
+	self.CharacterDescription:SetText(string.format("<small><c=cc_disabled>%s", lp:VisibleDescription()))
 	self.CharacterDescription:SetAutoStretchVertical(true)
 
 	self:UpdateMiscInfo()
@@ -82,7 +82,7 @@ function PANEL:Init()
 
 	hook.Add("OnVisibleDescriptionChanged", self, function(_, ply, old, new)
 		if ply == lp then
-			self.CharacterDescription:SetText(new)
+			self.CharacterDescription:SetText(string.format("<small><c=cc_disabled>%s", new))
 		end
 	end)
 end

@@ -48,7 +48,7 @@ function PANEL:Setup(ply, description)
 	self.Preview:SetPlayer(ply)
 	self.CharacterName:SetText(ply:VisibleRPName())
 
-	self.Description:SetText(string.format("<iset=2><small><cnormal>%s", description))
+	self.Description:SetText(string.format("<iset=3><small><c=cc_disabled>%s", description))
 end
 
 vgui.Register("GUI_Examine", PANEL, "CC_Frame")
