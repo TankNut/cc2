@@ -9,6 +9,7 @@ PlayerVar.Add("OOCMuted", {Default = false, Persist = true, DataType = BOOL()})
 
 PlayerVar.Add("Alias", {
 	Default = "",
+	ServerOnly = true,
 	Persist = true,
 	DataType = VARCHAR(32)
 })

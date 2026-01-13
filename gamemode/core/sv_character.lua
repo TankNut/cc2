@@ -3,6 +3,7 @@ module("Character", package.seeall)
 local PLAYER = FindMetaTable("Player")
 
 function Fetch(id)
+	-- Should try to fetch stuff from the player if the character is loaded
 	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id", {
 		id = id
 	})[1]

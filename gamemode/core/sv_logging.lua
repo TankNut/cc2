@@ -1,5 +1,6 @@
 module("Log", package.seeall)
 
+-- Expand this so everything accepts steam and char ID's
 function Character(ply)
 	local data = {
 		CharID = ply:CharID(),
@@ -139,48 +140,49 @@ local baseColor = Color(200, 200, 200)
 
 function Write(name, ...)
 	local parser = assert(Types[name], "Tried to write unknown log: " .. name)
-	local log, data = parser(...)
 
-	data = data or {}
+	async.Start(function(...)
+		local log, data = parser(...)
 
-	if not log then
-		return
-	end
+		data = data or {}
 
-	do
-		if not colorCache then
-			BuildColorCache()
+		if not log then
+			return
 		end
 
-		local prefix = string.match(name, "^([%a]+_)") or "yes"
-
-		MsgC(baseColor, os.date("!%Y-%m-%dT%H:%M:%SZ "), "[", colorCache[prefix], name, baseColor, "] ", log, "\n")
-	end
-
-	local keyvalues = {}
-
-	local function processKeyValue(key, value)
-		-- Easier for people to work with than true/false
-		if isbool(value) then
-			value = value and 1 or 0
-		end
-
-		table.insert(keyvalues, {
-			key, tostring(value)
-		})
-	end
-
-	for key, value in pairs(data) do
-		if istable(value) and not IsColor(value) then
-			for key2, value2 in SortedPairs(value) do
-				processKeyValue(key2, value2)
+		do
+			if not colorCache then
+				BuildColorCache()
 			end
-		else
-			processKeyValue(key, value)
-		end
-	end
 
-	async.Start(function()
+			local prefix = string.match(name, "^([%a]+_)") or "yes"
+
+			MsgC(baseColor, os.date("!%Y-%m-%dT%H:%M:%SZ "), "[", colorCache[prefix], name, baseColor, "] ", log, "\n")
+		end
+
+		local keyvalues = {}
+
+		local function processKeyValue(key, value)
+			-- Easier for people to work with than true/false
+			if isbool(value) then
+				value = value and 1 or 0
+			end
+
+			table.insert(keyvalues, {
+				key, tostring(value)
+			})
+		end
+
+		for key, value in pairs(data) do
+			if istable(value) and not IsColor(value) then
+				for key2, value2 in SortedPairs(value) do
+					processKeyValue(key2, value2)
+				end
+			else
+				processKeyValue(key, value)
+			end
+		end
+
 		local _, id = GAMEMODE.Database:Query("INSERT INTO `rp_logs` (`Log`, `Name`, `Timestamp`, `Data`) VALUES (:log, :name, :time, :data)", {
 			log = log,
 			name = name,
@@ -199,7 +201,7 @@ function Write(name, ...)
 		end
 
 		GAMEMODE.Database:Commit()
-	end)
+	end, ...)
 end
 
 request.Hook("GetLogs", function(ply, config)
