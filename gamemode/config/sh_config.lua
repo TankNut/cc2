@@ -165,6 +165,14 @@ GM.Config.ToolTrust = {
 		["paint"] = TOOLTRUST_TRUSTED,
 		["submaterial"] = TOOLTRUST_UNTRUSTED,
 		["trails"] = TOOLTRUST_ADVANCED,
+		-- LVS
+		["lvsaienabler"] = TOOLTRUST_ADMIN,
+		["lvscarengineswap"] = TOOLTRUST_ADVANCED,
+		["lvshealthshieldeditor"] = TOOLTRUST_ADMIN,
+		["lvsturret"] = TOOLTRUST_ADMIN,
+		["lvstransmission"] = TOOLTRUST_ADVANCED,
+		["lvscartuningremover"] = TOOLTRUST_ADVANCED,
+		["lvscarwheelchanger"] = TOOLTRUST_ADVANCED,
 		-- Robotboy655
 		["rb655_easy_inspector"] = TOOLTRUST_ADMIN
 	}
