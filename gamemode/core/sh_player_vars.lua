@@ -61,7 +61,7 @@ if SERVER then
 		local data = assert(Vars[name], name .. " is not a valid player var")
 		local value = GAMEMODE.Database:Query(string.format("SELECT `%s` FROM `rp_players` WHERE `SteamID` = :steamId", data.Field), {
 			steamId = steamid
-		})
+		})[1]
 
 		if value then
 			value = value[data.Field]
