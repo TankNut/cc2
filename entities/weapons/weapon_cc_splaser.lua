@@ -52,7 +52,7 @@ SWEP.Recoil = {
 
 SWEP.Settings = {
 	LowerHoldType = "passive",
-	BaseHoldType = "rpg",
+	BaseHoldType = "rpg_heavy",
 
 	Firemodes = {FIREMODE_SEMI},
 

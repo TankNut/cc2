@@ -46,7 +46,7 @@ SWEP.Recoil = {
 
 SWEP.Settings = {
 	LowerHoldType = "normal",
-	BaseHoldType = "pistol",
+	BaseHoldType = "smg",
 
 	Firemodes = {FIREMODE_AUTO},
 
