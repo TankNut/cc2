@@ -1,6 +1,7 @@
 module("Log", package.seeall)
 
 function Character(ply)
+	-- Character ID
 	if isnumber(ply) then
 		local record = Data.Character.Fetch(ply, true)
 		local name = record.CharacterName
@@ -28,6 +29,7 @@ function Character(ply)
 end
 
 function Player(ply)
+	-- SteamID
 	if isstring(ply) then
 		local record = Data.Player.Fetch(ply)
 

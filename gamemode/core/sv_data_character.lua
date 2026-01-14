@@ -1,7 +1,7 @@
 module("Data.Character", package.seeall)
 
 function Fetch(id)
-	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id AND `Deleted_At` IS NULL", {
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id", {
 		id = id
 	})[1]
 
@@ -15,11 +15,15 @@ function Fetch(id)
 	fields.id = id
 	fields.SteamID = data.SteamID
 
+	-- Some extra fields
+	fields.Deleted = tobool(data.Deleted_At)
+	fields.Deleted_At = data.Deleted_At
+
 	return fields
 end
 
 function Load(id)
-	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id AND `Deleted_At` IS NULL", {
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_characters` WHERE `id` = :id", {
 		id = id
 	})[1]
 
