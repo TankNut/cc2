@@ -23,6 +23,7 @@ SWEP.Stats = {
 	DamageFalloff = DMG_FALLOFF_SNIPER,
 
 	Accuracy = ACCURACY_GREAT,
+	Range = RANGE_RIFLE,
 
 	Tracer = "Tracer",
 	TracerCount = 1
@@ -46,7 +47,6 @@ SWEP.Settings = {
 
 	ClipSize = 15,
 
-	Range = 800,
 	Zoom = {1.25, 3},
 
 	NPCBurst = {3, 3},

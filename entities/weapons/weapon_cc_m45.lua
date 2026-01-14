@@ -22,8 +22,8 @@ SWEP.Stats = {
 	Damage = 7,
 	DamageFalloff = DMG_FALLOFF_SHOTGUN,
 
-	FixedRange = true,
 	Accuracy = 36,
+	Range = RANGE_SHOTGUN,
 
 	Tracer = "Tracer",
 	TracerCount = 3
@@ -48,9 +48,7 @@ SWEP.Settings = {
 	ClipSize = 6,
 	ReloadAmount = 1,
 
-	ShotgunReload = true,
-
-	Zoom = {1.25},
+	ShotgunReload = true
 }
 
 SWEP.Animations = {

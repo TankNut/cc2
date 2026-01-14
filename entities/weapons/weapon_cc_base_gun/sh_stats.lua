@@ -11,24 +11,20 @@ function SWEP:GetDelay()
 end
 
 function SWEP:GetRange()
-	if self.Stats.FixedRange then
-		return 1000
+	local val = self.Stats.Range
+
+	if istable(val) then
+		return Lerp(math.ease.InOutSine(self:GetAimState()), val[1], val[2])
 	end
 
-	local settings = self.Settings
-
-	if settings.ScopedRange and self:InScope() then
-		return settings.ScopedRange
-	end
-
-	return settings.Range
+	return val
 end
 
 function SWEP:GetAccuracy()
 	local val = self.Stats.Accuracy
 
 	if istable(val) then
-		return Lerp(math.ease.InOutSine(self:GetAimState()), val[1], val[2])
+		return self:InScope() and val[2] or val[1]
 	end
 
 	return val

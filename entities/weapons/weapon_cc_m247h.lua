@@ -23,6 +23,7 @@ SWEP.Stats = {
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
 	Accuracy = ACCURACY_AVERAGE,
+	Range = RANGE_RIFLE,
 
 	Tracer = "Tracer",
 	TracerCount = 1
@@ -57,8 +58,7 @@ SWEP.Settings = {
 
 	ClipSize = 0,
 
-	Range = 400,
-	Zoom = {1.25},
+	Zoom = {1.25}
 }
 
 SWEP.Animations = {

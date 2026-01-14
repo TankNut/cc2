@@ -23,6 +23,7 @@ SWEP.Stats = {
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
 	Accuracy = ACCURACY_GOOD,
+	Range = RANGE_PISTOL,
 
 	Tracer = "Tracer",
 	TracerCount = 1
@@ -44,10 +45,7 @@ SWEP.Settings = {
 	Firemodes = {FIREMODE_SEMI},
 	FireRate = 240,
 
-	ClipSize = 8,
-
-	Range = 400,
-	Zoom = {1.25},
+	ClipSize = 8
 }
 
 SWEP.Sounds = {

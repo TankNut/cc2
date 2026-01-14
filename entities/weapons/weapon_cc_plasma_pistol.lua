@@ -20,7 +20,8 @@ SWEP.Stats = {
 
 	Offset = Vector(8, -8, -8),
 
-	Accuracy = ACCURACY_AVERAGE
+	Accuracy = ACCURACY_AVERAGE,
+	Range = RANGE_PISTOL
 }
 
 SWEP.Heat = {
@@ -50,10 +51,7 @@ SWEP.Settings = {
 	Firemodes = {FIREMODE_SEMI},
 	FireRate = 300,
 
-	ClipSize = 0,
-
-	Range = 400,
-	Zoom = {1.25},
+	ClipSize = 0
 }
 
 SWEP.Animations = {

@@ -23,7 +23,7 @@ SWEP.Stats = {
 	DamageFalloff = DMG_FALLOFF_RIFLE,
 
 	Accuracy = ACCURACY_GREAT,
-	Range = 600,
+	Range = RANGE_RIFLE,
 
 	Tracer = "cc_e_tracer_plasma_carbine",
 	TracerCount = 1,
@@ -47,10 +47,7 @@ SWEP.Settings = {
 	Firemodes = {FIREMODE_SEMI},
 	FireRate = 250,
 
-	ClipSize = 18,
-
-	Range = 400,
-	Zoom = {1.25}
+	ClipSize = 18
 }
 
 SWEP.Animations = {

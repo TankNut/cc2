@@ -58,7 +58,6 @@ SWEP.Settings = {
 
 	ClipSize = 0,
 
-	Range = 800,
 	Zoom = {1.25, 3},
 
 	NPCBurst = {1, 1}

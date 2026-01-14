@@ -23,8 +23,8 @@ SWEP.Stats = {
 	Damage = 11, -- Per bullet
 	DamageFalloff = 0.98, -- Damage percentage per 1000 units
 
-	FixedRange = false, -- For shotguns, overrides Settings.Range and forces it to use only Accuracy
 	Accuracy = ACCURACY_GOOD, -- See sh_balance.lua
+	Range = 400, -- See sh_balance.lua
 
 	Tracer = "Tracer", -- The tracer effect, do not leave empty
 	TracerCount = 1, -- Fire a tracer every X bullets
@@ -65,8 +65,6 @@ SWEP.Settings = {
 	PumpTime = -1, -- How much of a delay pumping adds
 	ShotgunReload = false, -- Uses shotgun reload mechanics/animations
 
-	Range = 400, -- Range in units at which the weapon hits the accuracy stat exactly
-	ScopedRange = nil, -- Range when scoped, otherwise Range
 	Zoom = {1.25}, -- Scrollwheel to switch between zoom levels
 	ScopeIndex = nil, -- If set, the index of Zoom at which point you're considered scoped
 

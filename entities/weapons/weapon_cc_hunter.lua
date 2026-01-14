@@ -18,7 +18,8 @@ SWEP.Stats = {
 	Offset = Vector(25, -30, -20),
 	Angle = Angle(-5, 0, 0),
 
-	Accuracy = {30, 15}
+	Accuracy = 30,
+	Range = {400, 800}
 }
 
 SWEP.Recoil = {
@@ -38,9 +39,6 @@ SWEP.Settings = {
 	FireRate = 120,
 
 	ClipSize = 0,
-
-	Range = 400,
-	Zoom = {1.25},
 
 	NoNPC = true
 }

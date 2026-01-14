@@ -21,7 +21,8 @@ SWEP.Stats = {
 
 	Offset = Vector(8, -8, -8),
 
-	Accuracy = ACCURACY_POOR
+	Accuracy = ACCURACY_POOR,
+	Range = RANGE_SMG
 }
 
 SWEP.Recoil = {
@@ -40,10 +41,7 @@ SWEP.Settings = {
 	Firemodes = {FIREMODE_AUTO},
 
 	ClipSize = 20,
-	ReloadTime = 1.4,
-
-	Range = 400,
-	Zoom = {1.25},
+	ReloadTime = 1.4
 }
 
 SWEP.Animations = {
