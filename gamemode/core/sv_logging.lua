@@ -1,16 +1,30 @@
 module("Log", package.seeall)
 
--- Expand this so everything accepts steam and char ID's
 function Character(ply)
-	local data = {
-		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName(),
-		EventCharacter = ply:IsEventCharacter()
-	}
+	if isnumber(ply) then
+		local record = Data.Character.Fetch(ply, true)
+		local name = record.CharacterName
 
-	table.Merge(data, Player(ply))
+		if #record.CharacterNameOverride > 0 then
+			name = record.CharacterNameOverride
+		end
 
-	return data
+		local data = {
+			CharID = ply,
+			CharName = name,
+			EventCharacter = record.IsEventCharacter
+		}
+
+		return table.Merge(data, Player(record.SteamID))
+	else
+		local data = {
+			CharID = ply:CharID(),
+			CharName = ply:VisibleRPName(),
+			EventCharacter = ply:IsEventCharacter()
+		}
+
+		return table.Merge(data, Player(ply))
+	end
 end
 
 function Player(ply)
@@ -28,12 +42,12 @@ function Player(ply)
 			Player = record.LastNick,
 			SteamID = ply
 		}
+	else
+		return {
+			Player = ply:Nick(),
+			SteamID = ply:SteamID()
+		}
 	end
-
-	return {
-		Player = ply:Nick(),
-		SteamID = ply:SteamID()
-	}
 end
 
 function Admin(ply)
