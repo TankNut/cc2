@@ -25,6 +25,6 @@ RANGE_SNIPER   = {100, 2400}
 RANGE_LAUNCHER = {400, 1000}
 
 --[[
-Accuracy = {a, b} -- Normal and scoped accuracy, set on a quality basis
-Range = {a, b} -- Normal and aimed range, set on a weapon class basis
+	Accuracy = {a, b} -- Normal and scoped accuracy, set on a quality basis
+	Range = {a, b} -- Normal and aimed range, set on a weapon class basis
 ]]

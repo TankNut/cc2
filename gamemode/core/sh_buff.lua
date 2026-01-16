@@ -38,4 +38,12 @@ if SERVER then
 			end
 		end
 	end)
+
+	hook.Add("PostEntityTakeDamage", "cc2.Buffs", function(ply, dmg, wasDamageTaken)
+		if not ply:IsPlayer() or not wasDamageTaken then
+			return
+		end
+
+		PlayerHook(ply, "OnDamaged", dmg)
+	end)
 end

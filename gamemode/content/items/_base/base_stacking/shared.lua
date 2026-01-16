@@ -9,8 +9,13 @@ ItemDataFunc("Amount", 1)
 
 GM:Include("sh_actions.lua")
 
-function ITEM:GetName()
+function ITEM:GetName(stackless)
 	local name = BaseClass.GetName(self)
+
+	if stackless then
+		return name
+	end
+
 	local amount = self:GetAmount()
 
 	if amount > 1 then
