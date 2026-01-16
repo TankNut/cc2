@@ -5,7 +5,7 @@ SWEP.Base = "weapon_cc_base_plasma"
 
 SWEP.RenderGroup = RENDERGROUP_BOTH
 
-SWEP.PrintName = "Spartan Laser"
+SWEP.PrintName = "M6/R Spartan Laser"
 SWEP.Category = "CombineControl - Halo"
 SWEP.NPCCategory = "UNSC"
 
