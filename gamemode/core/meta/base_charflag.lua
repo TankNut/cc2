@@ -21,7 +21,7 @@ FLAG.BloodColor = BLOOD_COLOR_RED
 -- Min speed can be changed to <= 90 after my footstep plugin is ported over from helix
 FLAG.SlowWalkSpeed = 91
 FLAG.WalkSpeed = 91
-FLAG.RunSpeed = 220
+FLAG.RunSpeed = 225
 FLAG.JumpPower = 200
 FLAG.CrouchSpeed = 60
 
