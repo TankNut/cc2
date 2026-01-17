@@ -115,7 +115,6 @@ Log.AddType("admin_teleport_look", function(ply, target)
 	}
 end)
 
-
 Log.AddType("admin_teleport_send", function(ply, from, to)
 	return string.format("%s has sent %s to %s", Log.Nick(ply), from:Nick(), to:Nick()), {
 		Log.Admin(ply),

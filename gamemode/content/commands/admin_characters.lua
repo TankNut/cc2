@@ -1,8 +1,8 @@
-local listCharacters = console.AddCommand("rpa_character_list", function(ply, steamid)
-	local target = player.GetBySteamID(steamid)
-	local name = target and string.format("%s (%s)", target:Nick(), steamid) or steamid
-	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
-		steamId = steamid
+local listCharacters = console.AddCommand("rpa_character_list", function(ply, steamID)
+	local target = player.GetBySteamID(steamID)
+	local name = target and string.format("%s (%s)", target:Nick(), steamID) or steamID
+	local characters = GAMEMODE.Database:Query("SELECT `id`, COALESCE(`NameOverride`, `Name`) AS `Name`, `Flag`, `EventCharacter` FROM rp_characters WHERE `SteamID` = :steamID AND `Deleted_At` IS NULL", {
+		steamID = steamID
 	})
 
 	if #characters < 1 then

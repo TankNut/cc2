@@ -14,22 +14,22 @@ function LoadBans()
 	end
 end
 
-function AddBan(steamid, admin, length, reason)
-	if CheckBanned(steamid) then
-		LiftBan(steamid)
+function AddBan(steamID, nick, admin, length, reason)
+	if CheckBanned(steamID) then
+		LiftBan(steamID, admin, true)
 	end
 
 	local ban = {
-		SteamID = steamid,
-		Admin = IsValid(admin) and admin:GetAlias() or "CONSOLE",
+		SteamID = steamID,
+		Admin = Log.AdminName(admin),
 		Timestamp = os.time(),
 		Length = length,
 		Reason = reason or "No reason specified"
 	}
 
 	async.Start(function()
-		GAMEMODE.Database:Query("INSERT INTO `rp_bans` (`SteamID`, `Admin`, `Timestamp`, `Length`, `Reason`) VALUES (:steamId, :admin, :timestamp, :length, :reason)", {
-			steamId = ban.SteamID,
+		GAMEMODE.Database:Query("INSERT INTO `rp_bans` (`SteamID`, `Admin`, `Timestamp`, `Length`, `Reason`) VALUES (:steamID, :admin, :timestamp, :length, :reason)", {
+			steamID = ban.SteamID,
 			admin = ban.Admin,
 			timestamp = ban.Timestamp,
 			length = ban.Length,
@@ -37,11 +37,11 @@ function AddBan(steamid, admin, length, reason)
 		})
 	end)
 
-	Bans[steamid] = ban
+	Bans[steamID] = ban
 
-	Log.Write("access_ban", admin, steamid, ban.Length, ban.Reason)
+	Log.Write("access_ban", admin, steamID, nick, ban.Length, ban.Reason)
 
-	local ply = player.GetBySteamID(steamid)
+	local ply = player.GetBySteamID(steamID)
 
 	if ply then
 		ply:Kick(GetBanMessage(ban))
@@ -73,12 +73,12 @@ function GetRemaining(ban)
 	return ban.Timestamp + ban.Length - os.time()
 end
 
-function CheckBanned(steamid)
-	local ban = Bans[steamid]
+function CheckBanned(steamID)
+	local ban = Bans[steamID]
 
 	if ban then
 		if ban.Length > 0 and GetRemaining(ban) < 0 then
-			LiftBan(steamid)
+			LiftBan(steamID)
 
 			return false
 		end
@@ -89,16 +89,18 @@ function CheckBanned(steamid)
 	return false
 end
 
-function LiftBan(steamid, admin)
+function LiftBan(steamID, admin, silent)
 	async.Start(function()
-		GAMEMODE.Database:Query("DELETE FROM `rp_bans` WHERE `SteamID` = :steamId", {
-			steamId = steamid
+		GAMEMODE.Database:Query("DELETE FROM `rp_bans` WHERE `SteamID` = :steamID", {
+			SteamID = steamID
 		})
 	end)
 
-	Log.Write("access_unban", admin, steamid)
+	if not silent then
+		Log.Write("access_unban", admin, steamID, Data.Player.Nick(steamID))
+	end
 
-	Bans[steamid] = nil
+	Bans[steamID] = nil
 end
 
 function Kick(admin, ply, reason)
@@ -106,12 +108,12 @@ function Kick(admin, ply, reason)
 
 	Log.Write("access_kick", admin, ply, reason)
 
-	ply:Kick(string.format(kickFormat, IsValid(admin) and admin:Nick() or "CONSOLE", reason))
+	ply:Kick(string.format(kickFormat, Log.AdminName(admin), reason))
 end
 
 function SecureAdmin(ply, endpoint)
 	if not ply:IsAdmin() then
-		AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
+		AddBan(ply:SteamID(), ply:Nick(), nil, 0, string.format("AUTOMATED: ACL bypass attempt (%s)", endpoint))
 
 		return true
 	end
@@ -119,24 +121,24 @@ end
 
 function SecureDeveloper(ply, endpoint)
 	if not ply:IsDeveloper() then
-		AddBan(ply:SteamID(), nil, 0, string.format("AUTOMATED: Developer ACL bypass attempt (%s)", endpoint))
+		AddBan(ply:SteamID(), ply:Nick(), nil, 0, string.format("AUTOMATED: Developer ACL bypass attempt (%s)", endpoint))
 
 		return true
 	end
 end
 
 function GM:CheckPassword(steam64, ip, sv, cl, nick)
-	local steamid = util.SteamIDFrom64(steam64)
-	local banned, ban = CheckBanned(steamid)
+	local steamID = util.SteamIDFrom64(steam64)
+	local banned, ban = CheckBanned(steamID)
 
 	if banned then
-		Log.Write("access_deny", nick, steamid, "banned")
+		Log.Write("access_deny", nick, steamID, "banned")
 
 		return false, GetBanMessage(ban)
 	end
 
 	if #sv > 0 and cl != sv then
-		Log.Write("access_deny", nick, steamid, "bad password")
+		Log.Write("access_deny", nick, steamID, "bad password")
 
 		return false
 	end

@@ -1,5 +1,8 @@
 local ban = console.AddCommand("rpa_ban", function(ply, steamID, length, reason)
-	Access.AddBan(steamID, ply, length, reason)
+	local target = player.GetBySteamID(steamID)
+	local nick = IsValid(target) and target:Nick() or Data.Player.Nick(steamID)
+
+	Access.AddBan(steamID, nick, ply, length, reason)
 end)
 
 ban:SetCategory("Bans")

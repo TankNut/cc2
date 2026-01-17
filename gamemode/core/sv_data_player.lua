@@ -1,8 +1,8 @@
 module("Data.Player", package.seeall)
 
 function Fetch(steamID)
-	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_players` WHERE `SteamID` = :steamId", {
-		steamId = steamID
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_players` WHERE `SteamID` = :steamID", {
+		steamID = steamID
 	})[1]
 
 	if not data then
@@ -17,13 +17,29 @@ function Fetch(steamID)
 	return fields
 end
 
+function Nick(steamID)
+	local data = GAMEMODE.Database:Query("SELECT `LastNick` FROM `rp_players` WHERE `SteamID` = :steamID", {
+		steamID = steamID
+	})[1]
+
+	return data and data.LastNick or steamID
+end
+
+function UserGroup(steamID)
+	local data = GAMEMODE.Database:Query("SELECT `UserGroup` FROM `rp_players` WHERE `SteamID` = :steamID", {
+		steamID = steamID
+	})[1]
+
+	return data and data.UserGroup or "user"
+end
+
 function Load(ply)
 	local steamID = ply:SteamID()
 
 	Create(steamID)
 
-	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_players` WHERE `SteamID` = :steamId", {
-		steamId = steamID
+	local data = GAMEMODE.Database:Query("SELECT * FROM `rp_players` WHERE `SteamID` = :steamID", {
+		steamID = steamID
 	})[1]
 
 	for key, value in pairs(Data.Unpack(data, PlayerVar.Vars)) do
@@ -32,7 +48,7 @@ function Load(ply)
 end
 
 function Create(steamID)
-	GAMEMODE.Database:Query("INSERT IGNORE INTO `rp_players` (`SteamID`) VALUES (:steamId)", {steamId = steamID})
+	GAMEMODE.Database:Query("INSERT IGNORE INTO `rp_players` (`SteamID`) VALUES (:steamID)", {steamID = steamID})
 end
 
 function Update(steamID, data)
@@ -64,7 +80,7 @@ function Write(steamID, data)
 	local fields = Data.Pack(data, PlayerVar.Vars)
 
 	local queryFields = {}
-	local queryValues = {steamId = steamID}
+	local queryValues = {steamID = steamID}
 
 	for _, field in pairs(fields) do
 		local key, value = field[1], field[2]
@@ -74,7 +90,7 @@ function Write(steamID, data)
 		queryValues[key] = value == nil and NULL or value
 	end
 
-	local query = string.format("UPDATE `rp_players` SET %s WHERE `SteamID` = :steamId", table.concat(queryFields, ", "))
+	local query = string.format("UPDATE `rp_players` SET %s WHERE `SteamID` = :steamID", table.concat(queryFields, ", "))
 
 	GAMEMODE.Database:Query(query, queryValues)
 end

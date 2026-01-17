@@ -68,7 +68,7 @@ function Parser(name, callback)
 end
 
 function PlayerName(ply)
-	return IsValid(ply) and ply:Nick() or "CONSOLE"
+	return IsValid(ply) and ply:GetAlias() or "CONSOLE"
 end
 
 function FormatMessage(str, ...)

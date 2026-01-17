@@ -40,7 +40,7 @@ listCharacters:SetAccess(console.IsAdmin)
 
 
 
-local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id, steamid)
+local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id, steamID)
 	local data = Data.Character.Fetch(id)
 
 	if not data or not data.IsEventCharacter then
@@ -49,7 +49,7 @@ local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id
 		return
 	end
 
-	if data.SteamID == steamid then
+	if data.SteamID == steamID then
 		console.Feedback(ply, "ERROR", "That event character is already owned by that player!")
 
 		return
@@ -58,7 +58,7 @@ local setOwner = console.AddCommand("rpa_eventcharacter_owner", function(ply, id
 	-- if Character.GetByID(id) then inform them
 	-- if player.GetBySteamID then also inform
 
-	Character.SetOwner(id, steamid)
+	Character.SetOwner(id, steamID)
 end)
 
 setOwner:SetCategory("Event Character Commands")
@@ -103,8 +103,8 @@ local create = console.AddCommand("rpa_character_create", function(ply, target, 
 
 	Log.Write("admin_character_create", ply, target, generator.ClassName)
 
-	console.Feedback(target, "NOTICE", "%s given you a new character with type: %s", ply, generator.ClassName)
-	console.Feedback(ply, "NOTICE", "You've given %s a new character with type: %s", target, generator.ClassName)
+	console.Feedback(target, "NOTICE", "%s has given you a new character", ply)
+	console.Feedback(ply, "NOTICE", "You've given %s a new character", target)
 end)
 
 create:SetCategory("Character Commands")
@@ -124,8 +124,8 @@ local createEvent = console.AddCommand("rpa_character_create_event", function(pl
 
 	Log.Write("admin_character_create_event", ply, target, generator.ClassName)
 
-	console.Feedback(target, "NOTICE", "%s given you an event character with type: %s", ply, generator.ClassName)
-	console.Feedback(ply, "NOTICE", "You've given %s an event character with type: %s", target, generator.ClassName)
+	console.Feedback(target, "NOTICE", "%s has given you an event character", ply, generator.ClassName)
+	console.Feedback(ply, "NOTICE", "You've given %s an event character", target, generator.ClassName)
 end)
 
 createEvent:SetCategory("Character Commands")

@@ -43,7 +43,7 @@ function Undelete(id)
 	end
 end
 
-function SetOwner(id, steamid)
+function SetOwner(id, steamID)
 	local oldOwner = GetByID(id)
 
 	if IsValid(oldOwner) then
@@ -55,12 +55,12 @@ function SetOwner(id, steamid)
 		oldOwner:SetCharacterList(charList)
 	end
 
-	GAMEMODE.Database:Query("UPDATE `rp_characters` SET `SteamID` = :steamId WHERE `id` = :id", {
-		steamId = steamid,
+	GAMEMODE.Database:Query("UPDATE `rp_characters` SET `SteamID` = :steamID WHERE `id` = :id", {
+		steamID = steamID,
 		id = id
 	})
 
-	local newOwner = player.GetBySteamID(steamid)
+	local newOwner = player.GetBySteamID(steamID)
 
 	if IsValid(newOwner) then
 		newOwner:LoadCharacterList()
@@ -68,8 +68,8 @@ function SetOwner(id, steamid)
 end
 
 function PLAYER:LoadCharacterList()
-	local data = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `EventCharacter` FROM `rp_characters` WHERE `SteamID` = :steamId AND `Deleted_At` IS NULL", {
-		steamId = self:SteamID()
+	local data = GAMEMODE.Database:Query("SELECT `id`, `Name`, `NameOverride`, `EventCharacter` FROM `rp_characters` WHERE `SteamID` = :steamID AND `Deleted_At` IS NULL", {
+		steamID = self:SteamID()
 	})
 
 	local characters = {}
@@ -86,10 +86,10 @@ end
 
 function PLAYER:CreateCharacter(fields)
 	local keys = {"`SteamID`", "`Created_At`"}
-	local values = {":steamId", ":time"}
+	local values = {":steamID", ":time"}
 
 	local data = {
-		steamId = self:SteamID(),
+		steamID = self:SteamID(),
 		time = os.time()
 	}
 

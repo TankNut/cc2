@@ -97,7 +97,7 @@ function PANEL:DoAddUser()
 	end))
 
 	async.Start(function()
-		local steamid = ui.Open("Input", "string", "Add Admin", {
+		local steamID = ui.Open("Input", "string", "Add Admin", {
 			Validate = {
 				validate.Callback(function(val)
 					return util.IsValidSteamID(val), "is not a valid SteamID"
@@ -109,7 +109,7 @@ function PANEL:DoAddUser()
 			Name = "That"
 		})
 
-		RunConsoleCommand("rpa_usergroup_set", steamid, "admin")
+		RunConsoleCommand("rpa_usergroup_set", steamID, "admin")
 	end)
 end
 

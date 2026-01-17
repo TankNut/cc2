@@ -1,55 +1,22 @@
 module("Log", package.seeall)
 
 function Character(ply)
-	-- Character ID
-	if isnumber(ply) then
-		local record = Data.Character.Fetch(ply, true)
-		local name = record.CharacterName
-
-		if #record.CharacterNameOverride > 0 then
-			name = record.CharacterNameOverride
-		end
-
-		local data = {
-			CharID = ply,
-			CharName = name,
-			EventCharacter = record.IsEventCharacter
-		}
-
-		return table.Merge(data, Player(record.SteamID))
-	else
-		local data = {
-			CharID = ply:CharID(),
-			CharName = ply:VisibleRPName(),
-			EventCharacter = ply:IsEventCharacter()
-		}
-
-		return table.Merge(data, Player(ply))
-	end
+	return table.Merge({
+		CharID = ply:CharID(),
+		CharName = ply:VisibleRPName(),
+		EventCharacter = ply:IsEventCharacter()
+	}, Player(ply))
 end
 
 function Player(ply)
-	-- SteamID
-	if isstring(ply) then
-		local record = Data.Player.Fetch(ply)
+	return {
+		Player = ply:Nick(),
+		SteamID = ply:SteamID()
+	}
+end
 
-		if not record then
-			return {
-				Player = "*UNKNOWN*",
-				SteamID = ply
-			}
-		end
-
-		return {
-			Player = record.LastNick,
-			SteamID = ply
-		}
-	else
-		return {
-			Player = ply:Nick(),
-			SteamID = ply:SteamID()
-		}
-	end
+function AdminName(ply)
+	return IsValid(ply) and ply:GetAlias() or "CONSOLE"
 end
 
 function Admin(ply)

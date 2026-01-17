@@ -48,8 +48,8 @@ function util.TypeIDToString(typeID)
 end
 
 -- Gmod only ever uses STEAM_0
-function util.IsValidSteamID(steamid)
-	return string.match(steamid, "^STEAM_0:%d:%d+$") != nil
+function util.IsValidSteamID(steamID)
+	return string.match(steamID, "^STEAM_0:%d:%d+$") != nil
 end
 
 function util.GetModelSkins(mdl)
