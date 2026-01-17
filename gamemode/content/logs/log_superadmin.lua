@@ -14,25 +14,25 @@ Log.AddType("superadmin_tempadmin", function(ply, target, bool)
 	}
 end)
 
-Log.AddType("superadmin_setusergroup", function(ply, target, usergroup)
-	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
-
-	target = Log.Player(target)
-
-	return string.format("%s has set %s's usergroup to %s", name, target.Player or target.SteamID, usergroup), {
+Log.AddType("superadmin_usergroup", function(ply, steamID, nick, usergroup)
+	return string.format("%s has set %s's usergroup to %s", Log.AdminName(ply), nick, usergroup), {
 		Log.Admin(ply),
-		target,
+		SteamID = steamID,
+		Player = nick,
 		UserGroup = usergroup
 	}
 end)
 
-Log.AddType("superadmin_player_set", function(ply, target, variable, value)
-	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
-
-	return string.format("%s has set %s's %s to %s", name, target:Nick(), variable, value), {
-		Log.Admin(ply),
-		Log.Player(target),
-		VariableName = variable,
-		VariableValue = value
-	}
+Log.AddType("superadmin_nodamage", function(ply, target, bool)
+	if bool then
+		return string.format("%s has enabled nodamage for %s", Log.AdminName(ply), target:Nick()), {
+			Log.Admin(ply),
+			Log.Player(target)
+		}
+	else
+		return string.format("%s has disabled nodamage for %s", Log.AdminName(ply), target:Nick()), {
+			Log.Admin(ply),
+			Log.Player(target)
+		}
+	end
 end)

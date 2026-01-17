@@ -25,6 +25,18 @@ function Nick(steamID)
 	return data and data.LastNick or steamID
 end
 
+function Alias(steamID)
+	local data = GAMEMODE.Database:Query("SELECT `Alias`, `LastNick` FROM `rp_players` WHERE `SteamID` = :steamID", {
+		steamID = steamID
+	})[1]
+
+	if not data then
+		return steamID
+	end
+
+	return data.Alias or data.LastNick
+end
+
 function UserGroup(steamID)
 	local data = GAMEMODE.Database:Query("SELECT `UserGroup` FROM `rp_players` WHERE `SteamID` = :steamID", {
 		steamID = steamID

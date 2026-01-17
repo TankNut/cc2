@@ -1,10 +1,13 @@
 module("Log", package.seeall)
 
+function AdminName(ply)
+	return IsValid(ply) and ply:GetAlias() or "CONSOLE"
+end
+
 function Character(ply)
 	return table.Merge({
 		CharID = ply:CharID(),
-		CharName = ply:VisibleRPName(),
-		EventCharacter = ply:IsEventCharacter()
+		CharName = ply:VisibleRPName()
 	}, Player(ply))
 end
 
@@ -13,10 +16,6 @@ function Player(ply)
 		Player = ply:Nick(),
 		SteamID = ply:SteamID()
 	}
-end
-
-function AdminName(ply)
-	return IsValid(ply) and ply:GetAlias() or "CONSOLE"
 end
 
 function Admin(ply)
@@ -47,10 +46,6 @@ function Item(item)
 		ItemClass = item.ClassName,
 		IsTemporaryItem = item:IsTemporaryItem()
 	}
-end
-
-function Nick(ply)
-	return IsValid(ply) and ply:Nick() or "CONSOLE"
 end
 
 function Read(name, data, offset, fromTime, toTime)

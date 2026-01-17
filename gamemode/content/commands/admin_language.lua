@@ -20,10 +20,7 @@ give:SetDescription("Gives a spoken or understood language to a player's charact
 give:SetExecutionContext(console.Server)
 give:SetAccess(console.IsAdmin)
 
-give:AddParameter(console.Player({
-	SingleTarget = true
-}))
-
+give:AddParameter(console.Player())
 give:AddParameter(console.Language())
 give:AddOptional(console.Bool(nil, "speaking"), true)
 
@@ -55,5 +52,5 @@ take:SetDescription("Takes a spoken or understood language from a player's chara
 take:SetExecutionContext(console.Server)
 take:SetAccess(console.IsAdmin)
 
-take:AddParameter(console.Player({SingleTarget = true}))
+take:AddParameter(console.Player())
 take:AddParameter(console.Language())

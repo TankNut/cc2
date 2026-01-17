@@ -33,8 +33,7 @@ if SERVER then
 		end
 
 		local ok, target = console.FindPlayer(ply, string.Trim(string.sub(text, startIndex, endIndex - (quoted and 1 or 0))), {
-			NoSelfTarget = true,
-			SingleTarget = true
+			NoSelfTarget = true
 		})
 
 		if not ok then

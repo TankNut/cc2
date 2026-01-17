@@ -48,18 +48,18 @@ createTemp:AddOptional(console.String())
 
 
 
-local give = console.AddCommand("rpa_item_give", function(ply, targets, class, args)
+local give = console.AddCommand("rpa_item_give", function(ply, target, class, args)
 	if class == nil then
 		return
 	end
 
-	for _, target in ipairs(targets) do
-		if not target:HasCharacter() then
-			continue
-		end
+	if not target:HasCharacter() then
+		console.Feedback(ply, "ERROR", "You can't give an item to a player without a character!")
 
-		Log.Write("admin_item_give", ply, target:GiveItem(class, args), target)
+		return
 	end
+
+	Log.Write("admin_item_give", ply, target:GiveItem(class, args), target)
 end)
 
 give:SetCategory("Item Commands")
@@ -75,18 +75,18 @@ give:AddOptional(console.String())
 
 
 
-local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, targets, class, args)
+local giveTemp = console.AddCommand("rpa_item_give_temp", function(ply, target, class, args)
 	if class == nil then
 		return
 	end
 
-	for _, target in ipairs(targets) do
-		if not target:HasCharacter() then
-			continue
-		end
+	if not target:HasCharacter() then
+		console.Feedback(ply, "ERROR", "You can't give an item to a player without a character!")
 
-		Log.Write("admin_item_give", ply, target:GiveTempItem(class, args), target)
+		return
 	end
+
+	Log.Write("admin_item_give", ply, target:GiveTempItem(class, args), target)
 end)
 
 giveTemp:SetCategory("Item Commands")
@@ -107,7 +107,7 @@ local clearStashes = console.AddCommand("rpa_stash_clear", function(ply)
 
 	GAMEMODE:SetStashVersion(GAMEMODE:StashVersion() + 1)
 
-	Chat.Send("NOTICE", console.FormatMessage("%s has cleared everyone's stashes.", ply))
+	Chat.Send("NOTICE", console.FormatMessage("%s has cleared everyone's stashes", ply))
 
 	for _, target in player.Iterator() do
 		if target:HasStash() then

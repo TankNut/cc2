@@ -37,7 +37,7 @@ listPermissions:SetDescription("Lists all of the permissions a player has")
 listPermissions:SetExecutionContext(console.Server)
 listPermissions:SetAccess(console.IsAdmin)
 
-listPermissions:AddParameter(console.Player({SingleTarget = true}))
+listPermissions:AddParameter(console.Player())
 
 
 
@@ -66,7 +66,7 @@ addPermission:SetDescription("Gives a permission to a player")
 addPermission:SetExecutionContext(console.Server)
 addPermission:SetAccess(console.IsAdmin)
 
-addPermission:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true}))
+addPermission:AddParameter(console.Player({StrictImmunity = true}))
 addPermission:AddParameter(console.Permission({Assignable = true}))
 
 
@@ -96,5 +96,5 @@ removePermission:SetDescription("Takes a permission from a player")
 removePermission:SetExecutionContext(console.Server)
 removePermission:SetAccess(console.IsAdmin)
 
-removePermission:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true}))
+removePermission:AddParameter(console.Player({StrictImmunity = true}))
 removePermission:AddParameter(console.Permission({Assignable = true}))

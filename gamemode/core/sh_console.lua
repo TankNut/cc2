@@ -55,8 +55,7 @@ function console.FindPlayer(ply, str, options)
 
 	str = string.lower(str)
 
-	local targets = {}
-	local multi = false
+	local found
 
 	if str == "^" then -- Target self
 		if isConsole then
@@ -67,52 +66,19 @@ function console.FindPlayer(ply, str, options)
 			return false, "You cannot target yourself"
 		end
 
-		table.insert(targets, ply)
+		found = ply
 	elseif str == "-" then -- Target look-at
 		if isConsole then
-			return false, "The server console cannot target by look-at"
+			return false, "The server console cannot target what they're looking at"
 		end
 
 		local ent = ply:GetEyeTrace().Entity
 
 		if IsValid(ent) and ent:IsPlayer() then
-			table.insert(targets, ent)
+			found = ent
 		end
-	elseif str[1] == "$" then -- Target by radius
-		if isConsole then
-			return false, "The server console cannot target by radius"
-		end
-
-		multi = true
-
-		local radius, targetSelf = string.match(str, "^%$([%d]+)(%+?)$")
-
-		radius = tonumber(radius)
-		targetSelf = targetSelf == "+"
-
-		if not radius then
-			return false, "Invalid radius"
-		end
-
-		local eye = ply:EyePos()
-
-		for _, target in player.Iterator() do
-			if (target != ply or targetSelf) and ply:EyePos():Distance(eye) <= radius then
-				table.insert(targets, target)
-			end
-		end
-	-- Disabled, infrastructure for searching teams by name isn't ready atm
-	-- elseif str[1] == "#" then -- Target by team
-	elseif str == "@@" then -- Target everyone
-		multi = true
-		targets = player.GetAll()
 	else -- Target by name
-		multi = str[1] == "@"
-
-		if multi then
-			str = string.sub(str, 2)
-		end
-
+		local targets = {}
 		local priv = isConsole or ply:IsAdmin()
 
 		for _, target in player.Iterator() do
@@ -134,43 +100,35 @@ function console.FindPlayer(ply, str, options)
 				continue
 			end
 		end
+
+		if #targets > 1 then
+			return false, "Multiple targets found"
+		end
+
+		found = targets[1]
 	end
 
-	if options.CheckImmunity and not isConsole then
-		targets = table.Filter(targets, function(_, target)
-			return ply:CanTarget(target)
-		end)
+	if not found then
+		return false, "No target found"
 	end
 
-	if options.StrictImmunity and not isConsole then
-		targets = table.Filter(targets, function(_, target)
-			return ply:CanTarget(target, true)
-		end)
+	if options.CheckImmunity and not isConsole and not ply:CanTarget(found) then
+		return false, "You cannot target that person"
 	end
 
-	if options.NoAdmins then
-		targets = table.Filter(targets, function(_, target)
-			return not target:IsAdmin()
-		end)
+	if options.StrictImmunity and not isConsole and not ply:CanTarget(found, true) then
+		return false, "You cannot target that person"
 	end
 
-	if options.NoSelfTarget and not isConsole then
-		targets = table.Filter(targets, function(_, target)
-			return target != ply
-		end)
+	if options.NoAdmins and found:IsAdmin() then
+		return false, "You cannot target admins"
 	end
 
-	if table.IsEmpty(targets) then
-		return false, "No targets found"
-	elseif (not multi or options.SingleTarget) and #targets > 1 then
-		return false, "Multiple matches found"
+	if options.NoSelfTarget and found == ply then
+		return false, "You cannot target yourself"
 	end
 
-	if options.SingleTarget then
-		return true, targets[1]
-	end
-
-	return true, targets
+	return true, found
 end
 
 console.Parser("Player", function(ply, args, last, options)
@@ -188,9 +146,6 @@ console.Parser("SteamID", function(ply, args, last, options)
 
 		return true, val
 	end
-
-	options = table.Copy(options)
-	options.SingleTarget = true
 
 	local ok, target = console.FindPlayer(ply, val, options)
 

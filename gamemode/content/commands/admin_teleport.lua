@@ -1,5 +1,5 @@
 local goTo = console.AddCommand("rpa_goto", function(ply, target)
-	util.TeleportPlayers(target, ply)
+	ply:SetPos(target)
 
 	Log.Write("admin_teleport_goto", ply, target)
 end)
@@ -11,18 +11,16 @@ goTo:SetExecutionContext(console.Server)
 goTo:SetAccess(console.IsAdmin)
 goTo:SetNoConsole()
 
-goTo:AddParameter(console.Player({SingleTarget = true, NoSelfTarget = true}))
+goTo:AddParameter(console.Player({NoSelfTarget = true}))
 
 
 
 
 
-local bring = console.AddCommand("rpa_bring", function(ply, targets)
-	util.TeleportPlayers(ply, targets)
+local bring = console.AddCommand("rpa_bring", function(ply, target)
+	target:SetPos(ply:GetPos())
 
-	for _, target in ipairs(targets) do
-		Log.Write("admin_teleport_bring", ply, target)
-	end
+	Log.Write("admin_teleport_bring", ply, target)
 end)
 
 bring:SetCategory("Teleport Commands")
@@ -38,12 +36,10 @@ bring:AddParameter(console.Player({NoSelfTarget = true}))
 
 
 
-local send = console.AddCommand("rpa_send", function(ply, targets, to)
-	util.TeleportPlayers(to, targets)
+local send = console.AddCommand("rpa_send", function(ply, target, to)
+	target:SetPos(to)
 
-	for _, target in ipairs(targets) do
-		Log.Write("admin_teleport_send", ply, target, to)
-	end
+	Log.Write("admin_teleport_send", ply, target, to)
 end)
 
 send:SetCategory("Teleport Commands")
@@ -53,18 +49,16 @@ send:SetExecutionContext(console.Server)
 send:SetAccess(console.IsAdmin)
 
 send:AddParameter(console.Player())
-send:AddParameter(console.Player({SingleTarget = true}))
+send:AddParameter(console.Player())
 
 
 
 
 
-local teleport = console.AddCommand("rpa_teleport", function(ply, targets)
-	util.TeleportPlayers(ply:GetEyeTrace().HitPos, targets)
+local teleport = console.AddCommand("rpa_teleport", function(ply, target)
+	target:SetPos(ply:GetEyeTrace().HitPos)
 
-	for _, target in ipairs(targets) do
-		Log.Write("admin_teleport_look", ply, target)
-	end
+	Log.Write("admin_teleport_look", ply, target)
 end)
 
 teleport:SetCategory("Teleport Commands")
@@ -74,4 +68,4 @@ teleport:SetExecutionContext(console.Server)
 teleport:SetAccess(console.IsAdmin)
 teleport:SetNoConsole()
 
-teleport:AddParameter(console.Player({NoSelfTarget = true}))
+teleport:AddParameter(console.Player())

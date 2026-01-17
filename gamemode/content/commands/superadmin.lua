@@ -6,18 +6,21 @@ local setUserGroup = console.AddCommand("rpa_usergroup_set", function(ply, steam
 	end
 
 	local target = player.GetBySteamID(steamID)
+	local nick
 
 	if target then
 		target:SetUserGroup(usergroup)
+		nick = target:Nick()
 
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
 		Data.Player.Update(steamID, {UserGroup = usergroup})
+		nick = Data.Player.Nick(steamID)
 	end
 
-	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", target and target:Nick() or steamID, usergroup)
+	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", nick, usergroup)
 
-	Log.Write("superadmin_setusergroup", ply, target or steamID, usergroup)
+	Log.Write("superadmin_usergroup", ply, steamID, nick, usergroup)
 end)
 
 setUserGroup:SetCategory("Superadmin Commands")
@@ -56,7 +59,7 @@ giveBadge:SetDescription("Assigns a scoreboard badge to a player")
 giveBadge:SetExecutionContext(console.Server)
 giveBadge:SetAccess(console.IsSuperAdmin)
 
-giveBadge:AddParameter(console.Player({SingleTarget = true}))
+giveBadge:AddParameter(console.Player())
 giveBadge:AddParameter(console.Badge())
 
 
@@ -81,7 +84,7 @@ takeBadge:SetDescription("Removes a scoreboard badge from a player")
 takeBadge:SetExecutionContext(console.Server)
 takeBadge:SetAccess(console.IsSuperAdmin)
 
-takeBadge:AddParameter(console.Player({SingleTarget = true}))
+takeBadge:AddParameter(console.Player())
 takeBadge:AddParameter(console.Badge())
 
 
@@ -98,7 +101,7 @@ local explode = console.AddCommand("rpa_explode", function(ply, target)
 	explosion:Activate()
 	explosion:Fire("Explode")
 
-	Chat.Send("NOTICE", ply:Nick() .. " exploded " .. target:Nick())
+	Chat.Send("NOTICE", console.FormatMessage("%s exploded %s", ply, target:Nick()))
 end)
 
 explode:SetCategory("Superadmin Commands")
@@ -106,7 +109,7 @@ explode:SetDescription("Explodes a player for some reason")
 explode:SetExecutionContext(console.Server)
 explode:SetAccess(console.IsSuperAdmin)
 
-explode:AddParameter(console.Player({SingleTarget = true}))
+explode:AddParameter(console.Player())
 
 
 
@@ -134,7 +137,7 @@ tempAdmin:SetDescription("Gives or takes away a player's temporary admin access"
 tempAdmin:SetExecutionContext(console.Server)
 tempAdmin:SetAccess(console.IsSuperAdmin)
 
-tempAdmin:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true, NoSelfTarget = true}))
+tempAdmin:AddParameter(console.Player({StrictImmunity = true, NoSelfTarget = true}))
 
 
 
@@ -149,7 +152,7 @@ local noDamage = console.AddCommand("rpa_nodamage", function(ply, targets, bool)
 
 		console.Feedback(target, "NOTICE", "%s has %s", ply, action)
 
-		Log.Write("superadmin_player_set", ply, target, "NoDamage", tostring(bool))
+		Log.Write("superadmin_nodamage", ply, target, bool)
 	end
 
 	console.Feedback(ply, "NOTICE", "You've %s %s", feedback, targets)
@@ -168,7 +171,7 @@ noDamage:AddParameter(console.Bool())
 
 
 -- Unfinished
--- local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamid)
+-- local setOwner = console.AddCommand("rpa_character_owner", function(ply, id, steamID)
 -- 	local data = Data.Character.Fetch(id)
 
 -- 	if not data then
@@ -177,7 +180,7 @@ noDamage:AddParameter(console.Bool())
 -- 		return
 -- 	end
 
--- 	if data.SteamID == steamid then
+-- 	if data.SteamID == steamID then
 -- 		console.Feedback(ply, "ERROR", "That character is already owned by that player")
 
 -- 		return
@@ -186,7 +189,7 @@ noDamage:AddParameter(console.Bool())
 -- 	-- if Character.GetByID(id) then inform them
 -- 	-- if player.GetBySteamID then also inform
 
--- 	Character.SetOwner(id, steamid)
+-- 	Character.SetOwner(id, steamID)
 -- end)
 
 -- setOwner:SetCategory("Superadmin Commands")
@@ -221,7 +224,7 @@ setDonation:SetDescription("Sets a player's contributor status for a certain amo
 setDonation:SetExecutionContext(console.Server)
 setDonation:SetAccess(console.IsSuperAdmin)
 
-setDonation:AddParameter(console.SteamID({SingleTarget = true}))
+setDonation:AddParameter(console.SteamID())
 setDonation:AddParameter(console.Bool({}, "Advanced donator"))
 setDonation:AddParameter(console.Duration({}, "length"))
 
@@ -249,4 +252,31 @@ clearDonation:SetDescription("Removes a player's contributor status")
 clearDonation:SetExecutionContext(console.Server)
 clearDonation:SetAccess(console.IsSuperAdmin)
 
-clearDonation:AddParameter(console.SteamID({SingleTarget = true}))
+clearDonation:AddParameter(console.SteamID())
+
+
+
+
+
+local setAlias = console.AddCommand("rpa_alias_set", function(ply, steamID, alias)
+	local target = player.GetBySteamID(steamID)
+	local name = IsValid(target) and target:GetAlias() or Data.Player.Alias(steamID)
+
+	Data.Player.Update(steamID, {Alias = alias})
+
+	if alias == "" then
+		console.Feedback(ply, "NOTICE", "You've removed %s's alias", name)
+	else
+		console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
+	end
+
+	Log.Write("admin_player_alias", ply, steamID, alias)
+end)
+
+setAlias:SetCategory("Superadmin Commands")
+setAlias:SetDescription("Updates an admin's alias")
+setAlias:SetExecutionContext(console.Server)
+setAlias:SetAccess(console.IsSuperAdmin)
+
+setAlias:AddParameter(console.SteamID())
+setAlias:AddParameter(console.String({validate.Max(32)}))

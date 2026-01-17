@@ -122,7 +122,7 @@ function PANEL:Populate()
 		self.GenCharacter:SetSize(w, h)
 		self.GenCharacter:DockMargin(0, margin, 0, 0)
 		self.GenCharacter:Dock(TOP)
-		self.GenCharacter:SetText("Create event character")
+		self.GenCharacter:SetText("Quick create character")
 
 		self.GenCharacter.DoClick = function(pnl)
 			self:Remove()

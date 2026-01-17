@@ -3,7 +3,7 @@ local setDelay = console.AddCommand("rpa_ooc_delay", function(ply, delay)
 
 	Log.Write("admin_variable_set", ply, "OOCDelay", delay)
 
-	Chat.Send("NOTICE", ply:Nick() .. " has set the OOC delay to " .. string.NiceTime(delay) .. ".")
+	Chat.Send("NOTICE", console.FormatMessage("%s has set the OOC delay to %s", ply, string.NiceTime(delay)))
 end)
 
 setDelay:SetCategory("OOC Commands")
@@ -22,7 +22,7 @@ local disable = console.AddCommand("rpa_ooc_disable", function(ply)
 
 	Log.Write("admin_variable_set", ply, "OOCDelay", -1)
 
-	Chat.Send("NOTICE", ply:Nick() .. " has disabled OOC chat")
+	Chat.Send("NOTICE", console.FormatMessage("%s has disabled OOC chat", ply))
 end)
 
 disable:SetCategory("OOC Commands")
@@ -45,10 +45,10 @@ local oocMute = console.AddCommand("rpa_ooc_mute", function (ply, target, bool)
 
 	target:SetOOCMuted(new)
 
-	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new == 1 and "muted" or "unmuted", target)
-	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new == 1 and "muted" or "unmuted")
+	console.Feedback(ply, "NOTICE", "You %s %s from OOC chat", new and "muted" or "unmuted", target)
+	console.Feedback(target, "NOTICE", "%s has %s you from OOC chat", ply, new and "muted" or "unmuted")
 
-	Log.Write("admin_player_set", ply, target, "OOCMuted", new)
+	Log.Write("admin_mute", ply, target, new)
 end)
 
 oocMute:SetCategory("OOC Commands")
@@ -57,5 +57,5 @@ oocMute:SetDescription("Mutes or unmutes a player from OOC chat")
 oocMute:SetExecutionContext(console.Server)
 oocMute:SetAccess(console.IsAdmin)
 
-oocMute:AddParameter(console.Player({SingleTarget = true, NoAdmins = true}))
+oocMute:AddParameter(console.Player({NoAdmins = true}))
 oocMute:AddOptional(console.Bool())

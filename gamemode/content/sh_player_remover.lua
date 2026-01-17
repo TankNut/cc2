@@ -21,7 +21,7 @@ function RemovePlayer(target, ply, tr)
 
 		target:Kick("Kicked by " .. name)
 
-		Chat.Send("NOTICE", string.format("%s has removed %s.", name, targetName))
+		Chat.Send("NOTICE", string.format("%s has removed %s", name, targetName))
 	end
 end
 

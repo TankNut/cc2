@@ -42,5 +42,5 @@ kick:SetDescription("Kicks a player")
 kick:SetExecutionContext(console.Server)
 kick:SetAccess(console.IsAdmin)
 
-kick:AddParameter(console.Player({SingleTarget = true, StrictImmunity = true, NoSelfTarget = true}))
+kick:AddParameter(console.Player({StrictImmunity = true, NoSelfTarget = true}))
 kick:AddOptional(console.String({Max = 256}, "reason"), nil, "No reason specified")

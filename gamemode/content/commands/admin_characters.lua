@@ -38,7 +38,7 @@ listCharacters:SetDescription("Lists all characters owned by a player")
 listCharacters:SetExecutionContext(console.Server)
 listCharacters:SetAccess(console.IsAdmin)
 
-listCharacters:AddParameter(console.SteamID({SingleTarget = true}))
+listCharacters:AddParameter(console.SteamID())
 
 
 
@@ -51,7 +51,7 @@ local setModel = console.AddCommand("rpa_character_model", function (ply, target
 		return
 	end
 
-	Log.Write("admin_character_set", ply, target, "Model", mdl)
+	Log.Write("admin_character_model", ply, target, mdl)
 
 	target:SetCharacterModel(mdl)
 
@@ -64,7 +64,7 @@ setModel:SetDescription("Updates a player's current character model")
 setModel:SetExecutionContext(console.Server)
 setModel:SetAccess(console.IsAdmin)
 
-setModel:AddParameter(console.Player({SingleTarget = true}))
+setModel:AddParameter(console.Player())
 setModel:AddParameter(console.String())
 
 
@@ -78,9 +78,9 @@ local setModelOverride = console.AddCommand("rpa_character_model_override", func
 		return
 	end
 
-	Log.Write("admin_character_set", ply, target, "ModelOverride", mdl)
-
 	target:SetCharacterModelOverride(mdl)
+
+	Log.Write("admin_character_model_override", ply, target, mdl)
 
 	if #mdl > 0 then
 		console.Feedback(ply, "NOTICE", "You've set %s's character model override to %s", target, mdl)
@@ -96,7 +96,7 @@ setModelOverride:SetDescription("Overrides a player's current character model an
 setModelOverride:SetExecutionContext(console.Server)
 setModelOverride:SetAccess(console.IsAdmin)
 
-setModelOverride:AddParameter(console.Player({SingleTarget = true}))
+setModelOverride:AddParameter(console.Player())
 setModelOverride:AddOptional(console.String(), "", "none")
 
 
@@ -104,7 +104,7 @@ setModelOverride:AddOptional(console.String(), "", "none")
 
 
 local setSkin = console.AddCommand("rpa_character_skin", function (ply, target, num)
-	Log.Write("admin_character_set", ply, target, "Skin", num)
+	Log.Write("admin_character_skin", ply, target, num)
 
 	target:SetCharacterSkin(num)
 
@@ -117,7 +117,7 @@ setSkin:SetDescription("Updates a player's current character skin")
 setSkin:SetExecutionContext(console.Server)
 setSkin:SetAccess(console.IsAdmin)
 
-setSkin:AddParameter(console.Player({SingleTarget = true}))
+setSkin:AddParameter(console.Player())
 setSkin:AddParameter(console.Number())
 
 
@@ -125,7 +125,7 @@ setSkin:AddParameter(console.Number())
 
 
 local setName = console.AddCommand("rpa_character_name", function (ply, target, name)
-	Log.Write("admin_character_set", ply, target, "Name", name)
+	Log.Write("admin_character_name", ply, target, name)
 
 	target:SetCharacterName(name)
 
@@ -138,7 +138,7 @@ setName:SetDescription("Updates a player's current character name")
 setName:SetExecutionContext(console.Server)
 setName:SetAccess(console.IsAdmin)
 
-setName:AddParameter(console.Player({SingleTarget = true}))
+setName:AddParameter(console.Player())
 setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 
 
@@ -148,7 +148,7 @@ setName:AddParameter(console.String(Config.Get("CharacterNameRules")))
 local setNameOverride = console.AddCommand("rpa_character_name_override", function (ply, target, name)
 	name = string.Escape(name)
 
-	Log.Write("admin_character_set", ply, target, "NameOverride", name)
+	Log.Write("admin_character_name_override", ply, target, name)
 
 	target:SetCharacterNameOverride(name)
 
@@ -166,7 +166,7 @@ setNameOverride:SetDescription("Overrides a player's current character name")
 setNameOverride:SetExecutionContext(console.Server)
 setNameOverride:SetAccess(console.IsAdmin)
 
-setNameOverride:AddParameter(console.Player({SingleTarget = true}))
+setNameOverride:AddParameter(console.Player())
 setNameOverride:AddOptional(console.String({validate.String(), validate.Max(64)}), "", "none")
 
 
@@ -174,7 +174,7 @@ setNameOverride:AddOptional(console.String({validate.String(), validate.Max(64)}
 
 
 local setScale = console.AddCommand("rpa_character_scale", function (ply, target, scale)
-	Log.Write("admin_character_set", ply, target, "Scale", scale)
+	Log.Write("admin_character_scale", ply, target, scale)
 
 	target:SetCharacterScale(scale)
 
@@ -187,7 +187,7 @@ setScale:SetDescription("Updates a player's permanent character size, use 0 to r
 setScale:SetExecutionContext(console.Server)
 setScale:SetAccess(console.IsAdmin)
 
-setScale:AddParameter(console.Player({SingleTarget = true}))
+setScale:AddParameter(console.Player())
 setScale:AddParameter(console.Number({validate.Min(0), validate.Max(10)}))
 
 
@@ -201,9 +201,9 @@ local setHidden = console.AddCommand("rpa_character_hide", function(ply, target,
 		new = not target:CharacterHidden()
 	end
 
-	local str = bool and "hidden" or "unhidden"
+	local str = new and "hidden" or "unhidden"
 
-	Log.Write("admin_character_set", ply, target, "Hidden", new)
+	Log.Write("admin_character_hidden", ply, target, new)
 
 	target:SetCharacterHidden(new)
 
@@ -216,7 +216,7 @@ setHidden:SetDescription("Toggles a character's hidden status on the scoreboard"
 setHidden:SetExecutionContext(console.Server)
 setHidden:SetAccess(console.IsAdmin)
 
-setHidden:AddParameter(console.Player({SingleTarget = true}))
+setHidden:AddParameter(console.Player())
 setHidden:AddOptional(console.Bool(), nil, "flip")
 
 
@@ -224,7 +224,7 @@ setHidden:AddOptional(console.Bool(), nil, "flip")
 
 
 local setFlag = console.AddCommand("rpa_character_flag", function(ply, target, flag)
-	Log.Write("admin_character_set", ply, target, "Flag", flag)
+	Log.Write("admin_character_flag", ply, target, flag)
 
 	target:SetCharacterFlag(flag)
 
@@ -239,7 +239,7 @@ setFlag:SetDescription("Updates a player's current character flag")
 setFlag:SetExecutionContext(console.Server)
 setFlag:SetAccess(console.IsAdmin)
 
-setFlag:AddParameter(console.Player({SingleTarget = true}))
+setFlag:AddParameter(console.Player())
 setFlag:AddParameter(console.CharacterFlag())
 
 
@@ -259,7 +259,7 @@ editInventory:SetDescription("Opens a character's inventory")
 editInventory:SetExecutionContext(console.Server)
 editInventory:SetAccess(console.IsAdmin)
 
-editInventory:AddParameter(console.Player({SingleTarget = true}))
+editInventory:AddParameter(console.Player())
 
 
 
@@ -278,4 +278,25 @@ editStash:SetDescription("Opens a character's stash")
 editStash:SetExecutionContext(console.Server)
 editStash:SetAccess(console.IsAdmin)
 
-editStash:AddParameter(console.Player({SingleTarget = true}))
+editStash:AddParameter(console.Player())
+
+
+
+
+
+local create = console.AddCommand("rpa_character_create", function(ply, target, generator)
+	CharacterGen.Run(target, generator.ClassName)
+
+	Log.Write("admin_character_create", ply, target, generator.ClassName)
+
+	console.Feedback(target, "NOTICE", "%s has given you a new character", ply)
+	console.Feedback(ply, "NOTICE", "You've given %s a new character", target)
+end)
+
+create:SetCategory("Character Commands")
+create:SetDescription("Creates a character for someone")
+create:SetExecutionContext(console.Server)
+create:SetAccess(console.IsAdmin)
+
+create:AddParameter(console.Player())
+create:AddParameter(console.CharacterGen())
