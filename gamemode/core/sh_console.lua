@@ -20,7 +20,8 @@ function console.Feedback(ply, messageType, str, ...)
 	local class = assert(Chat.List[messageType], "Invalid message type")
 
 	if not IsValid(ply) then
-		MsgC(class.ConsoleColor or class.Color, console.FormatMessage(str, ...), "\n")
+		-- Strip any tags out because the server console doesn't have scribe
+		MsgC(class.ConsoleColor or class.Color, console.FormatMessage(str:gsub("(<[^>]+.)", ""), ...), "\n")
 
 		return
 	end
