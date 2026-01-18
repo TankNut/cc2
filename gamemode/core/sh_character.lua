@@ -16,8 +16,9 @@ CharacterVar.Add("CharacterDescription", {Default = "", Private = true, Field = 
 CharacterVar.Add("CharacterNotes", {Default = "", Private = true, Field = "Notes", DataType = TEXT()})
 
 CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", Field = "Model", DataType = VARCHAR(128)})
-CharacterVar.Add("CharacterModelOverride", {Default = "", Field = "ModelOverride", DataType = VARCHAR(128)})
 CharacterVar.Add("CharacterSkin", {Default = 0, Field = "Skin", DataType = TINYINT()})
+
+CharacterVar.Add("AppearanceOverride", {DataType = BLOB()})
 
 CharacterVar.Add("CharacterHidden", {Default = false, Field = "Hidden", DataType = BOOL()})
 CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
@@ -99,8 +100,8 @@ function GM:PostLoadCharacter(ply)
 end
 
 function GM:OnCharacterModelChanged(ply, old, new, loaded) if SERVER and not loaded then ply:UpdateAppearance() end end
-function GM:OnCharacterModelOverrideChanged(ply, old, new, loaded) if SERVER and not loaded then ply:UpdateAppearance() end end
 function GM:OnCharacterSkinChanged(ply, old, new, loaded) if SERVER and not loaded then ply:UpdateAppearance() end end
+function GM:OnAppearanceOverrideChanged(ply, old, new, loaded) if SERVER and not loaded then ply:UpdateAppearance() end end
 
 if CLIENT then
 	function GM:ShouldHidePlayer(ply)

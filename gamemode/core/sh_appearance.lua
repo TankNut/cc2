@@ -40,18 +40,13 @@ if SERVER then
 				_base = {
 					Model = table.Random({"models/crow.mdl", "models/pigeon.mdl", "models/seagull.mdl"})
 				}
-			}, false
+			}, true
 		end
 
-		local override = ply:CharacterModelOverride()
+		local override = ply:AppearanceOverride()
 
-		if #override > 0 then
-			return {
-				_base = {
-					Model = override,
-					Skin = ply:CharacterSkin()
-				}
-			}, true
+		if override then
+			return override, true
 		end
 
 		return ply:RunCharFlag("GetModelData"), false
@@ -60,12 +55,12 @@ if SERVER then
 	function PLAYER:UpdateAppearance()
 		local appearance, hasOverride = hook.Run("GetBaseAppearance", self)
 
-		if self:HasCharacter() then
+		if not hasOverride then
 			local clothing = self:RunCharFlag("Clothing")
 			local items = self:GetItems()
 
 			for _, item in pairs(items) do
-				if not item.GetModelData or (hasOverride and not item.IgnoreModelOverride) then
+				if not item.GetModelData then
 					continue
 				end
 
@@ -77,16 +72,14 @@ if SERVER then
 			end
 
 			for _, item in pairs(items) do
-				if not item.PostModelData or (hasOverride and not item.IgnoreModelOverride) then
+				if not item.PostModelData then
 					continue
 				end
 
 				item:PostModelData(self, appearance, clothing)
 			end
 
-			if not hasOverride then
-				self:RunCharFlag("PostModelData", appearance)
-			end
+			self:RunCharFlag("PostModelData", appearance)
 		end
 
 		assert(appearance._base, "UpdateAppearance somehow ended up without _base model data!")
@@ -101,11 +94,7 @@ if SERVER then
 	function GM:GetHandAppearance(ply)
 		local base = ModelData.GetHands(ply:GetModel())
 
-		if not ply:HasCharacter() then
-			return base, false
-		end
-
-		if #ply:CharacterModelOverride() > 0 then
+		if not ply:HasCharacter() or ply:AppearanceOverride() then
 			return base, true
 		end
 
@@ -115,12 +104,12 @@ if SERVER then
 	function GM:PlayerSetHandsModel(ply, ent)
 		local hands, hasOverride = hook.Run("GetHandAppearance", ply)
 
-		if ply:HasCharacter() then
+		if not hasOverride then
 			local clothing = ply:RunCharFlag("Clothing")
 			local items = ply:GetItems()
 
 			for _, item in pairs(items) do
-				if not item.GetHandData or (hasOverride and not item.IgnoreModelOverride) then
+				if not item.GetHandData then
 					continue
 				end
 
@@ -132,16 +121,14 @@ if SERVER then
 			end
 
 			for _, item in pairs(items) do
-				if not item.PostHandData or (hasOverride and not item.IgnoreModelOverride) then
+				if not item.PostHandData then
 					continue
 				end
 
 				item:PostHandData(ply, hands, clothing)
 			end
 
-			if not hasOverride then
-				ply:RunCharFlag("PostHandData", hands)
-			end
+			ply:RunCharFlag("PostHandData", hands)
 		end
 
 		ent:ApplyModel(hands)

@@ -51,8 +51,9 @@ function ENTITY:ApplyModel(data)
 		self:SetPlayerColor(vec)
 	else
 		self.GetPlayerColor = function() return vec end
-		self:SetColor(color)
 	end
+
+	self:SetColor(data.EntityColor or color_white)
 end
 
 if SERVER then

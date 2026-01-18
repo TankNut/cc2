@@ -144,21 +144,6 @@ addCharSetLog("Scale")
 addCharSetLog("Hidden")
 addCharSetLog("Flag")
 
-Log.AddType("admin_character_model_override", function(ply, target, val)
-	if val then
-		return string.format("%s has set %s's model override to %s", Log.AdminName(ply), target:VisibleRPName(), val), {
-			Log.Admin(ply),
-			Log.Player(target),
-			Model = val
-		}
-	else
-		return string.format("%s has cleared %s's model override", Log.AdminName(ply), target:VisibleRPName()), {
-			Log.Admin(ply),
-			Log.Player(target)
-		}
-	end
-end)
-
 Log.AddType("admin_character_name_override", function(ply, target, val)
 	if val then
 		return string.format("%s has set %s's name override to %s", Log.AdminName(ply), target:VisibleRPName(), val), {
@@ -168,6 +153,20 @@ Log.AddType("admin_character_name_override", function(ply, target, val)
 		}
 	else
 		return string.format("%s has cleared %s's name override", Log.AdminName(ply), target:VisibleRPName()), {
+			Log.Admin(ply),
+			Log.Player(target)
+		}
+	end
+end)
+
+Log.AddType("admin_appearance_override", function(ply, target, bool)
+	if bool then
+		return string.format("%s has overwritten %s's appearance", Log.AdminName(ply), target:VisibleRPName()), {
+			Log.Admin(ply),
+			Log.Player(target)
+		}
+	else
+		return string.format("%s has cleared %s's appearance override", Log.AdminName(ply), target:VisibleRPName()), {
 			Log.Admin(ply),
 			Log.Player(target)
 		}

@@ -32,7 +32,6 @@ ITEM.WeightMultiplier    = 0.6
 
 -- Equipment data
 ITEM.EquipmentSlots      = {}
-ITEM.IgnoreModelOverride = false
 
 ITEM.EquipTime           = 1
 ITEM.UnequipTime         = 1

@@ -9,7 +9,7 @@ local setModel = console.AddCommand("rpa_character_model", function(ply, target,
 
 	target:SetCharacterModel(mdl)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target, mdl)
+	console.Feedback(ply, "NOTICE", "You've set %s's character model to %s", target:VisibleRPName(), mdl)
 	console.Feedback(target, "NOTICE", "%s has set your character model to %s", ply, mdl)
 end)
 
@@ -25,44 +25,12 @@ setModel:AddParameter(console.String())
 
 
 
-local setModelOverride = console.AddCommand("rpa_character_model_override", function (ply, target, mdl)
-	if #mdl > 0 and not util.IsValidModel(mdl) then
-		console.Feedback(ply, "ERROR", "That model is not mounted on the server!", target)
-
-		return
-	end
-
-	target:SetCharacterModelOverride(mdl)
-
-	Log.Write("admin_character_model_override", ply, target, mdl)
-
-	if #mdl > 0 then
-		console.Feedback(ply, "NOTICE", "You've set %s's character model override to %s", target, mdl)
-		console.Feedback(target, "NOTICE", "%s has set your character model override to %s", ply, mdl)
-	else
-		console.Feedback(ply, "NOTICE", "You've removed %s's character model override", target)
-		console.Feedback(target, "NOTICE", "%s has removed your character model override", ply)
-	end
-end)
-
-setModelOverride:SetCategory("Character Commands")
-setModelOverride:SetDescription("Overrides a player's current character model and disables clothing")
-setModelOverride:SetExecutionContext(console.Server)
-setModelOverride:SetAccess(console.IsAdmin)
-
-setModelOverride:AddParameter(console.Player())
-setModelOverride:AddOptional(console.String(), "", "none")
-
-
-
-
-
-local setSkin = console.AddCommand("rpa_character_skin", function (ply, target, num)
+local setSkin = console.AddCommand("rpa_character_skin", function(ply, target, num)
 	Log.Write("admin_character_skin", ply, target, num)
 
 	target:SetCharacterSkin(num)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target, num)
+	console.Feedback(ply, "NOTICE", "You've set %s's character skin to %d", target:VisibleRPName(), num)
 	console.Feedback(target, "NOTICE", "%s has set your character skin to %d", ply, num)
 end)
 
@@ -78,12 +46,119 @@ setSkin:AddParameter(console.Number())
 
 
 
+local setAppearance = console.AddCommand("rpa_appearance_set", function(ply, target)
+	local ent = ply:GetEyeTrace().Entity
+
+	if not IsValid(ent) then
+		console.Feedback(ply, "ERROR", "You need to be looking at an entity!")
+
+		return
+	end
+
+	local model = ent:GetModel()
+
+	if not util.IsValidModel(model) then
+		console.Feedback(ply, "ERROR", "That model isn't valid!")
+
+		return
+	end
+
+	local appearance = {
+		_base = {
+			Model = ent:GetModel(),
+			Skin = ent:GetSkin(),
+			Color = ent:GetPlayerColor():ToColor()
+		}
+	}
+
+	local materialOverride = ent:GetMaterial()
+
+	if #materialOverride > 0 then
+		appearance._base.Materials = materialOverride
+	else
+		local materials = ent:GetMaterials()
+		local submaterials = {}
+
+		for k, material in ipairs(materials) do
+			local submaterial = ent:GetSubMaterial(k - 1)
+
+			if #submaterial > 0 then
+				submaterials[material] = submaterial
+			end
+		end
+
+		if table.Count(submaterials) > 0 then
+			appearance._base.Materials = submaterials
+		end
+	end
+
+	local color = ent:GetColor()
+
+	if color != color_white then
+		appearance._base.EntityColor = color
+	end
+
+	local bodygroups = {}
+
+	for _, data in ipairs(ent:GetBodyGroups()) do
+		local index = ent:GetBodygroup(data.id)
+
+		if index > 0 then
+			bodygroups[data.name] = index
+		end
+	end
+
+	if table.Count(bodygroups) > 0 then
+		appearance._base.Bodygroups = bodygroups
+	end
+
+	target:SetAppearanceOverride(appearance)
+
+	Log.Write("admin_appearance_override", ply, target, true)
+
+	console.Feedback(ply, "NOTICE", "You've set %s's appearance override", target:VisibleRPName())
+	console.Feedback(ply, "NOTICE", "%s has given you an appearance override", ply)
+end)
+
+setAppearance:SetCategory("Character Commands")
+setAppearance:SetDescription("Overrides a player's character model with what you're looking at")
+setAppearance:SetExecutionContext(console.Server)
+setAppearance:SetAccess(console.IsAdmin)
+setAppearance:SetNoConsole()
+
+setAppearance:AddParameter(console.Player())
+
+
+
+
+
+local clearAppearance = console.AddCommand("rpa_appearance_clear", function(ply, target)
+	target:SetAppearanceOverride(nil)
+
+	Log.Write("admin_appearance_override", ply, target, false)
+
+	console.Feedback(ply, "NOTICE", "You've cleared %s's appearance override", target:VisibleRPName())
+	console.Feedback(ply, "NOTICE", "%s has cleared your appearance override", ply)
+end)
+
+clearAppearance:SetCategory("Character Commands")
+clearAppearance:SetDescription("Clear a player's appearance override")
+clearAppearance:SetExecutionContext(console.Server)
+clearAppearance:SetAccess(console.IsAdmin)
+clearAppearance:SetNoConsole()
+
+clearAppearance:AddParameter(console.Player())
+
+
+
+
+
 local setName = console.AddCommand("rpa_character_name", function(ply, target, name)
 	Log.Write("admin_character_name", ply, target, name)
 
 	target:SetCharacterName(name)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target, name)
+	console.Feedback(ply, "NOTICE", "You've set %s's character name to %s", target:VisibleRPName(), name)
 	console.Feedback(target, "NOTICE", "%s has set your character name to %s", ply, name)
 end)
 
@@ -107,7 +182,7 @@ local setNameOverride = console.AddCommand("rpa_character_name_override", functi
 	target:SetCharacterNameOverride(name)
 
 	if #name > 0 then
-		console.Feedback(ply, "NOTICE", "You've set %s's character name override to %s", target, name)
+		console.Feedback(ply, "NOTICE", "You've set %s's character name override to %s", target:VisibleRPName(), name)
 		console.Feedback(target, "NOTICE", "%s has set your character name override to %s", ply, name)
 	else
 		console.Feedback(ply, "NOTICE", "You've removed %s's character name override", target)
@@ -132,8 +207,8 @@ local setScale = console.AddCommand("rpa_character_scale", function(ply, target,
 
 	target:SetCharacterScale(scale)
 
-	console.Feedback(ply, "NOTICE", "You've set %s's character scale to %d", target, scale)
-	console.Feedback(target, "NOTICE", "%s has set your character scale to %d", ply, scale)
+	console.Feedback(ply, "NOTICE", "You've set %s's character scale to %s", target:VisibleRPName(), scale)
+	console.Feedback(target, "NOTICE", "%s has set your character scale to %s", ply, scale)
 end)
 
 setScale:SetCategory("Character Commands")
