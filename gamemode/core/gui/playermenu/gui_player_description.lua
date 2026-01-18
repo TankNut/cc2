@@ -35,7 +35,7 @@ function PANEL:Init()
 		async.Start(function()
 			netstream.Send("ChangeCharacterDescription",
 				ui.Open("Input", "multiline", "Change Character Description", {
-					Default = lp:CharacterDescription(),
+					Default = lp:CharacterDescription():Unescape(),
 					Validate = Config.Get("CharacterDescriptionRules"),
 					Name = "Your description"
 				})
