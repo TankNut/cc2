@@ -9,16 +9,15 @@ local setUserGroup = console.AddCommand("rpa_usergroup_set", function(ply, steam
 	local nick
 
 	if target then
-		target:SetUserGroup(usergroup)
-		nick = target:Nick()
-
+		nick = target:GetAlias()
 		console.Feedback(target, "NOTICE", "%s has set your usergroup to %s", ply, usergroup)
 	else
-		Data.Player.Update(steamID, {UserGroup = usergroup})
-		nick = Data.Player.Nick(steamID)
+		nick = Data.Player.Alias(steamID)
 	end
 
-	console.Feedback(ply, "NOTICE", "You've set %s's usergroup to %s", nick, usergroup)
+	Chat.Send("NOTICE", console.FormatMessage("%s has set %s's usergroup to %s", ply, nick, usergroup), player.GetAdmins())
+
+	Data.Player.Update(steamID, {UserGroup = usergroup})
 
 	Log.Write("superadmin_usergroup", ply, steamID, nick, usergroup)
 end)
@@ -262,9 +261,9 @@ local setAlias = console.AddCommand("rpa_alias_set", function(ply, steamID, alia
 	local target = player.GetBySteamID(steamID)
 	local name = IsValid(target) and target:GetAlias() or Data.Player.Alias(steamID)
 
-	Data.Player.Update(steamID, {Alias = alias})
+	Data.Player.Update(steamID, {Alias = alias == nil and NULL or alias})
 
-	if alias == "" then
+	if not alias then
 		console.Feedback(ply, "NOTICE", "You've removed %s's alias", name)
 	else
 		console.Feedback(ply, "NOTICE", "You've set %s's alias to %s", name, alias)
@@ -279,4 +278,4 @@ setAlias:SetExecutionContext(console.Server)
 setAlias:SetAccess(console.IsSuperAdmin)
 
 setAlias:AddParameter(console.SteamID())
-setAlias:AddParameter(console.String({validate.Max(32)}))
+setAlias:AddOptional(console.String({validate.Max(32)}))
