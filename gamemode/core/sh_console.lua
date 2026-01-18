@@ -21,7 +21,7 @@ function console.Feedback(ply, messageType, str, ...)
 
 	if not IsValid(ply) then
 		-- Strip any tags out because the server console doesn't have scribe
-		MsgC(class.ConsoleColor or class.Color, console.FormatMessage(str:gsub("(<[^>]+.)", ""), ...), "\n")
+		MsgC(class.ConsoleColor or class.Color, console.FormatMessage(str:gsub("(<[^>]+.)", ""):Unescape(), ...), "\n")
 
 		return
 	end
