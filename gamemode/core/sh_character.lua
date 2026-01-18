@@ -18,7 +18,7 @@ CharacterVar.Add("CharacterNotes", {Default = "", Private = true, Field = "Notes
 CharacterVar.Add("CharacterModel", {Default = "models/player/skeleton.mdl", Field = "Model", DataType = VARCHAR(128)})
 CharacterVar.Add("CharacterSkin", {Default = 0, Field = "Skin", DataType = TINYINT()})
 
-CharacterVar.Add("AppearanceOverride", {DataType = BLOB()})
+CharacterVar.Add("AppearanceOverride", {DataType = BLOB(), ServerOnly = true})
 
 CharacterVar.Add("CharacterHidden", {Default = false, Field = "Hidden", DataType = BOOL()})
 CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
