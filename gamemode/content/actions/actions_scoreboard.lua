@@ -89,8 +89,6 @@ Action.Add("ScoreboardCharacterID", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		lp:SendChat("NOTICE", string.format("Copied %s's Character ID (%d) to your clipboard", self:Nick(), self:CharID()))
-
 		SetClipboardText(self:CharID())
 	end
 })
@@ -104,8 +102,6 @@ Action.Add("ScoreboardSteamID", {
 	Context = "Scoreboard",
 
 	Client = function(self, ply)
-		lp:SendChat("NOTICE", string.format("Copied %s's Steam ID (%s) to your clipboard", self:Nick(), self:SteamID()))
-
 		SetClipboardText(self:SteamID())
 	end
 })
