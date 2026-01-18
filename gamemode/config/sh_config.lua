@@ -161,6 +161,7 @@ GM.Config.ToolTrust = {
 		-- Render
 		["camera"] = TOOLTRUST_UNTRUSTED,
 		["colour"] = TOOLTRUST_UNTRUSTED,
+		["drc_colour"] = TOOLTRUST_DEVELOPER,
 		["material"] = TOOLTRUST_UNTRUSTED,
 		["paint"] = TOOLTRUST_TRUSTED,
 		["submaterial"] = TOOLTRUST_UNTRUSTED,
