@@ -22,9 +22,12 @@ end)
 
 console.Parser("Number", function(ply, args, last, options)
 	local val = tonumber(console.ReadArg(args, last))
-	local ok, err = validate.Value(val, table.Add({
-		validate.Number()
-	}, options))
+
+	if not val then
+		return false, "Value is not a number"
+	end
+
+	local ok, err = validate.Value(val, options)
 
 	return ok, ok and val or err
 end)
