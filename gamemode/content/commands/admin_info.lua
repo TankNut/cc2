@@ -257,8 +257,14 @@ local characterInfo = console.AddCommand("rpa_character_info", function(ply, id)
 	color:SetBrightness(1)
 
 	addLine("Flag", "<c=%s>%s</c>", color, flag.Name or flag.ClassName)
-	addLine("Model", #record.CharacterModelOverride > 0 and record.CharacterModelOverride .. " <c=error>(Override)</c>" or record.CharacterModel)
-	addLine("Skin", record.CharacterSkin)
+
+	if record.AppearanceOverride then
+		addLine("Model", "<c=error>Appearance override set</c>")
+	else
+		addLine("Model", record.CharacterModel)
+		addLine("Skin", record.CharacterSkin)
+	end
+
 	addLine("Scale", record.CharacterScale == 0 and "Not Set" or record.CharacterScale)
 
 	for k, v in ipairs(lines) do
