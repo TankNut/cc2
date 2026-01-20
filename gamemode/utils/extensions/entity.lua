@@ -34,6 +34,67 @@ function ENTITY:SetMaterials(mats)
 	end
 end
 
+function ENTITY:CopyModel()
+	local data = {
+		Model = self:GetModel()
+	}
+
+	local skinIndex = self:GetSkin()
+
+	if skinIndex > 0 then
+		data.Skin = skinIndex
+	end
+
+	local materialOverride = self:GetMaterial()
+
+	if #materialOverride > 0 then
+		data.Materials = materialOverride
+	else
+		local materials = self:GetMaterials()
+		local submaterials = {}
+
+		for k, material in ipairs(materials) do
+			local submaterial = self:GetSubMaterial(k - 1)
+
+			if #submaterial > 0 then
+				submaterials[material] = submaterial
+			end
+		end
+
+		if table.Count(submaterials) > 0 then
+			data.Materials = submaterials
+		end
+	end
+
+	local color = self:GetColor()
+
+	if color != color_white then
+		data.EntityColor = color
+	end
+
+	local playerColor = self:GetPlayerColor():ToColor()
+
+	if playerColor != color_white then
+		data.Color = playerColor
+	end
+
+	local bodygroups = {}
+
+	for _, bodygroup in ipairs(self:GetBodyGroups()) do
+		local index = self:GetBodygroup(bodygroup.id)
+
+		if index > 0 then
+			bodygroups[bodygroup.name] = index
+		end
+	end
+
+	if table.Count(bodygroups) > 0 then
+		data.Bodygroups = bodygroups
+	end
+
+	return data
+end
+
 function ENTITY:ApplyModel(data)
 	if data.Model then
 		self:SetModel(data.Model)

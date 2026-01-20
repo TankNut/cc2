@@ -63,56 +63,9 @@ local setAppearance = console.AddCommand("rpa_appearance_set", function(ply, tar
 		return
 	end
 
-	local appearance = {
-		_base = {
-			Model = ent:GetModel(),
-			Skin = ent:GetSkin(),
-			Color = ent:GetPlayerColor():ToColor()
-		}
-	}
-
-	local materialOverride = ent:GetMaterial()
-
-	if #materialOverride > 0 then
-		appearance._base.Materials = materialOverride
-	else
-		local materials = ent:GetMaterials()
-		local submaterials = {}
-
-		for k, material in ipairs(materials) do
-			local submaterial = ent:GetSubMaterial(k - 1)
-
-			if #submaterial > 0 then
-				submaterials[material] = submaterial
-			end
-		end
-
-		if table.Count(submaterials) > 0 then
-			appearance._base.Materials = submaterials
-		end
-	end
-
-	local color = ent:GetColor()
-
-	if color != color_white then
-		appearance._base.EntityColor = color
-	end
-
-	local bodygroups = {}
-
-	for _, data in ipairs(ent:GetBodyGroups()) do
-		local index = ent:GetBodygroup(data.id)
-
-		if index > 0 then
-			bodygroups[data.name] = index
-		end
-	end
-
-	if table.Count(bodygroups) > 0 then
-		appearance._base.Bodygroups = bodygroups
-	end
-
-	target:SetAppearanceOverride(appearance)
+	target:SetAppearanceOverride({
+		_base = ent:CopyModel()
+	})
 
 	Log.Write("admin_appearance_override", ply, target, true)
 
