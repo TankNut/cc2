@@ -21,7 +21,7 @@ CharacterVar.Add("CharacterSkin", {Default = 0, Field = "Skin", DataType = TINYI
 CharacterVar.Add("AppearanceOverride", {DataType = BLOB(), ServerOnly = true})
 
 CharacterVar.Add("CharacterHidden", {Default = false, Field = "Hidden", DataType = BOOL()})
-CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, DataType = UINT()})
+CharacterVar.Add("CharacterLastSeen", {Default = 0, ServerOnly = true, Field = "LastSeen", DataType = UINT()})
 
 CharacterVar.Add("Spawngroup", {Default = "", Private = true, DataType = VARCHAR(32)})
 
