@@ -33,6 +33,40 @@ function ENTITY:AddBonemerge(data)
 	return ent
 end
 
+function ENTITY:AddAttachmentFollower(data, id, pos, ang)
+	local ent = createAttachment(data, self)
+
+	ent:SetParent(self, id)
+	ent:SetTransmitWithParent(true)
+	ent:AddEffects(EF_PARENT_ANIMATES)
+
+	ent:SetAttachmentID(id)
+
+	ent:SetLocalPos(pos or vector_origin)
+	ent:SetLocalAngles(ang or angle_zero)
+
+	ent:Spawn()
+
+	return ent
+end
+
+function ENTITY:AddBoneFollower(data, id, pos, ang)
+	local ent = createAttachment(data, self)
+
+	ent:FollowBone(self, id)
+	ent:SetTransmitWithParent(true)
+	ent:AddEffects(EF_PARENT_ANIMATES)
+
+	ent:SetAttachmentID(id)
+
+	ent:SetLocalPos(pos or vector_origin)
+	ent:SetLocalAngles(ang or angle_zero)
+
+	ent:Spawn()
+
+	return ent
+end
+
 function ENTITY:CopyAttachments(to)
 	-- Not using self.Attachments here because that's only relevant for deletion (ragdoll issues)
 	for _, child in ipairs(self:GetChildren()) do
@@ -40,7 +74,18 @@ function ENTITY:CopyAttachments(to)
 			continue
 		end
 
-		to:AddBonemerge(child:CopyModel())
+		local attach = child:GetType()
+		local data = child:CopyModel()
+
+
+		if attach == ATTACH_FOLLOW then
+			to:AddAttachmentFollower(data, child:GetAttachmentID(), child:GetLocalPos(), child:GetLocalAngles())
+		elseif attach == ATTACH_FOLLOW_BONE then
+			PrintTable(child:GetTable())
+			to:AddBoneFollower(data, child:GetAttachmentID(), child:GetLocalPos(), child:GetLocalAngles())
+		elseif attach == ATTACH_BONEMERGE then
+			to:AddBonemerge(data)
+		end
 	end
 end
 

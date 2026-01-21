@@ -35,14 +35,10 @@ function PANEL:SetPlayer(ply)
 	self:SetModel(ply:GetModel()) -- Inits the entity
 	ply:CopyModel(self.Entity)
 
-	-- Manually so we can SetNoDraw
-	for _, child in ipairs(ply:GetChildren()) do
-		if child:GetClass() != "cc_attachment" then
-			continue
-		end
+	ply:CopyAttachments(self.Entity)
 
-		local attachment = self.Entity:AddBonemerge(child:CopyModel())
-		attachment:SetNoDraw(true)
+	for _, child in ipairs(self.Entity:GetChildren()) do
+		child:SetNoDraw(true)
 	end
 end
 

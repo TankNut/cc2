@@ -2,6 +2,20 @@ AddCSLuaFile()
 
 ENT.Type = "anim"
 
+function ENT:SetupDataTables()
+	self:NetworkVar("Int", "AttachmentID")
+end
+
+function ENT:GetType()
+	if self:IsEffectActive(EF_BONEMERGE) then
+		return ATTACH_BONEMERGE
+	elseif self:IsEffectActive(EF_FOLLOWBONE) then
+		return ATTACH_FOLLOW_BONE
+	else
+		return ATTACH_FOLLOW
+	end
+end
+
 if CLIENT then
 	function ENT:Draw(flags)
 		local shouldDraw = true
