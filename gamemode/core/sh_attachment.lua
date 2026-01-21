@@ -34,6 +34,14 @@ function ENTITY:AddBonemerge(data)
 end
 
 function ENTITY:AddAttachmentFollower(data, id, pos, ang)
+	if isstring(id) then
+		id = self:LookupAttachment(id)
+	end
+
+	if id < 1 then
+		return
+	end
+
 	local ent = createAttachment(data, self)
 
 	ent:SetParent(self, id)
@@ -51,6 +59,14 @@ function ENTITY:AddAttachmentFollower(data, id, pos, ang)
 end
 
 function ENTITY:AddBoneFollower(data, id, pos, ang)
+	if isstring(id) then
+		id = self:LookupBone(id)
+	end
+
+	if id == nil then
+		return
+	end
+
 	local ent = createAttachment(data, self)
 
 	ent:FollowBone(self, id)
