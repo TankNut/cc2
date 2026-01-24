@@ -9,7 +9,7 @@ end, "<b>Console Command:</b> rp_togglehud")
 Binds.Add("ToggleHolster", "Holster/Unholster Weapon", KEY_B, function(ply)
 	local weapon = ply:GetActiveWeapon()
 
-	if weapon:IsType("weapon_cc_base") then
+	if IsValid(weapon) and weapon:IsType("weapon_cc_base") then
 		weapon:ToggleHolster()
 	end
 end)
