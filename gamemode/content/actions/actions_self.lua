@@ -1,12 +1,12 @@
 Action.Add("Voicelines", {
 	Name = "Voicelines",
-	Priority = 3,
+	Priority = 30,
 
 	Target = ACTION_SELF,
 	Context = "Self",
 
-	CanRun = function(self, ply)
-		return ply:CanPlayVoiceline()
+	CanRun = function(self)
+		return self:CanPlayVoiceline()
 	end,
 
 	SubOptions = function(self)
@@ -40,19 +40,19 @@ Action.Add("Voicelines", {
 		return options
 	end,
 
-	Validate = function(self, ply, voiceline)
-		return ply:CanPlayVoiceline(voiceline.Group)
+	Validate = function(self, _, voiceline)
+		return self:CanPlayVoiceline(voiceline.Group)
 	end,
 
-	Callback = function(self, ply, voiceline)
-		ply:PlayVoiceline(voiceline.Group, voiceline.Index)
+	Callback = function(self, _, voiceline)
+		self:PlayVoiceline(voiceline.Group, voiceline.Index)
 	end
 })
 
 
 Action.Add("OpenStash", {
 	Name = "Stash\tOpen",
-	Priority = 2,
+	Priority = 21,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
@@ -72,7 +72,7 @@ Action.Add("OpenStash", {
 
 Action.Add("PlaceStash", {
 	Name = "Stash\tPlace Here",
-	Priority = 1,
+	Priority = 20,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
@@ -101,15 +101,16 @@ Action.Add("PlaceStash", {
 
 Action.Add("ArmorRepair", {
 	Name = "Patch Armor",
+	Piority = 10,
 
 	Target = ACTION_SELF,
 	Context = "SelfContext",
 
-	CanRun = function(self, ply)
+	CanRun = function(self)
 		return self:Armor() < self:GetMaxArmor()
 	end,
 
-	Progress = function(self, ply)
+	Progress = function(self)
 		local missing = self:GetMaxArmor() - self:Armor()
 		local time = math.Round(missing / 5, 2)
 
@@ -123,8 +124,5 @@ Action.Add("ArmorRepair", {
 				end
 			end
 		}
-	end,
-
-	Callback = function(target, ply)
 	end
 })
