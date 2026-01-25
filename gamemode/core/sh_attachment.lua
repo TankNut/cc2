@@ -28,6 +28,8 @@ function ENTITY:AddBonemerge(data)
 	ent:SetTransmitWithParent(true)
 	ent:AddEffects(EF_BONEMERGE + EF_PARENT_ANIMATES)
 
+	ent:SetAttachmentID(-1)
+
 	ent:Spawn()
 
 	return ent
