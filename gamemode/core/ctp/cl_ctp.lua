@@ -42,11 +42,7 @@ ctp.BoneList = {
 	["none"] = "none",
 }
 
-ctp.DisabledHooks = {
-	"CalcView",
-	"CalcVehicleThirdPersonView",
-}
-
+ctp.DisabledHooks = {}
 ctp.HistoryCount = 10
 
 local function HOOK(name, func)
