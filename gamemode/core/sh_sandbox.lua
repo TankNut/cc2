@@ -168,15 +168,15 @@ if SERVER then
 		local physgun = ply:HasWeapon("weapon_physgun")
 		local toolgun = ply:HasWeapon("gmod_tool")
 
-		if trust >= config.Physgun and not physgun then
+		if new >= config.Physgun and not physgun then
 			ply:Give("weapon_physgun")
-		elseif trust < config.Physgun and physgun then
+		elseif new < config.Physgun and physgun then
 			ply:RemoveWeapon("weapon_physgun")
 		end
 
-		if trust >= config.Toolgun and not toolgun then
+		if new >= config.Toolgun and not toolgun then
 			ply:Give("gmod_tool")
-		elseif trust < config.Toolgun and toolgun then
+		elseif new < config.Toolgun and toolgun then
 			ply:RemoveWeapon("gmod_tool")
 		end
 	end
