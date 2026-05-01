@@ -23,7 +23,7 @@ function PLAYER:GetCloakFactor()
 end
 
 function PLAYER:IsCloaked()
-	return self:GetCloakFactor() >= 0.3
+	return self:GetCloakFactor() > 0
 end
 
 local renderingCloak = false
@@ -52,6 +52,10 @@ hook.Add("Think", "cc2.Cloak", function()
 
 		updateShadow(ply, cloaked)
 		updateShadow(ply:GetActiveWeapon(), cloaked)
+
+		if cloaked then
+			ply:RemoveAllDecals()
+		end
 
 		for _, child in ipairs(ply:GetChildren()) do
 			if child:GetClass() != "cc_attachment" then
@@ -93,7 +97,7 @@ hook.Add("PostDrawTranslucentRenderables", "cc2.Cloak", function(depth, skybox)
 
 		local factor = ply:GetCloakFactor()
 
-		if factor == 0 or factor == 1 then
+		if factor == 0 or factor >= 0.9999 then
 			continue
 		end
 
