@@ -26,7 +26,7 @@ function ENTITY:AddBonemerge(data)
 
 	ent:SetParent(self)
 	ent:SetTransmitWithParent(true)
-	ent:AddEffects(EF_BONEMERGE + EF_PARENT_ANIMATES)
+	ent:AddEffects(EF_BONEMERGE)
 
 	ent:SetAttachmentID(-1)
 
@@ -48,7 +48,6 @@ function ENTITY:AddAttachmentFollower(data, id, pos, ang)
 
 	ent:SetParent(self, id)
 	ent:SetTransmitWithParent(true)
-	ent:AddEffects(EF_PARENT_ANIMATES)
 
 	ent:SetAttachmentID(id)
 
@@ -73,7 +72,6 @@ function ENTITY:AddBoneFollower(data, id, pos, ang)
 
 	ent:FollowBone(self, id)
 	ent:SetTransmitWithParent(true)
-	ent:AddEffects(EF_PARENT_ANIMATES)
 
 	ent:SetAttachmentID(id)
 

@@ -25,19 +25,6 @@ function ENT:GetType()
 end
 
 if CLIENT then
-	function ENT:Think()
-		if self:GetParent() != self.Parent then
-			self:SetParent(self.Parent, self:GetAttachmentID())
-
-			self:SetLocalPos(self.LocalPos)
-			self:SetLocalAngles(self.LocalAng)
-		end
-
-		self:SetNextClientThink(CurTime())
-
-		return true
-	end
-
 	function ENT:Draw(flags)
 		local shouldDraw = true
 
