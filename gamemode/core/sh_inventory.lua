@@ -52,7 +52,7 @@ function Create(id, storeType, storeID, parentID, items)
 end
 
 function Init(ply)
-	Equipment[ply] = {}
+	Equipment[ply:UserID()] = Equipment[ply:UserID()] or {}
 end
 
 function Get(id)
@@ -73,7 +73,7 @@ function Clear(ply, removed)
 	end
 
 	if removed then
-		Equipment[ply] = nil
+		Equipment[ply:UserID()] = nil
 	end
 end
 
@@ -110,8 +110,8 @@ end
 
 function PLAYER:GetEquipment(slot)
 	if slot then
-		return Equipment[self][slot]
+		return Equipment[self:UserID()][slot]
 	else
-		return Equipment[self]
+		return Equipment[self:UserID()]
 	end
 end

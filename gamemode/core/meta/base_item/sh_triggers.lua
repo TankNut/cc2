@@ -1,6 +1,6 @@
 function ITEM:Load()
 	if self:IsEquipped() then
-		Inventory.Equipment[self:GetParent()][self:GetEquipmentSlot()] = self
+		self:GetParent():GetEquipment()[self:GetEquipmentSlot()] = self
 	end
 end
 
@@ -14,7 +14,7 @@ function ITEM:OnRemove()
 	local ply = self:GetParent()
 
 	if self:IsEquipped() and IsValid(ply) then
-		Inventory.Equipment[ply][self:GetEquipmentSlot()] = nil
+		ply:GetEquipment()[self:GetEquipmentSlot()] = nil
 
 		if SERVER then
 			self:RemoveBuffs()
@@ -96,7 +96,7 @@ function ITEM:OnEquipmentSlotChanged(old, new)
 	local ply = self:GetParent()
 
 	if old then
-		Inventory.Equipment[ply][old] = nil
+		ply:GetEquipment()[old] = nil
 
 		if CLIENT then
 			self:OnUnequipped(ply)
@@ -104,7 +104,7 @@ function ITEM:OnEquipmentSlotChanged(old, new)
 	end
 
 	if new then
-		Inventory.Equipment[ply][new] = self
+		ply:GetEquipment()[new] = self
 
 		if CLIENT then
 			self:OnEquipped(ply, new)
