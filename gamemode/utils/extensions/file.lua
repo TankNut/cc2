@@ -38,7 +38,7 @@ function file.IterateRecursive(dir, entrypoint, path, callback, allFiles)
 	end
 
 	for _, folderPath in ipairs(folders) do
-		file.IterateRecursive(dir .. folderPath .. "/", entrypoint, path, callback, recursive, allFiles)
+		file.IterateRecursive(dir .. folderPath .. "/", entrypoint, path, callback, allFiles)
 	end
 end
 
