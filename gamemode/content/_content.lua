@@ -16,4 +16,4 @@ GM:IncludeFolder(ContentFolder .. "patches/")
 Badge.Load()
 Language.Load()
 
-hook.Run("RegisterContent", ContentFolder)
+hook.Call("RegisterContent", GM, ContentFolder)

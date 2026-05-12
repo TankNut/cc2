@@ -34,7 +34,20 @@ function GM:LoadPluginFolder(path)
 		return
 	end
 
-	hook.Run("RegisterContent", path)
+	hook.Call("RegisterContent", self, folder)
 
 	GM:IncludeFolder(folder)
+end
+
+function GM:RegisterContent(folder)
+	print(folder)
+
+	Animation.RegisterFolder(folder .. "animations/")
+	CharacterCreate.RegisterFolder(folder .. "chartypes/")
+	CharacterFlag.RegisterFolder(folder .. "flags/")
+	CharacterGen.RegisterFolder(folder .. "chargens/")
+	Chat.RegisterFolder(folder .. "chat/")
+	Item.RegisterFolder(folder .. "items/")
+	Hud.RegisterFolder(folder .. "hud/")
+	buff.RegisterFolder(folder .. "buffs/")
 end

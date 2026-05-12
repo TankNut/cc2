@@ -124,17 +124,6 @@ function GM:Initialize()
 	end
 end
 
-function GM:RegisterContent(folder)
-	Animation.RegisterFolder(folder .. "animations/")
-	CharacterCreate.RegisterFolder(folder .. "chartypes/")
-	CharacterFlag.RegisterFolder(folder .. "flags/")
-	CharacterGen.RegisterFolder(folder .. "chargens/")
-	Chat.RegisterFolder(folder .. "chat/")
-	Item.RegisterFolder(folder .. "items/")
-	Hud.RegisterFolder(folder .. "hud/")
-	buff.RegisterFolder(folder .. "buffs/")
-end
-
 function GM:OnReloaded()
 	if CLIENT then
 		if not self.NextReloadSound then
