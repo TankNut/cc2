@@ -178,33 +178,6 @@ function DATABASE:RawQuery(str)
 	return coroutine.yield()
 end
 
-function DATABASE:RunMigrations(path)
-	logger:Info("Running migrations from `%s`", path)
-
-	self:Query("CREATE TABLE IF NOT EXISTS `migrations` (`Name` VARCHAR(256) NOT NULL UNIQUE)")
-
-	local files = file.Find(path .. "*.lua", "LUA", "nameasc")
-	local ranMigrations = table.Lookup(table.Map(self:Query("SELECT * FROM `migrations` ORDER BY `Name`"), function(val) return val.Name end))
-
-	for _, filePath in pairs(files) do
-		local fileName = string.FileName(filePath)
-
-		logger:Debug("Found migration file `%s`", fileName)
-
-		if not ranMigrations[fileName] then
-			logger:Info("Running migration file `%s`", fileName)
-
-			include(path .. filePath)(self)
-
-			self:Query("INSERT INTO `migrations` (`Name`) VALUES (:name)", {
-				name = fileName
-			})
-		end
-	end
-
-	logger:Info("Checked %s migration files", #files)
-end
-
 function DATABASE:Suppress()
 	self.SuppressState = true
 end

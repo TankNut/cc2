@@ -91,4 +91,3 @@ client("vgui/editor_server_globals.lua")
 
 -- Tools
 shared("tools/generate_global_lookup.lua")
-shared("tools/database_tools.lua")
