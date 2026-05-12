@@ -1,3 +1,12 @@
+Config.Register("DonatorLimits", {})
+
+-- Permissions
+
+Permissions.Add("donator_basic", {Description = "This person is a basic donator", Callback = function(ply) return ply:IsDonator() end})
+Permissions.Add("donator_advanced", {Description = "This person is an advanced donator", Callback = function(ply) return ply:IsDonator(true) end})
+
+-- Logs
+
 Log.AddType("donator_set", function(ply, target, duration, advanced)
 	local name = IsValid(ply) and ply:Nick() or "CONSOLE"
 

@@ -14,12 +14,6 @@ local usergroupNames = {
 	developer = "<c=dodgerblue>Developer</c>"
 }
 
-local donatorNames = {
-	[DONATOR_NONE] = "No",
-	[DONATOR_BASIC] = "<c=dodgerblue>Basic</c>",
-	[DONATOR_ADVANCED] = "<c=gold>Advanced</c>"
-}
-
 local playerInfo = console.AddCommand("rpa_player_info", function(ply, steamID)
 	local record = Data.Player.Fetch(steamID)
 
@@ -103,15 +97,10 @@ local playerInfo = console.AddCommand("rpa_player_info", function(ply, steamID)
 
 	addLine("Permissions", permissions)
 
-	local donator = (record.DonationLevel > 0 and os.time() <= record.DonationExpire) and record.DonationLevel or DONATOR_NONE
-
-	addLine("Contributor", donatorNames[donator])
-
-	if donator > DONATOR_NONE then
-		addLine("Until", "%s (%s remaining)", os.date("%Y-%m-%d %H:%M:%S", record.DonationExpire), string.NiceTime(record.DonationExpire - os.time()))
-	end
-
 	addLine("OOC Muted", record.OOCMuted and "<c=error>Yes</c>" or "<c=lime>No</c>")
+
+	-- Not a great way of doing this tbh, maybe a proper category sorting system would work better?
+	hook.Run("ParsePlayerRecord", addLine, steamID, record)
 
 	addLine("Bans")
 
