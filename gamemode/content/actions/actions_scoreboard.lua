@@ -60,7 +60,7 @@ Action.Add("ScoreboardEditInventory", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	-- CanRun = function(self, ply) return self != ply end,
+	CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_character_inventory", self:SteamID())
 	end
@@ -74,7 +74,7 @@ Action.Add("ScoreboardEditStash", {
 	Access = ACTION_ADMIN,
 	Context = "Scoreboard",
 
-	-- CanRun = function(self, ply) return self != ply end,
+	CanRun = function(self, ply) return self != ply end,
 	Client = function(self, ply)
 		RunConsoleCommand("rpa_character_stash", self:SteamID())
 	end
