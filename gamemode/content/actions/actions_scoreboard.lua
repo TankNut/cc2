@@ -81,7 +81,7 @@ Action.Add("ScoreboardEditStash", {
 })
 
 Action.Add("ScoreboardCharacterID", {
-	Name = "Copy CharID",
+	Name = "Copy Character ID",
 	ClientOnly = true,
 	Priority = 50,
 
