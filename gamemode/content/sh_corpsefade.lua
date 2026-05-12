@@ -1,4 +1,4 @@
-Config.Fallback("CorpseFade", 30)
+Config.Register("CorpseFade", 30)
 
 local function fade(ent)
 	timer.Simple(Config.Get("CorpseFade"), function()
