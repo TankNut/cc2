@@ -42,7 +42,7 @@ function PANEL:GetInventoryName()
 	local parent = inv:GetParent()
 
 	if storeType == INV_PLAYER then
-		return string.format("%s (%s credits)", parent:VisibleRPName(), parent:GetMoney())
+		return string.format("Inventory (%s)", parent:VisibleRPName())
 	elseif storeType == INV_STASH then
 		return string.format("Stash (%s)", parent:VisibleRPName())
 	elseif storeType == INV_ITEM then
