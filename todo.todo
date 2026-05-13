@@ -1,0 +1,74 @@
+Legend:
+-5	Big problems that need attention
+-4	Planned additions/changes/bugfixes
+-3	Ideas for additions/changes
+-2	Minor bugfixes/changes
+-1	Probably not important
+
+
+Compound models
+!-5	Precache models!
+	Includes `compound models` and also `weapon models`! Weapons lock up the client when spawned the first time and the tab menu is horrendous to open with multiple players
+
+-3	General refactor
+	The original system was designed to work exclusively on the server, clientside support was really just an afterthought and right now it's somewhat messy
+	Need to refactor a number of things, `properly sort out attachment networking` and `maybe move data storage into the attachment ents`
+
+-2	Ignored by thermals
+	Only the face is rendered 'hot' on humanoid models `could maybe do something with this?`
+
+Weapons
+-3	Plasma mechanics
+	Firemodes designed for plasma weapons, includes `some sort of overheating mechanic` and `high ammo caps`
+	Have the weapon internally `cache the amount of shots left`, then every X minutes it writes to the item on top of doing it on drop/death
+	-4	Add damage type difference between ballistics and plasma: Required for type resistances
+
+-2 	EMP/Concussive rifle
+	Knocks people out somehow
+
+-2	T-400 cannons
+	Effect still broken, looks fine to the player but for everyone else it still looks like crotchshot?
+
+-1	QA pass for stuff added by dave
+	Making sure recoil isn't unreasonably high, fixing broken scopes/ironsights and making sure everything still works as it should
+
+Items
+-5	Radio issues
+	Basic radios seem to lock up the listening button at random, channels not applying and several other issues `Possible issue with base item framework?`
+
+-4 	Equipment damage
+	4-state damage system already exists, `how/where do we implement it?`
+	How does using a damaged item impact performance? `repairs?`
+	What's capable of being damaged? `weapons only or other stuff as well?`
+	-4	Damage other equipment on death?: Maybe damage clothing items as well `Decrease armor effectiveness on damaged clothing?`
+	-3	Primary and Secondary equipment degradation over time/shooting?: `Store condition internally with item and periodically lower it/check it against a random to see if item should take damage? Storing variable w/ item should prevent people being able to reset it.`
+
+-4	General Items
+	Need to make sure all the staples other than just weapons are in the script!
+	-4	Consumables: `bandages, food, etc.`
+	-4	Components: `scopes, scrap, etc. stuff that is used w/ recipes`
+	-3	Misc: `misc flavour items, perhaps for bartering purposes? also stuff that maybe has world interactions, i.e. lanterns/glowsticks?`
+
+-3	Add exosuits
+	Also figure out what to do with them `stat increase? Check if implementation already exists`
+
+-3	Refactor inventory options
+	Inventory option timers being handled internally creates unnecessary complexity and is already starting to interfere with some ideas I had for consumables (Mostly to do with delaying actions on others or speeding them up vs using them on yourself) `while I'm at it maybe replace the table.add calls with ITEM:AddInventoryOption(name, func) or something? Would look nicer` I can't run code prior to the delay and adding another callback for that is going to drive me insane
+
+-2	Clean up current item bases
+	It's been quite a while since I've last toyed around with items and I'm starting to see some things that maybe could've been done better `removing unused/unlikely to be used variables`
+	While I'm at it `probably gonna rework some of the equipment related code`
+
+-1	Better radio UI
+	Right now it's just a few elements that are copied X amount of times based on how many channels you can have, I can probably do something better if I try
+	`maybe only show one channel at a time and have some kind of a selection bar at the top to switch between channels?`
+
+-1	Maybe rename plasma cell to plasma charge
+	`I have 200 plasma charges` vs `I have 200 plasma cells`
+
+Unsorted stuff
+-4	Add HK harvester
+	Weapons would be similar to the `airwatch HK` in that they're just big fuckoff lasers, probably a bit more powerful than the airwatch ones to make up for the lack of secondary cannon
+
+-2	Investigate footsteps hook
+	Try and figure out a different method for sorting out the footstep sounds? This hook seems to be affected by different models and different speeds, very strange...
