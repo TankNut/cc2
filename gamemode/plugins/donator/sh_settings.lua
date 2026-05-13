@@ -7,7 +7,8 @@ Settings.Add("ShowDonatorBadge", {
 	Default = true,
 	Validate = validate.Bool(),
 	Panel = "CC_Setting_Bool",
-	CanAccess = isDonator
+	-- No superadmin check because that doesn't do anything
+	CanAccess = function(ply) return ply:IsDonator() end
 }, "Contributor")
 
 Settings.Add("ScoreboardTitle", {
