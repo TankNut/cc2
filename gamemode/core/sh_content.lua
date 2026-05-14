@@ -4,8 +4,7 @@ local folderEntrypoints = {
 	["/init.lua"] = server
 }
 
-local function loadFolder(folder, tableName, folderName, registerFunc)
-	folder = folder .. folderName .. "/"
+function GM:LoadEntities(folder)
 	local files, folders = file.Find(folder .. "*", "LUA")
 
 	for _, path in ipairs(files) do
@@ -15,21 +14,21 @@ local function loadFolder(folder, tableName, folderName, registerFunc)
 
 		local name = string.Filename(path)
 
-		_G[tableName] = {
-			Folder = folderName .. "/" .. name
+		_G.ENT = {
+			Folder = "entities/" .. name
 		}
 
 		shared(folder .. path)
 
-		local t = _G[tableName]
-		_G[tableName] = nil
+		local t = _G.ENT
+		_G.ENT = nil
 
 		scripted_ents.Register(t, name)
 	end
 
 	for _, name in ipairs(folders) do
-		_G[tableName] = {
-			Folder = folderName .. "/" .. name
+		_G.ENT = {
+			Folder = "entities/" .. name
 		}
 
 		for filepath, func in pairs(folderEntrypoints) do
@@ -40,10 +39,75 @@ local function loadFolder(folder, tableName, folderName, registerFunc)
 			end
 		end
 
-		local t = _G[tableName]
-		_G[tableName] = nil
+		local t = _G.ENT
+		_G.ENT = nil
 
-		registerFunc(t, name)
+		scripted_ents.Register(t, name)
+	end
+end
+
+function GM:LoadWeapons(folder)
+	local files, folders = file.Find(folder .. "*", "LUA")
+
+	for _, path in ipairs(files) do
+		if string.GetExtensionFromFilename(path) != "lua" then
+			continue
+		end
+
+		local name = string.Filename(path)
+
+		_G.SWEP = {
+			Folder = "weapons/" .. name
+		}
+
+		shared(folder .. path)
+
+		local t = _G.SWEP
+		_G.SWEP = nil
+
+		weapons.Register(t, name)
+	end
+
+	for _, name in ipairs(folders) do
+		_G.SWEP = {
+			Folder = "weapons/" .. name
+		}
+
+		for filepath, func in pairs(folderEntrypoints) do
+			local path = folder .. name .. filepath
+
+			if file.Exists(path, "LUA") then
+				func(path)
+			end
+		end
+
+		local t = _G.SWEP
+		_G.SWEP = nil
+
+		weapons.Register(t, name)
+	end
+end
+
+function GM:LoadEffects(folder)
+	local files = file.Find(folder .. "*.lua", "LUA")
+
+	for _, path in ipairs(files) do
+		local name = string.Filename(path)
+
+		if CLIENT then
+			_G.EFFECT = {
+				Folder = "effects/" .. name
+			}
+
+			include(folder .. path)
+
+			local t = _G.EFFECT
+			_G.EFFECT = nil
+
+			effects.Register(t, name)
+		else
+			AddCSLuaFile(folder .. path)
+		end
 	end
 end
 
@@ -57,7 +121,7 @@ function GM:RegisterContent(folder)
 	Hud.RegisterFolder(folder .. "hud/")
 	buff.RegisterFolder(folder .. "buffs/")
 
-	loadFolder(folder, "ENT", "entities", scripted_ents.Register)
-	loadFolder(folder, "SWEP", "weapons", weapons.Register)
-	loadFolder(folder, "EFFECT", "effects", effects.Register)
+	self:LoadEntities(folder .. "entities/")
+	self:LoadWeapons(folder .. "weapons/")
+	self:LoadEffects(folder .. "effects/")
 end
