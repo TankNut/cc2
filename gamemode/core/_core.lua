@@ -82,7 +82,6 @@ GM:Include("sh_sandbox.lua")
 GM:Include("sh_stash.lua")
 GM:Include("sh_teams.lua")
 GM:Include("sh_think.lua")
-GM:Include("sh_voicelines.lua")
 
 GM:Include("sv_access.lua")
 GM:Include("sv_bots.lua")
