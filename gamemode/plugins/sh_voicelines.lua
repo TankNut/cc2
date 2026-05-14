@@ -2,6 +2,8 @@ module("Voicelines", package.seeall)
 
 Groups = {}
 
+Config.Register("VoicelineDelay", 2)
+
 local PLAYER = FindMetaTable("Player")
 
 function Add(name, data)
