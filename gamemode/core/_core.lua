@@ -100,10 +100,13 @@ GM:Include("sv_player.lua")
 GM:Include("sv_resource.lua")
 GM:Include("sv_worldents.lua")
 
-GM:IncludeRecursive(CoreFolder .. "ctp/")
+GM:IncludeFolder(CoreFolder .. "ctp/")
+
 GM:IncludeRecursive(CoreFolder .. "meta/", "shared.lua")
 GM:IncludeRecursive(CoreFolder .. "vgui/")
 GM:IncludeRecursive(CoreFolder .. "gui/")
+
+hook.Call("RegisterContent", GM, CoreFolder)
 
 GM:LoadPlugins()
 
