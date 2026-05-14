@@ -403,7 +403,7 @@ function SKIN:PaintScoreboardEntry(panel, w, h)
 	local ply = panel.Player
 	local title, color = hook.Run("GetScoreboardTitle", ply)
 
-	if title then
+	if title and #title > 0 then
 		draw.SimpleText(ply:VisibleRPName(), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.1), self.Text.Normal, TEXT_ALIGN_LEFT)
 		draw.SimpleText(string.Unescape(ply:ShortDescription()), "CombineControl.LabelSmall", h + ui.Scale(19), math.Round(h * 0.4), self.Text.Disabled, TEXT_ALIGN_LEFT)
 
