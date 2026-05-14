@@ -65,7 +65,7 @@ local classifications = {
 	},
 
 	["combine_angry"] = {
-		[CLASSIFY_NEUTRAL]  = D_NU,
+		[CLASSIFY_NEUTRAL]  = D_HT,
 		[CLASSIFY_ARMED]    = D_HT,
 		[CLASSIFY_LONEWOLF] = loneWolf,
 		[CLASSIFY_COMBINE]  = D_LI,
