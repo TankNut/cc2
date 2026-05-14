@@ -3,7 +3,7 @@ function GM:LoadPlugins()
 	local plugins = {}
 
 	for _, path in ipairs(files) do
-		if string.sub(path, -4) != ".lua" then
+		if string.GetExtensionFromFilename(path) != "lua" then
 			continue
 		end
 
@@ -17,7 +17,7 @@ function GM:LoadPlugins()
 	table.sort(plugins)
 
 	for _, path in ipairs(plugins) do
-		if string.sub(path, -4) == ".lua" then
+		if string.GetExtensionFromFilename(path) == "lua" then
 			self:Include(PluginFolder .. path)
 		else
 			self:LoadPluginFolder(path)
