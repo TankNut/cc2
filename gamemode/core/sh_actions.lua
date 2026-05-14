@@ -118,25 +118,8 @@ local function checkTable(tab, var, ...)
 end
 
 local function check(self, action, ply)
-	if action.Admin and not ply:IsAdmin() then
-		return false
-	end
-
-	if action.EditMode and not ply:EditMode() then
-		return false
-	end
-
-	if action.Self then
-		if ply != self then
-			return false
-		end
-	else
-		local ent, canInteract = ply:GetContextEntity()
-
-		if (not action.NoContextEntity and ent != self) or (action.Interaction and not canInteract) then
-			return false
-		end
-	end
+	if checkTable(access, action.Access, ply) then return false end
+	if checkTable(target, action.Target, self, ply) then return false end
 
 	if action.CanRun then
 		local ok = action.CanRun(self, ply)
