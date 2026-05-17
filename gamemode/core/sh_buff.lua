@@ -1,5 +1,7 @@
 module("buff", package.seeall)
 
+local PLAYER = FindMetaTable("Player")
+
 function RegisterFile(path)
 	_G.BUFF = {}
 
@@ -29,6 +31,20 @@ function RegisterFolder(dir)
 end
 
 if SERVER then
+	function PLAYER:GiveBaseBuffs()
+		if self.BaseBuffs then
+			for _, name in ipairs(self.BaseBuffs) do
+				self:RemoveBuff(name)
+			end
+		end
+
+		self.BaseBuffs = self:RunCharFlag("Buffs")
+
+		for _, name in ipairs(self.BaseBuffs) do
+			self:AddBuff(name)
+		end
+	end
+
 	hook.Add("PlayerDeath", "cc2.Buffs", function(ply)
 		PlayerHook(ply, "OnDeath")
 

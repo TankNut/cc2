@@ -74,29 +74,22 @@ function PLAYER:ApplyFlag()
 	self:UpdateClassification()
 
 	self:SetBloodColor(self:RunCharFlag("BloodColor"))
+
+	self:GiveBaseBuffs()
 end
 
-
 function GM:OnCharacterFlagChanged(ply, old, new, loaded)
-	if not loaded then
-		ply:ApplyFlag()
-
-		if SERVER then
-			for _, item in pairs(ply:GetEquipment()) do
-				item:CheckEquipmentSlot()
-			end
-
-			ply:GiveLoadoutWeapons()
-		end
+	if loaded then
+		return
 	end
 
+	ply:ApplyFlag()
+
 	if SERVER then
-		for _, buff in ipairs(Get(old).Buffs) do
-			ply:RemoveBuff(buff)
+		for _, item in pairs(ply:GetEquipment()) do
+			item:CheckEquipmentSlot()
 		end
 
-		for _, buff in ipairs(Get(new).Buffs) do
-			ply:AddBuff(buff)
-		end
+		ply:GiveLoadoutWeapons()
 	end
 end
