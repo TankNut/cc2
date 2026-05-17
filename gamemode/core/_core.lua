@@ -43,7 +43,6 @@ GM:Include("sh_modeldata.lua")
 GM:Include("sh_permaprops.lua")
 GM:Include("sh_permissions.lua")
 GM:Include("sh_player.lua")
-GM:Include("sh_plugins.lua")
 GM:Include("sh_propprotection.lua")
 GM:Include("sh_ragdoll.lua")
 GM:Include("sh_sandbox.lua")
@@ -73,11 +72,6 @@ GM:IncludeFolder(folder .. "ctp/")
 
 GM:IncludeRecursive(folder .. "meta/", "shared.lua")
 GM:IncludeRecursive(folder .. "vgui/")
-GM:IncludeRecursive(folder .. "gui/")
-
-GM:IncludeFolder(folder .. "actions/")
-
-hook.Call("LoadContent", GM, folder)
 
 function GM:Initialize()
 	if CLIENT then

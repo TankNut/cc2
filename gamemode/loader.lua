@@ -30,6 +30,59 @@ function GM:IncludeRecursive(dir, entrypoint)
 	end)
 end
 
+GM.PluginFolders = {}
+
+function GM:LoadPlugins()
+	local files, folders = file.Find(PluginFolder .. "*", "LUA")
+	local plugins = {}
+
+	for _, path in ipairs(files) do
+		if string.GetExtensionFromFilename(path) != "lua" then
+			continue
+		end
+
+		table.insert(plugins, path)
+	end
+
+	for _, path in ipairs(folders) do
+		table.insert(plugins, path)
+	end
+
+	table.sort(plugins)
+
+	for _, path in ipairs(plugins) do
+		if string.GetExtensionFromFilename(path) == "lua" then
+			self:Include(PluginFolder .. path)
+		else
+			self:LoadPluginFolder(path)
+		end
+	end
+end
+
+function GM:LoadPluginFolder(path)
+	local folder = PluginFolder .. path .. "/"
+
+	if file.Exists(folder .. "_plugin.lua", "LUA") then
+		shared(folder .. "_plugin.lua", "LUA")
+	else
+		GM:IncludeFolder(folder)
+	end
+
+	table.insert(self.PluginFolders, folder)
+
+	hook.Call("RegisterContent", self, folder)
+end
+
+function GM:LoadContentFolders()
+	hook.Call("LoadContent", GM, BaseContentFolder)
+
+	for _, folder in ipairs(self.PluginFolders) do
+		hook.Call("LoadContent", GM, folder)
+	end
+
+	hook.Call("LoadContent", GM, ContentFolder)
+end
+
 function GM:LoadContent(folder)
 	Animation.RegisterFolder(folder .. "animations/")
 	CharacterCreate.RegisterFolder(folder .. "chartypes/")
@@ -48,16 +101,26 @@ shared("utils/_utils.lua")
 shared("enums.lua")
 shared("config.lua")
 
+-- Gamemode config acts as a fallback for cc2_config
 GM:IncludeFolder(engine.ActiveGamemode() .. "/gamemode/config/")
 GM:IncludeFolder("cc2_config/")
 
+-- Define a bunch of folder constants
+BaseContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
 ContentFolder = "cc2_content/"
-DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 PluginFolder = "cc2_plugins/"
+DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
 
+-- Include gamemode core
 shared("core/_core.lua")
+shared(BaseContentFolder .. "_content.lua")
 
+-- Load external content
 GM:LoadPlugins()
-GM:Include(ContentFolder .. "_content.lua")
+shared(ContentFolder .. "_content.lua")
 
+-- Run all register functions
+GM:LoadContentFolders()
+
+-- Set so we can avoid duplicate loads for some gmod-specific things
 Loaded = true

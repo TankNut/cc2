@@ -48,11 +48,9 @@ function Find(mdl)
 		end
 	end
 
-	local controller = match or List[GAMEMODE.DefaultAnimationController]
+	Cache[mdl] = match or List.gmod_player
 
-	Cache[mdl] = controller
-
-	return controller
+	return Cache[mdl]
 end
 
 if SERVER then
