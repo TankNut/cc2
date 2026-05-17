@@ -1,35 +1,3 @@
-local prefixes = {
-	["sh_"] = shared,
-	["cl_"] = client,
-	["cc_"] = client,
-	["gui_"] = client,
-	["sv_"] = server
-}
-
-function GM:Include(path)
-	local filename = string.Filename(path)
-
-	for prefix, func in pairs(prefixes) do
-		if string.sub(filename, 1, #prefix) == prefix then
-			return func(path)
-		end
-	end
-
-	return shared(path)
-end
-
-function GM:IncludeFolder(dir, entrypoint)
-	file.Iterate(dir, entrypoint, "LUA", function(path)
-		self:Include(path)
-	end)
-end
-
-function GM:IncludeRecursive(dir, entrypoint)
-	file.IterateRecursive(dir, entrypoint, "LUA", function(path)
-		self:Include(path)
-	end)
-end
-
 -- First section of includes is stuff with a specific load order, the second one is sorted alphabetically
 GM:Include("sh_helpers.lua")
 GM:Include("sh_player_vars.lua")
@@ -61,7 +29,6 @@ GM:Include("sh_character_gen.lua")
 GM:Include("sh_character.lua")
 GM:Include("sh_chat.lua")
 GM:Include("sh_console.lua")
-GM:Include("sh_content.lua")
 GM:Include("sh_context.lua")
 GM:Include("sh_dev.lua")
 GM:Include("sh_doors.lua")
@@ -100,19 +67,17 @@ GM:Include("sv_player.lua")
 GM:Include("sv_resource.lua")
 GM:Include("sv_worldents.lua")
 
-GM:IncludeFolder(CoreFolder .. "ctp/")
+local folder = engine.ActiveGamemode() .. "/gamemode/core/"
 
-GM:IncludeRecursive(CoreFolder .. "meta/", "shared.lua")
-GM:IncludeRecursive(CoreFolder .. "vgui/")
-GM:IncludeRecursive(CoreFolder .. "gui/")
+GM:IncludeFolder(folder .. "ctp/")
 
-GM:IncludeFolder(CoreFolder .. "actions/")
+GM:IncludeRecursive(folder .. "meta/", "shared.lua")
+GM:IncludeRecursive(folder .. "vgui/")
+GM:IncludeRecursive(folder .. "gui/")
 
-hook.Call("RegisterContent", GM, CoreFolder)
+GM:IncludeFolder(folder .. "actions/")
 
-GM:LoadPlugins()
-
-GM:Include(ContentFolder .. "_content.lua")
+hook.Call("LoadContent", GM, folder)
 
 function GM:Initialize()
 	if CLIENT then

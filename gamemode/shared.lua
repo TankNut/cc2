@@ -19,22 +19,4 @@ function shared(path) AddCSLuaFile(path) return include(path) end
 hook.Remove("PlayerTick", "TickWidgets")
 hook.Remove("PostDrawEffects", "RenderWidgets")
 
-GM.Config = {}
-
-shared("utils/_utils.lua")
-
-shared("core/enums.lua")
-shared("core/sh_config.lua")
-
-shared("config/sh_colors.lua")
-shared("config/sh_config.lua")
-server("config/sv_config.lua")
-client("config/cl_motd.lua")
-
-shared("config/sh_balance.lua")
-
-client("cl_skin.lua")
-
-shared("core/_core.lua")
-
-Loaded = true
+shared("loader.lua")

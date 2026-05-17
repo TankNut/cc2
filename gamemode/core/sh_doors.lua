@@ -45,6 +45,14 @@ function AddAccessType(name, data)
 	table.insert(TypeList, name)
 end
 
+AddAccessType("default", {
+	Name = "Default",
+	Color = Color(100, 100, 100),
+	CanAccess = function(ent, ply)
+		return ent.InitialDoorValues.Usable
+	end
+})
+
 function AddVar(name, data)
 	Vars[name] = {
 		NoProp = tobool(data.NoProp),

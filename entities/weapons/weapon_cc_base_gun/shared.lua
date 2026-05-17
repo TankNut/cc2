@@ -23,7 +23,7 @@ SWEP.Stats = {
 	Damage = 11, -- Per bullet
 	DamageFalloff = 0.98, -- Damage percentage per 1000 units
 
-	Accuracy = ACCURACY_GOOD, -- See sh_balance.lua
+	Accuracy = {12, 3}, -- See sh_balance.lua
 	Range = 400, -- See sh_balance.lua
 
 	Tracer = "Tracer", -- The tracer effect, do not leave empty

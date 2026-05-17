@@ -180,7 +180,7 @@ function PANEL:SelectPlayer(ply)
 	-- Basic Information
 	self.EnterName:SetValue("")
 	self.ApplyName:SetDisabled(false)
-	self.SelectFlag:ChooseOptionID(table.KeyFromValue(self.SelectFlag.Data, ply:CharacterFlag() or GAMEMODE.DefaultFlag))
+	self.SelectFlag:ChooseOptionID(table.KeyFromValue(self.SelectFlag.Data, ply:CharacterFlag() or Config.Get("DefaultFlag")))
 	self.SelectFlag:SetDisabled(false)
 	self.ApplyFlag:SetDisabled(false)
 	self.HiddenToggle:SetChecked(ply:CharacterHidden())

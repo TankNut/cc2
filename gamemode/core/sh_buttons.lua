@@ -36,6 +36,11 @@ function AddAccessType(name, data)
 	table.insert(TypeList, name)
 end
 
+AddAccessType("default", {
+	Name = "Enabled",
+	Color = Color("green")
+})
+
 function GM:OnIsMapButtonChanged(ent)
 	All[ent] = true
 end

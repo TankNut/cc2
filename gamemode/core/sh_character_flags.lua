@@ -36,7 +36,7 @@ function RegisterFolder(dir)
 end
 
 function PLAYER:GetCharFlag()
-	return List[PLAYER.CharacterFlag(self) or GAMEMODE.DefaultFlag]
+	return List[PLAYER.CharacterFlag(self) or Config.Get("DefaultFlag")]
 end
 
 function PLAYER:RunCharFlag(name, ...)
@@ -91,6 +91,8 @@ function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	end
 
 	if SERVER then
-		UpdateBuffs(ply, old or self.DefaultFlag, new or self.DefaultFlag)
+		local default = Config.Get("DefaultFlag")
+
+		UpdateBuffs(ply, old or default, new or default)
 	end
 end

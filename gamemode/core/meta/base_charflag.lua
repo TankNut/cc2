@@ -34,6 +34,9 @@ FLAG.NoFallDamage = false -- Blocks falldamage
 FLAG.OmniSprint = false -- Allows sprinting in any direction
 FLAG.SprintFiring = false -- Allows firing while sprinting
 
+FLAG.AllowCustomStash = true -- Allows access to custom stashes
+FLAG.AllowLockerStash = true -- Allows access to map-placed stashes
+
 FLAG.Buffs = {}
 
 function FLAG:Run(ply, name, ...)

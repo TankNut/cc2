@@ -34,7 +34,7 @@ function GM:LoadPluginFolder(path)
 		return
 	end
 
-	hook.Call("RegisterContent", self, folder)
+	hook.Call("LoadContent", self, folder)
 
 	GM:IncludeFolder(folder)
 end

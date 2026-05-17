@@ -69,11 +69,6 @@ function IsElevatedUserGroup(usergroup)
 	return tobool(elevated[usergroup])
 end
 
-CoreFolder = engine.ActiveGamemode() .. "/gamemode/core/"
-ContentFolder = engine.ActiveGamemode() .. "/gamemode/content/"
-DataFolder = "cc2/" .. Config.Get("InternalName") .. "/"
-PluginFolder = engine.ActiveGamemode() .. "/gamemode/plugins/"
-
 function FILTER_PROPS(class) return tobool(PROP_CLASSES[class]) end
 function FILTER_PLAYER(class) return class == "player" end
 
