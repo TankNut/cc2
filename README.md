@@ -1,4 +1,8 @@
-# cc2-halo
+# cc2
+
+:warning:**Under Construction**:warning:
+
+I'm currently rewriting a lot of internals to support plugins as well as loading them (along with content) from the addons folder instead of requiring direct edits to the gamemode. If you do want to use this for any projects, either wait until these changes are done or accept that you're not getting any support whatsoever.
 
 Requires [srlion/Hook-Library](https://github.com/srlion/Hook-Library) to be installed as an addon
 
