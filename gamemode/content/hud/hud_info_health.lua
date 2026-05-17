@@ -54,7 +54,7 @@ function HUD:Paint(w, h)
 		if self.Armor > 100 then
 			local extraRatio = math.min((self.Armor - 100) / 100, 1)
 
-			self:DrawBar(extraRatio, x, y, width, height, border, nil, self.ArmorColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+			self:DrawBar(extraRatio, x, y, width, height, border, nil, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 		end
 
 		y = y - self.Height - border
