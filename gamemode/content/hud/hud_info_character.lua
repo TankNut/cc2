@@ -12,19 +12,36 @@ function HUD:Paint(w, h)
 
 	local x, y = offset, h - offset
 
-	local nameScribe = scribe.Parse("<giant><ol><c=cc_normal>" .. lp:VisibleRPName())
-	local teamScribe = scribe.Parse("<giant><ol><c=cc_normal>" .. team.GetName(lp:Team()))
+	local lines = hook.Run("GetHUDCharacterInfo")
+	local scribeW, scribeH = 0, 0
 
-	local scribeW = math.max(nameScribe:GetWide(), teamScribe:GetWide())
-	local scribeH = nameScribe:GetTall() + teamScribe:GetTall()
+	for k, v in ipairs(lines) do
+		local parsed = scribe.Parse(v)
+
+		scribeW = math.max(scribeW, parsed:GetWide())
+		scribeH = scribeH + parsed:GetTall()
+
+		lines[k] = parsed
+	end
 
 	local boxW = math.max(scribeW + margin * 2, ui.Scale(220))
 	local boxH = scribeH + margin * 2
 
 	self:DrawAlignedRect(x, y, boxW, boxH, self.BoxColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
 
-	nameScribe:Draw(x + boxW - margin, y - boxH + margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
-	teamScribe:Draw(x + boxW - margin, y - margin, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_BOTTOM)
+	local drawY = 0
+
+	for _, parsed in ipairs(lines) do
+		parsed:Draw(x + boxW - margin, y - boxH + margin + drawY, 1, TEXT_ALIGN_RIGHT, TEXT_ALIGN_TOP)
+		drawY = drawY + parsed:GetTall()
+	end
 
 	self:SetCache("LOffset", y - boxH)
+end
+
+function GM:GetHUDCharacterInfo(ply)
+	return {
+		"<giant><ol><c=cc_normal>" .. lp:VisibleRPName(),
+		"<giant><ol><c=cc_normal>" .. team.GetName(lp:Team())
+	}
 end
