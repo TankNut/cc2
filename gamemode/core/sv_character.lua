@@ -85,6 +85,8 @@ function PLAYER:LoadCharacterList()
 end
 
 function PLAYER:CreateCharacter(fields)
+	hook.Run("PreCreateCharacter", self, fields)
+
 	local keys = {"`SteamID`", "`Created_At`"}
 	local values = {":steamID", ":time"}
 
