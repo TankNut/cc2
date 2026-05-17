@@ -160,11 +160,10 @@ local listCharacters = console.AddCommand("rpa_character_list", function(ply, st
 		return
 	end
 
-	local defaultFlag = CharacterFlag.Get(Config.Get("DefaultFlag"))
 	local lines = {string.format("<c=white>-- Character list for: %s (%d character%s) --</c>", name, #characters, #characters > 1 and "s" or "")}
 
 	for _, character in pairs(characters) do
-		local flag = character.Flag and CharacterFlag.Get(character.Flag) or defaultFlag
+		local flag = CharacterFlag.Get(character.Flag)
 		local color = team.GetColor(flag.Team)
 
 		color:SetBrightness(1)
@@ -241,7 +240,7 @@ local characterInfo = console.AddCommand("rpa_character_info", function(ply, id)
 	addLine("Character Name", #record.CharacterNameOverride > 0 and record.CharacterNameOverride .. " <c=error>(Override)</c>" or record.CharacterName)
 	addLine("Description", #record.CharacterDescription > 0 and record.CharacterDescription or "<c=error>N/A</c>")
 
-	local flag = CharacterFlag.Get(record.CharacterFlag or Config.Get("DefaultFlag"))
+	local flag = CharacterFlag.Get(record.CharacterFlag)
 	local color = team.GetColor(flag.Team)
 	color:SetBrightness(1)
 

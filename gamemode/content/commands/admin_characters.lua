@@ -222,7 +222,7 @@ local setFlag = console.AddCommand("rpa_character_flag", function(ply, target, f
 
 	target:SetCharacterFlag(flag)
 
-	local name = CharacterFlag.Get(flag).Name or flag
+	local name = CharacterFlag.Get(flag).Name
 
 	console.Feedback(ply, "NOTICE", "You've set %s's character flag to %s", target:VisibleRPName(), name)
 	console.Feedback(target, "NOTICE", "%s has set your character flag to %s", ply, name)

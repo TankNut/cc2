@@ -14,7 +14,15 @@ function Register(name, flag)
 end
 
 function Get(name)
+	if not name or not List[name] then
+		return List[Config.Get("DefaultFlag")]
+	end
+
 	return List[name]
+end
+
+function Exists(name)
+	return tobool(List[name])
 end
 
 function RegisterFolder(dir)
@@ -36,25 +44,17 @@ function RegisterFolder(dir)
 end
 
 function PLAYER:GetCharFlag()
-	return List[PLAYER.CharacterFlag(self) or Config.Get("DefaultFlag")]
+	local flag = PLAYER.CharacterFlag(self)
+
+	if not flag or not List[flag] then
+		return List[Config.Get("DefaultFlag")]
+	end
+
+	return List[flag]
 end
 
 function PLAYER:RunCharFlag(name, ...)
 	return self:GetCharFlag():Run(self, name, ...)
-end
-
-local UpdateBuffs
-
-if SERVER then
-	function UpdateBuffs(ply, old, new)
-		for _, buff in ipairs(Get(old).Buffs) do
-			ply:RemoveBuff(buff)
-		end
-
-		for _, buff in ipairs(Get(new).Buffs) do
-			ply:AddBuff(buff)
-		end
-	end
 end
 
 function PLAYER:ApplyFlag()
@@ -91,8 +91,12 @@ function GM:OnCharacterFlagChanged(ply, old, new, loaded)
 	end
 
 	if SERVER then
-		local default = Config.Get("DefaultFlag")
+		for _, buff in ipairs(Get(old).Buffs) do
+			ply:RemoveBuff(buff)
+		end
 
-		UpdateBuffs(ply, old or default, new or default)
+		for _, buff in ipairs(Get(new).Buffs) do
+			ply:AddBuff(buff)
+		end
 	end
 end
