@@ -92,7 +92,7 @@ function AddVar(name, data)
 end
 
 function GetAccessType(ent)
-	return AccessTypes[ent:DoorType()]
+	return AccessTypes[ent:DoorType()] or AccessTypes.default
 end
 
 function GetText(ent)
