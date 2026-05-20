@@ -253,7 +253,6 @@ if SERVER then
 
 			if not door.IsProp(ent) then
 				ent:Set_DoorTouchable(bit.Check(value, DOOR_SF_TOUCHABLE), true)
-				ent:Set_DoorUsable(bit.Check(value, DOOR_SF_USABLE), true)
 			end
 		elseif key == "returndelay" or key == "wait" then
 			ent:Set_DoorAutoClose(tonumber(value), true)
